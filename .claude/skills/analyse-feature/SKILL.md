@@ -17,7 +17,9 @@ Si le fichier n'est pas précisé, liste `docs/analyse/client/` et prends le doc
 
 1. Lis `CLAUDE.md`, `tmp/01-STRUCTURE.md` et l'analyse client.
 2. Lis les analyses existantes (`docs/analyse/features/`) pour : réutiliser les entités déjà définies,
-   éviter les doublons, déterminer le prochain numéro `NNN`.
+   éviter les doublons, déterminer le numéro `NNN`. Si `docs/analyse/features/INDEX.md` réserve un numéro et un
+   slug pour la feature, utilise-les et passe son statut à `analysée` ; sinon prends le prochain numéro libre et
+   ajoute la ligne à l'index.
 3. Lis l'existant utile dans `src/main/` (entités, migrations) pour rester cohérent. **Jamais `src/test/`.**
    Si `docs/analyse/reviews/NNN-<slug>.review.md` ou `NNN-<slug>.triage.md` existent, traite chacun de leurs
    points (correction ou réponse argumentée dans « Historique ») : la mise à jour est faite pour eux.
@@ -33,13 +35,19 @@ Si le fichier n'est pas précisé, liste `docs/analyse/client/` et prends le doc
      `SEC-xx` + `AC-SEC-xx`) et passe le champ `Sécurité` de l'en-tête à `oui`.
    - Sinon : section « Sécurité » réduite aux contrôles de base (validation des entrées, erreurs sans fuite
      d'information, autorisation d'accès aux endpoints) et `Sécurité : non`.
-6. Auto-contrôle avant de rendre la main :
+6. **Données sensibles** — **toujours**, que la feature soit liée à la sécurité ou non : applique le skill
+   **sensitive-data** sur le fichier produit. Il classe chaque donnée (`S0`/`S1`/`S2`/`SECRET`), ajoute la
+   sous-section « 7.5 Données sensibles » (`SD-xx`, `AC-SD-xx`) et impose le **chiffrement `CryptoService`** de toute
+   donnée `S2` dans le contrat technique et la migration. Une donnée `S2` ou `SECRET` rend `Sécurité : oui`.
+7. Auto-contrôle avant de rendre la main :
    - chaque `RG-xx` est couverte par au moins un `AC-xx` ;
    - chaque `AC-xx` est vérifiable de l'extérieur (entrée → sortie attendue précise : code HTTP, corps, état en base) ;
    - le contrat technique permet d'écrire un test **sans voir le code** (packages, classes, signatures,
      champs + contraintes de validation, routes, codes HTTP, `type`/`title` des `ProblemDetail`) ;
-   - aucune décision technique ne contredit `CLAUDE.md`.
+   - aucune décision technique ne contredit `CLAUDE.md` ;
+   - aucune donnée `S2` sans colonne chiffrée (`_enc`), ni en clair dans un DTO de réponse, une route ou une erreur.
 
 ## Réponse finale
 
-Chemin du fichier, résumé en 5 lignes max, statut sécurité (oui/non et pourquoi), questions ouvertes bloquantes.
+Chemin du fichier, résumé en 5 lignes max, statut sécurité (oui/non et pourquoi), données sensibles détectées
+(`S2` / `SECRET` → traitement), questions ouvertes bloquantes.

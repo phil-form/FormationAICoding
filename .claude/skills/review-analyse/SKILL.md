@@ -49,6 +49,13 @@ Analyse cible : `$ARGUMENTS`
 - Si oui : `SEC-xx` présentes, chacune avec au moins un `AC-SEC-xx` testable ; contrôle d'accès par ressource
   (BOLA) traité dès qu'un id est dans une route.
 
+**Données sensibles** (grille `.claude/skills/sensitive-data/classification.md`)
+- § 7.5 présente ; inventaire complet (chaque champ d'entité, de DTO, chaque fichier, chaque texte libre) et
+  classification justifiée — une donnée sous-classée est **bloquante**.
+- Chaque donnée `S2` : colonne chiffrée `_enc` (aucune colonne en clair), contexte = id immuable, index aveugle si
+  recherche / unicité, réponse masquée, absente des routes, logs et erreurs, `RewrapTarget`, prérequis OpenBao listés.
+- Chaque `SD-xx` a au moins un `AC-SD-xx` testable (base ou API) ; `SECRET` haché, jamais renvoyé.
+
 **Questions ouvertes**
 - Chaque hypothèse par défaut est explicite ; les questions qui bloquent un `AC` sont marquées bloquantes.
 

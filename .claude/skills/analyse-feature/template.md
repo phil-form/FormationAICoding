@@ -5,6 +5,7 @@
 | Statut | brouillon \| validée |
 | Source | `docs/analyse/client/<fichier>` (§ concernés) |
 | Sécurité | oui \| non — <raison courte> |
+| Données sensibles | oui — <données S2 / SECRET> \| non |
 | Dépend de | NNN-autre-feature, … |
 
 ## 1. Contexte et objectif
@@ -85,6 +86,8 @@ Tables, colonnes, index, contraintes d'unicité, FK → future migration `V<n>__
 
 - Base (toujours) : validation des entrées, messages d'erreur sans fuite, contrôle d'accès des endpoints.
 - Si `Sécurité : oui` → section complète produite par **owasp-check** (`SEC-xx`, `AC-SEC-xx`, références OWASP).
+- Toujours → sous-section **7.5 Données sensibles** produite par **sensitive-data** (inventaire classé, `SD-xx`,
+  `AC-SD-xx` ; toute donnée `S2` chiffrée via `CryptoService`).
 
 ## 8. Hors périmètre
 

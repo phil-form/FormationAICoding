@@ -70,7 +70,9 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
   Les tests (profil `test`) n'utilisent pas OpenBao, sauf `OpenBaoIntegrationIT`.
 - **Migrations** : exécutées en `SET ROLE formation_owner` (propriétaire du schéma, **pas** de la base) : aucune
   instruction de niveau base (`ALTER DATABASE`, `CREATE EXTENSION` hors schéma…) dans une migration → `docker/db/roles.sh`.
-- **Données sensibles** (NISS…) : jamais en clair en base, dans un log ou une erreur.
+- **Données sensibles** (NISS…) : jamais en clair en base, dans un log ou une erreur. Toute donnée classée `S2`
+  (grille `.claude/skills/sensitive-data/classification.md`) est **chiffrée systématiquement** ; détection par
+  `/sensitive-data` à chaque analyse.
   - Type `framework.type.Niss` (`Niss.of(raw)` normalise et valide, `toString()` masqué) ; DTO : `@ValidNiss`.
   - Stockage : `CryptoService.encrypt(SensitiveDataType.NISS, niss.digits(), context)` + colonne d'index aveugle
     **unique** `CryptoService.blindIndex(NISS, niss.digits())` ; recherche = calcul de l'index puis égalité.
@@ -181,7 +183,7 @@ seul à voir les deux côtés, arbitre et contrôle.
 
 ```
 docs/analyse/client/* ─/analyse-feature─▶ features/NNN-slug.md (+ /owasp-check) ─/review-analyse─▶ verdict OK ?
-                                                                                                     │ oui
+                                                               (+ /sensitive-data toujours)          │ oui
                              ┌──────────────/write-tests──────────────┴──────/implement-feature──────────┐
                              ▼ test-writer (analyse → src/test)              code-writer (analyse → src/main) ▼
                              └────────────────────────────/run-tests──────────────────────────────────────┘
@@ -196,6 +198,7 @@ Feature verte ─▶ /trace-check (couverture AC ↔ tests ↔ code) ─▶ /mut
 | Skill | Agent | Rôle |
 |---|---|---|
 | `/analyse-feature <analyse client> <feature>` | `analyst` | Analyse préparatoire : `RG-xx`, `AC-xx`, contrat technique, modèle de données ; traite les revues existantes |
+| `/sensitive-data <analyse>` | `analyst` | Classe chaque donnée (`S0`/`S1`/`S2`/`SECRET`), signale les données sensibles et impose leur **chiffrement `CryptoService`** (`SD-xx`, `AC-SD-xx`, § 7.5) ; appelé **systématiquement** par `/analyse-feature` |
 | `/owasp-check <analyse>` | `analyst` | Exigences `SEC-xx` + critères testables `AC-SEC-xx` (OWASP Top 10, API Top 10, ASVS L2) ; appelé automatiquement si la feature touche à la sécurité |
 | `/review-analyse <analyse>` | `analysis-reviewer` | Relecture critique (contrat, testabilité, cohérence, sécurité) → `docs/analyse/reviews/NNN-slug.review.md`, verdict **OK / À corriger** ; obligatoire avant tests et code |
 | `/write-tests <analyse> [--fix]` | `test-writer` | Tests depuis l'analyse seule ; `@Tag("feature-NNN")`, méthodes `acxx_…` / `acsecxx_…` ; `--fix` lit `feedback-tests.md` |
