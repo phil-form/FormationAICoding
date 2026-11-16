@@ -1,0 +1,11 @@
+target/
+.git/
+.idea/
+.claude/
+init_db/
+certs/
+tmp/
+docs/
+docker/dev/
+docker/prod/
+.env

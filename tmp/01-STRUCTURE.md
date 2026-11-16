@@ -1,5 +1,7 @@
 # 01 — Structure du projet (spec à implémenter)
 
+> ✅ **Implémenté** (socle du 16/11/2026). Spec conservée comme référence de conception : en cas d'écart, le code fait foi.
+
 ## Initialisation
 
 Générer le projet via Spring Initializr (start.spring.io) ou équivalent :

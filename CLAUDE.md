@@ -4,32 +4,33 @@ Contexte projet pour Claude Code. À lire avant toute intervention.
 
 ## Statut
 
-Phase de **préparation** : aucune ligne de code applicatif n'existe encore.
-Les spécifications détaillées à implémenter sont dans `./tmp/` :
+**Socle en place** (compilé, 32 tests verts, stack dev/prod/test vérifiée de bout en bout) :
+structure par couche, `framework/` (sécurité HTTP, CORS, erreurs `ProblemDetail`, `BaseEntity`, pagination),
+Docker dev/prod/test, `start.sh`, `restore.sh`. **Aucune feature métier ni authentification** pour l'instant :
+toutes les routes `/api/**` répondent 401 (refus par défaut).
 
-| Fichier | Contenu |
-|---|---|
-| `tmp/01-STRUCTURE.md` | Arborescence, packages, couches (controller, service, repository…), conventions |
-| `tmp/02-DOCKER.md` | Spécification `docker-compose.yml` et des dossiers `docker/dev/`, `docker/prod/`, `docker/test/` |
-| `tmp/03-SCRIPTS.md` | Spécification `start.sh` (avec seed optionnel) et `restore.sh` (picker fzf) |
+Prochaines étapes (voir `Next.md`) : authentification JWT + refresh (haute sécurité, OWASP), utilisateur avec
+NISS chiffré en base via un `CryptoService` dédié.
 
-Lorsqu'une spec de `tmp/` a été implémentée, la mettre à jour (ou la supprimer) et refléter
-l'état réel dans ce fichier.
+Les specs initiales de `tmp/` sont implémentées ; elles restent comme référence de conception — en cas d'écart,
+**le code fait foi**.
 
 ## Stack technique
 
 | Élément | Choix | Remarques |
 |---|---|---|
 | Langage | **Java 25** (LTS, sept. 2025) | Prochain LTS : Java 29 (sept. 2027) |
-| Framework | **Spring Boot 4.1.x** | Spring n'a pas de « LTS » officiel : on prend la dernière GA stable. Passer en 4.2.x quand elle sera GA |
+| Framework | **Spring Boot 4.1.2** (Spring Security 7, Jackson 3, Tomcat 11) | Spring n'a pas de « LTS » officiel : on prend la dernière GA stable. Passer en 4.2.x quand elle sera GA |
 | Build | **Maven** (wrapper `./mvnw`) | |
 | Base de données | **PostgreSQL 18** | Image `postgres:18-alpine` |
 | ORM | **Hibernate** (ORM 7.x, via Spring Data JPA) | Version gérée par le BOM Spring Boot |
 | Boilerplate | **Lombok** | Getters/setters, constructeurs, builders, logs |
-| Mapping | **MapStruct** (+ `lombok-mapstruct-binding`) | Mappers générés à la compilation |
+| Mapping | **MapStruct 1.6.3** (+ `lombok-mapstruct-binding`) | Mappers générés à la compilation |
 | Migrations | **Flyway** | Seul responsable du schéma |
-| Doc API | springdoc-openapi (Swagger UI) | Activé en dev uniquement |
-| Tests | JUnit 5, Spring Boot Test, **Testcontainers** (postgres:18) | Pas de H2 |
+| Doc API | springdoc-openapi 3.2 (Swagger UI) | Activé en dev uniquement |
+| Sécurité | Spring Security 7 | Voir section « Sécurité » |
+| Mutation testing | PIT 1.30 | `/mutation-test` |
+| Tests | JUnit 5, `MockMvcTester` (AssertJ), **Testcontainers 2** (postgres:18-alpine) | Pas de H2 ; `*Test` = Surefire, `*IT` = Failsafe |
 | Conteneurs | Docker + Docker Compose | Dev et prod conteneurisés |
 
 ## Architecture
@@ -56,11 +57,16 @@ l'état réel dans ce fichier.
     **jamais** `@Data`, `@EqualsAndHashCode` ni `@ToString` non maîtrisé sur une entité ;
   - services/controllers : `@RequiredArgsConstructor` (injection par constructeur, champs `private final`),
     `@Slf4j` pour les logs. Pas de `@Autowired` sur les champs.
-- **Entités** : héritent de `framework.entity.BaseEntity` (id, audit, `@Version`, `equals/hashCode`
-  sûrs), associations en `LAZY` par défaut.
-- **Erreurs** : `@RestControllerAdvice` global renvoyant des `ProblemDetail` (RFC 9457).
+- **Entités** : héritent de `framework.entity.BaseEntity` (id **UUID v7**, audit `createdAt`/`updatedAt`,
+  `@Version`, `equals/hashCode` sûrs), associations en `LAZY` par défaut. Colonnes attendues dans chaque table :
+  `id uuid primary key`, `created_at timestamptz`, `updated_at timestamptz`, `version bigint`.
+- **Erreurs** : `framework.exception.GlobalExceptionHandler` renvoie des `ProblemDetail` (RFC 9457) pour tout,
+  y compris 401/403. Lever `NotFoundException` (404), `ConflictException` (409) ou `BusinessException`
+  (statut libre, 422 par défaut). Validation → 400 avec `errors[{field,message}]`. Erreur inattendue → 500
+  générique + `errorId` (aussi dans le log). Jamais de détail technique au client.
 - **URLs** : préfixe `/api/v1`, ressources au pluriel, kebab-case (`/api/v1/training-sessions`).
-- **Pagination** : `Pageable` + réponse paginée pour les listes.
+- **Pagination** : `Pageable` (taille max 100) + `framework.dto.PageResponse` pour les listes.
+- **JSON** : les champs inconnus sont refusés (400) — pas d'affectation silencieuse.
 
 ## Base de données & JPA
 
@@ -70,15 +76,16 @@ l'état réel dans ce fichier.
 - Migrations : `src/main/resources/db/migration/V<n>__<description>.sql` — ne jamais modifier une
   migration déjà appliquée, en créer une nouvelle.
 - Données de seed (dev uniquement) : `src/main/resources/db/seed/R__seed_*.sql` (migrations
-  répétables Flyway), activées via la variable `SEED=true` (voir `start.sh`).
+  répétables Flyway), activées par le profil Spring `seed` (`./start.sh --seed`, refusé hors dev).
 - Backups / dumps de restauration : dossier `./init_db/` (utilisé par `restore.sh`).
 
 ## Profils Spring
 
 | Profil | Usage |
 |---|---|
-| `dev` | Conteneur dev, devtools, Swagger UI, logs SQL, port debug 5005 |
-| `prod` | Conteneur prod, pas de Swagger, logs JSON, actuator restreint (`health`, `info`) |
+| `dev` | HTTP 8080, devtools, Swagger UI, logs SQL, debug 5005, actuator étendu, CORS `localhost:*` |
+| `prod` | HTTPS 8443 (TLS 1.3) derrière HAProxy, mode **strict**, logs JSON ECS, actuator interne |
+| `seed` | Ajoute `classpath:db/seed` aux migrations (dev uniquement) |
 | `test` | Tests d'intégration (Testcontainers) |
 
 Docker : un dossier par environnement (`docker/dev/`, `docker/prod/`, `docker/test/`), chacun avec son
@@ -88,7 +95,37 @@ racine avec les profils Compose `dev`, `prod`, `test`.
 Toute la configuration sensible passe par variables d'environnement (fichier `.env`, jamais commité ;
 `.env.example` sert de modèle).
 
-## Commandes (cibles, une fois implémentées)
+## Sécurité
+
+Code : `framework/config/SecurityConfig`, `CorsConfig`, `HttpRedirectConnectorConfig`, `framework/security/*`.
+Configuration : `app.security.*` (`SecurityProperties`).
+
+- **Refus par défaut** : seuls `health`/`info`, `/error` et Swagger (si activé) sont publics.
+- **Sans état** : pas de session, de cookie, de formulaire ni de Basic. CSRF désactivé tant qu'aucune
+  authentification ne repose sur un cookie — **à réactiver** si le refresh token est stocké en cookie.
+- **Mode strict** (`app.security.strict=true`, prod) : le démarrage **échoue** si HTTPS n'est pas exigé, si HSTS
+  < 1 an, si une origine CORS n'est pas HTTPS explicite (pas de joker, pas de pattern), si la CSP contient
+  `unsafe-*`. Ne jamais contourner : corriger la configuration.
+- **Architecture prod** : Internet → **HAProxy** (443, Let's Encrypt, redirection 80→443, challenge ACME,
+  contrôle du Host, limitation de débit) → **TLS 1.3 re-chiffré et vérifié** → API publiée sur `127.0.0.1:8443`
+  uniquement. Procédure serveur : `docs/ops/DEPLOIEMENT-PROD.md`.
+- **Certificats** : renouvelés par certbot ; le deploy hook (`docker/prod/certbot/deploy-hook.sh`) les copie de
+  façon atomique dans le dossier monté **en lecture seule** dans le conteneur → rechargement à chaud (~10 s, sans
+  redémarrage, vérifié) ; il recharge aussi HAProxy.
+- **TLS (API et HAProxy)** : TLS 1.3 uniquement, suites `TLS_AES_256_GCM_SHA384`, `TLS_CHACHA20_POLY1305_SHA256`,
+  `TLS_AES_128_GCM_SHA256`, groupes `x25519`, `secp256r1`, `secp384r1`, HTTP/2, pas de tickets de session (HAProxy).
+- **IP client** : `X-Forwarded-For`/`-Proto` pris en compte **uniquement** depuis `TRUSTED_PROXIES` (passerelle du
+  réseau Docker fixe `DOCKER_SUBNET`) ; HAProxy supprime ceux envoyés par le client.
+- **HTTPS forcé dans l'API** (défense en profondeur) : `GET`/`HEAD` en clair → 301 ; autres méthodes → 403.
+- **En-têtes** : HSTS 2 ans `includeSubDomains; preload` (HTTPS uniquement), CSP `default-src 'none'` +
+  `upgrade-insecure-requests` (prod), `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy: no-referrer`,
+  `Permissions-Policy` restrictive, COOP/CORP `same-origin`, `Cache-Control: no-store`.
+- **Actuator (prod)** : port 8081 lié à `127.0.0.1` dans le conteneur (healthcheck Docker uniquement),
+  `health`/`info` en lecture seule, tout le reste désactivé.
+- **Conteneur prod** : publié sur `127.0.0.1` uniquement, utilisateur 10001, clé TLS lue via le groupe `TLS_CERT_GID`, système de fichiers en lecture seule (`/tmp` en tmpfs),
+  `cap_drop: ALL`, `no-new-privileges`, limites mémoire/PIDs, DB publiée sur `127.0.0.1` uniquement.
+
+## Commandes
 
 ```bash
 ./start.sh                 # démarre la stack en dev
@@ -96,8 +133,9 @@ Toute la configuration sensible passe par variables d'environnement (fichier `.e
 ./start.sh --prod          # démarre la stack en prod
 ./start.sh --test          # lance la suite de tests dans docker/test
 ./restore.sh               # choisit un dump dans ./init_db via fzf et le restaure
-./mvnw verify              # tests hors conteneur (Docker requis pour Testcontainers)
-./mvnw spring-boot:run     # lancement hors Docker (nécessite une DB accessible)
+./start.sh --fresh         # repart d'une base vide (confirmation)
+docker/prod/gen-selfsigned-cert.sh   # certificat auto-signé pour tester la prod en local
+./mvnw verify              # tests hors conteneur (JDK 25 + Docker requis)
 ```
 
 ## Workflow IA : skills et agents (`.claude/`)
@@ -165,7 +203,8 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 
 ## Points ouverts (à trancher)
 
-- Authentification / autorisation (probablement JWT pour le front Angular) — non défini.
-- Configuration CORS pour l'origine du front Angular.
+- Authentification JWT + refresh token : durée de vie, stockage du refresh côté Angular (mémoire vs cookie
+  `HttpOnly` — impacte CSRF et `allow-credentials`), algorithme de signature, révocation (prochaine étape).
+- Hachage des mots de passe : Argon2id recommandé (nécessite Bouncy Castle) vs bcrypt (natif Spring Security).
 - Domaine métier / premières entités — non défini.
-- Hébergement prod et stratégie de backup automatisée.
+- Hébergement prod, rate limiting (bucket4j ou proxy), stratégie de backup automatisée.

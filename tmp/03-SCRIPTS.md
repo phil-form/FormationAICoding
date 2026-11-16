@@ -1,5 +1,7 @@
 # 03 — Scripts (spec à implémenter)
 
+> ✅ **Implémenté** (socle du 16/11/2026). Spec conservée comme référence de conception : en cas d'écart, le code fait foi.
+
 Deux scripts Bash à la racine, exécutables (`chmod +x`), avec `set -euo pipefail`,
 un `--help`, des messages colorés et des codes de sortie explicites.
 Tous deux chargent `.env` (et échouent proprement s'il est absent, en suggérant `cp .env.example .env`).

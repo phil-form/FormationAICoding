@@ -4,9 +4,11 @@ target/
 # Secrets / environnement
 .env
 
-# Dumps de base (seul le dossier est versionné)
+# Dumps de base et certificats TLS (seuls les dossiers sont versionnés)
 init_db/*
 !init_db/.gitkeep
+certs/*
+!certs/.gitkeep
 
 # Claude Code : état local (progression des tests, logs, retour de tests)
 .claude/state/

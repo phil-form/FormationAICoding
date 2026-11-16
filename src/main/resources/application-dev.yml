@@ -1,0 +1,43 @@
+# Développement : permissif pour le confort (CORS localhost, Swagger, actuator étendu, logs SQL), HTTP simple.
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+  devtools:
+    restart:
+      poll-interval: 2s
+      quiet-period: 1s
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,mappings,flyway,loggers,env,conditions
+  endpoint:
+    health:
+      show-details: always
+
+app:
+  security:
+    cors:
+      # Front Angular local (ng serve) sur n'importe quel port + origines explicites éventuelles.
+      allowed-origin-patterns:
+        - http://localhost:*
+        - http://127.0.0.1:*
+      allowed-headers: "*"
+      allow-credentials: true
+    # Swagger UI a besoin de scripts / styles inline.
+    content-security-policy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'"
+
+logging:
+  level:
+    be.bstorm.formation: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.security: INFO

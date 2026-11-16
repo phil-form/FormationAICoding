@@ -1,0 +1,4 @@
+# Profil "seed" (dev uniquement, activé par ./start.sh --seed) : ajoute les migrations répétables de seed.
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/seed

@@ -1,5 +1,7 @@
 # 02 — Docker (spec à implémenter)
 
+> ✅ **Implémenté** (socle du 16/11/2026). Spec conservée comme référence de conception : en cas d'écart, le code fait foi.
+
 Chaque environnement a **son propre dossier** sous `docker/`, contenant son Dockerfile et
 tous ses fichiers spécifiques. Le contexte de build reste la racine du projet.
 

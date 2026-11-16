@@ -95,6 +95,10 @@ sshagent(credentials: ['deploy-ssh-staging']) {
 }
 ```
 
+Les certificats TLS ne sont **jamais** transférés par la pipeline : ils sont gérés sur le serveur par certbot + deploy hook
+(`docs/ops/DEPLOIEMENT-PROD.md`). HAProxy reste en place pendant le déploiement ; le healthcheck vérifie l'API
+localement puis via HAProxy (`https://$API_DOMAIN/...`).
+
 `ci/deploy/remote-deploy.sh <tag>` (sur le serveur) :
 1. `docker load` de l'archive ;
 2. backup de la base avant migration (`pg_dump -Fc` → `init_db/` du serveur, rotation des N derniers) ;
