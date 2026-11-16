@@ -7,11 +7,11 @@ set -euo pipefail
 cd "$(dirname "$0")/../../.."
 
 # stdin coupé par défaut : docker compose exec -T transmettrait sinon les saisies en attente au conteneur.
-bao() { docker compose --profile prod exec -T openbao-prod bao "$@" </dev/null; }
+bao() { docker compose -f docker-compose.prod.yml exec -T openbao-prod bao "$@" </dev/null; }
 # La CLI refuse une part transmise par pipe (TTY exigé) : on appelle l'API sur la boucle locale du conteneur, la part
 # voyageant dans le CORPS de la requête lu sur stdin (jamais dans les arguments d'un processus). TLS vérifié (CA interne).
 unseal_api() {
-  docker compose --profile prod exec -T -e SSL_CERT_FILE=/openbao/tls/ca.crt openbao-prod \
+  docker compose -f docker-compose.prod.yml exec -T -e SSL_CERT_FILE=/openbao/tls/ca.crt openbao-prod \
     wget -qO- --header 'Content-Type: application/json' --post-file=/dev/stdin https://127.0.0.1:8200/v1/sys/unseal
 }
 field() { sed -n "s/.*\"$1\": *\([^,}]*\).*/\1/p" | head -1 | tr -d ' "'; }

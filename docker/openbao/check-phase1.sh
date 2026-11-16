@@ -6,13 +6,13 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 set -a; source .env; set +a
 
-net="${COMPOSE_PROJECT_NAME:-formation}_default"
+net="formation_default"
 work="$(mktemp -d)"; trap 'rm -rf "$work"' EXIT
 chmod 777 "$work"
 
 echo "== OpenBao : droits de l'AppRole api =="
 docker run --rm --network "$net" -e BAO_ADDR=http://openbao:8200 -e DB_CREDS_OUT=/work/db.env \
-  -v "${COMPOSE_PROJECT_NAME:-formation}_openbao-dev-creds:/creds:ro" -v "$PWD/docker/openbao:/scripts:ro" -v "$work:/work" \
+  -v "formation_openbao-dev-creds:/creds:ro" -v "$PWD/docker/openbao:/scripts:ro" -v "$work:/work" \
   --entrypoint sh openbao/openbao:2.7.2 /scripts/smoke-test.sh
 source "$work/db.env"
 
@@ -46,7 +46,7 @@ expect_fail "$APP_username" "$APP_password" "CREATE ROLE" "CREATE ROLE evil LOGI
 
 echo
 echo "== Révocation d'un bail =="
-docker compose --profile dev exec -T openbao-dev sh -c "BAO_ADDR=http://127.0.0.1:8200 BAO_TOKEN=\$BAO_DEV_ROOT_TOKEN_ID bao lease revoke '$APP_lease_id'" >/dev/null
+docker compose exec -T openbao-dev sh -c "BAO_ADDR=http://127.0.0.1:8200 BAO_TOKEN=\$BAO_DEV_ROOT_TOKEN_ID bao lease revoke '$APP_lease_id'" >/dev/null
 exists=$(docker compose exec -T db psql -U "$DB_USER" -d "$DB_NAME" -tAc "select count(*) from pg_roles where rolname='$APP_username'")
 [[ "$exists" == 0 ]] && ok "utilisateur supprimé de PostgreSQL à la révocation" || ko "utilisateur toujours présent"
 expect_fail "$APP_username" "$APP_password" "connexion après révocation" "select 1"

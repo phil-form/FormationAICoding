@@ -24,6 +24,8 @@
 - Docker dev / prod / test, `start.sh`, `restore.sh` ; 32 tests verts.
 - Workflow IA : 12 skills, 6 agents, hooks d'isolation tests/code et de protection des migrations Flyway.
 - **Phases 1 (OpenBao), 2 (intégration Spring) et 3 (`CryptoService`) terminées** — voir ci-dessous.
+- Compose séparés : `docker-compose.yml` (dev), `docker-compose.prod.yml`, `docker-compose.test-prod.yml` (chaîne
+  HAProxy → WAF ModSecurity/CRS → API en local, recette `docker/test-prod/check.sh` : 22/22).
 
 ## Décisions prises (résumé de l'ADR 0001)
 

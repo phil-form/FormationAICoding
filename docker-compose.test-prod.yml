@@ -1,0 +1,95 @@
+# TEST LOCAL DE LA PROD — surcharge de docker-compose.prod.yml : ./start.sh --test-prod
+#   docker compose -f docker-compose.prod.yml -f docker-compose.test-prod.yml …
+#
+#   client ──80/443──▶ haproxy (docker/prod/haproxy/haproxy.cfg, cert auto-signé localhost)
+#                        └─TLS 1.3 vérifié──▶ waf (ModSecurity + OWASP CRS 4.25 LTS, nginx)
+#                                               └─TLS 1.3 vérifié──▶ api-prod ──▶ openbao-prod / db
+#
+# Même définition prod (images, durcissement, OpenBao scellé, Shamir) ; seuls changent : l'entrée publique
+# (HAProxy + WAF conteneurisés), le certificat (auto-signé, docker/test-prod/gen-certs.sh) et l'API non publiée.
+
+services:
+  haproxy:
+    image: haproxy:3.2
+    restart: unless-stopped
+    depends_on:
+      waf:
+        condition: service_healthy
+    environment:
+      API_DOMAIN: localhost
+      API_BACKEND: waf:8443                          # HAProxy → WAF (le WAF relaie vers l'API)
+      API_CA_FILE: /etc/haproxy/ca/test-prod-ca.crt
+      CERTBOT_BACKEND: 127.0.0.1:8888                # pas de certbot en local : challenge ACME → 503
+      HTTP_BIND: :8080                               # ports non privilégiés dans le conteneur
+      HTTPS_BIND: :8443
+      CERT_DIR: /etc/haproxy/certs/
+    volumes:
+      - ./docker/prod/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./secrets/test-prod/haproxy:/etc/haproxy/certs:ro
+      - ./secrets/test-prod/ca.crt:/etc/haproxy/ca/test-prod-ca.crt:ro
+    ports:
+      - "${TESTPROD_HTTP_PORT:-80}:8080"
+      - "${TESTPROD_HTTPS_PORT:-443}:8443"
+    networks:
+      default:
+        ipv4_address: 172.31.0.10
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+
+  waf:
+    image: owasp/modsecurity-crs:4.25.2-nginx-alpine-202611090911-lts
+    restart: unless-stopped
+    depends_on:
+      api-prod:
+        condition: service_healthy
+    environment:
+      SERVER_NAME: localhost
+      SERVER_HEADER: ""                              # pas d'en-tête Server
+      # Entrée TLS (depuis HAProxy)
+      SSL_PORT: 8443
+      SSL_CERT_FILE: /etc/nginx/certs/waf.crt
+      SSL_CERT_KEY_FILE: /etc/nginx/certs/waf.key
+      SSL_PROTOCOLS: TLSv1.3
+      SSL_OCSP_STAPLING: "off"
+      # Sortie TLS vérifiée vers l'API
+      BACKEND: https://api-prod:8443
+      PROXY_SSL: "on"
+      PROXY_SSL_VERIFY: "on"
+      PROXY_SSL_SERVER_NAME: "on"
+      PROXY_SSL_CA_CERT_FILE: /etc/nginx/certs/ca.crt
+      PROXY_SSL_PROTOCOLS: TLSv1.3
+      # IP client réelle : X-Forwarded-For posé par HAProxy (seul proxy de confiance)
+      SET_REAL_IP_FROM: 172.31.0.10
+      REAL_IP_HEADER: X-Forwarded-For
+      # OWASP CRS : mode bloquant, paranoïa 2 (API JSON), seuils d'anomalie par défaut
+      MODSEC_RULE_ENGINE: "on"
+      BLOCKING_PARANOIA: 2
+      ANOMALY_INBOUND: 5
+      ANOMALY_OUTBOUND: 4
+      ALLOWED_METHODS: GET HEAD POST PUT PATCH DELETE OPTIONS
+      MODSEC_RESP_BODY_ACCESS: "off"                 # réponses JSON : pas d'inspection (performance)
+      CORS_HEADER_403_ALLOW_ORIGIN: ${CORS_ALLOWED_ORIGINS:-https://localhost:4200}
+      MODSEC_AUDIT_LOG_FORMAT: JSON
+      MODSEC_AUDIT_LOG: /dev/stdout
+    volumes:
+      - ./secrets/test-prod/waf:/etc/nginx/certs:ro
+    networks:
+      default:
+        ipv4_address: 172.31.0.11
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null --no-check-certificate https://127.0.0.1:8443/healthz || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 15s
+
+  api-prod:
+    environment:
+      # Seul le WAF parle à l'API : lui seul peut fixer IP client / schéma (X-Forwarded-*).
+      TRUSTED_PROXIES: '172\.31\.0\.11'
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://localhost:4200}
+    volumes:
+      # Certificat auto-signé de la chaîne de test (SAN localhost, api-prod, waf), au lieu de TLS_CERT_DIR.
+      - ./secrets/test-prod/api:/run/secrets/tls:ro
+    ports: !reset []                                 # jamais publiée : accès uniquement via HAProxy → WAF

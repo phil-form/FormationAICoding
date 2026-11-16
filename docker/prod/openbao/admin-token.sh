@@ -16,7 +16,7 @@ cd "$(dirname "$0")/../../.."
 set -a; source .env; set +a
 [[ "${1:-}" == "--" ]] && shift
 
-dc() { docker compose --profile prod "$@"; }
+dc() { docker compose -f docker-compose.prod.yml "$@"; }
 bao() { dc exec -T openbao-prod bao "$@" </dev/null; }
 field() { sed -n "s/.*\"$1\": *\"*\([^\",}]*\).*/\1/p" | head -1; }
 api_post() { # api_post <chemin> : corps JSON lu sur stdin, TLS vérifié, boucle locale du conteneur

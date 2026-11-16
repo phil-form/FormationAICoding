@@ -68,7 +68,7 @@ docker/openbao/check-phase1.sh   # recette : 26 contrôles OpenBao + 11 contrôl
 ```
 
 CLI depuis l'hôte : `BAO_ADDR=http://127.0.0.1:8200 BAO_TOKEN=<BAO_DEV_ROOT_TOKEN_ID de .env.dev> bao …`
-(ou `docker compose --profile dev exec openbao-dev sh`). OpenBao dev est **en mémoire** : tout est recréé à chaque
+(ou `docker compose exec openbao-dev sh`). OpenBao dev est **en mémoire** : tout est recréé à chaque
 démarrage à partir de `.env.dev`. Les identifiants AppRole de l'API sont dans le volume `openbao-dev-creds`, monté en
 lecture seule dans `api-dev` sur `/run/secrets/openbao`.
 
@@ -156,7 +156,7 @@ Fréquences : question ouverte Q3 de l'ADR (hypothèse : `jwt` 90 j, `niss` 1 an
 | Élément | Durée | Renouvellement |
 |---|---|---|
 | `secret_id` de l'API | `OPENBAO_SECRET_ID_TTL` (90 j) | à chaque déploiement (phase 6, politique `deployer`) ; d'ici là : `admin-token.sh -- bootstrap.sh` |
-| Certificat TLS interne | 1 an | `docker/prod/openbao/gen-internal-tls.sh` (nécessite `ca.key` depuis 1Password) puis `docker compose --profile prod kill -s HUP openbao-prod` |
+| Certificat TLS interne | 1 an | `docker/prod/openbao/gen-internal-tls.sh` (nécessite `ca.key` depuis 1Password) puis `docker compose -f docker-compose.prod.yml kill -s HUP openbao-prod` |
 | Token de snapshot | période 32 j | renouvelé automatiquement à chaque snapshot |
 
 ## Sauvegarde et restauration
@@ -188,7 +188,7 @@ Un snapshot n'est exploitable qu'avec **la clé privée age et 3 parts Shamir**.
 ```bash
 age -d -i cle-privee.txt -o openbao.snap openbao-AAAAMMJJ.snap.age
 docker/prod/openbao/admin-token.sh        # puis, dans le shell admin :
-#   (copier openbao.snap dans le conteneur au préalable : docker compose --profile prod exec -T openbao-prod sh -c 'cat > /tmp/r.snap' < openbao.snap)
+#   (copier openbao.snap dans le conteneur au préalable : docker compose -f docker-compose.prod.yml exec -T openbao-prod sh -c 'cat > /tmp/r.snap' < openbao.snap)
 #   bao operator raft snapshot restore -force /tmp/r.snap
 ```
 
@@ -213,15 +213,15 @@ obtenir de nouveaux identifiants ; les utilisateurs PostgreSQL orphelins expiren
 ## Vérifications
 
 ```bash
-docker compose --profile prod exec openbao-prod bao status                       # Sealed: false
-docker compose --profile prod port openbao-prod 8200                             # aucun port publié
-docker compose --profile prod exec openbao-prod ls -l /openbao/logs/audit.log    # audit présent, 0600
+docker compose -f docker-compose.prod.yml exec openbao-prod bao status                       # Sealed: false
+docker compose -f docker-compose.prod.yml port openbao-prod 8200                             # aucun port publié
+docker compose -f docker-compose.prod.yml exec openbao-prod ls -l /openbao/logs/audit.log    # audit présent, 0600
 ```
 
 Recette des droits de l'API sur la prod (identifiants réels, lecture seule) :
 
 ```bash
-docker run --rm --network formation_default --group-add "$TLS_CERT_GID" \
+docker run --rm --network formation-prod_default --group-add "$TLS_CERT_GID" \
   -e BAO_ADDR=https://openbao:8200 -e BAO_CACERT=/tls/ca.crt \
   -v "$OPENBAO_CREDS_DIR:/creds:ro" -v "$OPENBAO_TLS_DIR:/tls:ro" -v "$PWD/docker/openbao:/scripts:ro" \
   --entrypoint sh openbao/openbao:2.7.2 /scripts/smoke-test.sh

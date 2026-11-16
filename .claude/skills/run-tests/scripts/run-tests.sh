@@ -44,7 +44,7 @@ total=0
 if [[ -n "${RUN_TESTS_CMD:-}" ]]; then
   cmd=(bash -c "$RUN_TESTS_CMD")
 elif ((docker)); then
-  cmd=(docker compose --profile test run --rm --build api-test)
+  cmd=(docker compose -f docker-compose.yml --profile test run --rm --build api-test)
 else
   case "$scope" in
     unit) cmd=(./mvnw -B test) ;;

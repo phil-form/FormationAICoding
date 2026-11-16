@@ -59,7 +59,7 @@ publié, build `UNSTABLE` sous le seuil (`mutationThreshold`, 70 % par défaut).
 
 ## 7. DAST — OWASP ZAP sur stack éphémère
 
-- Lancer une stack isolée : `docker compose -p ci-$BUILD_NUMBER --profile prod up -d` avec l'image fraîchement
+- Lancer une stack isolée : `docker compose -p ci-$BUILD_NUMBER -f docker-compose.prod.yml -f docker-compose.test-prod.yml up -d` (chaîne complète HAProxy → WAF → API) avec l'image fraîchement
   construite et une `.env` de CI (credential « secret file » `formation-env-ci`), DB vierge (Flyway migre au démarrage).
 - Attendre `/actuator/health` = `UP` (timeout).
 - `zap-api-scan.py` (image `zaproxy/zap-stable` épinglée) dans le réseau de la stack, cible = `target/openapi.json`

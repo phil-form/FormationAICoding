@@ -19,7 +19,7 @@ Lance, **en arrière-plan** (`run_in_background: true`) pour que l'utilisateur s
 ```
 
 - `--unit` : tests unitaires (`./mvnw test`) · `--it` : intégration seule · défaut : tout (`./mvnw verify`)
-- `--docker` : exécution dans le conteneur `docker/test` (`docker compose --profile test run api-test`)
+- `--docker` : exécution dans le conteneur `docker/test` (`docker compose --profile test run api-test`, fichier docker-compose.yml)
 
 Pendant l'exécution :
 - la **status line** affiche `🧪 ████████░░░░ 62% 13/21 · ✔ 87 ✘ 2 ↷ 1 · ETA 40s` (rafraîchie toutes les 2 s,

@@ -134,7 +134,7 @@ check_bash() {
       IFS='|' read -ra segs <<<"$cmd"
       for seg in "${segs[@]}"; do
         seg="${seg#"${seg%%[![:space:]]*}"}"
-        [[ "$seg" =~ ^(docker[[:space:]]+compose([[:space:]]+(-p|--profile)[[:space:]]+[[:alnum:]_-]+)*[[:space:]]+(logs|ps)([[:space:]]|$)|docker[[:space:]]+(logs|ps|inspect)([[:space:]]|$)|docker[[:space:]]+stats[[:space:]]+--no-stream|grep[[:space:]]|zgrep[[:space:]]|head([[:space:]]|$)|tail([[:space:]]|$)|wc([[:space:]]|$)|sort([[:space:]]|$)|uniq([[:space:]]|$)|cut[[:space:]]|jq[[:space:]]|ls([[:space:]]|$)|zcat[[:space:]]) ]] \
+        [[ "$seg" =~ ^(docker[[:space:]]+compose([[:space:]]+(-p|-f|--profile)[[:space:]]+[[:alnum:]_.-]+)*[[:space:]]+(logs|ps)([[:space:]]|$)|docker[[:space:]]+(logs|ps|inspect)([[:space:]]|$)|docker[[:space:]]+stats[[:space:]]+--no-stream|grep[[:space:]]|zgrep[[:space:]]|head([[:space:]]|$)|tail([[:space:]]|$)|wc([[:space:]]|$)|sort([[:space:]]|$)|uniq([[:space:]]|$)|cut[[:space:]]|jq[[:space:]]|ls([[:space:]]|$)|zcat[[:space:]]) ]] \
           || deny "Segment '$seg' non autorisé. Permis : docker compose logs|ps, docker logs|ps|inspect|stats --no-stream, grep, zgrep, zcat, head, tail, wc, sort, uniq, cut, jq, ls."
         [[ "$seg" == *.env* && "$seg" != *.env.example* ]] && deny "Accès à .env interdit."
       done

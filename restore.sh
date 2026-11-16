@@ -5,9 +5,10 @@ cd "$(dirname "$0")"
 
 usage() {
   cat <<'EOF'
-Usage : ./restore.sh [fichier] [-y]
+Usage : ./restore.sh [fichier] [--prod] [-y]
 
   fichier     dump à restaurer (sinon : sélection interactive fzf dans ./init_db)
+  --prod      base de docker-compose.prod.yml (défaut : base de dev, docker-compose.yml)
   -y, --yes   pas de confirmation (usage scripté)
   -h, --help  affiche cette aide
 
@@ -21,10 +22,11 @@ info() { echo "${B}▶${N} $*"; }
 ok()   { echo "${G}✔${N} $*"; }
 die()  { echo "${R}✘ $*${N}" >&2; exit 1; }
 
-file="" yes=0
+file="" yes=0 files=(-f docker-compose.yml) apis=(api-dev)
 while (($#)); do
   case "$1" in
     -y|--yes) yes=1 ;;
+    --prod) files=(-f docker-compose.prod.yml); apis=(api-prod) ;;
     -h|--help) usage; exit 0 ;;
     -*) usage; die "Option inconnue : $1" ;;
     *) file="$1" ;;
@@ -39,7 +41,7 @@ set -a; source .env; set +a
 mapfile -t dumps < <(find init_db -maxdepth 1 -type f \( -name '*.sql' -o -name '*.sql.gz' -o -name '*.dump' -o -name '*.backup' \) -printf '%T@\t%p\n' | sort -rn | cut -f2)
 ((${#dumps[@]})) || die "Aucun dump dans ./init_db (.sql, .sql.gz, .dump, .backup)."
 
-dc() { docker compose "$@"; }
+dc() { docker compose "${files[@]}" "$@"; }
 psql_db() { dc exec -T db psql -v ON_ERROR_STOP=1 -U "$DB_USER" "$@"; }
 
 # --- Base démarrée ? ---------------------------------------------------------
@@ -56,14 +58,14 @@ fi
 # --- Sélection -----------------------------------------------------------------
 if [[ -z "$file" ]]; then
   command -v fzf >/dev/null || die "fzf requis pour la sélection interactive : sudo apt install fzf (ou passez le fichier en argument)."
-  export -f dc
+  export COMPOSE_FILES="${files[*]}"
   file="$(printf '%s\n' "${dumps[@]}" | fzf --prompt="Backup à restaurer > " --height=60% --reverse --border \
     --header="Entrée : restaurer · Échap : annuler" \
     --preview='f={}; echo "Fichier : $f"; echo "Taille  : $(du -h "$f" | cut -f1)"; echo "Date    : $(date -r "$f" "+%F %T")"; echo; \
       case "$f" in
         *.sql.gz) zcat "$f" | head -n 60 ;;
         *.sql) head -n 60 "$f" ;;
-        *) docker compose exec -T db pg_restore -l "/init_db/$(basename "$f")" 2>&1 | head -n 60 ;;
+        *) docker compose $COMPOSE_FILES exec -T db pg_restore -l "/init_db/$(basename "$f")" 2>&1 | head -n 60 ;;
       esac' \
     --preview-window=right:60%:wrap)" || { echo "Annulé."; exit 130; }
 fi
@@ -81,12 +83,12 @@ start=$(date +%s)
 
 # --- Arrêt de l'API -------------------------------------------------------------
 running=()
-for s in api-dev api-prod; do
-  [[ -n "$(dc --profile dev --profile prod ps -q --status running "$s" 2>/dev/null)" ]] && running+=("$s")
+for s in "${apis[@]}"; do
+  [[ -n "$(dc ps -q --status running "$s" 2>/dev/null)" ]] && running+=("$s")
 done
 if ((${#running[@]})); then
   info "Arrêt de ${running[*]}…"
-  dc --profile dev --profile prod stop "${running[@]}"
+  dc stop "${running[@]}"
 fi
 
 # --- Recréation et restauration ----------------------------------------------
@@ -103,7 +105,7 @@ esac
 # --- Redémarrage ------------------------------------------------------------------
 if ((${#running[@]})); then
   info "Redémarrage de ${running[*]}…"
-  dc --profile dev --profile prod start "${running[@]}"
+  dc start "${running[@]}"
 fi
 
 ok "Restauration de '${name}' terminée en $(( $(date +%s) - start ))s."

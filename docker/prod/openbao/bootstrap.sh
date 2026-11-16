@@ -18,7 +18,7 @@ TLS_DIR="${OPENBAO_TLS_DIR:-./secrets/openbao-tls}"
 CREDS_DIR="${OPENBAO_CREDS_DIR:-./secrets/openbao-creds}"
 SNAP_TOKEN_FILE="${OPENBAO_SNAPSHOT_TOKEN_FILE:-./secrets/openbao-snapshot.token}"
 GROUP_ID="${TLS_CERT_GID:-$(id -g)}"
-dc() { docker compose --profile prod "$@"; }
+dc() { docker compose -f docker-compose.prod.yml "$@"; }
 # stdin coupé : docker compose exec -T transmettrait sinon les saisies en attente au conteneur.
 bao() { dc exec -T -e BAO_TOKEN="${BAO_TOKEN:-}" openbao-prod bao "$@" </dev/null; }
 field() { sed -n "s/.*\"$1\": *\([^,}]*\).*/\1/p" | head -1 | tr -d ' "'; }
@@ -35,7 +35,7 @@ step "Démarrage de db et openbao-prod"
 dc up -d db openbao-prod >/dev/null </dev/null
 for _ in $(seq 1 30); do bao status -format=json >/dev/null 2>&1 && break; [[ $? -eq 2 ]] && break; sleep 1; done
 status="$(bao status -format=json 2>/dev/null || true)"
-[[ -n "$status" ]] || { echo "OpenBao ne répond pas : docker compose --profile prod logs openbao-prod" >&2; exit 1; }
+[[ -n "$status" ]] || { echo "OpenBao ne répond pas : docker compose -f docker-compose.prod.yml logs openbao-prod" >&2; exit 1; }
 
 # 3. Initialisation --------------------------------------------------------------
 if [[ "$(field initialized <<<"$status")" != true ]]; then
@@ -71,7 +71,7 @@ if ! bao read database/config/formation >/dev/null 2>&1; then
   db_admin_pw="$(openssl rand -base64 36 | tr -d '/+=\n')"
 fi
 step "Rôles PostgreSQL"
-docker run --rm --network "${COMPOSE_PROJECT_NAME:-formation}_default" \
+docker run --rm --network "formation-prod_default" \
   -e PGHOST=db -e PGUSER="$DB_USER" -e PGPASSWORD="$DB_PASSWORD" -e PGDATABASE="$DB_NAME" \
   -e OPENBAO_DB_ADMIN_PASSWORD="$db_admin_pw" \
   -v "$PWD/docker/db/roles.sh:/roles.sh:ro" --entrypoint sh postgres:18-alpine /roles.sh </dev/null
@@ -79,7 +79,7 @@ docker run --rm --network "${COMPOSE_PROJECT_NAME:-formation}_default" \
 # 5. Configuration commune ---------------------------------------------------------
 step "Configuration OpenBao (configure.sh)"
 dc exec -T -e BAO_TOKEN -e OPENBAO_DB_ADMIN_PASSWORD="$db_admin_pw" \
-  -e DB_HOST=db -e DB_NAME="$DB_NAME" -e BOUND_CIDRS="${DOCKER_SUBNET:-172.30.0.0/24}" \
+  -e DB_HOST=db -e DB_NAME="$DB_NAME" -e BOUND_CIDRS="${DOCKER_SUBNET:-172.31.0.0/24}" \
   -e DB_CONFIG_MODE=if-absent -e ROTATE_DB_ROOT=true -e SECRET_ID_TTL="${OPENBAO_SECRET_ID_TTL:-2160h}" \
   openbao-prod sh /scripts/configure.sh </dev/null
 unset db_admin_pw
@@ -111,4 +111,4 @@ bao token revoke -self >/dev/null
 unset BAO_TOKEN
 echo
 echo "✔ Amorçage terminé. OpenBao est descellé et configuré ; plus aucun token root valide."
-echo "  Vérifier : docker compose --profile prod exec openbao-prod bao status"
+echo "  Vérifier : docker compose -f docker-compose.prod.yml exec openbao-prod bao status"

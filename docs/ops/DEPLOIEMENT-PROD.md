@@ -13,7 +13,12 @@ Internet ──443──▶ HAProxy (TLS 1.3, Let's Encrypt, limitation de débi
   (remplacement atomique) → l'API le recharge à chaud (~10 s, sans redémarrage), HAProxy est rechargé (`reload` sans perte de connexion).
 - L'API n'est **jamais** exposée directement : publiée sur `127.0.0.1:8443` uniquement.
 
-Fichiers de référence : `docker/prod/haproxy/haproxy.cfg`, `docker/prod/certbot/deploy-hook.sh`.
+Fichiers de référence : `docker/prod/haproxy/haproxy.cfg`, `docker/prod/certbot/deploy-hook.sh`,
+`docker-compose.prod.yml`. Un **WAF ModSecurity + OWASP CRS** s'intercale entre HAProxy et l'API ; sa configuration
+de référence est celle de `docker-compose.test-prod.yml` (service `waf`), testée localement avec
+`./start.sh --test-prod` + `docker/test-prod/check.sh` (attaques SQLi, XSS, traversal, RCE, Log4Shell, scanners
+bloquées). Si le WAF tourne sur l'hôte avec HAProxy, `TRUSTED_PROXIES` doit couvrir l'IP par laquelle il atteint
+l'API.
 
 ## 1. Préparation du serveur (une fois)
 

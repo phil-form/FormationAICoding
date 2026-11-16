@@ -16,9 +16,10 @@ cp .env.example .env        # puis changer DB_PASSWORD (et CORS_ALLOWED_ORIGINS 
 ./start.sh                  # dev : db + api (hot reload, debug JDWP 5005)
 ./start.sh --seed           # dev + données de seed (seeders Java : package seed/, @Seeder)
 ./start.sh --test           # suite de tests complète dans docker/test (rapports : target/test-reports)
-./start.sh --prod           # prod : HTTPS + image durcie (propose un certificat auto-signé si absent)
+./start.sh --prod           # prod (docker-compose.prod.yml) : HTTPS, image durcie, OpenBao scellé
+./start.sh --test-prod      # chaîne de prod en local : HAProxy → WAF ModSecurity/CRS → API (https://localhost)
 ./start.sh --fresh          # supprime la base avant de démarrer (confirmation)
-./restore.sh                # restaure un dump de ./init_db (fzf) ; ./restore.sh <fichier> -y en script
+./restore.sh                # restaure un dump de ./init_db (fzf) dans la base dev ; --prod pour la prod
 ```
 
 ### Dev
@@ -38,6 +39,20 @@ OpenBao par le service `openbao-init`, avec **le même script de configuration q
 
 Hot reload : devtools redémarre l'application quand `target/classes` change → configurer l'IDE pour déléguer
 le build à Maven, ou lancer `./mvnw compile`.
+
+### Test local de la prod
+
+`./start.sh --test-prod` démarre `docker-compose.prod.yml` + `docker-compose.test-prod.yml` : la même définition prod,
+avec devant elle **HAProxy** (même `haproxy.cfg` qu'en prod) et un **WAF ModSecurity + OWASP CRS**, chaque saut en
+TLS 1.3 vérifié par une PKI de test (`docker/test-prod/gen-certs.sh`). L'API n'est joignable que par cette chaîne.
+
+```bash
+curl --cacert secrets/test-prod/ca.crt https://localhost/api/v1/ping     # 401 (API, refus par défaut)
+docker/test-prod/check.sh                                                 # recette : 22 contrôles
+```
+
+Premier lancement : OpenBao prod doit être amorcé (`docker/prod/openbao/bootstrap.sh`), comme en prod.
+⚠ HSTS `preload` est envoyé pour `localhost` : préférer `curl` ou une fenêtre privée du navigateur.
 
 ### Prod
 

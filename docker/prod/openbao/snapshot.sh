@@ -24,7 +24,7 @@ tmp="$(mktemp "$backup_dir/.snapshot.XXXXXX")"
 trap 'rm -f "$tmp"' EXIT
 
 # Le snapshot transite par stdout (le /tmp du conteneur est un tmpfs, invisible pour docker cp).
-docker compose --profile prod exec -T -e BAO_TOKEN="$(cat "$token_file")" openbao-prod \
+docker compose -f docker-compose.prod.yml exec -T -e BAO_TOKEN="$(cat "$token_file")" openbao-prod \
   sh -c 'f=$(mktemp) && bao operator raft snapshot save "$f" >/dev/null && cat "$f"; rc=$?; rm -f "$f"; exit $rc' > "$tmp"
 [[ -s "$tmp" ]] || { echo "Snapshot vide" >&2; exit 1; }
 
@@ -32,7 +32,7 @@ docker compose --profile prod exec -T -e BAO_TOKEN="$(cat "$token_file")" openba
 chmod 0600 "$out"
 
 # Renouvelle le token périodique (sinon il expire après 32 jours sans snapshot).
-docker compose --profile prod exec -T -e BAO_TOKEN="$(cat "$token_file")" openbao-prod bao token renew >/dev/null
+docker compose -f docker-compose.prod.yml exec -T -e BAO_TOKEN="$(cat "$token_file")" openbao-prod bao token renew >/dev/null
 
 # Rétention
 ls -1t "$backup_dir"/openbao-*.snap.age 2>/dev/null | tail -n +$((retention + 1)) | xargs -r rm -f

@@ -112,9 +112,16 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
 | `seed` | Exécute les `@Seeder` Java au démarrage (dev uniquement, refusé avec `prod`) |
 | `test` | Tests d'intégration (Testcontainers) |
 
-Docker : un dossier par environnement (`docker/dev/`, `docker/prod/`, `docker/test/`), chacun avec son
-`Dockerfile`, son `Dockerfile.dockerignore` et ses scripts propres ; un seul `docker-compose.yml` à la
-racine avec les profils Compose `dev`, `prod`, `test`.
+Docker — trois fichiers compose (regroupés par ordre alphabétique) et un dossier par environnement :
+
+| Fichier | Projet | Contenu |
+|---|---|---|
+| `docker-compose.yml` | `formation` (réseau 172.30.0.0/24) | **dev** : db (127.0.0.1:5432), OpenBao dev + `db-roles` + `openbao-init`, `api-dev` ; profil `test` : `api-test` |
+| `docker-compose.prod.yml` | `formation-prod` (172.31.0.0/24) | **prod** : db (non publiée), `openbao-prod`, `api-prod` (127.0.0.1:8443 pour le reverse proxy) |
+| `docker-compose.test-prod.yml` | surcharge de prod | **test local de la prod** : `haproxy` (80/443, `docker/prod/haproxy/haproxy.cfg`) → `waf` (ModSecurity + OWASP CRS 4.25 LTS, paranoïa 2) → `api-prod` (non publiée) ; PKI de test `docker/test-prod/gen-certs.sh` |
+
+Dossiers `docker/dev/`, `docker/prod/`, `docker/test/` (Dockerfile + fichiers propres), `docker/test-prod/`
+(certificats de test, recette `check.sh`), `docker/openbao/`, `docker/db/`. Dev et test-prod peuvent tourner en même temps.
 
 Toute la configuration sensible passe par variables d'environnement (fichier `.env`, jamais commité ;
 `.env.example` sert de modèle).
@@ -154,9 +161,11 @@ Configuration : `app.security.*` (`SecurityProperties`).
 ```bash
 ./start.sh                 # démarre la stack en dev
 ./start.sh --seed          # démarre en dev et applique les données de seed
-./start.sh --prod          # démarre la stack en prod
+./start.sh --prod          # démarre la stack en prod (docker-compose.prod.yml)
+./start.sh --test-prod     # chaîne de prod complète en local : HAProxy → WAF → API (https://localhost)
+docker/test-prod/check.sh  # recette test-prod : TLS, redirection, attaques bloquées par le WAF, isolement
 ./start.sh --test          # lance la suite de tests dans docker/test
-./restore.sh               # choisit un dump dans ./init_db via fzf et le restaure
+./restore.sh [--prod]      # choisit un dump dans ./init_db via fzf et le restaure (dev par défaut)
 ./start.sh --fresh         # repart d'une base vide (confirmation)
 docker/openbao/check-phase1.sh       # recette OpenBao + droits PostgreSQL (dev)
 docker/prod/openbao/bootstrap.sh     # amorçage OpenBao prod (puis unseal.sh / admin-token.sh, voir docs/ops/OPENBAO.md)
@@ -197,6 +206,7 @@ Feature verte ─▶ /trace-check (couverture AC ↔ tests ↔ code) ─▶ /mut
 | `/mutation-test [<analyse>\|<package>]` | `auditor` | PIT : score par classe, mutants survivants traduits en lacunes de test → `docs/audit/` |
 | `/analyse-logs [service\|tests\|fichier]` | `log-analyst` | Erreurs groupées, chronologie, cause probable reliée au code, signaux de sécurité (lecture seule) |
 | `/audit-deps [--images] [--fix]` | `general-purpose` | CVE des dépendances Maven et images Docker → `docs/audit/` |
+| `/commit [intention] [--no-images]` | — | Commit après contrôles : secrets, fichiers interdits, SAST Semgrep, config Docker, dépendances, images Docker (Trivy). Détection → rapport + décision de l'utilisateur, **aucune correction automatique** ; jamais de push |
 | `/jenkins-pipeline [create\|update]` | — (manuel uniquement) | `Jenkinsfile` : build, tests, SAST, SCA, scan image, DAST ZAP, deploy scp + ssh |
 
 **Isolation** — chaque agent sensible a un hook `PreToolUse` (`.claude/hooks/guard.sh <mode>`) :
@@ -227,6 +237,7 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 - **Secrets** : jamais dans git, l'image, les logs ni les variables d'environnement de prod ; ils viennent d'OpenBao.
 
 - Répondre et documenter **en français** ; code, identifiants et commits en anglais.
+- **Commits : toujours via `/commit`** (contrôles de sécurité préalables) — jamais de `git commit` direct ni de push.
 - Ne pas ajouter de dépendance non listée ci-dessus sans le signaler.
 - Toute modification de schéma = nouvelle migration Flyway.
 - Ajouter/mettre à jour les tests avec chaque fonctionnalité.
