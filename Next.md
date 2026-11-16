@@ -195,6 +195,14 @@ est complète et le score de mutation dépasse le seuil.
 | Q4 | Détenteurs des 5 parts Shamir | À désigner | Mise en prod |
 | Q5 | Destination hors site des snapshots Raft | À définir avec l'hébergeur | Mise en prod |
 
+## Veille technique
+
+- **Lombok / `sun.misc.Unsafe`** (`docs/audit/2026-11-16-plan-deprecations.md`, cause 4) : Lombok 1.18.48 (dernière
+  version) utilise des accès `sun.misc.Unsafe` qu'un futur JDK retirera. Sans effet sur Java 25 LTS, mais **prérequis
+  de toute montée de JDK** (Java 29 LTS, sept. 2027) : vérifier une version Lombok corrigée, sinon évaluer `delombok`.
+  Vérifier à chaque montée de Spring Boot avec `/deprecations`.
+- **Exceptions de sécurité** : WAF `libxslt` et OpenBao 2.7.2 expirent le **16/12/2026** (`.trivyignore.yaml`).
+
 ## Risques acceptés
 
 - OpenBao mono-nœud : point unique de défaillance (plus de login, de NISS ni de nouvelle connexion DB s'il tombe).

@@ -46,7 +46,8 @@ public class OpenBaoConfig extends AbstractVaultConfiguration {
                 .roleId(RoleId.provided(readSecretFile(properties.roleIdFile())))
                 .secretId(SecretId.provided(readSecretFile(properties.secretIdFile())))
                 .build();
-        return new AppRoleAuthentication(options, restOperations());
+        // VaultClient (Spring Vault 4) : même endpoint et même TLS que le reste du client ; RestOperations est déprécié.
+        return new AppRoleAuthentication(options, vaultClient());
     }
 
     @Override

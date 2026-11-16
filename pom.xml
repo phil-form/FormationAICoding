@@ -25,6 +25,11 @@
         <pitest-junit5.version>1.2.3</pitest-junit5.version>
         <datafaker.version>2.7.0</datafaker.version>
         <spring-vault.version>4.1.1</spring-vault.version>
+        <!-- Options des JVM de test (Surefire, Failsafe, PIT) — plan de dépréciations 2026-11-16 :
+             agent Mockito déclaré (plus de chargement dynamique d'agent, JEP 451) et accès natif de JNA
+             (Testcontainers, JEP 472). argLine vide : point d'accroche pour un futur agent (JaCoCo). -->
+        <argLine/>
+        <test.jvm.args>-javaagent:${org.mockito:mockito-core:jar} --enable-native-access=ALL-UNNAMED</test.jvm.args>
     </properties>
 
     <dependencies>
@@ -215,10 +220,35 @@
                 </configuration>
             </plugin>
 
+            <!-- Expose le chemin du jar Mockito (${org.mockito:mockito-core:jar}) pour l'option -javaagent. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Tests unitaires (*Test) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} ${test.jvm.args}</argLine>
+                </configuration>
+            </plugin>
+
             <!-- Tests d'intégration (*IT) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} ${test.jvm.args}</argLine>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -263,6 +293,10 @@
                     <timestampedReports>false</timestampedReports>
                     <withHistory>true</withHistory>
                     <threads>4</threads>
+                    <jvmArgs>
+                        <value>-javaagent:${org.mockito:mockito-core:jar}</value>
+                        <value>--enable-native-access=ALL-UNNAMED</value>
+                    </jvmArgs>
                 </configuration>
             </plugin>
         </plugins>
