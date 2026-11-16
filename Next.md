@@ -170,6 +170,10 @@ est complète et le score de mutation dépasse le seuil.
 
 ## Phase 5 — Utilisateur et NISS (feature, workflow complet)
 
+> **Confirmé dans le périmètre Delvaux** (réponse client C11, 16/11/2026) : réalisée par la feature **002
+> `comptes-utilisateurs`** (`docs/analyse/features/INDEX.md`). La skill `/sensitive-data` impose ces mesures à toute
+> donnée sensible, pas seulement au NISS.
+
 - Entité utilisateur, NISS chiffré via `CryptoService` + colonne `niss_index` **unique** (index aveugle).
 - Recherche par NISS = calcul de l'index puis recherche exacte ; jamais de `LIKE` sur un NISS.
 - Le NISS n'apparaît ni dans les logs, ni dans les messages d'erreur, ni dans les réponses (masqué sauf besoin explicite et autorisé).

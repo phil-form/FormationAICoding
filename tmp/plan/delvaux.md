@@ -30,7 +30,7 @@ Tailles indicatives : S ≈ ½–1 jour, M ≈ 1–3 jours, L ≈ 3–5 jours (w
 
 Workflow de `CLAUDE.md`, une analyse préparatoire par sous-partie :
 
-1. `/analyse-feature docs/analyse/client/delvaux-gestion-de-flotte.md "<feature>"` (+ `/owasp-check` automatique si sécurité)
+1. `/analyse-feature docs/analyse/client/delvaux-gestion-de-flotte.md "<feature>"` (+ `/sensitive-data` systématique, `/owasp-check` automatique si sécurité)
 2. `/review-analyse` → verdict **OK** obligatoire
 3. `/write-tests` (agent isolé, depuis l'analyse seule) — tests nommés `acxx_…`, `@Tag("feature-NNN")`
 4. `/implement-feature` (agent isolé, sans accès aux tests) — migration Flyway, entités, DTO, mapper, service, controller, **seeder**
@@ -44,13 +44,19 @@ score de mutation ≥ 70 % sur les services, `/commit` sans résultat bloquant, 
 
 ---
 
-## Partie 0 — Cadrage
+## Partie 0 — Cadrage · ✅ terminée le 16/11/2026
+
+- Analyse client + réponses : `docs/analyse/client/delvaux-gestion-de-flotte.md` (§ 8).
+- Index des features (numéros et slugs réservés) : `docs/analyse/features/INDEX.md`.
+- Chaque analyse passe par `/sensitive-data` (classement des données ; toute donnée sensible chiffrée).
 
 ### 0.1 Reprise de l'analyse client
 - Copier l'analyse dans `docs/analyse/client/delvaux-gestion-de-flotte.md` (entrée du workflow ; `tmp/` reste historique).
 - Y ajouter une section « Réponses du client » alimentée par 0.2.
 
 ### 0.2 Questions à poser au client (bloquantes pour certaines analyses)
+
+> **Répondues** le 16/11/2026 — les réponses font foi dans l'analyse client (§ 8) : hypothèses par défaut retenues pour C1–C10 et C12 ; **C1b** ajoutée (un valideur ne valide jamais sa propre réservation) ; **C10** sans HEIC côté serveur ; **C11** : NISS sur l'utilisateur, chiffré (feature 002).
 
 | # | Question | Hypothèse par défaut | Bloque |
 |---|---|---|---|
