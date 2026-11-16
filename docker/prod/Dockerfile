@@ -13,7 +13,8 @@ RUN ./mvnw -B -q -Dmaven.test.skip=true package \
 # ---- runtime -----------------------------------------------------------------
 FROM eclipse-temurin:25.0.5_8-jre-alpine@sha256:e1898fd6a11fc965a994d8ace186fd3585aeb636cf8f05f47a723fcfee0b0918
 
-RUN addgroup -S -g 10001 spring && adduser -S -u 10001 -G spring -H -s /sbin/nologin spring
+RUN addgroup -S -g 10001 spring && adduser -S -u 10001 -G spring -H -s /sbin/nologin spring \
+ && install -d -o 10001 -g 10001 -m 0700 /var/lib/formation/uploads
 WORKDIR /app
 
 COPY --from=build /build/extracted/dependencies/ ./
@@ -27,6 +28,8 @@ RUN chmod 555 /app/entrypoint.sh /app/healthcheck.sh
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError -Djava.io.tmpdir=/tmp \
 -Djdk.tls.namedGroups=x25519,secp256r1,secp384r1 -Djdk.tls.rejectClientInitiatedRenegotiation=true"
 
+# Fichiers téléversés (chiffrés) : volume nommé « uploads », qui hérite à sa création de ce propriétaire (0700).
+VOLUME /var/lib/formation/uploads
 USER 10001:10001
 EXPOSE 8443 8080
 HEALTHCHECK --interval=10s --timeout=3s --start-period=60s --retries=5 CMD ["/app/healthcheck.sh"]

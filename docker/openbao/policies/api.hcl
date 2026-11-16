@@ -27,6 +27,20 @@ path "transit/hmac/niss-index" {
   capabilities = ["update"]
 }
 
+# Fichiers téléversés : chiffrement / déchiffrement des clés de données, rewrap, métadonnées de la clé file.
+path "transit/keys/file" {
+  capabilities = ["read"]
+}
+path "transit/encrypt/file" {
+  capabilities = ["update"]
+}
+path "transit/decrypt/file" {
+  capabilities = ["update"]
+}
+path "transit/rewrap/file" {
+  capabilities = ["update"]
+}
+
 # Identifiants PostgreSQL dynamiques : runtime (DML) et migrations Flyway.
 path "database/creds/app" {
   capabilities = ["read"]

@@ -67,6 +67,15 @@ class OpenBaoIntegrationIT {
     }
 
     @Test
+    void btreeGistIsInstalledByRolesScriptAndUsableByMigrations() {
+        // Créée par docker/db/roles.sh (superutilisateur) ; la sonde de test probe_booking l'utilise (EXCLUDE).
+        assertThat(jdbc.queryForObject("select count(*) from pg_extension where extname = 'btree_gist'", Integer.class))
+                .isOne();
+        assertThat(jdbc.queryForObject("select count(*) from pg_constraint where conname = 'probe_booking_no_overlap'",
+                Integer.class)).isOne();
+    }
+
+    @Test
     void rotationSwitchesDatabaseUserWithoutRestart() {
         String before = currentUser();
 

@@ -100,6 +100,8 @@ services:
       # Identifiants AppRole (role-id, secret-id ; 0440) et CA interne d'OpenBao — jamais la clé de la CA.
       - ${OPENBAO_CREDS_DIR:-./secrets/openbao-creds}:/run/secrets/openbao:ro
       - ${OPENBAO_TLS_DIR:-./secrets/openbao-tls}/ca.crt:/run/secrets/openbao-ca.crt:ro
+      # Fichiers téléversés, chiffrés au repos (clés de données dans OpenBao) : à sauvegarder AVEC la base.
+      - uploads:/var/lib/formation/uploads
     ports:
       # Publié pour le reverse proxy uniquement (boucle locale par défaut) : jamais exposé directement sur Internet.
       - "${API_BIND:-127.0.0.1}:${API_HTTPS_PORT:-8443}:8443"
@@ -131,3 +133,4 @@ volumes:
   pgdata:
   openbao-data:
   openbao-audit:
+  uploads:

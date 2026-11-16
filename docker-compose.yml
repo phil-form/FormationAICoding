@@ -124,6 +124,7 @@ services:
       - ./:/app
       - m2cache:/m2
       - openbao-dev-creds:/run/secrets/openbao:ro
+      - uploads-dev:/var/lib/formation/uploads   # fichiers téléversés (chiffrés)
     ports:
       - "${API_PORT:-8080}:8080"
       - "127.0.0.1:${DEBUG_PORT:-5005}:5005"
@@ -163,3 +164,4 @@ volumes:
   m2cache:
   m2cache-tester:
   openbao-dev-creds:
+  uploads-dev:

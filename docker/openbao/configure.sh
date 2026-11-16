@@ -55,7 +55,7 @@ if [ "$#" -gt 0 ]; then
   log "kv/formation : $# secret(s) injecté(s)"
 fi
 
-# --- Transit : JWT (ES256), NISS (AES-256-GCM), index aveugle (HMAC) ---------------
+# --- Transit : JWT (ES256), NISS (AES-256-GCM), index aveugle (HMAC), fichiers -------
 enabled secrets transit || { bao secrets enable transit >/dev/null; log "transit activé"; }
 key() { # key <nom> <type> [options...]
   name=$1 type=$2; shift 2
@@ -72,6 +72,10 @@ key niss aes256-gcm96 derived=true
 [ "$(bao read -field=derived transit/keys/niss)" = true ] || {
   echo "ERREUR : la clé transit/keys/niss existe mais n'est pas dérivée (derived=true requis, ADR 0001 D6)." >&2; exit 1; }
 key niss-index hmac key_size=32
+# Fichiers téléversés : chiffre les CLÉS DE DONNÉES (enveloppe), clé dérivée liée à l'id du fichier.
+key file aes256-gcm96 derived=true
+[ "$(bao read -field=derived transit/keys/file)" = true ] || {
+  echo "ERREUR : la clé transit/keys/file existe mais n'est pas dérivée (derived=true requis)." >&2; exit 1; }
 
 # --- Database : identifiants PostgreSQL dynamiques --------------------------------
 enabled secrets database || { bao secrets enable database >/dev/null; log "database activé"; }

@@ -76,13 +76,33 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
   - Type `framework.type.Niss` (`Niss.of(raw)` normalise et valide, `toString()` masqué) ; DTO : `@ValidNiss`.
   - Stockage : `CryptoService.encrypt(SensitiveDataType.NISS, niss.digits(), context)` + colonne d'index aveugle
     **unique** `CryptoService.blindIndex(NISS, niss.digits())` ; recherche = calcul de l'index puis égalité.
-  - `context` = identifiant **immuable** de la ligne, connu **avant** le chiffrement (ex. UUID de l'entité) : un
-    chiffré est indéchiffrable sur une autre ligne.
+  - `context` = identifiant **immuable** de la ligne, connu **avant** le chiffrement : `entity.assignId()` (UUID v7
+    attribué d'avance, conservé à la persistance) puis chiffrement, puis `save` — un chiffré est indéchiffrable sur
+    une autre ligne.
   - Nouvelle colonne chiffrée → une implémentation de `framework.crypto.RewrapTarget` (rotation de clé).
   - Tests : `TestcontainersConfig` fournit un `InMemoryCryptoService` (même contrat que Transit).
 - **Entités** : héritent de `framework.entity.BaseEntity` (id **UUID v7**, audit `createdAt`/`updatedAt`,
   `@Version`, `equals/hashCode` sûrs), associations en `LAZY` par défaut. Colonnes attendues dans chaque table :
   `id uuid primary key`, `created_at timestamptz`, `updated_at timestamptz`, `version bigint`.
+- **Suppression logique (RM10)** : entité supprimable = `extends framework.entity.SoftDeletableEntity` **et**
+  `@SQLRestriction(SoftDeletableEntity.NOT_DELETED)` (vérifié au démarrage) ; colonnes `deleted_at timestamptz`,
+  `deleted_by uuid` ; supprimer avec `SoftDeleter.delete(entity)`, jamais `repository.delete()`. Unicité = index unique
+  **partiel** `WHERE deleted_at IS NULL`. SQL natif : ajouter `deleted_at IS NULL` soi-même. Une association vers un
+  élément supprimé garde son id mais **n'est plus chargeable** (`EntityNotFoundException`) : empêcher la suppression
+  d'un élément encore utilisé, ou recopier dans l'historique les données à afficher.
+- **Cloisonnement (RM9)** : utilisateur courant = `framework.security.CurrentUser` (id, rôles `Role.DRIVER` /
+  `FLEET_MANAGER` / `ADMIN` cumulables, dépôt) via `CurrentUserProvider`. Ressource chargée → `AccessPolicy.checkOwned`
+  / `checkManaged` (ressource d'autrui = **404**). Listes → `AccessSpecifications.ownedOrManaged` / `managed` **dans la
+  requête** (repository `JpaSpecificationExecutor`), jamais de filtrage après chargement. Tests : `@WithCurrentUser`.
+- **Temps** : `Instant` / `timestamptz` UTC partout, `Clock` injecté (jamais `Instant.now()`), fuseau métier
+  `TimeConfig.BUSINESS_ZONE` (Europe/Brussels) pour les calculs calendaires. Période = `framework.type.Period`
+  (`@Embedded`, colonnes `start_at` / `end_at`, heures pleines, `[start, end[`) ; DTO : `implements PeriodRequest` +
+  `@ValidPeriod`. Chevauchement en base : `EXCLUDE USING gist (… WITH =, tstzrange(start_at, end_at) WITH &&)`
+  (`btree_gist`, créée par `docker/db/roles.sh`).
+- **Fichiers téléversés** : `framework.storage.FileStorage.store(nom, octets)` → `StoredFile` (référencé par FK) ;
+  JPEG/PNG vérifiés sur le contenu, ré-encodés (EXIF retiré), **tous chiffrés au repos** (enveloppe, clé Transit
+  `file`) sur le volume `uploads`. Téléchargement : contrôle d'accès puis `FileResponses.attachment(storage.read(f))`.
+  Limites : 10 Mo (`app.storage`, `spring.servlet.multipart`, WAF `MODSEC_REQ_BODY_LIMIT` alignés).
 - **Erreurs** : `framework.exception.GlobalExceptionHandler` renvoie des `ProblemDetail` (RFC 9457) pour tout,
   y compris 401/403. Lever `NotFoundException` (404), `ConflictException` (409) ou `BusinessException`
   (statut libre, 422 par défaut). Validation → 400 avec `errors[{field,message}]`. Erreur inattendue → 500

@@ -9,7 +9,10 @@ package be.bstorm.formation.framework.crypto;
  */
 public enum SensitiveDataType {
 
-    NISS("niss", "niss-index");
+    NISS("niss", "niss-index"),
+
+    /** Clés de données des fichiers téléversés (chiffrement par enveloppe, {@code framework.storage.FileStorage}). */
+    FILE("file", null);
 
     private final String encryptionKey;
     private final String indexKey;

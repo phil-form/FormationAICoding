@@ -1,4 +1,11 @@
+spring:
+  flyway:
+    # Migrations de l'application + tables de sonde des tests du socle (src/test/resources/db/testfixtures).
+    locations: classpath:db/migration,classpath:db/testfixtures
+
 app:
   security:
     cors:
       allowed-origins: http://localhost:4200
+  storage:
+    root: ${java.io.tmpdir}/formation-test-uploads

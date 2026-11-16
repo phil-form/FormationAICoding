@@ -7,7 +7,8 @@ ARG GID=1000
 # Utilisateur aligné sur l'hôte : les fichiers écrits dans le volume (target/) lui appartiennent.
 RUN (getent group ${GID} || groupadd -g ${GID} dev) \
  && (getent passwd ${UID} && usermod -l dev -d /home/dev -m "$(getent passwd ${UID} | cut -d: -f1)" || useradd -u ${UID} -g ${GID} -m dev) \
- && mkdir -p /m2 /app && chown ${UID}:${GID} /m2 /app
+ && mkdir -p /m2 /app /var/lib/formation/uploads \
+ && chown ${UID}:${GID} /m2 /app /var/lib/formation/uploads && chmod 0700 /var/lib/formation/uploads
 
 ENV MAVEN_USER_HOME=/m2 \
     MAVEN_OPTS="-Dmaven.repo.local=/m2/repository"

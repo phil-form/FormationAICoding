@@ -98,9 +98,21 @@ score de mutation ≥ 70 % sur les services, `/commit` sans résultat bloquant, 
 
 ---
 
-## Partie 1 — Socle transverse (infrastructure, hors workflow feature)
+## Partie 1 — Socle transverse (infrastructure, hors workflow feature) · ✅ réalisée le 16/11/2026
 
-Implémenté une fois dans `framework/`, avec tests, avant les features qui l'utilisent.
+Implémenté une fois dans `framework/`, avec tests, avant les features qui l'utilisent. Conventions d'usage : `CLAUDE.md`
+(« Conventions de code »).
+
+| § | Réalisé | Décision |
+|---|---|---|
+| 1.1 | `SoftDeletableEntity` (`deleted_at`, `deleted_by`), `@SQLRestriction` par entité **vérifié au démarrage** (`SoftDeleteConventionCheck`), `SoftDeleter` | auteur conservé (pas `@SoftDelete` Hibernate) |
+| 1.2 | `CurrentUser`, `Role` (`DRIVER`, `FLEET_MANAGER`, `ADMIN`), `CurrentUserAuthentication` (à alimenter par la partie 2), `AccessPolicy` (404), `AccessSpecifications` (filtrage en requête), `@WithCurrentUser` pour les tests | — |
+| 1.3 | `FileStorage` : JPEG/PNG par signature, dimensions avant décodage, **ré-encodage ImageIO** (EXIF retiré, orientation appliquée, polyglottes neutralisés), **chiffrement par enveloppe de tous les fichiers** (clé Transit `file`, contexte = id), écriture atomique, nettoyage si rollback, rotation (`StoredFileRewrapTarget`) ; migration `V2__stored_file.sql` ; volume `uploads` (dev, prod) ; limites alignées 10 Mo (Spring, `app.storage`, WAF 11 Mio) | tous chiffrés ; ré-encodage plutôt que Commons Imaging |
+| 1.4 | `Clock` injecté, `TimeConfig.BUSINESS_ZONE`, `Period` (`@Embeddable`, heures pleines, `[start, end[`), `@ValidPeriod` | heures pleines (09:30 refusé) |
+| 1.5 | `btree_gist` dans `docker/db/roles.sh` (et l'init des tests) ; modèle de contrainte d'exclusion testé | — |
+
+Reste pour plus tard : sauvegarde / restauration du volume `uploads` avec la base (11.3) ; vérification d'un
+téléversement réel à travers HAProxy → WAF dans `docker/test-prod/check.sh` dès que la feature 016 expose un endpoint.
 
 ### 1.1 Suppression logique (RM10)
 - `BaseEntity` ou entité « supprimable » : colonne `deleted_at` (horodatage, qui) ; Hibernate 7 `@SoftDelete` ou filtre

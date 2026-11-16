@@ -57,7 +57,8 @@ HAProxy ──TLS 1.3──▶ API ──TLS──▶ OpenBao (Raft, scellé au 
 ### Politiques OpenBao (moindre privilège)
 
 - `api` : `transit/sign/jwt`, `transit/keys/jwt` (lecture des clés publiques), `transit/encrypt/niss`,
-  `transit/decrypt/niss`, `transit/hmac/niss-index`, `database/creds/app`, `database/creds/migrator`.
+  `transit/decrypt/niss`, `transit/hmac/niss-index`, `transit/{encrypt,decrypt,rewrap}/file` (clés de données des
+  fichiers téléversés, ajout du 16/11/2026), `database/creds/app`, `database/creds/migrator`.
   **Aucun** accès en lecture aux clés privées, à `sys/`, ni à l'administration.
 - `deployer` (Jenkins) : création d'un `secret_id` pour l'AppRole `api` uniquement.
 - `admin` : humain, via token éphémère ; le token root est **révoqué** après l'amorçage.

@@ -53,6 +53,16 @@ denied  "suppression / reconfiguration de la clé niss" bao write transit/keys/n
 denied  "rotation de la clé niss" bao write -f transit/keys/niss/rotate
 denied  "chiffrement avec la clé jwt" bao write transit/encrypt/jwt plaintext="$pt"
 
+echo "Fichiers (Transit, clé dérivée file : clés de données des fichiers téléversés)"
+fctx=$(printf 'FILE:fichier-1' | base64)
+fct=$(bao write -field=ciphertext transit/encrypt/file plaintext="$pt" context="$fctx" 2>/dev/null)
+case "$fct" in vault:v*:*) ok "chiffrement d'une clé de données" ;; *) ko "chiffrement d'une clé de données" ;; esac
+allowed "déchiffrement d'une clé de données" bao write transit/decrypt/file ciphertext="$fct" context="$fctx"
+denied  "déchiffrement avec le contexte d'un autre fichier" bao write transit/decrypt/file ciphertext="$fct" context="$ctx"
+allowed "rewrap d'une clé de données" bao write transit/rewrap/file ciphertext="$fct" context="$fctx"
+denied  "export de la clé file" bao read transit/export/encryption-key/file
+denied  "rotation de la clé file" bao write -f transit/keys/file/rotate
+
 echo "Base de données (identifiants dynamiques)"
 allowed "identifiants app" bao read database/creds/app
 allowed "identifiants migrator" bao read database/creds/migrator

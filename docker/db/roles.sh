@@ -37,6 +37,10 @@ GRANT pg_signal_backend TO openbao_admin;
 -- Réglages de niveau base (le migrateur n'est pas propriétaire de la base, il ne peut pas les faire).
 ALTER DATABASE :"db" SET timezone TO 'UTC';
 
+-- Extensions (superutilisateur) : btree_gist → contraintes d'exclusion mêlant égalité et chevauchement de
+-- périodes (RM1 : EXCLUDE USING gist (vehicle_id WITH =, tstzrange(start_at, end_at) WITH &&)).
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
 -- Base : seuls les rôles applicatifs s'y connectent (en plus du superutilisateur).
 REVOKE ALL ON DATABASE :"db" FROM PUBLIC;
 GRANT CONNECT, TEMPORARY ON DATABASE :"db" TO formation_owner, formation_rw;

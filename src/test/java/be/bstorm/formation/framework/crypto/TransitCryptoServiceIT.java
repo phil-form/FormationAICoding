@@ -41,6 +41,18 @@ class TransitCryptoServiceIT extends CryptoServiceContract {
     }
 
     @Test
+    void fileDataKeysUseTheDerivedFileKeyBoundToTheFile() {
+        String dataKey = "q3Jx3m0bS2kY8zQd7l1n0f5hV9pW2cR4tA6uE8iO0yI=";
+        String wrapped = crypto.encrypt(SensitiveDataType.FILE, dataKey, ROW_A);
+
+        assertThat(wrapped).startsWith("vault:v");
+        assertThat(crypto.decrypt(SensitiveDataType.FILE, wrapped, ROW_A)).isEqualTo(dataKey);
+        assertThatThrownBy(() -> crypto.decrypt(SensitiveDataType.FILE, wrapped, ROW_B)).isInstanceOf(CryptoException.class);
+        assertThat(crypto.rewrap(SensitiveDataType.FILE, wrapped, ROW_A)).startsWith("vault:v");
+        assertThatThrownBy(() -> api.opsForTransit().rotate("file")).hasMessageContaining("permission denied");
+    }
+
+    @Test
     void applicationCannotRotateOrExportKeys() {
         assertThatThrownBy(() -> api.opsForTransit().rotate("niss")).hasMessageContaining("permission denied");
         assertThatThrownBy(() -> api.read("transit/export/encryption-key/niss"))
