@@ -1,0 +1,19 @@
+# Build
+target/
+
+# Secrets / environnement
+.env
+
+# Dumps de base (seul le dossier est versionné)
+init_db/*
+!init_db/.gitkeep
+
+# Claude Code : état local (progression des tests, logs, retour de tests)
+.claude/state/
+.claude/settings.local.json
+
+# IDE
+.idea/workspace.xml
+.idea/shelf/
+
+*.log

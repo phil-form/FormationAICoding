@@ -1,0 +1,9 @@
+Commence la mise en place du projet structure, ...
+
+
+Met en place l'authentification tests + code,
+JWT + refresh, attention token court -> application haute sécu ! critique (check OWASP cheat sheet)
+
+
+Pour l'utilisateur on a besoin de son NISS, celui-ci doit être crypter en db, rajoute un service spécifique pour la mise en place du cryptage/decryptage (cryptoservice)
+
