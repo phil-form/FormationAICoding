@@ -23,7 +23,7 @@
   TLS 1.3 re-chiffré → API ; certificat rechargé à chaud ; conteneur durci. Procédure : `docs/ops/DEPLOIEMENT-PROD.md`.
 - Docker dev / prod / test, `start.sh`, `restore.sh` ; 32 tests verts.
 - Workflow IA : 12 skills, 6 agents, hooks d'isolation tests/code et de protection des migrations Flyway.
-- **Phase 1 (OpenBao) terminée** — voir ci-dessous.
+- **Phase 1 (OpenBao) et phase 2 (intégration Spring) terminées** — voir ci-dessous.
 
 ## Décisions prises (résumé de l'ADR 0001)
 
@@ -78,26 +78,39 @@ Runbook : [`docs/ops/OPENBAO.md`](docs/ops/OPENBAO.md).
 - `docker compose exec -T` transmet le stdin → toujours le couper quand il n'est pas voulu (sinon une part en
   attente peut être « avalée »).
 
-## Phase 2 — Intégration Spring (infrastructure)
+## Phase 2 — Intégration Spring (infrastructure) · ✅ terminée le 16/11/2026
 
-**Objectif** : l'API ne lit plus aucun secret dans l'environnement ; tout vient d'OpenBao.
+**Objectif atteint** : l'API ne reçoit plus aucun mot de passe DB ; tout vient d'OpenBao.
 
-Points d'attention issus de la phase 1 : les objets existants (table `flyway_schema_history`) appartiennent déjà
-à `formation_owner` (réassignés par `roles.sh`) ; le superutilisateur `DB_USER` reste nécessaire au conteneur `db`
-et à `restore.sh` (à terme : `POSTGRES_PASSWORD_FILE`).
+| # | Tâche | Livrables | État |
+|---|---|---|---|
+| 2.1 | `spring-vault-core` 4.1.1 — risque de compatibilité **levé** (Boot 4.1.2 = Spring Framework 7.0.10, comme Spring Vault) | `pom.xml` | ✅ |
+| 2.2 | AppRole (fichiers `role-id` / `secret-id`), TLS 1.3 + CA interne PEM en prod, token **périodique** (ADR D13) | `framework/openbao/OpenBaoConfig`, `OpenBaoProperties` | ✅ |
+| 2.3 | Pool Hikari sur `database/creds/app` en rotation, sans coupure (`softEvictConnections`) | `RotatingDatabaseCredentials`, `OpenBaoDataSourceConfig` | ✅ |
+| 2.4 | Flyway via `database/creds/migrator` + `SET ROLE formation_owner`, bail révoqué après migration | `OpenBaoDataSourceConfig` | ✅ |
+| 2.5 | Refus de démarrer si OpenBao injoignable / non initialisé / scellé (message explicite) ; `HealthIndicator` `openBao` | `OpenBaoReadiness`, `OpenBaoHealthIndicator` | ✅ |
+| 2.6 | Plus de `DB_USER` / `DB_PASSWORD` transmis à l'API (compose) ; montage des identifiants AppRole + CA en prod ; `api-prod` attend OpenBao sain | `docker-compose.yml`, `application*.yml` | ✅ |
+| 2.7 | Tests : unitaires (readiness, rotation) + `OpenBaoIntegrationIT` (vrais PostgreSQL 18 + OpenBao 2.7, mêmes scripts que dev/prod) | `src/test/.../framework/openbao/` | ✅ |
+| 2.8 | *(ajouté)* Datafaker pour les seeders (déterministe, exclu du jar de prod) | `SeedFakerConfig` | ✅ |
+| 2.9 | *(ajouté)* Purge des utilisateurs dynamiques expirés ; `secrets/`, `backups/`, `.env.dev` exclus des contextes Docker | `docker/db/roles.sh`, `docker/*/Dockerfile.dockerignore` | ✅ |
 
-| # | Tâche |
-|---|---|
-| 2.1 | Dépendance `spring-vault-core` 4.1 ; **valider la compatibilité avec Spring Framework 7.1** (risque identifié) |
-| 2.2 | Authentification AppRole : `role-id` et `secret-id` lus depuis `/run/secrets/openbao/` (dev : volume `openbao-dev-creds`, déjà monté ; prod : monter `OPENBAO_CREDS_DIR` + `ca.crt` de `OPENBAO_TLS_DIR`) ; `api-prod` dépend de `openbao-prod` sain |
-| 2.3 | DataSource dynamique : `SecretLeaseContainer` sur `database/creds/app`, renouvellement du bail, nouvel identifiant avant `max_ttl` → mise à jour Hikari + `softEvictConnections()` sans coupure |
-| 2.4 | Flyway avec `database/creds/migrator` (au démarrage uniquement) + `initSql: SET ROLE formation_owner` |
-| 2.5 | Échec de démarrage explicite si OpenBao est injoignable ou scellé ; `HealthIndicator` OpenBao |
-| 2.6 | Suppression de `DB_PASSWORD` côté API (compose, `.env`, `application.yml`) |
-| 2.7 | Tests d'intégration : Testcontainers `testcontainers-vault` (image OpenBao) + PostgreSQL ; test de renouvellement de bail |
+**Vérifié en conditions réelles** :
+- dev : l'API tourne avec un utilisateur `v-approle-app-…` (membre de `formation_rw` seulement) ; migrateur créé puis
+  révoqué ; `/actuator/health` → `openBao: UP` ; à l'arrêt de l'API son utilisateur est révoqué et supprimé.
+- prod : même chose via TLS 1.3 + CA interne ; OpenBao scellé → l'API refuse de démarrer avec le message de
+  descellement ; après `unseal.sh`, elle repart (healthy).
+- `OpenBaoIntegrationIT` a révélé un **vrai bug de premier déploiement** : `V1__init.sql` fait un `ALTER DATABASE`,
+  interdit au migrateur (propriétaire du schéma, pas de la base). Le réglage est déplacé dans `roles.sh`.
 
-**Terminé quand** : l'API dev et prod démarrent sans `DB_PASSWORD`, survivent à l'expiration d'un bail DB, refusent de
-démarrer si OpenBao est scellé (message clair), et tous les tests passent.
+- `V1__init.sql` réécrite (autorisation explicite, V1 jamais déployée) ; vérifié sur une base **neuve** : migration
+  par le migrateur, historique possédé par `formation_owner`, fuseau UTC posé par `roles.sh`. Suite complète :
+  **55 tests verts** (24 unitaires, 31 d'intégration).
+- Hook `flyway-guard` renforcé : `cp`, `install`, `dd`, `rsync`, `ln`, `git mv` sont désormais bloqués sur une
+  migration commitée (faille constatée lors de la réécriture de V1).
+
+**Reste ouvert (non bloquant)** : connexion API → PostgreSQL en clair sur le réseau Docker interne (TLS PostgreSQL à
+envisager) ; superutilisateur `DB_PASSWORD` encore en variable d'environnement pour le conteneur `db`
+(→ `POSTGRES_PASSWORD_FILE`).
 
 ## Phase 3 — `CryptoService` (infrastructure)
 

@@ -43,6 +43,8 @@ Démarre le projet via Docker Compose.
 
 ### Mécanisme de seed
 
+> ⚠ **Remplacé** : le seed est désormais écrit en Java (`@Seeder` / `DataSeeder`, voir CLAUDE.md). Ce qui suit est historique.
+
 - Les scripts de seed sont des migrations **répétables** Flyway : `src/main/resources/db/seed/R__seed_*.sql`.
 - Quand `SEED=true`, le profil `dev` ajoute `classpath:db/seed` à `spring.flyway.locations`
   → Flyway applique le seed **après** les migrations versionnées, au démarrage de l'API.

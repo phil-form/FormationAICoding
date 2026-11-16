@@ -5,5 +5,8 @@ COPY pom.xml mvnw lombok.config ./
 COPY .mvn .mvn
 RUN ./mvnw -B -q dependency:go-offline
 COPY src src
+# Scripts OpenBao / PostgreSQL : utilisés tels quels par les tests d'intégration (mêmes scripts que dev/prod).
+COPY docker/openbao docker/openbao
+COPY docker/db docker/db
 COPY docker/test/run-tests.sh /usr/local/bin/run-tests.sh
 ENTRYPOINT ["/usr/local/bin/run-tests.sh"]

@@ -25,6 +25,8 @@ management:
       show-details: always
 
 app:
+  openbao:
+    enabled: true    # OpenBao dev (openbao-init) : identifiants DB dynamiques, Transit
   security:
     cors:
       # Front Angular local (ng serve) sur n'importe quel port + origines explicites éventuelles.

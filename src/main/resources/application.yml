@@ -7,6 +7,8 @@ spring:
       enabled: true
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:formation}
+    # Utilisés uniquement SANS OpenBao (tests, lancement local ad hoc). Avec app.openbao.enabled=true, les
+    # identifiants sont dynamiques (OpenBao) et aucun mot de passe DB n'est fourni à l'API.
     username: ${DB_USER:formation}
     password: ${DB_PASSWORD:}
     hikari:
@@ -73,6 +75,17 @@ springdoc:
     enabled: false
 
 app:
+  # OpenBao (ADR 0001) : désactivé par défaut ; activé par les profils dev et prod.
+  openbao:
+    enabled: false
+    uri: ${OPENBAO_ADDR:http://openbao:8200}
+    role-id-file: /run/secrets/openbao/role-id
+    secret-id-file: /run/secrets/openbao/secret-id
+    ca-file: ""
+    database-role: app
+    migrator-role: migrator
+    schema-owner-role: formation_owner
+    lease-expiry-threshold: 10m
   security:
     strict: false
     require-https: false

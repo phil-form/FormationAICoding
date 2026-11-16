@@ -11,7 +11,9 @@ toutes les routes `/api/**` répondent 401 (refus par défaut).
 
 Feuille de route : **`Next.md`** (6 phases, décisions dans `docs/adr/0001-gestion-des-secrets.md`).
 **Phase 1 (OpenBao) terminée** : coffre dev/prod, Transit (JWT, NISS, index), identifiants PostgreSQL dynamiques,
-AppRole `api`, break-glass, snapshots. Runbook : `docs/ops/OPENBAO.md`. Prochaine : **phase 2** (intégration Spring).
+AppRole `api`, break-glass, snapshots. Runbook : `docs/ops/OPENBAO.md`.
+**Phase 2 (intégration Spring) terminée** : l'API n'a plus aucun mot de passe DB ; identifiants dynamiques en rotation,
+Flyway via un migrateur temporaire, refus de démarrer si OpenBao est scellé. Prochaine : **phase 3** (`CryptoService`).
 
 Les specs initiales de `tmp/` sont implémentées ; elles restent comme référence de conception — en cas d'écart,
 **le code fait foi**.
@@ -33,7 +35,8 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
 | Mutation testing | PIT 1.30 | `/mutation-test` |
 | Tests | JUnit 5, `MockMvcTester` (AssertJ), **Testcontainers 2** (postgres:18-alpine) | Pas de H2 ; `*Test` = Surefire, `*IT` = Failsafe |
 | Conteneurs | Docker + Docker Compose | Dev et prod conteneurisés |
-| Secrets | **OpenBao 2.7** (Transit, database, KV, AppRole) | ADR 0001 ; client Java prévu : Spring Vault 4.1 (phase 2) |
+| Secrets | **OpenBao 2.7** (Transit, database, KV, AppRole) via **Spring Vault 4.1.1** | ADR 0001 ; `framework/openbao/` |
+| Données de seed | **Datafaker 2.7** (profil `seed`) | Exclu du jar de production |
 
 ## Architecture
 
@@ -59,6 +62,12 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
     **jamais** `@Data`, `@EqualsAndHashCode` ni `@ToString` non maîtrisé sur une entité ;
   - services/controllers : `@RequiredArgsConstructor` (injection par constructeur, champs `private final`),
     `@Slf4j` pour les logs. Pas de `@Autowired` sur les champs.
+- **Seeders** : `seed/XxxSeeder` annoté `@Seeder`, implémente `DataSeeder` (voir « Base de données & JPA »).
+- **Accès DB** : ne jamais configurer d'identifiant DB statique pour l'API ; avec `app.openbao.enabled=true` (dev, prod), le
+  `DataSource` vient de `framework/openbao/OpenBaoDataSourceConfig` (utilisateur dynamique DML, rotation sans coupure).
+  Les tests (profil `test`) n'utilisent pas OpenBao, sauf `OpenBaoIntegrationIT`.
+- **Migrations** : exécutées en `SET ROLE formation_owner` (propriétaire du schéma, **pas** de la base) : aucune
+  instruction de niveau base (`ALTER DATABASE`, `CREATE EXTENSION` hors schéma…) dans une migration → `docker/db/roles.sh`.
 - **Entités** : héritent de `framework.entity.BaseEntity` (id **UUID v7**, audit `createdAt`/`updatedAt`,
   `@Version`, `equals/hashCode` sûrs), associations en `LAZY` par défaut. Colonnes attendues dans chaque table :
   `id uuid primary key`, `created_at timestamptz`, `updated_at timestamptz`, `version bigint`.
@@ -77,8 +86,11 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
 - `spring.jpa.open-in-view=false`.
 - Migrations : `src/main/resources/db/migration/V<n>__<description>.sql` — ne jamais modifier une
   migration déjà appliquée, en créer une nouvelle.
-- Données de seed (dev uniquement) : `src/main/resources/db/seed/R__seed_*.sql` (migrations
-  répétables Flyway), activées par le profil Spring `seed` (`./start.sh --seed`, refusé hors dev).
+- **Seed (dev uniquement)** : en **Java**, jamais en SQL — un `@Seeder` par agrégat dans `be.bstorm.formation.seed`,
+  implémentant `framework.seed.DataSeeder` (`order()`, `shouldRun()` idempotent, `seed()`), qui utilise entités,
+  repositories et services (validation, audit, UUID v7, chiffrement NISS respectés). Exécuté par `SeedRunner` après
+  Flyway, une transaction par seeder, échec = démarrage en erreur ; interdit avec le profil `prod`.
+  Activé par le profil `seed` (`./start.sh --seed`). Toute nouvelle entité devrait avoir son seeder.
 - Backups / dumps de restauration : dossier `./init_db/` (utilisé par `restore.sh`).
 
 ## Profils Spring
@@ -87,7 +99,7 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
 |---|---|
 | `dev` | HTTP 8080, devtools, Swagger UI, logs SQL, debug 5005, actuator étendu, CORS `localhost:*` |
 | `prod` | HTTPS 8443 (TLS 1.3) derrière HAProxy, mode **strict**, logs JSON ECS, actuator interne |
-| `seed` | Ajoute `classpath:db/seed` aux migrations (dev uniquement) |
+| `seed` | Exécute les `@Seeder` Java au démarrage (dev uniquement, refusé avec `prod`) |
 | `test` | Tests d'intégration (Testcontainers) |
 
 Docker : un dossier par environnement (`docker/dev/`, `docker/prod/`, `docker/test/`), chacun avec son

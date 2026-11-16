@@ -27,6 +27,7 @@ d'environnement de production (visibles via `docker inspect`, `/proc/*/environ`,
 | D9 | Dev | OpenBao en **mode dev** (mémoire) + service compose `openbao-init` qui lit **`.env.dev`** (gitignoré, modèle `.env.dev.example` versionné) et configure KV, Transit, moteur DB, AppRole **à l'identique de la prod** | Secrets dev en variables d'environnement directes (code différent entre dev et prod) |
 | D11 | Accès admin | **Aucun token root permanent** (révoqué après amorçage). Accès admin *break-glass* : redémarrage temporaire avec `disable_unauthed_generate_root_endpoints = false` (désactivé par défaut depuis OpenBao 2.5, CVE-2025-52894), token généré avec 3 parts, retour immédiat à la config normale, token révoqué en fin d'opération (`admin-token.sh`) | Token root conservé dans 1Password (privilège permanent) ; méthode d'auth admin dédiée (surface d'attaque supplémentaire) |
 | D12 | Audit | **Déclaratif** dans la configuration serveur (OpenBao 2.x refuse l'activation par l'API) ; OpenBao refuse toute requête s'il ne peut pas auditer | — |
+| D13 | Token de l'API | AppRole avec **token périodique** (`token_period=1h`, renouvelé tant que l'API tourne) : les baux DB sont rattachés au token qui les crée, un `token_max_ttl` les révoquerait avant leur `max_ttl` | Token à durée maximale (24 h) : coupure des connexions DB chaque jour |
 | D10 | Client Java | **Spring Vault 4.1** (`spring-vault-core`) + configuration maison | Spring Cloud Vault : le train compatible Boot 4.1 (2026.0) n'est pas encore GA → à réévaluer à sa sortie |
 
 ## Architecture cible
@@ -78,13 +79,13 @@ sont des **features** et suivent le workflow `/analyse-feature` → `/owasp-chec
 - [x] 1.5 `start.sh --prod` : détecte un OpenBao scellé, affiche la procédure de descellement et attend.
 - [x] 1.6 Snapshots Raft quotidiens (timer systemd) + procédure de restauration **testée**.
 
-### Phase 2 — Intégration Spring (infra)
-- [ ] 2.1 `spring-vault-core` 4.1 ; authentification AppRole (`secret_id` lu depuis un fichier), TLS avec la CA interne.
-- [ ] 2.2 DataSource dynamique : `SecretLeaseContainer` sur `database/creds/app`, renouvellement du bail, nouvel
+### Phase 2 — Intégration Spring (infra) — ✅ 16/11/2026
+- [x] 2.1 `spring-vault-core` 4.1 ; authentification AppRole (`secret_id` lu depuis un fichier), TLS avec la CA interne.
+- [x] 2.2 DataSource dynamique : `SecretLeaseContainer` sur `database/creds/app`, renouvellement du bail, nouvel
       identifiant avant `max_ttl` → mise à jour Hikari + `softEvictConnections()` (sans coupure).
-- [ ] 2.3 Flyway avec `database/creds/migrator` + `initSql: SET ROLE formation_owner`.
-- [ ] 2.4 Démarrage en échec explicite si OpenBao est injoignable ou scellé ; `HealthIndicator` OpenBao.
-- [ ] 2.5 Tests d'intégration : Testcontainers (`testcontainers-vault`, image OpenBao) + PostgreSQL.
+- [x] 2.3 Flyway avec `database/creds/migrator` + `initSql: SET ROLE formation_owner`.
+- [x] 2.4 Démarrage en échec explicite si OpenBao est injoignable ou scellé ; `HealthIndicator` OpenBao.
+- [x] 2.5 Tests d'intégration : Testcontainers (`testcontainers-vault`, image OpenBao) + PostgreSQL.
 
 ### Phase 3 — `CryptoService` (infra)
 - [ ] 3.1 Interface `CryptoService` (`encrypt`, `decrypt`, `blindIndex`) + implémentation Transit ;
@@ -122,4 +123,4 @@ sont des **features** et suivent le workflow `/analyse-feature` → `/owasp-chec
   connexion DB (les connexions déjà ouvertes survivent jusqu'à la fin du bail).
 - **Descellement manuel** : après un redémarrage, l'API reste indisponible jusqu'à l'intervention de 3 détenteurs de
   parts → alerte et procédure obligatoires.
-- **Spring Vault 4.1.1** est compilé contre Spring Framework 7.0 : compatibilité avec Boot 4.1 à valider en phase 2.1.
+- ~~Spring Vault 4.1.1 / Spring Framework~~ : **levé** — Boot 4.1.2 embarque Spring Framework 7.0.10, la version de Spring Vault 4.1.1.

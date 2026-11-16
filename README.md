@@ -14,7 +14,7 @@ Lombok · MapStruct. Conteneurisée en dev comme en prod. Le front (Angular) vit
 ```bash
 cp .env.example .env        # puis changer DB_PASSWORD (et CORS_ALLOWED_ORIGINS pour la prod)
 ./start.sh                  # dev : db + api (hot reload, debug JDWP 5005)
-./start.sh --seed           # dev + données de seed (src/main/resources/db/seed)
+./start.sh --seed           # dev + données de seed (seeders Java : package seed/, @Seeder)
 ./start.sh --test           # suite de tests complète dans docker/test (rapports : target/test-reports)
 ./start.sh --prod           # prod : HTTPS + image durcie (propose un certificat auto-signé si absent)
 ./start.sh --fresh          # supprime la base avant de démarrer (confirmation)

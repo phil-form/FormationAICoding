@@ -3,7 +3,7 @@
 #   - interdit de modifier / écraser / supprimer un V<n>__*.sql présent dans HEAD ;
 #   - interdit de créer une migration dont la version est <= à la plus haute version commitée
 #     ou qui réutilise une version existante.
-# Les migrations répétables (R__*.sql, ex. db/seed) restent modifiables.
+# Les migrations répétables (R__*.sql) restent modifiables.
 set -euo pipefail
 
 project="$(realpath -m "${CLAUDE_PROJECT_DIR:-$PWD}")"
@@ -52,7 +52,10 @@ case "$tool" in
   Edit|Write) check_file "$(jq -r '.tool_input.file_path // ""' <<<"$input")" ;;
   Bash)
     cmd="$(jq -r '.tool_input.command // ""' <<<"$input")"
-    if [[ "$cmd" == *"db/migration"* ]] && [[ "$cmd" =~ (^|[[:space:];&|])(rm|mv|sed[[:space:]]+-i|perl[[:space:]]+-[a-z]*i|truncate|tee)([[:space:]]|$) || "$cmd" =~ \>[[:space:]]*[^[:space:]]*db/migration ]]; then
+    # Commandes capables d'écrire / remplacer / supprimer un fichier (garde-fou, pas sandbox : un interpréteur
+    # arbitraire peut toujours écrire — la règle reste « ne jamais modifier une migration commitée »).
+    writers='(rm|mv|cp|install|dd|rsync|ln|truncate|tee|git[[:space:]]+mv|sed[[:space:]]+-i|perl[[:space:]]+-[a-z]*i)'
+    if [[ "$cmd" == *"db/migration"* ]] && [[ "$cmd" =~ (^|[[:space:];&|])$writers([[:space:]]|$) || "$cmd" =~ \>[[:space:]]*[^[:space:]]*db/migration ]]; then
       while read -r f; do
         committed "$f" && [[ "$cmd" == *"$(basename "$f")"* || "$cmd" =~ db/migration/?\*?([[:space:]]|$) ]] \
           && deny "Commande touchant une migration commitée ($f) refusée."

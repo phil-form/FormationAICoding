@@ -24,6 +24,6 @@ Arguments : `$ARGUMENTS`
    Pour chaque point, relis le critère dans l'analyse et corrige le code pour s'y conformer. Ne cherche pas à
    deviner le contenu des tests.
 5. Implémente dans l'ordre : migration Flyway → entité → repository → DTO → mapper → service (interface + impl)
-   → exceptions spécifiques → controller.
+   → exceptions spécifiques → controller → seeder de dev (`seed/XxxSeeder`, `@Seeder`, idempotent, via entités/services).
 6. Compile : `./mvnw -q -Dmaven.test.skip=true compile`, corrige jusqu'à compilation propre.
 7. Rends ton rapport : fichiers, traçabilité `RG/AC/SEC → code`, choix sur les ambiguïtés, résultat de compilation.

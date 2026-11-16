@@ -34,6 +34,9 @@ GRANT formation_rw    TO openbao_admin WITH ADMIN OPTION;
 -- Couper les sessions d'un utilisateur dynamique révoqué (pas celles d'un superutilisateur).
 GRANT pg_signal_backend TO openbao_admin;
 
+-- Réglages de niveau base (le migrateur n'est pas propriétaire de la base, il ne peut pas les faire).
+ALTER DATABASE :"db" SET timezone TO 'UTC';
+
 -- Base : seuls les rôles applicatifs s'y connectent (en plus du superutilisateur).
 REVOKE ALL ON DATABASE :"db" FROM PUBLIC;
 GRANT CONNECT, TEMPORARY ON DATABASE :"db" TO formation_owner, formation_rw;
@@ -68,6 +71,24 @@ ALTER DEFAULT PRIVILEGES FOR ROLE formation_owner IN SCHEMA public
     GRANT USAGE, SELECT ON SEQUENCES TO formation_rw;
 ALTER DEFAULT PRIVILEGES FOR ROLE formation_owner IN SCHEMA public
     REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
+SQL
+
+# Ménage : utilisateurs dynamiques EXPIRÉS (VALID UNTIL dépassé, donc inutilisables) qu'OpenBao ne révoquera plus
+# — typiquement en dev, où OpenBao est en mémoire et oublie ses baux à chaque recréation. Sans effet sur les
+# utilisateurs valides ; en prod, OpenBao révoque lui-même à l'expiration.
+psql -v ON_ERROR_STOP=1 -q <<'SQL'
+DO $$
+DECLARE r record;
+BEGIN
+    FOR r IN SELECT rolname FROM pg_roles
+             WHERE rolname LIKE 'v-approle-%' AND rolvaliduntil IS NOT NULL AND rolvaliduntil < now()
+    LOOP
+        PERFORM pg_terminate_backend(pid) FROM pg_stat_activity WHERE usename = r.rolname;
+        EXECUTE format('DROP ROLE IF EXISTS %I', r.rolname);
+        RAISE NOTICE 'Utilisateur dynamique expiré supprimé : %', r.rolname;
+    END LOOP;
+END
+$$;
 SQL
 
 if [ -n "${OPENBAO_DB_ADMIN_PASSWORD:-}" ]; then

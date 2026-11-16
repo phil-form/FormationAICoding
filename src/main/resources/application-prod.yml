@@ -54,6 +54,10 @@ management:
       access: read-only
 
 app:
+  openbao:
+    enabled: true
+    uri: ${OPENBAO_ADDR:https://openbao:8200}
+    ca-file: /run/secrets/openbao-ca.crt
   # Pas de connecteur HTTP de redirection : HAProxy redirige 80 → 443. Définir HTTP_REDIRECT_PORT uniquement si
   # l'API est exposée sans reverse proxy.
   server:

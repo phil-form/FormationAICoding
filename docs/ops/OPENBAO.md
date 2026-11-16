@@ -41,7 +41,24 @@ Feuille de route : [`Next.md`](../../Next.md).
 | `database/roles/app` | utilisateur PG dynamique, groupe `formation_rw`, 1 h (max 7 j) | runtime de l'API |
 | `database/roles/migrator` | utilisateur PG dynamique, groupe `formation_owner`, 15 min (max 1 h) | Flyway |
 | `kv/formation` | secrets statiques (dev : variables `APP_SECRET_*` de `.env.dev`) | API |
-| `auth/approle/role/api` | `token_ttl` 1 h, `token_max_ttl` 24 h, lié au CIDR Docker | API |
+| `auth/approle/role/api` | token **périodique** 1 h (renouvelé tant que l'API tourne), lié au CIDR Docker | API |
+
+## Intégration dans l'API (phase 2)
+
+Code : `src/main/java/be/bstorm/formation/framework/openbao/` — configuration `app.openbao.*` (activée en dev et prod).
+
+| Élément | Fonctionnement |
+|---|---|
+| Authentification | AppRole : `role-id` / `secret-id` lus dans `/run/secrets/openbao/` (lecture seule). Token **périodique** (1 h) renouvelé en continu |
+| TLS (prod) | CA interne montée sur `/run/secrets/openbao-ca.crt` (PEM), TLS 1.3 uniquement |
+| Démarrage | `OpenBaoReadiness` : refus explicite si OpenBao est injoignable, non initialisé ou **scellé** |
+| Pool DB | `database/creds/app` en **rotation** : renouvellement du bail, nouvel utilisateur avant `max_ttl` (marge `lease-expiry-threshold` = 10 min), Hikari reçoit les nouveaux identifiants et retire les anciennes connexions à leur libération |
+| Flyway | `database/creds/migrator` + `SET ROLE formation_owner` ; bail **révoqué** dès la fin des migrations |
+| Arrêt | baux révoqués → utilisateurs PostgreSQL supprimés, sessions coupées |
+| Santé | `/actuator/health` → composant `openBao` (DOWN si scellé / injoignable) |
+
+Forcer une rotation des identifiants DB (fuite suspectée) : bean `RotatingDatabaseCredentials#rotateNow()` (ou
+redémarrer l'API). Tests : `OpenBaoIntegrationIT` (vrais PostgreSQL + OpenBao, mêmes scripts que dev/prod).
 
 ## Dev
 

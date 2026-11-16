@@ -23,6 +23,8 @@
         <springdoc.version>3.2.0</springdoc.version>
         <pitest-maven.version>1.30.2</pitest-maven.version>
         <pitest-junit5.version>1.2.3</pitest-junit5.version>
+        <datafaker.version>2.7.0</datafaker.version>
+        <spring-vault.version>4.1.1</spring-vault.version>
     </properties>
 
     <dependencies>
@@ -47,6 +49,13 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
+        </dependency>
+
+        <!-- Secrets : OpenBao (ADR 0001) — Spring Vault, Spring Cloud Vault n'étant pas GA pour Boot 4.1 -->
+        <dependency>
+            <groupId>org.springframework.vault</groupId>
+            <artifactId>spring-vault-core</artifactId>
+            <version>${spring-vault.version}</version>
         </dependency>
 
         <!-- Persistance -->
@@ -78,6 +87,13 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+
+        <!-- Seed de dev (profil seed) : exclu du jar de production, voir spring-boot-maven-plugin -->
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>${datafaker.version}</version>
         </dependency>
 
         <!-- Dev -->
@@ -149,6 +165,24 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <!-- Jar de production : sans Datafaker (seed de dev uniquement ; spring-boot:run le garde). -->
+                    <execution>
+                        <id>repackage</id>
+                        <configuration>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </exclude>
+                                <exclude>
+                                    <groupId>net.datafaker</groupId>
+                                    <artifactId>datafaker</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Ordre des processeurs : Lombok, binding, MapStruct -->
@@ -217,6 +251,7 @@
                         <param>be.bstorm.formation.entity.*</param>
                         <param>be.bstorm.formation.framework.config.*</param>
                         <param>be.bstorm.formation.mapper.*Impl</param>
+                        <param>be.bstorm.formation.seed.*</param>
                     </excludedClasses>
                     <targetTests>
                         <param>be.bstorm.formation.*Test</param>

@@ -11,3 +11,6 @@ docker/dev/
 docker/test/
 .env
 *.md
+secrets/
+backups/
+.env.dev

@@ -108,14 +108,16 @@ log "politiques à jour : $(cd "$POLICY_DIR" && ls ./*.hcl | sed 's|./||; s|\.hc
 
 # --- AppRole de l'API -----------------------------------------------------------------
 enabled auth approle || { bao auth enable approle >/dev/null; log "auth approle activé"; }
+# Token PÉRIODIQUE (1 h, renouvelé par l'API tant qu'elle tourne) : les baux DB dynamiques sont rattachés au token
+# qui les a créés ; un token_max_ttl les révoquerait (sessions coupées) avant leur propre max_ttl de 7 jours.
 bao write auth/approle/role/api \
-  token_policies=api token_type=service token_ttl=1h token_max_ttl=24h \
+  token_policies=api token_type=service token_period=1h token_ttl=0 token_max_ttl=0 \
   token_bound_cidrs="$BOUND_CIDRS" secret_id_bound_cidrs="$BOUND_CIDRS" \
   secret_id_ttl="$SECRET_ID_TTL" secret_id_num_uses=0 >/dev/null
 if [ -n "${APPROLE_ROLE_ID:-}" ]; then
   bao write auth/approle/role/api/role-id role_id="$APPROLE_ROLE_ID" >/dev/null
 fi
-log "AppRole api à jour (CIDR $BOUND_CIDRS, secret_id $SECRET_ID_TTL)"
+log "AppRole api à jour (token périodique 1 h, CIDR $BOUND_CIDRS, secret_id $SECRET_ID_TTL)"
 
 if [ -n "${CREDS_OUT_DIR:-}" ]; then
   mkdir -p "$CREDS_OUT_DIR"
