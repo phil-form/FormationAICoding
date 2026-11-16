@@ -5,7 +5,8 @@ name: formation-prod
 
 services:
   db:
-    image: postgres:18-alpine
+    build: docker/db                 # postgres:18.7-alpine épinglé, sans gosu, utilisateur postgres (docker/db/Dockerfile)
+    image: formation-db:18.7
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -16,6 +17,14 @@ services:
       - pgdata:/var/lib/postgresql
       - ./init_db:/init_db:ro
     # Pas de port publié : administration via « docker compose -f docker-compose.prod.yml exec db psql … »
+    # Durcissement : utilisateur postgres (image), système de fichiers en lecture seule hors données et sockets.
+    read_only: true
+    tmpfs:
+      - /var/run/postgresql:uid=70,gid=70,mode=0775,size=8m
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -25,7 +34,7 @@ services:
   # ---------------------------------------------------------------- OpenBao (ADR 0001)
   # Serveur Raft + TLS interne, scellé à chaque démarrage (descellement Shamir manuel), jamais publié.
   openbao-prod:
-    image: openbao/openbao:2.7.2
+    image: openbao/openbao:2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f
     restart: unless-stopped
     command: ["bao", "server", "-config=/openbao/config/openbao.hcl"]
     environment:

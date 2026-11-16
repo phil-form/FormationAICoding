@@ -65,6 +65,7 @@ compose() { docker compose "${files[@]}" "$@"; }
 # --- Tests -------------------------------------------------------------------
 if [[ "$mode" == test ]]; then
   mkdir -p target/test-reports
+  DOCKER_GID="$(stat -c %g /var/run/docker.sock)"; export DOCKER_GID
   info "Exécution des tests (docker/test)…"
   set +e
   compose --profile test run --rm "${build[@]}" api-test

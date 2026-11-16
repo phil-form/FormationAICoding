@@ -1,7 +1,7 @@
 # Image de production : build multi-stage, JRE seule, utilisateur non-root, couches Spring Boot.
 
 # ---- build -------------------------------------------------------------------
-FROM maven:3.9-eclipse-temurin-25 AS build
+FROM maven:3.9.16-eclipse-temurin-25@sha256:93b8a14ea2f412782e4e842651273b4d903e35cc496284f178fbbe2d67d00976 AS build
 WORKDIR /build
 COPY pom.xml mvnw lombok.config ./
 COPY .mvn .mvn
@@ -11,7 +11,7 @@ RUN ./mvnw -B -q -Dmaven.test.skip=true package \
  && java -Djarmode=tools -jar target/*.jar extract --layers --launcher --destination extracted
 
 # ---- runtime -----------------------------------------------------------------
-FROM eclipse-temurin:25-jre-alpine
+FROM eclipse-temurin:25.0.5_8-jre-alpine@sha256:e1898fd6a11fc965a994d8ace186fd3585aeb636cf8f05f47a723fcfee0b0918
 
 RUN addgroup -S -g 10001 spring && adduser -S -u 10001 -G spring -H -s /sbin/nologin spring
 WORKDIR /app

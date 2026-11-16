@@ -4,9 +4,12 @@
 Usage : pit-summary.py [mutations.xml] [--threshold 70]
 Code retour 1 si le score global est sous le seuil.
 """
+import os
 import sys
-import xml.etree.ElementTree as ET
 from collections import defaultdict
+from xml.parsers import expat
+
+MAX_REPORT_BYTES = 200 * 1024 * 1024
 
 DETECTED = {"KILLED", "TIMED_OUT", "MEMORY_ERROR"}
 GAPS = {"SURVIVED", "NO_COVERAGE"}
@@ -22,25 +25,25 @@ def main(argv):
             path = a
 
     try:
-        root = ET.parse(path).getroot()
-    except (OSError, ET.ParseError) as e:
+        mutations = read_mutations(path)
+    except (OSError, ValueError, expat.ExpatError) as e:
         print(f"Rapport PIT illisible ({path}) : {e}", file=sys.stderr)
         return 2
 
     per_class = defaultdict(lambda: defaultdict(int))
     gaps = []
-    for m in root.iter("mutation"):
+    for m in mutations:
         status = m.get("status")
-        cls = m.findtext("mutatedClass", "?")
+        cls = m.get("mutatedClass", "?")
         per_class[cls][status] += 1
         if status in GAPS:
             gaps.append({
                 "status": status,
                 "class": cls,
-                "method": m.findtext("mutatedMethod", "?"),
-                "line": m.findtext("lineNumber", "?"),
-                "mutator": m.findtext("mutator", "?").rsplit(".", 1)[-1],
-                "description": m.findtext("description", ""),
+                "method": m.get("mutatedMethod", "?"),
+                "line": m.get("lineNumber", "?"),
+                "mutator": m.get("mutator", "?").rsplit(".", 1)[-1],
+                "description": m.get("description", ""),
             })
 
     total = sum(sum(c.values()) for c in per_class.values())
@@ -64,6 +67,48 @@ def main(argv):
             print(f"| {g['status']} | `{g['class'].rsplit('.', 1)[-1]}#{g['method']}` | {g['line']} | {g['description'] or g['mutator']} |")
 
     return 0 if score >= threshold else 1
+
+
+def read_mutations(path):
+    """Lit les éléments <mutation> d'un rapport PIT avec expat, en mode strict (protection XXE / « XML bomb ») :
+    tout DOCTYPE ou déclaration d'entité est refusé (un rapport PIT légitime n'en contient aucun), taille bornée."""
+    if os.path.getsize(path) > MAX_REPORT_BYTES:
+        raise ValueError("rapport trop volumineux")
+
+    def refuse(*_):
+        raise ValueError("DOCTYPE ou entité refusé (protection XXE)")
+
+    mutations, current, field, text = [], None, None, []
+    parser = expat.ParserCreate()
+    parser.SetParamEntityParsing(expat.XML_PARAM_ENTITY_PARSING_NEVER)
+    parser.StartDoctypeDeclHandler = refuse
+    parser.EntityDeclHandler = refuse
+    parser.ExternalEntityRefHandler = refuse
+
+    def start(name, attrs):
+        nonlocal current, field
+        if name == "mutation":
+            current = {"status": attrs.get("status")}
+        elif current is not None:
+            field, text[:] = name, []
+
+    def end(name):
+        nonlocal current, field
+        if name == "mutation" and current is not None:
+            mutations.append(current)
+            current = None
+        elif current is not None and name == field:
+            current[field] = "".join(text).strip()
+            field = None
+
+    def chars(data):
+        if field is not None:
+            text.append(data)
+
+    parser.StartElementHandler, parser.EndElementHandler, parser.CharacterDataHandler = start, end, chars
+    with open(path, "rb") as f:
+        parser.ParseFile(f)
+    return mutations
 
 
 def score_of(c):

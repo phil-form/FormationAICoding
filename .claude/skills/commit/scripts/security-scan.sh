@@ -17,6 +17,7 @@
 #   5. Dépendances Maven (Trivy fs, pom.xml) — HIGH/CRITICAL corrigeables bloquant
 #   6. Images Docker utilisées (Trivy image) — HIGH/CRITICAL corrigeables bloquant ; non corrigeables signalés
 #
+# Exceptions : .trivyignore.yaml (justification + expiration ; expirée → de nouveau bloquant), listées dans le rapport.
 # Sortie : .claude/state/audit/commit-scan/<horodatage>/ (report.md + JSON bruts), lien « latest ».
 # Code retour : 0 aucun bloquant · 10 détections bloquantes · 2 erreur d'outil (scan incomplet).
 set -uo pipefail
@@ -45,6 +46,7 @@ declare -A status
 
 log() { echo "▶ $*" >&2; }
 skip_dirs="target,.git,secrets,certs,backups,init_db,.claude/state,.idea"
+ignore=(); [[ -f .trivyignore.yaml ]] && ignore=(--ignorefile /src/.trivyignore.yaml)
 
 M2_REPO="$HOME/.cache/formation-m2/repository"   # cache Maven du projet (scripts mvn en conteneur)
 mkdir -p "$M2_REPO"
@@ -86,7 +88,7 @@ else status[sast]="ERREUR"; tool_error=1; fi
 
 # ---- 4. Mauvaises configurations IaC ------------------------------------------------------------------
 log "Configuration Docker / compose (Trivy config)"
-if trivy config --quiet --skip-dirs "$skip_dirs" --format json -o /out/config.json /src; then
+if trivy config --quiet "${ignore[@]}" --skip-dirs "$skip_dirs" --format json -o /out/config.json /src; then
   hc=$(jq '[.Results[]?.Misconfigurations[]? | select(.Status == "FAIL" and (.Severity == "HIGH" or .Severity == "CRITICAL"))] | length' "$out/config.json")
   ml=$(jq '[.Results[]?.Misconfigurations[]? | select(.Status == "FAIL" and (.Severity == "MEDIUM" or .Severity == "LOW"))] | length' "$out/config.json")
   if ((hc > 0)); then status[config]="BLOQUANT ($hc HIGH/CRITICAL, $ml MEDIUM/LOW)"; blocking=1
@@ -105,15 +107,15 @@ vuln_status() { # vuln_status <clé> <json>
 }
 
 log "Dépendances Maven (Trivy fs)"
-if trivy fs --quiet --offline-scan --scanners vuln --skip-dirs "$skip_dirs" --format json -o /out/deps.json /src; then
+if trivy fs --quiet --offline-scan "${ignore[@]}" --scanners vuln --skip-dirs "$skip_dirs" --format json -o /out/deps.json /src; then
   vuln_status deps "$out/deps.json"
 else status[deps]="ERREUR"; tool_error=1; fi
 
 image_list=()
 if ((images)); then
   if ((build)); then
-    log "Construction de l'image de l'API (docker/prod/Dockerfile)"
-    docker compose -f docker-compose.prod.yml build -q api-prod >"$out/build.log" 2>&1 \
+    log "Construction des images du projet (API : docker/prod/Dockerfile ; PostgreSQL : docker/db/Dockerfile)"
+    docker compose -f docker-compose.prod.yml build -q api-prod db >"$out/build.log" 2>&1 \
       || { status[build]="ERREUR (voir build.log)"; tool_error=1; }
   fi
   mapfile -t image_list < <(docker compose -f docker-compose.prod.yml -f docker-compose.test-prod.yml config --images 2>/dev/null | sort -u)
@@ -125,7 +127,7 @@ if ((images)); then
   declare -A refreshed
   if ((pull)); then
     for img in "${image_list[@]}"; do
-      [[ "$img" == formation-api* ]] && continue            # image construite localement
+      [[ "$img" == formation-* ]] && continue               # images construites localement
       before="$(docker image inspect "$img" --format '{{.Id}}' 2>/dev/null || true)"
       created="$(docker image inspect "$img" --format '{{.Created}}' 2>/dev/null | cut -c1-10)"
       log "Mise à jour de $img"
@@ -140,7 +142,7 @@ if ((images)); then
   for img in "${image_list[@]}"; do
     safe="$(tr '/:@' '___' <<<"$img")"
     log "Image $img (Trivy image)"
-    if trivy image --quiet --scanners vuln --format json -o "/out/image-$safe.json" "$img"; then
+    if trivy image --quiet "${ignore[@]}" --scanners vuln --format json -o "/out/image-$safe.json" "$img"; then
       vuln_status "image:$img" "$out/image-$safe.json"
     else status["image:$img"]="ERREUR"; tool_error=1; fi
   done
@@ -160,7 +162,7 @@ report="$out/report.md"
   echo "| SAST (Semgrep) | ${status[sast]} |"
   echo "| Configuration Docker / compose | ${status[config]} |"
   echo "| Dépendances Maven | ${status[deps]} |"
-  [[ -n "${status[build]:-}" ]] && echo "| Construction de l'image API | ${status[build]} |"
+  [[ -n "${status[build]:-}" ]] && echo "| Construction des images du projet | ${status[build]} |"
   for img in "${image_list[@]}"; do echo "| Image \`$img\` | ${status["image:$img"]}${refreshed[$img]:+ — ⚠ ${refreshed[$img]}} |"; done
   ((images)) || echo "| Images Docker | non scannées (--no-images) |"
   echo
@@ -199,6 +201,17 @@ report="$out/report.md"
     f="$out/image-$(tr '/:@' '___' <<<"$img").json"
     [[ -s "$f" ]] && vuln_table "Image \`$img\`" "$f"
   done
+  if [[ -f .trivyignore.yaml ]]; then
+    echo "## Exceptions actives (.trivyignore.yaml)"; echo
+    echo "| Identifiant | Expire le | Justification |"; echo "|---|---|---|"
+    awk '/^[[:space:]]*- id:/{id=$3} /statement:/{sub(/^[[:space:]]*statement:[[:space:]]*/,""); gsub(/"/,""); st=$0}
+         /expired_at:/{print id "\t" $2 "\t" st}' .trivyignore.yaml | sort -u -k1,1 | while IFS=$'\t' read -r id exp st; do
+      days=$(( ( $(date -d "$exp" +%s) - $(date +%s) ) / 86400 ))
+      flag=""; ((days < 0)) && flag=" ❌ **expirée**"; ((days >= 0 && days <= 7)) && flag=" ⚠ expire dans $days j"
+      echo "| $id | $exp$flag | $st |"
+    done
+    echo
+  fi
   echo "---"
   echo "Résultats bruts : \`$out/\` (JSON). Aucune modification de code n'a été faite."
 } > "$report"

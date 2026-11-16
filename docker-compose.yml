@@ -6,7 +6,8 @@ name: formation
 
 services:
   db:
-    image: postgres:18-alpine
+    build: docker/db                 # postgres:18.7-alpine épinglé, sans gosu, utilisateur postgres (docker/db/Dockerfile)
+    image: formation-db:18.7
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -18,6 +19,9 @@ services:
       - ./init_db:/init_db:ro
     ports:
       - "127.0.0.1:${DB_PORT:-5432}:5432"
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -27,7 +31,7 @@ services:
   # ---------------------------------------------------------------- OpenBao (ADR 0001)
   # Mode dev (en mémoire, descellé, recréé à chaque démarrage), configuré par openbao-init depuis .env.dev.
   openbao-dev:
-    image: openbao/openbao:2.7.2
+    image: openbao/openbao:2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f
     command: ["server", "-dev", "-dev-no-store-token", "-config=/openbao/config/dev.hcl"]
     env_file:
       - path: .env.dev
@@ -52,7 +56,8 @@ services:
 
   # Rôles PostgreSQL du modèle de droits (idempotent, à chaque démarrage ; en prod via bootstrap.sh).
   db-roles:
-    image: postgres:18-alpine
+    build: docker/db
+    image: formation-db:18.7
     entrypoint: ["sh", "/scripts/roles.sh"]
     env_file:
       - path: .env.dev
@@ -71,7 +76,7 @@ services:
 
   # Configuration d'OpenBao dev avec le MÊME script que la prod, alimenté par .env.dev.
   openbao-init:
-    image: openbao/openbao:2.7.2
+    image: openbao/openbao:2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f
     entrypoint: ["sh", "/scripts/configure.sh"]
     user: "0"   # écrit les identifiants AppRole dans le volume partagé (dev uniquement)
     env_file:
@@ -129,15 +134,20 @@ services:
     build:
       context: .
       dockerfile: docker/test/Dockerfile
+      args:
+        UID: ${HOST_UID:-1000}
+        GID: ${HOST_GID:-1000}
     environment:
       TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
-      HOST_UID: ${HOST_UID:-1000}
-      HOST_GID: ${HOST_GID:-1000}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    # Non-root ; accès au socket Docker (Testcontainers) via son groupe propriétaire, calculé par ./start.sh --test et
+    # run-tests.sh. Défaut 65534 (nogroup) : sans DOCKER_GID, aucun accès au socket (échec explicite des tests).
+    group_add:
+      - "${DOCKER_GID:-65534}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - m2cache-test:/root/.m2
+      - m2cache-tester:/m2
       - ./target/test-reports:/reports
 
 # Sous-réseau fixe (lié à l'AppRole dev : BOUND_CIDRS) ; distinct de la prod (172.31.0.0/24) → les deux peuvent
@@ -151,5 +161,5 @@ networks:
 volumes:
   pgdata:
   m2cache:
-  m2cache-test:
+  m2cache-tester:
   openbao-dev-creds:

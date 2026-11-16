@@ -44,6 +44,8 @@ total=0
 if [[ -n "${RUN_TESTS_CMD:-}" ]]; then
   cmd=(bash -c "$RUN_TESTS_CMD")
 elif ((docker)); then
+  mkdir -p target/test-reports
+  export DOCKER_GID="${DOCKER_GID:-$(stat -c %g /var/run/docker.sock)}"
   cmd=(docker compose -f docker-compose.yml --profile test run --rm --build api-test)
 else
   case "$scope" in

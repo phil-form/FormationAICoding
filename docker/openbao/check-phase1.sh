@@ -13,14 +13,14 @@ chmod 777 "$work"
 echo "== OpenBao : droits de l'AppRole api =="
 docker run --rm --network "$net" -e BAO_ADDR=http://openbao:8200 -e DB_CREDS_OUT=/work/db.env \
   -v "formation_openbao-dev-creds:/creds:ro" -v "$PWD/docker/openbao:/scripts:ro" -v "$work:/work" \
-  --entrypoint sh openbao/openbao:2.7.2 /scripts/smoke-test.sh
+  --entrypoint sh openbao/openbao:2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f /scripts/smoke-test.sh
 source "$work/db.env"
 
 pass=0 fail=0
 ok() { pass=$((pass + 1)); echo "  ✔ $*"; }
 ko() { fail=$((fail + 1)); echo "  ✘ $*"; }
 sql() { # sql <user> <password> <requête> → 0 si succès
-  docker run --rm --network "$net" -e PGPASSWORD="$2" postgres:18-alpine \
+  docker run --rm --network "$net" -e PGPASSWORD="$2" postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015 \
     psql -h db -U "$1" -d "$DB_NAME" -v ON_ERROR_STOP=1 -qtAc "$3" 2>&1
 }
 expect_ok()   { if out=$(sql "$1" "$2" "$4"); then ok "$3"; else ko "$3 → $out"; fi; }

@@ -10,7 +10,7 @@
 
 services:
   haproxy:
-    image: haproxy:3.2
+    image: haproxy:3.2.26-alpine@sha256:1c3568e520453cc8ba98c39501febcf450429c80e6cc27ecad779961d76e597c
     restart: unless-stopped
     depends_on:
       waf:
@@ -38,7 +38,7 @@ services:
       - no-new-privileges:true
 
   waf:
-    image: owasp/modsecurity-crs:4.25.2-nginx-alpine-202611090911-lts
+    image: owasp/modsecurity-crs:4.25.2-nginx-alpine-202611090911-lts@sha256:e0b128d9a4ea69f43822981704c348bffded61f2a0d69cca6b58b268e7462156
     restart: unless-stopped
     depends_on:
       api-prod:

@@ -74,7 +74,7 @@ step "Rôles PostgreSQL"
 docker run --rm --network "formation-prod_default" \
   -e PGHOST=db -e PGUSER="$DB_USER" -e PGPASSWORD="$DB_PASSWORD" -e PGDATABASE="$DB_NAME" \
   -e OPENBAO_DB_ADMIN_PASSWORD="$db_admin_pw" \
-  -v "$PWD/docker/db/roles.sh:/roles.sh:ro" --entrypoint sh postgres:18-alpine /roles.sh </dev/null
+  -v "$PWD/docker/db/roles.sh:/roles.sh:ro" --entrypoint sh postgres:18.7-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015 /roles.sh </dev/null
 
 # 5. Configuration commune ---------------------------------------------------------
 step "Configuration OpenBao (configure.sh)"

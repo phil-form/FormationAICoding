@@ -1,0 +1,47 @@
+# Exceptions de sécurité Trivy — utilisées par /commit (.claude/skills/commit/scripts/security-scan.sh).
+#
+# Règles :
+#   - une exception = une décision tracée : justification (statement), périmètre minimal (paquet + version via purls,
+#     ou fichier via paths) et date d'expiration (expired_at) ;
+#   - à expiration, Trivy ignore l'exception : le résultat redevient BLOQUANT au prochain /commit ;
+#   - toute nouvelle exception passe par une décision explicite de l'utilisateur (jamais ajoutée automatiquement).
+# Référence : docs/audit/2026-11-16-plan-correction-scan.md
+
+vulnerabilities:
+  # D2 — WAF (owasp/modsecurity-crs 4.25.2 nginx-alpine, build 202611090911) : libxslt n'est lié qu'au module
+  # ngx_http_xslt_filter_module, présent mais jamais chargé (aucun load_module) → non atteignable.
+  # À retirer dès le prochain build CRS embarquant libxslt ≥ 1.1.43-r4.
+  - id: CVE-2026-125350
+    purls: ["pkg:apk/alpine/libxslt@1.1.43-r3"]
+    statement: "libxslt non chargé par nginx (module XSLT inactif) — en attente du build CRS suivant (D2)"
+    expired_at: 2026-12-16
+  - id: CVE-2026-87636
+    purls: ["pkg:apk/alpine/libxslt@1.1.43-r3"]
+    statement: "libxslt non chargé par nginx (module XSLT inactif) — en attente du build CRS suivant (D2)"
+    expired_at: 2026-12-16
+  - id: CVE-2026-9947
+    purls: ["pkg:apk/alpine/libxslt@1.1.43-r3"]
+    statement: "libxslt non chargé par nginx (module XSLT inactif) — en attente du build CRS suivant (D2)"
+    expired_at: 2026-12-16
+
+  # D3 — OpenBao 2.7.2 : déni de service (go-jose : RSA forgé dans un JWS ; x/net/html : HTML forgé). Aucune
+  # version corrigée publiée. OpenBao non publié (réseau Docker interne, TLS), méthode d'auth JWT/OIDC non activée.
+  # À retirer à la mise à jour vers OpenBao 2.7.3+.
+  - id: CVE-2026-116587
+    purls:
+      - "pkg:golang/github.com/go-jose/go-jose/v3@v3.0.5"
+      - "pkg:golang/github.com/go-jose/go-jose/v4@v4.1.4"
+    statement: "DoS go-jose dans bao 2.7.2, service interne non publié, auth JWT inactive — attente 2.7.3 (D3)"
+    expired_at: 2026-12-16
+  - id: CVE-2026-78661
+    purls: ["pkg:golang/golang.org/x/net@v0.61.0"]
+    statement: "DoS x/net/html dans bao 2.7.2, service interne non publié — attente 2.7.3 (D3)"
+    expired_at: 2026-12-16
+
+misconfigurations:
+  # Action 3 — conteneur de tests éphémère (./start.sh --test) : aucun service à surveiller, il s'arrête à la fin
+  # des tests. Le HEALTHCHECK n'a pas de sens ici (l'image dev, elle, en a un).
+  - id: DS-0026
+    paths: ["docker/test/Dockerfile"]
+    statement: "Conteneur de tests éphémère sans service : HEALTHCHECK sans objet"
+    expired_at: 2027-11-16
