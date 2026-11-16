@@ -199,5 +199,7 @@ if ((${#failures[@]})); then
   for f in "${failures[@]}"; do IFS='|' read -r name type msg <<<"$f"; echo "   ${R}•${N} $name ${D}[$type] ${msg:0:120}${N}"; done
 fi
 [[ "$status" == "error" ]] && { echo "  Dernières erreurs :"; grep -E '^\[ERROR\]' "$log" | tail -10 | sed 's/^/   /'; }
+deprec=$(grep -cE 'deprecat|marked for removal|will be removed|Mockito is currently self-attaching|loaded dynamically' "$log" 2>/dev/null || true)
+((deprec > 0)) && echo "  ${Y}⚠ $deprec avertissement(s) de dépréciation dans le log → /deprecations pour l'inventaire et un plan de correction${N}"
 echo "  ${D}Log : $log · Retour anonymisé : $feedback${N}"
 exit "$rc"

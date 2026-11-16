@@ -206,7 +206,8 @@ Feature verte ─▶ /trace-check (couverture AC ↔ tests ↔ code) ─▶ /mut
 | `/mutation-test [<analyse>\|<package>]` | `auditor` | PIT : score par classe, mutants survivants traduits en lacunes de test → `docs/audit/` |
 | `/analyse-logs [service\|tests\|fichier]` | `log-analyst` | Erreurs groupées, chronologie, cause probable reliée au code, signaux de sécurité (lecture seule) |
 | `/audit-deps [--images] [--fix]` | `general-purpose` | CVE des dépendances Maven et images Docker → `docs/audit/` |
-| `/commit [intention] [--no-images]` | — | Commit après contrôles : secrets, fichiers interdits, SAST Semgrep, config Docker, dépendances, images Docker (Trivy). Détection → rapport + décision de l'utilisateur, **aucune correction automatique** ; jamais de push |
+| `/deprecations [--log f] [--no-compile]` | — | Après les tests : dépréciations (compilation `-Xlint`, JVM, Spring, Hibernate, Mockito, bibliothèques) → plan de correction dans `docs/audit/`, sans modifier le code |
+| `/commit [intention] [--no-images]` | — | Commit après **suite de tests complète** puis contrôles : secrets, fichiers interdits, SAST Semgrep, config Docker, dépendances, images Docker (Trivy). Détection → rapport + décision de l'utilisateur, **aucune correction automatique** ; jamais de push |
 | `/jenkins-pipeline [create\|update]` | — (manuel uniquement) | `Jenkinsfile` : build, tests, SAST, SCA, scan image, DAST ZAP, deploy scp + ssh |
 
 **Isolation** — chaque agent sensible a un hook `PreToolUse` (`.claude/hooks/guard.sh <mode>`) :
@@ -237,7 +238,7 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 - **Secrets** : jamais dans git, l'image, les logs ni les variables d'environnement de prod ; ils viennent d'OpenBao.
 
 - Répondre et documenter **en français** ; code, identifiants et commits en anglais.
-- **Commits : toujours via `/commit`** (contrôles de sécurité préalables) — jamais de `git commit` direct ni de push.
+- **Commits : toujours via `/commit`** (tests complets puis contrôles de sécurité) — jamais de `git commit` direct ni de push.
 - Ne pas ajouter de dépendance non listée ci-dessus sans le signaler.
 - Toute modification de schéma = nouvelle migration Flyway.
 - Ajouter/mettre à jour les tests avec chaque fonctionnalité.

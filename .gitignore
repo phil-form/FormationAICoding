@@ -11,6 +11,7 @@ init_db/*
 certs/*
 !certs/.gitkeep
 backups/
+reports/
 secrets/
 
 # Claude Code : état local (progression des tests, logs, retour de tests)

@@ -41,3 +41,6 @@ code, le test ou l'analyse est en cause et préparera le retour pour le bon agen
 (compilation, Docker, Testcontainers), propose `/analyse-logs tests`.
 
 Exécution ciblée d'une feature : `run-tests.sh -- -Dgroups=feature-NNN`.
+
+Si le résumé signale des avertissements de dépréciation, proposer `/deprecations` (inventaire + plan de correction,
+sans modification de code).
