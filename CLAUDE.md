@@ -9,8 +9,9 @@ structure par couche, `framework/` (sécurité HTTP, CORS, erreurs `ProblemDetai
 Docker dev/prod/test, `start.sh`, `restore.sh`. **Aucune feature métier ni authentification** pour l'instant :
 toutes les routes `/api/**` répondent 401 (refus par défaut).
 
-Prochaines étapes (voir `Next.md`) : authentification JWT + refresh (haute sécurité, OWASP), utilisateur avec
-NISS chiffré en base via un `CryptoService` dédié.
+Feuille de route : **`Next.md`** (6 phases, décisions dans `docs/adr/0001-gestion-des-secrets.md`).
+**Phase 1 (OpenBao) terminée** : coffre dev/prod, Transit (JWT, NISS, index), identifiants PostgreSQL dynamiques,
+AppRole `api`, break-glass, snapshots. Runbook : `docs/ops/OPENBAO.md`. Prochaine : **phase 2** (intégration Spring).
 
 Les specs initiales de `tmp/` sont implémentées ; elles restent comme référence de conception — en cas d'écart,
 **le code fait foi**.
@@ -32,6 +33,7 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
 | Mutation testing | PIT 1.30 | `/mutation-test` |
 | Tests | JUnit 5, `MockMvcTester` (AssertJ), **Testcontainers 2** (postgres:18-alpine) | Pas de H2 ; `*Test` = Surefire, `*IT` = Failsafe |
 | Conteneurs | Docker + Docker Compose | Dev et prod conteneurisés |
+| Secrets | **OpenBao 2.7** (Transit, database, KV, AppRole) | ADR 0001 ; client Java prévu : Spring Vault 4.1 (phase 2) |
 
 ## Architecture
 
@@ -134,6 +136,8 @@ Configuration : `app.security.*` (`SecurityProperties`).
 ./start.sh --test          # lance la suite de tests dans docker/test
 ./restore.sh               # choisit un dump dans ./init_db via fzf et le restaure
 ./start.sh --fresh         # repart d'une base vide (confirmation)
+docker/openbao/check-phase1.sh       # recette OpenBao + droits PostgreSQL (dev)
+docker/prod/openbao/bootstrap.sh     # amorçage OpenBao prod (puis unseal.sh / admin-token.sh, voir docs/ops/OPENBAO.md)
 docker/prod/gen-selfsigned-cert.sh   # certificat auto-signé pour tester la prod en local
 ./mvnw verify              # tests hors conteneur (JDK 25 + Docker requis)
 ```
@@ -196,6 +200,9 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 
 ## Règles pour Claude
 
+- Décisions d'architecture : `docs/adr/` — les respecter ; toute remise en cause passe par un nouvel ADR.
+- **Secrets** : jamais dans git, l'image, les logs ni les variables d'environnement de prod ; ils viennent d'OpenBao.
+
 - Répondre et documenter **en français** ; code, identifiants et commits en anglais.
 - Ne pas ajouter de dépendance non listée ci-dessus sans le signaler.
 - Toute modification de schéma = nouvelle migration Flyway.
@@ -203,8 +210,8 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 
 ## Points ouverts (à trancher)
 
-- Authentification JWT + refresh token : durée de vie, stockage du refresh côté Angular (mémoire vs cookie
-  `HttpOnly` — impacte CSRF et `allow-credentials`), algorithme de signature, révocation (prochaine étape).
-- Hachage des mots de passe : Argon2id recommandé (nécessite Bouncy Castle) vs bcrypt (natif Spring Security).
+- Secrets, JWT, NISS : **décidés** dans `docs/adr/0001-gestion-des-secrets.md` (OpenBao, ES256 via Transit, tokens
+  5 min / 8 h glissant, identifiants DB dynamiques). Ses questions ouvertes Q1–Q5 restent à trancher (transport du
+  refresh token, Argon2id vs bcrypt, fréquence de rotation, détenteurs des parts Shamir, sauvegarde hors site).
 - Domaine métier / premières entités — non défini.
 - Hébergement prod, rate limiting (bucket4j ou proxy), stratégie de backup automatisée.

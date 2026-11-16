@@ -29,7 +29,12 @@ cp .env.example .env        # puis changer DB_PASSWORD (et CORS_ALLOWED_ORIGINS 
 | Swagger UI | http://localhost:8080/swagger-ui.html |
 | Health | http://localhost:8080/actuator/health |
 | Debug JDWP | localhost:5005 |
+| OpenBao (mode dev) | http://127.0.0.1:8200 — token : `BAO_DEV_ROOT_TOKEN_ID` de `.env.dev` |
 | PostgreSQL | 127.0.0.1:5432 |
+
+Secrets dev : `.env.dev` (créé automatiquement depuis `.env.dev.example` avec des valeurs aléatoires) est injecté dans
+OpenBao par le service `openbao-init`, avec **le même script de configuration que la prod**. Recette :
+`docker/openbao/check-phase1.sh`.
 
 Hot reload : devtools redémarre l'application quand `target/classes` change → configurer l'IDE pour déléguer
 le build à Maven, ou lancer `./mvnw compile`.
@@ -47,6 +52,9 @@ Mise en place du serveur (groupe, dossiers, certbot, HAProxy) : [`docs/ops/DEPLO
 Certificat : `tls.crt` + `tls.key` (PEM) dans `TLS_CERT_DIR`, monté en lecture seule, **rechargé à chaud** quand le
 deploy hook certbot le remplace. En local : `docker/prod/gen-selfsigned-cert.sh` (proposé par `./start.sh --prod`).
 
+Secrets : **OpenBao** (Raft, TLS interne, descellement Shamir 3/5, aucun token root permanent). Amorçage, descellement,
+accès admin break-glass, rotations, sauvegardes : [`docs/ops/OPENBAO.md`](docs/ops/OPENBAO.md).
+
 La prod **refuse de démarrer** si la sécurité est mal configurée (origine CORS non HTTPS ou avec joker, HSTS
 désactivé, CSP avec `unsafe-*`…) : le message d'erreur liste les points à corriger.
 
@@ -62,4 +70,7 @@ désactivé, CSP avec `unsafe-*`…) : le message d'erreur liste les points à c
 ## Documentation
 
 - [`CLAUDE.md`](CLAUDE.md) — stack, conventions, sécurité, workflow IA (référence pour Claude Code et l'équipe)
+- [`Next.md`](Next.md) — feuille de route (phases 1 à 6)
+- [`docs/adr/`](docs/adr/) — décisions d'architecture (0001 : secrets / OpenBao)
+- [`docs/ops/`](docs/ops/) — exploitation : déploiement prod (HAProxy, certbot), OpenBao
 - [`tmp/`](tmp/) — specs de conception initiales (implémentées ; le code fait foi)

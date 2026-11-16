@@ -96,6 +96,34 @@ if ((seed)); then
 else
   export SPRING_PROFILES_ACTIVE=dev
 fi
+# --- OpenBao (ADR 0001) ------------------------------------------------------------
+if [[ "$mode" == dev && ! -f .env.dev ]]; then
+  # Secrets dev générés aléatoirement à partir du modèle (jamais commités).
+  sed -e "s/^BAO_DEV_ROOT_TOKEN_ID=.*/BAO_DEV_ROOT_TOKEN_ID=dev-$(openssl rand -hex 16)/" \
+      -e "s/^OPENBAO_DB_ADMIN_PASSWORD=.*/OPENBAO_DB_ADMIN_PASSWORD=$(openssl rand -hex 24)/" .env.dev.example > .env.dev
+  chmod 600 .env.dev
+  warn ".env.dev absent : créé depuis .env.dev.example avec des secrets aléatoires."
+fi
+
+if [[ "$mode" == prod ]]; then
+  [[ -f "${OPENBAO_TLS_DIR:-./secrets/openbao-tls}/tls.crt" ]] || die "PKI interne OpenBao absente : lancez docker/prod/openbao/bootstrap.sh"
+  compose up -d db openbao-prod "${build[@]}" </dev/null
+  bao_status=""
+  for _ in $(seq 1 30); do
+    bao_status="$(compose exec -T openbao-prod bao status -format=json 2>/dev/null </dev/null || true)"
+    [[ -n "$bao_status" ]] && break
+    sleep 1
+  done
+  [[ -n "$bao_status" ]] || die "OpenBao ne répond pas : docker compose --profile prod logs openbao-prod"
+  grep -q '"initialized": *true' <<<"$bao_status" || die "OpenBao n'est pas initialisé : lancez docker/prod/openbao/bootstrap.sh"
+  if grep -q '"sealed": *true' <<<"$bao_status"; then
+    warn "OpenBao est SCELLÉ (redémarrage) : 3 parts Shamir sur 5 sont nécessaires (1Password)."
+    [[ -t 0 ]] || die "Descellement interactif requis : docker/prod/openbao/unseal.sh puis relancez ./start.sh --prod"
+    docker/prod/openbao/unseal.sh || die "OpenBao reste scellé."
+  fi
+  ok "OpenBao descellé."
+fi
+
 info "Démarrage ($label)…"
 compose up -d "${build[@]}"
 
@@ -124,10 +152,12 @@ if [[ "$mode" == dev ]]; then
   echo "  Swagger UI  http://localhost:${API_PORT:-8080}/swagger-ui.html"
   echo "  Health      http://localhost:${API_PORT:-8080}/actuator/health"
   echo "  Debug JDWP  localhost:${DEBUG_PORT:-5005}"
+  echo "  OpenBao     http://127.0.0.1:${OPENBAO_DEV_PORT:-8200} (mode dev, token : BAO_DEV_ROOT_TOKEN_ID de .env.dev)"
   echo "  Seed        $( ((seed)) && echo activé || echo désactivé)"
 else
   echo "  API (backend HAProxy)  https://${API_BIND:-127.0.0.1}:${API_HTTPS_PORT:-8443}/api/v1"
   echo "  Public                 https://${API_DOMAIN:-?} via HAProxy (docs/ops/DEPLOIEMENT-PROD.md)"
+  echo "  OpenBao                descellé, réseau interne uniquement (docs/ops/OPENBAO.md)"
 fi
 echo "  PostgreSQL  127.0.0.1:${DB_PORT:-5432} (${DB_NAME})"
 

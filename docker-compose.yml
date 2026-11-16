@@ -28,6 +28,120 @@ services:
       timeout: 3s
       retries: 10
 
+  # ---------------------------------------------------------------- OpenBao (ADR 0001)
+  # Dev : mode dev (en mémoire, descellé, recréé à chaque démarrage), configuré par openbao-init depuis .env.dev.
+  openbao-dev:
+    profiles: [dev]
+    image: openbao/openbao:2.7.2
+    command: ["server", "-dev", "-dev-no-store-token", "-config=/openbao/config/dev.hcl"]
+    env_file:
+      - path: .env.dev
+        required: true
+    environment:
+      BAO_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    volumes:
+      - ./docker/openbao/dev.hcl:/openbao/config/dev.hcl:ro
+    networks:
+      default:
+        aliases: [openbao]
+    ports:
+      - "127.0.0.1:${OPENBAO_DEV_PORT:-8200}:8200"   # confort dev (CLI / UI locale)
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "bao", "status", "-address=http://127.0.0.1:8200"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+  # Rôles PostgreSQL du modèle de droits (idempotent, à chaque démarrage dev ; en prod via bootstrap.sh).
+  db-roles:
+    profiles: [dev]
+    image: postgres:18-alpine
+    entrypoint: ["sh", "/scripts/roles.sh"]
+    env_file:
+      - path: .env.dev
+        required: true
+    environment:
+      PGHOST: db
+      PGUSER: ${DB_USER}
+      PGPASSWORD: ${DB_PASSWORD}
+      PGDATABASE: ${DB_NAME}
+    volumes:
+      - ./docker/db/roles.sh:/scripts/roles.sh:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  # Configuration d'OpenBao dev avec le MÊME script que la prod, alimenté par .env.dev.
+  openbao-init:
+    profiles: [dev]
+    image: openbao/openbao:2.7.2
+    entrypoint: ["sh", "/scripts/configure.sh"]
+    user: "0"   # écrit les identifiants AppRole dans le volume partagé (dev uniquement)
+    env_file:
+      - path: .env.dev
+        required: true
+    environment:
+      BAO_ADDR: http://openbao:8200
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      BOUND_CIDRS: ${DOCKER_SUBNET:-172.30.0.0/24}
+      DB_CONFIG_MODE: always
+      CREDS_OUT_DIR: /creds
+      CREDS_MODE: "0444"
+    volumes:
+      - ./docker/openbao:/scripts:ro
+      - openbao-dev-creds:/creds
+    depends_on:
+      openbao-dev:
+        condition: service_healthy
+      db-roles:
+        condition: service_completed_successfully
+    restart: "no"
+
+  # Prod : serveur Raft + TLS interne, scellé à chaque démarrage (descellement Shamir manuel), jamais publié.
+  openbao-prod:
+    profiles: [prod]
+    image: openbao/openbao:2.7.2
+    restart: unless-stopped
+    command: ["bao", "server", "-config=/openbao/config/openbao.hcl"]
+    environment:
+      BAO_ADDR: https://127.0.0.1:8200
+      BAO_CACERT: /openbao/tls/ca.crt
+    networks:
+      default:
+        aliases: [openbao]
+    volumes:
+      # OPENBAO_CONFIG_PATH : uniquement pour la procédure break-glass (admin-token.sh), sinon openbao.hcl.
+      - ${OPENBAO_CONFIG_PATH:-./docker/prod/openbao/openbao.hcl}:/openbao/config/openbao.hcl:ro
+      - ./docker/openbao:/scripts:ro
+      - ${OPENBAO_TLS_DIR:-./secrets/openbao-tls}:/openbao/tls:ro
+      - openbao-data:/openbao/file
+      - openbao-audit:/openbao/logs
+    group_add:
+      - "${TLS_CERT_GID:-1000}"       # lecture de la clé TLS interne (0640)
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          pids: 256
+    healthcheck:
+      # Code 0 = descellé ; 2 = scellé (→ unhealthy : ./start.sh --prod guide le descellement).
+      test: ["CMD", "bao", "status"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
   api-dev:
     profiles: [dev]
     build:
@@ -39,13 +153,17 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      openbao-init:
+        condition: service_completed_successfully
     environment:
       <<: *db-env
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-}
+      OPENBAO_ADDR: http://openbao:8200
     volumes:
       - ./:/app
       - m2cache:/m2
+      - openbao-dev-creds:/run/secrets/openbao:ro
     ports:
       - "${API_PORT:-8080}:8080"
       - "127.0.0.1:${DEBUG_PORT:-5005}:5005"
@@ -117,3 +235,6 @@ volumes:
   pgdata:
   m2cache:
   m2cache-test:
+  openbao-dev-creds:
+  openbao-data:
+  openbao-audit:

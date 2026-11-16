@@ -80,7 +80,13 @@ sudo certbot renew --dry-run                           # vérification
 Le timer `certbot.timer` (paquet Debian/Ubuntu) renouvelle automatiquement ; le deploy hook s'exécute après chaque
 renouvellement réussi.
 
-## 5. API
+## 5. OpenBao
+
+Avant le premier démarrage de l'API : `docker/prod/openbao/bootstrap.sh` (parts Shamir → 1Password), puis le timer
+de snapshot. Procédure complète : [`OPENBAO.md`](OPENBAO.md). Après chaque redémarrage du serveur, OpenBao est
+**scellé** : `./start.sh --prod` guide le descellement (3 détenteurs de parts).
+
+## 6. API
 
 ```bash
 ./start.sh --prod          # build + démarrage, attend le healthcheck
