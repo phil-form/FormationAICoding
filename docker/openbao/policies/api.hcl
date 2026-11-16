@@ -10,6 +10,10 @@ path "transit/keys/jwt" {
 }
 
 # NISS : chiffrement, déchiffrement, re-chiffrement après rotation, index aveugle.
+# Lecture des MÉTADONNÉES de la clé niss (dernière version, pour le job de rewrap) — jamais le matériel de clé.
+path "transit/keys/niss" {
+  capabilities = ["read"]
+}
 path "transit/encrypt/niss" {
   capabilities = ["update"]
 }

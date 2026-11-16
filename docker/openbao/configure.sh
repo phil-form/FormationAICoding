@@ -66,7 +66,11 @@ key() { # key <nom> <type> [options...]
   bao write "transit/keys/$name/config" deletion_allowed=false exportable=false >/dev/null
 }
 key jwt ecdsa-p256
-key niss aes256-gcm96
+# NISS : clé DÉRIVÉE → chaque chiffré est lié à un contexte (type + identifiant de la ligne) : impossible de
+# déplacer un chiffré d'une ligne à une autre ; rewrap et min_decryption_version restent disponibles.
+key niss aes256-gcm96 derived=true
+[ "$(bao read -field=derived transit/keys/niss)" = true ] || {
+  echo "ERREUR : la clé transit/keys/niss existe mais n'est pas dérivée (derived=true requis, ADR 0001 D6)." >&2; exit 1; }
 key niss-index hmac key_size=32
 
 # --- Database : identifiants PostgreSQL dynamiques --------------------------------

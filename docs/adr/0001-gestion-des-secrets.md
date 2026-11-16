@@ -21,7 +21,7 @@ d'environnement de production (visibles via `docker inspect`, `/proc/*/environ`,
 | D3 | Descellement | **Shamir manuel** 5 parts / seuil 3, chaque part dans un item **1Password** distinct | Auto-unseal par clé locale (vol du disque = vol des secrets) ; KMS/HSM non disponible |
 | D4 | Signature JWT | **ES256 via Transit `sign`** (`marshaling_algorithm=jws`) : la clé privée ne quitte jamais OpenBao ; `kid` = version de clé Transit ; vérification locale avec les clés publiques mises en cache | Clé lue depuis le KV (clé privée en mémoire) ; HS256 (symétrique) |
 | D5 | Base de données | **Identifiants dynamiques** (moteur `database`) : utilisateur temporaire par instance, TTL 1 h renouvelé, max 7 j ; rôle **migrateur** distinct pour Flyway | Rôles statiques avec rotation |
-| D6 | NISS | **Transit `encrypt`/`decrypt`** (clé `niss`, AES-256-GCM96) + **index aveugle** Transit `hmac` (clé `niss-index`, SHA-256) pour la recherche et l'unicité ; clés **non exportables** | Chiffrement dans l'API avec une clé chargée |
+| D6 | NISS | **Transit `encrypt`/`decrypt`** avec clé `niss` **dérivée** (AES-256-GCM96, `derived=true`) : chaque chiffré est lié à un **contexte** = type + identifiant immuable de la ligne (un chiffré copié vers une autre ligne est indéchiffrable) ; `rewrap` et `min_decryption_version` conservés. **Index aveugle** Transit `hmac` (clé `niss-index`, SHA-256). Clés non exportables | Chiffrement dans l'API avec une clé chargée ; `associated_data` (pas de `rewrap` possible → la valeur en clair transiterait par l'API à chaque rotation) |
 | D7 | Tokens | Accès **5 min** ; refresh **à usage unique**, rotation, révocation de la famille si réutilisé ; session glissante **8 h** d'inactivité, **24 h** maximum | 15 min / 7 j (exposition plus longue) |
 | D8 | Sauvegardes | Parts Shamir + jeton de récupération dans **1Password** ; **snapshots Raft** quotidiens chiffrés, stockés hors site | — |
 | D9 | Dev | OpenBao en **mode dev** (mémoire) + service compose `openbao-init` qui lit **`.env.dev`** (gitignoré, modèle `.env.dev.example` versionné) et configure KV, Transit, moteur DB, AppRole **à l'identique de la prod** | Secrets dev en variables d'environnement directes (code différent entre dev et prod) |
@@ -87,12 +87,12 @@ sont des **features** et suivent le workflow `/analyse-feature` → `/owasp-chec
 - [x] 2.4 Démarrage en échec explicite si OpenBao est injoignable ou scellé ; `HealthIndicator` OpenBao.
 - [x] 2.5 Tests d'intégration : Testcontainers (`testcontainers-vault`, image OpenBao) + PostgreSQL.
 
-### Phase 3 — `CryptoService` (infra)
-- [ ] 3.1 Interface `CryptoService` (`encrypt`, `decrypt`, `blindIndex`) + implémentation Transit ;
+### Phase 3 — `CryptoService` (infra) — ✅ 16/11/2026
+- [x] 3.1 Interface `CryptoService` (`encrypt`, `decrypt`, `blindIndex`) + implémentation Transit ;
       chiffré stocké avec sa version (`vault:vN:…`) ; contexte (AAD) = type de donnée.
-- [ ] 3.2 Normalisation et validation du NISS (11 chiffres, clé de contrôle modulo 97) avant HMAC.
-- [ ] 3.3 Rotation : `transit/keys/niss/rotate` + job de `rewrap` ; `min_decryption_version` relevé ensuite.
-- [ ] 3.4 Tests : unitaires (implémentation factice) + intégration avec OpenBao réel.
+- [x] 3.2 Normalisation et validation du NISS (11 chiffres, clé de contrôle modulo 97) avant HMAC.
+- [x] 3.3 Rotation : `transit/keys/niss/rotate` + job de `rewrap` ; `min_decryption_version` relevé ensuite.
+- [x] 3.4 Tests : unitaires (implémentation factice) + intégration avec OpenBao réel.
 
 ### Phase 4 — Authentification (feature)
 - [ ] `JwtEncoder` délégant la signature à Transit (ES256, `kid`), `JwtDecoder` sur les clés publiques Transit (cache).
@@ -111,8 +111,8 @@ sont des **features** et suivent le workflow `/analyse-feature` → `/owasp-chec
 
 | # | Question | Hypothèse par défaut | Phase |
 |---|---|---|---|
-| Q1 | Transport du refresh token vers Angular : cookie `HttpOnly; Secure; SameSite=Strict` (implique CSRF + `allow-credentials`) ou corps de réponse + stockage en mémoire | Cookie `HttpOnly` limité au chemin `/api/v1/auth` | 4 |
-| Q2 | Hachage des mots de passe : Argon2id (Bouncy Castle) ou bcrypt | Argon2id (recommandation OWASP) | 4 |
+| Q1 | ~~Transport du refresh token vers Angular : cookie `HttpOnly; Secure; SameSite=Strict` (implique CSRF + `allow-credentials`) ou corps de réponse + stockage en mémoire~~ | **Résolue → ADR 0002** | — |
+| Q2 | ~~Hachage des mots de passe : Argon2id (Bouncy Castle) ou bcrypt~~ | **Résolue → ADR 0002** | — |
 | Q3 | Fréquence de rotation des clés `jwt` et `niss` | `jwt` : 90 j ; `niss` : 1 an + rewrap | 3-4 |
 | Q4 | Détenteurs des 5 parts Shamir (personnes distinctes ?) | À désigner avant la mise en production | 1 |
 | Q5 | Destination hors site des snapshots Raft | À définir avec l'hébergeur | 1 |

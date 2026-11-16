@@ -36,7 +36,7 @@ Feuille de route : [`Next.md`](../../Next.md).
 | Chemin | Contenu | Utilisé par |
 |---|---|---|
 | `transit/keys/jwt` | ECDSA P-256, non exportable | signature des JWT (`transit/sign/jwt`, `marshaling_algorithm=jws`) |
-| `transit/keys/niss` | AES-256-GCM96, non exportable, non supprimable | chiffrement du NISS |
+| `transit/keys/niss` | AES-256-GCM96 **dérivée** (contexte = type + id de la ligne), non exportable, non supprimable | chiffrement du NISS (`CryptoService`) |
 | `transit/keys/niss-index` | HMAC 256 bits, non exportable | index aveugle du NISS |
 | `database/roles/app` | utilisateur PG dynamique, groupe `formation_rw`, 1 h (max 7 j) | runtime de l'API |
 | `database/roles/migrator` | utilisateur PG dynamique, groupe `formation_owner`, 15 min (max 1 h) | Flyway |
@@ -144,7 +144,7 @@ dont le mot de passe n'est connu que d'OpenBao. `bootstrap.sh` renouvelle aussi 
 | Clé | Commande (token admin) | Effet |
 |---|---|---|
 | `jwt` | `bao write -f transit/keys/jwt/rotate` | nouvelle version → nouveau `kid` ; les tokens signés avec l'ancienne version restent vérifiables (5 min de vie) |
-| `niss` | `bao write -f transit/keys/niss/rotate` puis job de `rewrap` (phase 3), puis `bao write transit/keys/niss/config min_decryption_version=<n>` | les anciens chiffrés restent lisibles jusqu'au relèvement de `min_decryption_version` |
+| `niss` | 1. `bao write -f transit/keys/niss/rotate` ; 2. `KeyRotationService.rewrapAll(<RewrapTarget>)` pour chaque colonne (rewrap côté OpenBao, la valeur ne sort jamais en clair) ; 3. `bao write transit/keys/niss/config min_decryption_version=<n>` | les anciens chiffrés restent lisibles jusqu'à l'étape 3 ; déclenchement du job : phase 6 |
 | `niss-index` | **ne pas faire tourner** sans plan : l'index aveugle changerait pour tous les NISS (recalcul complet requis) | — |
 | `openbao_admin` (PostgreSQL) | `bao write -f database/rotate-root/formation` | nouveau mot de passe connu d'OpenBao seul |
 | parts Shamir | `bao operator rotate-keys -init -key-shares=5 -key-threshold=3` puis 3 parts actuelles | nouvelles parts → remplacer **toutes** les entrées 1Password |

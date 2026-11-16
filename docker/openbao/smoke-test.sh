@@ -30,14 +30,20 @@ denied  "vérification via Transit (faite localement par l'API avec la clé publ
 allowed "lecture des clés publiques jwt" bao read transit/keys/jwt
 denied  "export de la clé privée jwt" bao read transit/export/signing-key/jwt
 
-echo "NISS (Transit AES-256-GCM + index HMAC)"
+echo "NISS (Transit AES-256-GCM, clé dérivée liée au contexte, + index HMAC)"
 pt=$(printf '85073003328' | base64)
-ct=$(bao write -field=ciphertext transit/encrypt/niss plaintext="$pt" 2>/dev/null)
+ctx=$(printf 'NISS:ligne-1' | base64)
+other=$(printf 'NISS:ligne-2' | base64)
+ct=$(bao write -field=ciphertext transit/encrypt/niss plaintext="$pt" context="$ctx" 2>/dev/null)
 case "$ct" in vault:v*:*) ok "chiffrement ($(echo "$ct" | cut -c1-20)…)" ;; *) ko "chiffrement" ;; esac
-back=$(bao write -field=plaintext transit/decrypt/niss ciphertext="$ct" 2>/dev/null | base64 -d)
+back=$(bao write -field=plaintext transit/decrypt/niss ciphertext="$ct" context="$ctx" 2>/dev/null | base64 -d)
 [ "$back" = 85073003328 ] && ok "déchiffrement = valeur d'origine" || ko "déchiffrement"
-ct2=$(bao write -field=ciphertext transit/encrypt/niss plaintext="$pt" 2>/dev/null)
+ct2=$(bao write -field=ciphertext transit/encrypt/niss plaintext="$pt" context="$ctx" 2>/dev/null)
 [ "$ct" != "$ct2" ] && ok "chiffrement non déterministe (IV aléatoire)" || ko "chiffrement déterministe"
+denied  "déchiffrement avec le contexte d'une autre ligne" bao write transit/decrypt/niss ciphertext="$ct" context="$other"
+denied  "chiffrement sans contexte" bao write transit/encrypt/niss plaintext="$pt"
+allowed "rewrap (rotation)" bao write transit/rewrap/niss ciphertext="$ct" context="$ctx"
+allowed "lecture des métadonnées de la clé niss (version)" bao read -field=latest_version transit/keys/niss
 h1=$(bao write -field=hmac transit/hmac/niss-index input="$pt" algorithm=sha2-256 2>/dev/null)
 h2=$(bao write -field=hmac transit/hmac/niss-index input="$pt" algorithm=sha2-256 2>/dev/null)
 [ -n "$h1" ] && [ "$h1" = "$h2" ] && ok "index aveugle déterministe" || ko "index aveugle"

@@ -13,7 +13,9 @@ Feuille de route : **`Next.md`** (6 phases, décisions dans `docs/adr/0001-gesti
 **Phase 1 (OpenBao) terminée** : coffre dev/prod, Transit (JWT, NISS, index), identifiants PostgreSQL dynamiques,
 AppRole `api`, break-glass, snapshots. Runbook : `docs/ops/OPENBAO.md`.
 **Phase 2 (intégration Spring) terminée** : l'API n'a plus aucun mot de passe DB ; identifiants dynamiques en rotation,
-Flyway via un migrateur temporaire, refus de démarrer si OpenBao est scellé. Prochaine : **phase 3** (`CryptoService`).
+Flyway via un migrateur temporaire, refus de démarrer si OpenBao est scellé.
+**Phase 3 (`CryptoService`) terminée** : chiffrement Transit lié à la ligne, index aveugle, rotation (rewrap), type `Niss`.
+Prochaine : **phase 4** (authentification, workflow feature complet).
 
 Les specs initiales de `tmp/` sont implémentées ; elles restent comme référence de conception — en cas d'écart,
 **le code fait foi**.
@@ -68,6 +70,14 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
   Les tests (profil `test`) n'utilisent pas OpenBao, sauf `OpenBaoIntegrationIT`.
 - **Migrations** : exécutées en `SET ROLE formation_owner` (propriétaire du schéma, **pas** de la base) : aucune
   instruction de niveau base (`ALTER DATABASE`, `CREATE EXTENSION` hors schéma…) dans une migration → `docker/db/roles.sh`.
+- **Données sensibles** (NISS…) : jamais en clair en base, dans un log ou une erreur.
+  - Type `framework.type.Niss` (`Niss.of(raw)` normalise et valide, `toString()` masqué) ; DTO : `@ValidNiss`.
+  - Stockage : `CryptoService.encrypt(SensitiveDataType.NISS, niss.digits(), context)` + colonne d'index aveugle
+    **unique** `CryptoService.blindIndex(NISS, niss.digits())` ; recherche = calcul de l'index puis égalité.
+  - `context` = identifiant **immuable** de la ligne, connu **avant** le chiffrement (ex. UUID de l'entité) : un
+    chiffré est indéchiffrable sur une autre ligne.
+  - Nouvelle colonne chiffrée → une implémentation de `framework.crypto.RewrapTarget` (rotation de clé).
+  - Tests : `TestcontainersConfig` fournit un `InMemoryCryptoService` (même contrat que Transit).
 - **Entités** : héritent de `framework.entity.BaseEntity` (id **UUID v7**, audit `createdAt`/`updatedAt`,
   `@Version`, `equals/hashCode` sûrs), associations en `LAZY` par défaut. Colonnes attendues dans chaque table :
   `id uuid primary key`, `created_at timestamptz`, `updated_at timestamptz`, `version bigint`.
@@ -212,7 +222,8 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 
 ## Règles pour Claude
 
-- Décisions d'architecture : `docs/adr/` — les respecter ; toute remise en cause passe par un nouvel ADR.
+- Décisions d'architecture : `docs/adr/` (0001 secrets/OpenBao, 0002 authentification) — les respecter ; toute remise
+  en cause passe par un nouvel ADR.
 - **Secrets** : jamais dans git, l'image, les logs ni les variables d'environnement de prod ; ils viennent d'OpenBao.
 
 - Répondre et documenter **en français** ; code, identifiants et commits en anglais.
@@ -222,8 +233,7 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 
 ## Points ouverts (à trancher)
 
-- Secrets, JWT, NISS : **décidés** dans `docs/adr/0001-gestion-des-secrets.md` (OpenBao, ES256 via Transit, tokens
-  5 min / 8 h glissant, identifiants DB dynamiques). Ses questions ouvertes Q1–Q5 restent à trancher (transport du
-  refresh token, Argon2id vs bcrypt, fréquence de rotation, détenteurs des parts Shamir, sauvegarde hors site).
+- Secrets, JWT, NISS, authentification : **décidés** (ADR 0001, ADR 0002). Restent ouvertes (ADR 0001) : Q3
+  fréquence de rotation des clés, Q4 détenteurs des parts Shamir, Q5 sauvegarde hors site.
 - Domaine métier / premières entités — non défini.
 - Hébergement prod, rate limiting (bucket4j ou proxy), stratégie de backup automatisée.

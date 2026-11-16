@@ -23,7 +23,7 @@
   TLS 1.3 re-chiffré → API ; certificat rechargé à chaud ; conteneur durci. Procédure : `docs/ops/DEPLOIEMENT-PROD.md`.
 - Docker dev / prod / test, `start.sh`, `restore.sh` ; 32 tests verts.
 - Workflow IA : 12 skills, 6 agents, hooks d'isolation tests/code et de protection des migrations Flyway.
-- **Phase 1 (OpenBao) et phase 2 (intégration Spring) terminées** — voir ci-dessous.
+- **Phases 1 (OpenBao), 2 (intégration Spring) et 3 (`CryptoService`) terminées** — voir ci-dessous.
 
 ## Décisions prises (résumé de l'ADR 0001)
 
@@ -112,23 +112,43 @@ Runbook : [`docs/ops/OPENBAO.md`](docs/ops/OPENBAO.md).
 envisager) ; superutilisateur `DB_PASSWORD` encore en variable d'environnement pour le conteneur `db`
 (→ `POSTGRES_PASSWORD_FILE`).
 
-## Phase 3 — `CryptoService` (infrastructure)
+## Phase 3 — `CryptoService` (infrastructure) · ✅ terminée le 16/11/2026
 
-**Objectif** : un service unique pour chiffrer, déchiffrer et indexer les données sensibles, sans que l'API ne
-détienne jamais de clé.
+**Objectif atteint** : un service unique pour chiffrer, déchiffrer et indexer les données sensibles ; aucune clé ne
+transite par l'API.
 
-| # | Tâche |
-|---|---|
-| 3.1 | Interface `CryptoService` (`encrypt`, `decrypt`, `blindIndex`) dans `framework/crypto/` + implémentation Transit ; chiffré stocké avec sa version (`vault:vN:…`) ; contexte (AAD) = type de donnée |
-| 3.2 | Type `Niss` (value object) : normalisation (chiffres seuls), validation (11 chiffres, date de naissance plausible, clé de contrôle modulo 97, règle post-2000), jamais loggé (`toString` masqué) |
-| 3.3 | Convertisseur JPA (`AttributeConverter`) ou service explicite — à décider en analyse de la phase 5 |
-| 3.4 | Rotation : `transit/keys/niss/rotate` + job de `rewrap` des chiffrés + relèvement de `min_decryption_version` |
-| 3.5 | Tests : unitaires (implémentation factice), intégration avec OpenBao réel, propriétés (chiffrer puis déchiffrer = identité ; même NISS → même index) |
+| # | Tâche | Livrables | État |
+|---|---|---|---|
+| 3.1 | `CryptoService` (`encrypt`, `decrypt`, `blindIndex`, `rewrap`, `latestKeyVersion`) + implémentation Transit ; chiffré versionné (`vault:vN:…`) ; **contexte = type + identifiant immuable de la ligne** (clé `niss` dérivée, ADR D6) | `framework/crypto/` | ✅ |
+| 3.2 | Type `Niss` : normalisation, validation (11 chiffres, clé mod 97 avant/après 2000, numéro d'ordre 001–998, date réelle ou inconnue `00`, pas dans le futur, BIS +20/+40), `toString` masqué, `random()` pour les seeds ; annotation `@ValidNiss` | `framework/type/Niss`, `framework/validation/` | ✅ |
+| 3.3 | Convertisseur JPA ou service explicite → **décidé** : service explicite (l'index aveugle est une 2ᵉ colonne, un `AttributeConverter` ne peut pas l'écrire) ; à appliquer en phase 5 | — | ✅ |
+| 3.4 | Rotation : `KeyRotationService.rewrapAll(RewrapTarget)` par lots transactionnels (rewrap côté OpenBao) ; procédure en 3 étapes dans le runbook | `KeyRotationService`, `RewrapTarget` | ✅ |
+| 3.5 | Tests : contrat commun `CryptoServiceContract` exécuté sur l'implémentation en mémoire **et** sur OpenBao réel avec les droits de la politique `api` | `src/test/.../framework/crypto/` | ✅ |
 
-**Terminé quand** : chiffrement, déchiffrement et index fonctionnent contre OpenBao, une rotation + rewrap est
-testée, et aucune clé ne transite par l'API.
+**Vérifié** : 98 tests verts (56 unitaires, 42 d'intégration) ; recette OpenBao dev 30/30 + SQL 11/11.
+- Chiffré lié à sa ligne : déchiffrement avec le contexte d'une autre ligne → refusé ; chiffré altéré → refusé.
+- Chiffrement non déterministe ; index aveugle déterministe et distinct par valeur.
+- Rotation → rewrap → relèvement de `min_decryption_version` : l'ancien chiffré devient illisible, le nouveau reste lisible.
+- L'application ne peut ni faire tourner ni exporter les clés.
+- NISS : vecteurs de test calculés indépendamment de l'implémentation ; messages d'erreur sans la valeur.
+
+**Choix techniques constatés en route** : Transit supporte `associated_data` mais **pas** avec `rewrap` → clé dérivée
+avec `context` (même liaison à la ligne, rotation sans exposer la valeur). `configure.sh` refuse une clé `niss`
+existante non dérivée.
+
+**À retenir pour la phase 5** : le contexte doit être connu **avant** le chiffrement — `BaseEntity` génère l'UUID au
+`persist` ; soit générer l'UUID v7 côté application à la création de l'entité, soit chiffrer après le `persist` dans la
+même transaction (à trancher en analyse).
 
 ## Phase 4 — Authentification (feature, workflow complet)
+
+Décisions : [ADR 0002](docs/adr/0002-authentification.md) — token d'accès en mémoire ; refresh token en cookie
+`__Secure-refresh` `HttpOnly; Secure; SameSite=Strict; Path=/api/v1/auth` ; CSRF par `SameSite` + vérification
+`Origin` + en-tête personnalisé ; **Argon2id** (m=64 Mio, t=3, p=1, à calibrer) + **poivre** Transit HMAC
+(`password-pepper`). Prérequis : front et API sur le même site.
+
+**Avant la feature (infra)** : clé `password-pepper` + droit dans la politique `api` ; Bouncy Castle ; CORS avec
+credentials limité à `/api/v1/auth/**` ; analyse client `docs/analyse/client/authentification.md` (entrée du workflow).
 
 `/analyse-feature` → `/owasp-check` → `/review-analyse` → `/write-tests` → `/implement-feature` → `/run-tests`
 → `/triage-failures` → `/trace-check` → `/mutation-test`
@@ -137,8 +157,8 @@ testée, et aucune clé ne transite par l'API.
 |---|---|
 | Endpoints | `POST /api/v1/auth/login`, `POST /api/v1/auth/refresh`, `POST /api/v1/auth/logout` |
 | Token d'accès | JWT ES256, 5 min, `iss`/`aud`/`exp`/`iat`/`jti`/`sub`, `kid` = version Transit ; signature par Transit, vérification locale (clés publiques en cache, rafraîchies à la rotation) |
-| Refresh token | Opaque 256 bits aléatoires, stocké **haché** (SHA-256), famille de tokens, usage unique, réutilisation → révocation de toute la famille, 8 h glissant / 24 h absolu |
-| Mots de passe | Argon2id (ou bcrypt selon Q2), politique ASVS (longueur ≥ 12, pas de règles de composition, liste de mots de passe compromis) |
+| Refresh token | Cookie `HttpOnly` (ADR 0002) ; opaque 256 bits aléatoires, stocké **haché** (SHA-256), famille de tokens, usage unique, réutilisation → révocation de toute la famille, 8 h glissant / 24 h absolu |
+| Mots de passe | Argon2id + poivre Transit (ADR 0002), politique ASVS (longueur ≥ 12, pas de règles de composition, liste de mots de passe compromis) |
 | Anti-abus | Limitation par compte et par IP, réponses génériques (pas d'énumération), journalisation des événements de sécurité |
 | Révocation | Logout = révocation de la famille ; changement de mot de passe = révocation de toutes les familles |
 | Références | OWASP ASVS V2 (authentification) / V3 (sessions), cheat sheets JWT, Authentication, Session Management, Password Storage |
@@ -167,8 +187,8 @@ est complète et le score de mutation dépasse le seuil.
 
 | # | Question | Hypothèse par défaut | Bloque |
 |---|---|---|---|
-| Q1 | Transport du refresh token : cookie `HttpOnly; Secure; SameSite=Strict` (→ CSRF + `allow-credentials`) ou corps de réponse | Cookie `HttpOnly` limité à `/api/v1/auth` | Phase 4 |
-| Q2 | Hachage des mots de passe : Argon2id (Bouncy Castle) ou bcrypt | Argon2id | Phase 4 |
+| Q1 | ~~Transport du refresh token : cookie `HttpOnly; Secure; SameSite=Strict` (→ CSRF + `allow-credentials`) ou corps de réponse~~ | **Résolue → [ADR 0002](docs/adr/0002-authentification.md)** | — |
+| Q2 | ~~Hachage des mots de passe : Argon2id (Bouncy Castle) ou bcrypt~~ | **Résolue → [ADR 0002](docs/adr/0002-authentification.md)** | — |
 | Q3 | Fréquence de rotation des clés | `jwt` 90 j, `niss` 1 an + rewrap | Phases 3–4 |
 | Q4 | Détenteurs des 5 parts Shamir | À désigner | Mise en prod |
 | Q5 | Destination hors site des snapshots Raft | À définir avec l'hébergeur | Mise en prod |
