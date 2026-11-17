@@ -1,0 +1,1022 @@
+# Tests de caractérisation — application flotte
+
+> **Document unique de suivi** de la mise en place des tests de caractérisation de toute l'application flotte
+> (5 groupes : 4 contrôleurs et les commandes console). Il contient le gabarit commun, toutes les fiches `BH-NNN`,
+> leurs exemples complets, les points à trancher, le journal d'implémentation et les blocages ; son bloc
+> « Suivi d'avancement » est régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`).
+>
+> Valeurs « observées » : application step-00 réelle (PHP 7.2.34 / Symfony 2.8.52), 2026-11-17. Mise à jour
+> après chaque implémentation : `.claude/reference/conventions.md` § 5.6. Inventaire préalable des routes et
+> commandes : `tmp/routes-et-commandes.md`.
+
+<!-- tracking:start -->
+## Suivi d'avancement (généré)
+
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:12. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+
+**14/209 terminés (6 %)** `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
+
+✅ 14 terminés · 🟡 26 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 169 à écrire
+
+| Groupe | Route | Écrites | Terminées | Avancement |
+|---|---|---|---|---|
+| **`VehicleController`** | | **40/40** | **14/40** | `███░░░░░░░` 35 % |
+| | `homepage` | 4/4 | 3/4 | `███████░░░` 75 % |
+| | `vehicle_index` | 19/19 | 6/19 | `███░░░░░░░` 31 % |
+| | `vehicle_show` | 17/17 | 5/17 | `██░░░░░░░░` 29 % |
+| **`ReservationController`** | | **0/69** | **0/69** | `░░░░░░░░░░` 0 % |
+| | `reservation_new` | 0/39 | 0/39 | `░░░░░░░░░░` 0 % |
+| | `reservation_return` | 0/30 | 0/30 | `░░░░░░░░░░` 0 % |
+| **`ApiController`** | | **0/25** | **0/25** | `░░░░░░░░░░` 0 % |
+| | `api_vehicles` | 0/25 | 0/25 | `░░░░░░░░░░` 0 % |
+| **`AdminController`** | | **0/38** | **0/38** | `░░░░░░░░░░` 0 % |
+| | `admin_vehicle_new` | 0/38 | 0/38 | `░░░░░░░░░░` 0 % |
+| **Commandes console** | | **0/37** | **0/37** | `░░░░░░░░░░` 0 % |
+| | `fleet:report` | 0/26 | 0/26 | `░░░░░░░░░░` 0 % |
+| | `fleet:demo:load` | 0/11 | 0/11 | `░░░░░░░░░░` 0 % |
+
+<details><summary>Détail par fiche</summary>
+
+| Fiche | Route | Fiche BH | Tests | Golden | Réf | App | Diff | Statut |
+|---|---|---|---|---|---|---|---|---|
+| BH-001 | `homepage` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-002 | `homepage` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-003 | `homepage` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-004 | `homepage` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-010 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-011 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-012 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-013 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-014 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-015 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-016 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-017 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-018 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-019 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-020 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-021 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-022 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-023 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-024 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-025 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-026 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-027 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-028 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-040 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-041 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-042 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-043 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-044 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-045 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-046 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-047 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-048 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-049 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-050 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-051 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-052 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-053 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-054 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-055 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
+| BH-056 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-100 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-101 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-102 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-103 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-104 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-105 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-106 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-107 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-108 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-109 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-110 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-111 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-112 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-113 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-114 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-115 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-116 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-117 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-118 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-119 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-120 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-121 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-122 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-123 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-124 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-125 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-126 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-127 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-128 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-129 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-130 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-131 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-132 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-133 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-134 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-135 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-136 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-137 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-138 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-150 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-151 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-152 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-153 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-154 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-155 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-156 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-157 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-158 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-159 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-160 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-161 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-162 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-163 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-164 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-165 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-166 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-167 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-168 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-169 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-170 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-171 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-172 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-173 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-174 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-175 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-176 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-177 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-178 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-179 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-200 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-201 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-202 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-203 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-204 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-205 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-206 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-207 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-208 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-209 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-210 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-211 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-212 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-213 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-214 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-215 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-216 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-217 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-218 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-219 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-220 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-221 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-222 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-223 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-224 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-300 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-301 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-302 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-303 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-304 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-305 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-306 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-307 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-308 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-309 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-310 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-311 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-312 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-313 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-314 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-315 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-316 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-317 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-318 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-319 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-320 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-321 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-322 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-323 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-324 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-325 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-326 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-327 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-328 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-329 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-330 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-331 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-332 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-333 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-334 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-335 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-336 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-337 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-400 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-401 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-402 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-403 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-404 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-405 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-406 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-407 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-408 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-409 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-410 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-411 | `fleet:report` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-412 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-413 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-414 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-415 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-416 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-417 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-418 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-419 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-420 | `fleet:report` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-421 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-422 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-423 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-424 | `fleet:report` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-425 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-450 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-451 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-452 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-453 | `fleet:demo:load` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-454 | `fleet:demo:load` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-455 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-456 | `fleet:demo:load` | — | — | — | — | — | — | ⬜ à écrire |
+| BH-457 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-458 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-459 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-460 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+
+Légende — Fiche BH : décrite dans `docs/migration/behaviors/` · Tests : méthodes `bhNNN_*` · Golden : ✔ présents / ✘ manquants / — aucun · Réf / App : dernier run sur `app-ref` / `app` (✔ ✘ ↷ —) · Diff : variante comparative requise si la fiche est sensible à la migration.
+
+</details>
+<!-- tracking:end -->
+
+## Sommaire
+
+1. [Gabarit commun](#1-gabarit-commun)
+2. [`VehicleController`](#2-vehiclecontroller) — BH-001 à BH-056
+3. [`ReservationController`](#3-reservationcontroller) — BH-100 à BH-179
+4. [`ApiController`](#4-apicontroller) — BH-200 à BH-224
+5. [`AdminController`](#5-admincontroller) — BH-300 à BH-337
+6. [Commandes console](#6-commandes-console) — BH-400 à BH-460
+7. [Journal d'implémentation](#journal-dimplémentation) · [Blocages](#blocages)
+
+## 1. Gabarit commun
+
+### 1.1 Ce qu'un test garantit
+
+Un test de caractérisation affirme : **« pour cette entrée, sur ces données, l'application répond exactement
+ainsi »**. Il est écrit et validé sur la référence (`app-ref`, step-00), puis rejoué inchangé à chaque marche (`app`).
+Il ne juge pas : un bug figé est un comportement attendu, jusqu'à décision contraire consignée dans
+`docs/migration/accepted-changes.md`.
+
+Est **observable**, donc contractuel :
+
+| Canal | Contractuel | Non contractuel (à ignorer ou normaliser) |
+|---|---|---|
+| Statut HTTP | toujours | — |
+| En-têtes | `Location`, `Content-Type`, `X-Fleet-Version`, `Cache-Control`, `Allow`, `WWW-Authenticate`, présence et attributs de `Set-Cookie` | `Date`, `Server`, `X-Powered-By`, `Content-Length`, valeur de `PHPSESSID` |
+| Corps HTML | contenu, ordre, libellés, liens, formats de nombres et de dates, échappement | indentation et espaces entre balises, jetons CSRF, pages d'erreur génériques du framework (voir § 1.2.4) |
+| Corps JSON | octet par octet | — |
+| Base de données | état exact après l'action (lecture seule = **inchangée**) | — |
+| Journal PHP | signatures d'erreurs/notices produites (comparées à la référence, en suite `diff`) | horodatage, chemins absolus |
+
+### 1.2 Gabarit d'un test
+
+Chaque test (une méthode `bhNNN_…`) suit **exactement** ces étapes. Une étape non applicable est notée « N/A » dans
+la fiche, jamais omise silencieusement.
+
+#### 1.2.1 Fiche
+
+```markdown
+### BH-NNN — <titre : comportement observé, pas l'implémentation>
+- Route / interface : <nom de route> · <MÉTHODE> <chemin + requête exacte>
+- Suite : http | edge | diff | db          Groupe : zone-<zone>
+- Scénario de données : <scénario>         (restauré avant le test, empreinte vérifiée)
+- Authentification : aucune | Basic <utilisateur> | Basic invalide
+- Sensible à la migration : non | oui → <quoi, quelle étape> (ex. « comparaison lâche, PHP 8.0, step-05 »)
+- Entrée : <paramètres, en-têtes, corps>
+- Attendu (step-00) :
+  - A1 statut : …
+  - A2 en-têtes : …
+  - A3 corps : golden `<nom>` + assertions ciblées : …
+  - A4 base : inchangée | <différence exacte>
+  - A5 journal PHP : aucune entrée | <signatures attendues>
+- Golden : tests/golden/http/<zone>/<nom>.html
+```
+
+#### 1.2.2 Déroulé (Arrange → Act → Assert)
+
+1. **Arrange — données** : `Fixtures::restore('<scénario>', TARGET)` copie la base figée et vérifie son empreinte.
+   Ne jamais dépendre de l'état laissé par un autre test.
+2. **Arrange — contexte** : client HTTP **neuf** (pas de cookie, pas de redirection suivie automatiquement),
+   authentification seulement si la fiche le dit. Horloge : celle du conteneur (`2026-01-15 10:00` au démarrage du
+   processus) ; un test ne doit jamais dépendre des secondes.
+3. **Arrange — référence** : noter la taille du journal PHP (`/var/log/php/error.log`) de la cible, pour A5.
+4. **Act** : **une seule** requête, exactement celle de la fiche (méthode, chemin, chaîne de requête encodée telle
+   quelle, en-têtes).
+5. **Assert A1 — statut** : égalité stricte.
+6. **Assert A2 — en-têtes contractuels** : égalité stricte des valeurs (insensible à la casse du nom).
+   `Set-Cookie` : présence ou absence, attributs (`path=/`, `HttpOnly`), jamais la valeur.
+7. **Assert A3 — corps** :
+   - normaliser (`Normalizer::html()` : espaces entre balises, fins de ligne ; `Normalizer::json()` : rien) ;
+   - comparer au **golden** (égalité stricte) ;
+   - **et** faire 2 à 5 assertions ciblées sur ce que la fiche met en avant (nombre de lignes, ordre, libellé
+     exact). Elles disent *pourquoi* le golden compte et localisent l'écart quand il casse.
+8. **Assert A4 — base** : empreinte du dump canonique de la base = empreinte du scénario (route en lecture seule) ;
+   pour une écriture, diff exact attendu (fiches des autres contrôleurs).
+9. **Assert A5 — journal PHP** : nouvelles lignes depuis l'étape 3, réduites à leur signature (type + message sans
+   chemin) ; égalité avec la liste de la fiche. Une notice PHP 7 qui devient warning PHP 8 est un **écart à
+   trier**, pas un échec silencieux.
+10. **Exécuter sur la référence** : le test doit être vert sur `app-ref` (`tests.sh --target ref`) avant d'être
+    rendu. Rouge sur la référence = test ou fiche faux, jamais « à corriger dans l'application ».
+
+#### 1.2.3 Variante différentielle (suite `diff`)
+
+Pour chaque fiche marquée « sensible à la migration », un test `diff` rejoue la **même requête** sur `app-ref` et
+`app` (même scénario restauré des deux côtés) et compare A1, A2, A3 normalisés et A5. Il ne connaît pas la valeur
+attendue : il garantit seulement « identique à la référence », ce qui couvre aussi ce qu'aucune fiche n'a prévu.
+
+#### 1.2.4 Règles de normalisation et décisions
+
+| Élément | Règle |
+|---|---|
+| Espaces / indentation HTML | supprimés entre balises, conservés dans le texte |
+| Pages d'erreur 404 / 405 génériques (« Oops! An Error Occurred » de Twig 2.8) | **corps non contractuel** par défaut (le gabarit d'erreur du framework change à chaque version) : on asserte statut + en-têtes. À confirmer par l'utilisateur et consigner dans `accepted-changes.md` |
+| Corps des redirections 302 (HTML généré par `RedirectResponse`) | non contractuel ; `Location` l'est |
+| `X-Powered-By` | non contractuel (dépend de la version de PHP) — mais signalé à `/vuln-audit` |
+| Ordre des attributs HTML | conservé (une différence est un vrai écart) |
+
+#### 1.2.5 Définition de « terminé » pour un test
+
+- [ ] une fiche `BH-NNN` existe et le test porte son numéro (méthode `bhNNN_…`, `#[Group('BH-NNN')]`) ;
+- [ ] scénario restauré dans le test, empreinte vérifiée ;
+- [ ] A1 à A5 présents (ou « N/A » justifié dans la fiche) ;
+- [ ] golden enregistré sur step-00 (`/golden-master --record`) ;
+- [ ] vert sur `app-ref` ; aucun appel à une classe de l'application ;
+- [ ] si « sensible à la migration » : variante `diff` et, le cas échéant, test `edge` dédié ;
+- [ ] déterministe : 3 exécutions consécutives identiques, ordre des tests indifférent.
+
+## 2. `VehicleController`
+
+Rappels communs à toutes les réponses de ce contrôleur (observés) :
+
+- `X-Fleet-Version: 1.4.2`, `Cache-Control: no-cache`, `Content-Type: text/html; charset=UTF-8` — **y compris** sur
+  les 302, 404 et 405 ;
+- pages HTML : `Set-Cookie: PHPSESSID=…; path=/; HttpOnly` (le layout lit les messages flash) ;
+- titre `<title>Flotte Delvaux & Fils</title>`, `<nav>` avec le lien « Véhicules » ; lien « Ajouter un véhicule »
+  **seulement** si authentifié `ROLE_ADMIN` ;
+- lecture seule : **A4 = base inchangée** pour tous les tests de ce contrôleur.
+
+### 2.1 `homepage` — `/` (toutes méthodes)
+
+| Fiche | Requête | Scénario | A1 | A2 / A3 — points clés | Sensible |
+|---|---|---|---|---|---|
+| BH-001 | `GET /` | demo | 302 | `Location: /vehicules` (**relatif**) ; corps non contractuel | non |
+| BH-002 | `POST /`, `PUT /`, `DELETE /` | demo | 302 | même `Location` : aucune restriction de méthode | oui : `@Method` absent, routage par attributs (step-04/06) |
+| BH-003 | `GET /?status=1` | demo | 302 | `Location: /vehicules` : la chaîne de requête est **perdue** | non |
+| BH-004 | `HEAD /` | demo | 302 | corps vide, mêmes en-têtes | non |
+
+### 2.2 `vehicle_index` — `GET /vehicules`
+
+| Fiche | Requête | Scénario | A1 | A3 — points clés | Sensible |
+|---|---|---|---|---|---|
+| BH-010 | `GET /vehicules` | demo | 200 | 5 lignes triées par plaque `1-ABC-123, 1-BCD-234, 1-CDE-345, 1-DEF-456, 2-EFG-567` ; colonnes Plaque (lien `/vehicules/{id}`), « Marque Modèle », `84.210 km`, libellé de statut ; option « Tous » sans `selected` | non |
+| BH-011 | `GET /vehicules` | empty | 200 | une ligne `<td colspan="4">Aucun véhicule.</td>` | oui : `{% for … else %}` (Twig) |
+| BH-012 | `GET /vehicules?status=0` / `=1` / `=2` | demo | 200 | 3 / 1 / 1 lignes ; option correspondante `selected` | non |
+| BH-013 | `GET /vehicules?status=` | demo | 200 | 5 lignes, aucune option `selected` | non |
+| BH-014 | `GET /vehicules?status=3` | demo | 200 | « Aucun véhicule. », aucune option `selected` | non |
+| BH-015 | `GET /vehicules?status=abc` | demo | 200 | **3 lignes** (statut 0) **et option « Disponible » `selected`** (comparaison lâche PHP et Twig) | **oui** : PHP 8.0 → 0 ligne, aucune sélection (step-05) — test `edge` + `diff` |
+| BH-016 | `GET /vehicules?status=0abc` | demo | 200 | 3 lignes | **oui** : PHP 8.0 (chaîne à préfixe numérique) |
+| BH-017 | `GET /vehicules?status=01` et `?status=%201` | demo | 200 | 1 ligne (statut 1) | oui : chaînes numériques avec zéro / espace |
+| BH-018 | `GET /vehicules?status%5B%5D=1` | demo | 200 | **0 ligne** (tableau ≠ entier) | **oui** : `InputBag::get()` sur un tableau lève une exception en Symfony 6 (→ 400 attendu) |
+| BH-019 | `GET /vehicules` | edge | 200 | ordre **binaire** : ` 2-BBB-004` (espace en tête) en premier, puis `0-AAA-000`, `1ABC12`…, plaques en minuscules après les majuscules ; affichage **normalisé** (`2-BBB-004`, `ABC123`…) | oui : tri SQLite + filtre `plate` |
+| BH-020 | `GET /vehicules` | edge | 200 | formats : `0 km`, `2.147.483.647 km` | oui : `number_format` |
+| BH-021 | `GET /vehicules` | edge | 200 | échappement : `Citroën &lt;b&gt;C3&lt;/b&gt;`, `&quot;Aircross&quot; &amp; &lt;script&gt;…`, Unicode et emoji intacts | oui : auto-échappement Twig 1 → 3 |
+| BH-022 | `GET /vehicules` | anomalies | 200 | statut inconnu → cellule de statut **vide** ; plaque vide, km négatif `-500 km` ; A5 : notices `Undefined offset: 3`, `Undefined offset: -1` | **oui** : notice → warning (PHP 8), libellé |
+| BH-023 | `GET /vehicules` (Basic `gestionnaire:flotte2016`) | demo | 200 | lien « Ajouter un véhicule » présent dans `<nav>` | oui : sécurité (step-06) |
+| BH-024 | `GET /vehicules` (Basic `gestionnaire:mauvais`) | demo | **401** | `WWW-Authenticate: Basic realm="Secured Area"` : de mauvais identifiants sur une page **publique** sont refusés | **oui** : authenticators (step-06) |
+| BH-025 | `GET /vehicules/` | demo | 404 | barre oblique finale non redirigée | oui : routage |
+| BH-026 | `POST /vehicules` | demo | 405 | `Allow: GET, HEAD` | non |
+| BH-027 | `HEAD /vehicules` | demo | 200 | corps vide, mêmes en-têtes que GET | non |
+| BH-028 | `GET /vehicules` | volume | 200 | 500 lignes ; suite `diff` : temps de réponse `app` ≤ 2 × `app-ref` (repère step-00 : ~40 ms) | oui : performance |
+
+### 2.3 `vehicle_show` — `GET /vehicules/{id}`
+
+| Fiche | Requête | Scénario | A1 | A3 — points clés | Sensible |
+|---|---|---|---|---|---|
+| BH-040 | `GET /vehicules/1` | demo | 200 | `<h1>1-ABC-123 — Renault Kangoo</h1>`, `Kilométrage : 84.210 km · Statut : Disponible`, lien `/vehicules/1/reserver` « Réserver ce véhicule », à venir : `15/06/2030 08:00 → 15/06/2030 18:00 : Sophie Martin` + lien `/reservations/5/retour`, historique : `02/05/2016 : Jean Dupont, 210 km, 73,50 €` | oui : `{% for … if %}` (Twig 3, step-04) |
+| BH-041 | `GET /vehicules/2` | demo | 200 | « Aucune réservation à venir. » ; historique de 2 lignes dans l'ordre des dates | oui : idem |
+| BH-042 | `GET /vehicules/3` et `/4` | demo | 200 | statut « En entretien » / « Hors service », **pas** de lien « Réserver » | non |
+| BH-043 | `GET /vehicules/<véhicule sans historique>` | edge (#1) | 200 | « Aucune réservation à venir. » et historique = `<ul>` **vide** (pas de message) | oui : Twig |
+| BH-044 | `GET /vehicules/<véhicule en entretien avec réservation future>` | edge (#11) | 200 | réservation future affichée, pas de lien « Réserver » | non |
+| BH-045 | `GET /vehicules/<véhicule en retard>` | edge (`1-OVD-001`) | 200 | la réservation **passée non rendue** figure dans « Réservations à venir », avant la future | non (bug figé) |
+| BH-046 | `GET /vehicules/<même date de début>` | edge (`1-SAM-001`) | 200 | ordre des deux réservations de même début = ordre observé (dépend de la base) | oui : `@OrderBy`, ORM |
+| BH-047 | `GET /vehicules/<40 réservations>` | edge (`1-LNG-040`) | 200 | toutes listées (aucune pagination), annulées absentes | non |
+| BH-048 | `GET /vehicules/<arrondis>` | edge (`1-CST-001`) | 200 | historique : `1 km, 0,35 €` · `3 km, 1,05 €` · `7 km, 2,45 €` · `0 km, 0,00 €` · `999 km, 349,65 €` | oui : flottants, `number_format` |
+| BH-049 | `GET /vehicules/<XSS>` | edge (`1-XSS-001`) | 200 | `<h1>` échappé (`&lt;script&gt;…&#039;x&#039;`), 11 conducteurs « difficiles » échappés (vide, 100 caractères, guillemets, script, emoji, arabe) | oui : échappement Twig |
+| BH-050 | `GET /vehicules/<changements d'heure>` | edge (`1-DST-001`) | 200 | heures naïves affichées telles qu'en base (`29/03/2026 01:30 → 29/03/2026 03:30`) | oui : `DateTime`, fuseau |
+| BH-051 | `GET /vehicules/<anomalies>` | anomalies (#1, #6, #8) | 200 | libellé de statut vide ; km retour < départ → `-100 km, -35,00 €` ; coût NULL → `0,00 €` ; coût `N/A` → `10 km,  €` (montant vide, warning) ; coût `12.345` → `12,35 €` ; statuts `CONFIRMEE`/vide absents des deux listes ; A5 : notice + warning `number_format()` | **oui** : `number_format(null)` déprécié (8.1), `number_format('N/A')` → TypeError (8.0) → 500 probable |
+| BH-052 | `GET /vehicules/01` | demo | **200** | même page que `/vehicules/1` (contenu dupliqué) | oui : ParamConverter → MapEntity (step-06) |
+| BH-053 | `GET /vehicules/999`, `/vehicules/0` | demo | 404 | en-têtes communs ; corps non contractuel (§ 1.2.4) | oui : page d'erreur |
+| BH-054 | `GET /vehicules/abc`, `/vehicules/-1`, `/vehicules/99999999999999999999` | demo | 404 | prérequis `\d+` / dépassement d'entier : 404, jamais 500 | **oui** : très grand id (PHP 8 / DBAL 3) |
+| BH-055 | `GET /vehicules/1/` | demo | 404 | barre oblique finale | oui : routage |
+| BH-056 | `POST /vehicules/1` | demo | 405 | `Allow: GET, HEAD` | non |
+
+### 2.4 Exemple complet : BH-015
+
+```markdown
+### BH-015 — Le filtre de statut non numérique affiche les véhicules disponibles
+- Route / interface : vehicle_index · GET /vehicules?status=abc
+- Suite : edge (+ diff)            Groupe : zone-vehicles-list
+- Scénario de données : demo
+- Authentification : aucune
+- Sensible à la migration : oui → comparaison lâche `0 != 'abc'` (PHP) et `status == value` (Twig) ; PHP 8.0
+  (step-05) donnera 0 ligne et aucune option sélectionnée
+- Entrée : paramètre de requête status=abc
+- Attendu (step-00) :
+  - A1 statut : 200
+  - A2 en-têtes : Content-Type text/html; charset=UTF-8 · X-Fleet-Version 1.4.2 · Cache-Control no-cache ·
+    Set-Cookie PHPSESSID (path=/, HttpOnly)
+  - A3 corps : golden `vehicles-list/status-abc` ; 3 lignes : 1-ABC-123, 1-BCD-234, 2-EFG-567 ;
+    `<option value="0" selected>Disponible</option>` ; aucune autre option sélectionnée
+  - A4 base : inchangée
+  - A5 journal PHP : aucune entrée
+- Golden : tests/golden/http/vehicles-list/status-abc.html
+```
+
+Déroulé correspondant (pseudo-code, pas une implémentation) :
+
+```text
+restore('demo', target)                     → empreinte OK
+log0 = phpLogSize(target)
+r = http(target).get('/vehicules?status=abc')   (client neuf, sans redirection)
+assert r.status == 200
+assert headers(r) ⊇ {Content-Type, X-Fleet-Version: 1.4.2, Cache-Control: no-cache}; cookie PHPSESSID présent
+html = normalizeHtml(r.body)
+assertMatchesGolden('vehicles-list/status-abc', html)
+assert rows(html) == ['1-ABC-123', '1-BCD-234', '2-EFG-567']
+assert selectedOptions(html) == ['0']
+assert dbFingerprint(target) == fingerprint('demo')
+assert phpLogSignatures(target, since=log0) == []
+```
+
+### 2.5 Points à trancher avant d'écrire les tests
+
+| Question | Proposition |
+|---|---|
+| Corps des pages d'erreur 404/405 du framework : contractuels ? | **Non** (statut et en-têtes seulement) — à consigner dans `accepted-changes.md` |
+| BH-015 à BH-018 (filtre lâche, tableau) : conserver le comportement PHP 7 en 8.4 ? | **Oui** pendant la migration (bug pour bug) ; correction éventuelle dans une étape séparée |
+| BH-024 (401 sur page publique avec mauvais identifiants) : à préserver ? | Oui, c'est un comportement visible des clients HTTP |
+| BH-052 (`/vehicules/01` → 200) : à préserver ? | Oui (liens externes possibles) |
+| A5 (journal PHP) : contractuel ou seulement comparé en `diff` ? | Comparé en `diff` uniquement : une notice PHP 7 devient warning en PHP 8 sans changer la page |
+| Seuil de performance BH-028 | ≤ 2 × la référence |
+
+## 3. `ReservationController` — création de réservation et retour de véhicule
+
+> **Objet** : appliquer le gabarit commun (§ 1 : fiche `BH-NNN`, déroulé
+> Arrange → Act → Assert, A1 à A5, variante `diff`, définition de « terminé ») aux 2 routes **qui écrivent en base** :
+> création d'une réservation et retour d'un véhicule.
+>
+> Toutes les valeurs « observées » viennent de l'application step-00 réelle (PHP 7.2.34 / Symfony 2.8.52), par des
+> soumissions de formulaires complètes (session, jeton CSRF) sur les scénarios `booking`, `returns` et `anomalies`,
+> avec comparaison de la base avant / après (2026-11-17).
+
+### 3.1 Ce qui change par rapport au gabarit commun
+
+Ces routes **modifient la base** et passent par un formulaire protégé par CSRF. Le déroulé d'un test devient un
+**parcours** de 3 requêtes au lieu d'une :
+
+1. **Arrange** : restaurer le scénario, client neuf **avec session** (cookies conservés), noter la taille du journal PHP.
+2. **GET du formulaire** (`/vehicules/{id}/reserver` ou `/reservations/{id}/retour`) : extraire le jeton
+   `reservation[_token]` / `form[_token]` (cas « sans jeton » ou « jeton faux » : ne pas l'envoyer / en envoyer un faux).
+3. **Act — POST** : `application/x-www-form-urlencoded`, champs **exactement** ceux de la fiche (valeurs brutes,
+   pas de reformatage par le test).
+4. **Assert A1/A2** sur la réponse au POST : `302` + `Location` relatif, ou `200` (formulaire réaffiché), ou erreur.
+5. **Assert A3** :
+   - 302 → **GET de `Location`** avec la même session et vérification du message flash
+     `<p class="flash-success">…</p>` (il n'apparaît qu'une fois : un second GET ne l'affiche plus) ;
+   - 200 → erreurs du formulaire, **texte exact et emplacement** : erreur globale (règle métier, CSRF, champs en trop)
+     en tête du formulaire, erreur de champ (`This value is not valid.`) dans le `<div>` du champ, avant l'`<input>` ;
+     valeurs saisies réaffichées (`value="…"`) ;
+   - golden du HTML normalisé (jeton CSRF masqué).
+6. **Assert A4 — diff exact de la base** (le point le plus important pour ces routes) : lignes ajoutées et modifiées,
+   colonne par colonne, **types SQLite compris** (`quote()` : un coût `35` INTEGER n'est pas `35.0` REAL), et **rien
+   d'autre**. Cas refusés : base **strictement inchangée**.
+7. **Assert A5** : journal PHP (attention : en step-00 les exceptions ne sont **journalisées nulle part**, MonologBundle
+   n'est pas installé — le 500 ne se constate que par la réponse et la base).
+
+Rappels observés communs aux deux routes :
+
+- les formulaires n'ont **aucun bouton de soumission** (`{{ form(form) }}` sans bouton) : seule la touche Entrée soumet ;
+- messages Symfony **en anglais** (pas de traducteur configuré), messages métier en français ;
+- `GET` du formulaire : 200 même quand la soumission sera refusée (véhicule indisponible, réservation clôturée) ;
+- `POST` sans aucun champ du formulaire : **200 sans erreur**, rien n'est écrit (`isValid()` appelé sur un formulaire
+  non soumis — **lève une exception à partir de Symfony 4**) ;
+- en-têtes : `X-Fleet-Version: 1.4.2`, `Cache-Control: no-cache`, cookie `PHPSESSID` ; 404 si l'id n'existe pas,
+  405 pour une autre méthode que GET/POST.
+
+### 3.2 `reservation_new` — `GET|POST /vehicules/{id}/reserver`
+
+Formulaire `reservation` : `driverName` (texte), `startAt` et `endAt` (texte `dd/MM/yyyy HH:mm`), `_token`.
+Page : `<h1>Réserver 1-BOK-001</h1>`, `<p>Format des dates : JJ/MM/AAAA HH:MM</p>`.
+Création réussie → ligne `reservation` : `status = 'confirmee'`, `start_km` = kilométrage du véhicule,
+`end_km` et `cost` NULL ; 302 vers `/vehicules/{id}` ; flash « Réservation enregistrée. ».
+
+Scénario `booking` (date de référence 15/01/2026 10:00) : véhicule 2 réservé le 10/02/2026 10:00–12:00 ; 3 en
+entretien ; 4 hors service ; 5 n'a sur le créneau qu'une réservation terminée et une annulée ; 6 en cours (14/01 → 16/01) ;
+7 en retard (05/01 → 06/01, jamais rendu) ; 8 à 0 km.
+
+| Fiche | Entrée (POST sauf mention) | Scénario | A1 | A3 / A4 — points clés (observés) | Sensible |
+|---|---|---|---|---|---|
+| BH-100 | `GET /vehicules/1/reserver` | booking | 200 | titre, rappel du format, 3 champs `required`, jeton caché, **pas de bouton** | oui : rendu des formulaires (Twig/Form, step-01→04) |
+| BH-101 | véhicule 1, `Jean Test`, `20/02/2026 08:00` → `20/02/2026 18:00` | booking | 302 | `Location: /vehicules/1` ; flash « Réservation enregistrée. » ; A4 : +1 ligne id 11 `(1, 'Jean Test', '2026-02-20 08:00:00', '2026-02-20 18:00:00', 'confirmee', 10000, NULL, NULL)` | oui : `isValid()` sans `isSubmitted()`, types par nom (step-01/02) |
+| BH-102 | véhicule 3 (entretien) puis 4 (hors service), créneau libre | booking | 200 | erreur globale « Ce véhicule n'est pas disponible. » ; base inchangée | non |
+| BH-103 | fin = début (`08:00` → `08:00`) | booking | 200 | « La date de fin doit être postérieure à la date de début. » | non |
+| BH-104 | fin avant début | booking | 200 | même message | non |
+| BH-105 | véhicule 2, `10/02/2026 10:30` → `11:30` (inclus) | booking | 200 | « Ce véhicule est déjà réservé sur cette période. » | non |
+| BH-106 | véhicule 2, `08:00` → `10:00` (se termine pile au début de l'existante) | booking | 200 | **refusé** : bornes incluses, se toucher = chevaucher | oui : requête DQL (ORM 2.5 → 2.17/3) |
+| BH-107 | véhicule 2, `12:00` → `14:00` (commence pile à la fin) | booking | 200 | **refusé** (bornes incluses) | oui : idem |
+| BH-108 | véhicule 2, `09:00` → `13:00` (englobe) | booking | 200 | refusé | non |
+| BH-109 | véhicule 2, `08:00` → `09:59` puis `12:01` → `14:00` | booking | 302 | acceptés (une minute d'écart suffit) ; +1 ligne chacun | non |
+| BH-110 | véhicule 5, créneau d'une réservation **terminée** et d'une **annulée** | booking | 302 | accepté : seules les `confirmee` bloquent | non |
+| BH-111 | véhicule 2, `20/02/2026 09:00` → `10:00` (sur une annulée) | booking | 302 | accepté | non |
+| BH-112 | véhicule 6, `15/01/2026 12:00` → `14:00` (pendant une réservation en cours) | booking | 200 | « déjà réservé » | non |
+| BH-113 | véhicule 7, `05/01/2026 12:00` → `14:00` (créneau d'une réservation **en retard**) | booking | 200 | « déjà réservé » : une réservation passée non rendue bloque toujours son créneau | non |
+| BH-114 | véhicule 1, `01/12/2025 08:00` → `10:00` (dans le **passé**) | booking | 302 | **accepté** : aucun contrôle de date passée | non |
+| BH-115 | véhicule 8 (0 km) | booking | 302 | `start_km = 0` | non |
+| BH-116 | conducteur vide `""`, puis `"   "` | booking | 200 | « Le nom du conducteur est obligatoire. » (les espaces sont supprimés avant validation) | oui : option `trim`, NotBlank |
+| BH-117 | conducteur `"  Paul Martin  "` | booking | 302 | enregistré **`Paul Martin`** (espaces supprimés) | oui : idem |
+| BH-118 | conducteur de **101** caractères | booking | 302 | **accepté et enregistré en entier** (colonne VARCHAR(100) non contrôlée par SQLite, aucune contrainte `Length`) | **oui** : DBAL 3 / validation |
+| BH-119 | conducteur `<script>alert(1)</script> Émile 🚐` | booking | 302 | enregistré tel quel ; affiché **échappé** sur la fiche véhicule (lien avec BH-049) | oui : échappement Twig |
+| BH-120 | dates `2026-02-20 08:00` (ISO) | booking | 200 | `This value is not valid.` sur **les deux** champs (erreur de champ, en anglais) | oui : `IntlDateFormatter`, messages |
+| BH-121 | dates `31/02/2026 08:00` ; `20/02/2026 25:00` ; `20/02/2026 8` (sans minutes) | booking | 200 | `This value is not valid.` ×2 (dates non « lenient ») | oui : ICU |
+| BH-122 | dates `20/02/26 08:00` → `20/02/26 18:00` (**année sur 2 chiffres**) | booking | 302 | **accepté**, enregistré **`0026-02-18 07:42:30`** → `0026-02-18 17:42:30` : an 26, **décalé de 2 jours** (calendrier julien) et de **−17 min 30 s** (heure solaire de Bruxelles avant 1892) | **oui, très** : ICU, `DateTime`, PHP 8 (step-05), DBAL 3 |
+| BH-123 | dates `1/2/2026 8:05` → `1/2/2026 9:05` (chiffres uniques) | booking | 302 | accepté : `2026-02-01 08:05:00` | oui : ICU |
+| BH-124 | dates avec secondes `20/02/2026 08:00:30` | booking | 302 | accepté, **secondes supprimées** (`08:00:00`) | oui : ICU |
+| BH-125 | `29/03/2026 02:30` → `03:30` (heure **inexistante**, passage à l'heure d'été) | booking | 200 | `This value is not valid.` sur `startAt` uniquement | **oui** : ICU / fuseau |
+| BH-126 | `25/10/2026 02:30` → `02:45` (heure **ambiguë**, passage à l'heure d'hiver) | booking | 302 | accepté, enregistré tel quel | oui : idem |
+| BH-127 | dates en `31/12/9999` | booking | 200 | `This value is not valid.` ×2 | oui : ICU, dépassement |
+| BH-128 | minutes quelconques `08:07` → `08:08` (1 minute) | booking | 302 | accepté (pas de pas imposé) | non |
+| BH-129 | sans jeton CSRF, puis jeton faux | booking | 200 | erreur globale `The CSRF token is invalid. Please try to resubmit the form.` ; base inchangée | oui : composant CSRF (step-04/06) |
+| BH-130 | champ en trop dans le formulaire `reservation[status]=terminee` | booking | 200 | `This form should not contain extra fields.` ; **pas** d'affectation | oui : `allow_extra_fields` |
+| BH-131 | champ en trop **hors** du formulaire (`foo=bar`) | booking | 302 | ignoré, réservation créée | non |
+| BH-132 | seulement le jeton (aucun champ) | booking | 200 | 3 erreurs : « Le nom du conducteur est obligatoire. », `This value should not be blank.` ×2 (mélange FR / EN) | oui : messages de validation |
+| BH-133 | POST **sans corps** | booking | 200 | formulaire réaffiché **sans erreur**, rien écrit | **oui** : Symfony 4 → exception (500) attendue sans précaution |
+| BH-134 | même POST envoyé **deux fois** (même jeton) | booking | 302 puis 200 | 1re : créée ; 2e : « déjà réservé » ; **1 seule** ligne | non |
+| BH-135 | `GET /vehicules/3/reserver` (véhicule en entretien) | booking | 200 | formulaire affiché normalement (refus seulement à la soumission) | non |
+| BH-136 | `POST /vehicules/999/reserver` ; `GET /vehicules/abc/reserver` | booking | 404 | base inchangée | oui : ParamConverter → MapEntity |
+| BH-137 | `PUT /vehicules/1/reserver` | booking | 405 | `Allow: GET, POST, HEAD` | non |
+| BH-138 | réservation créée puis **fiche véhicule** | booking | 302 → 200 | la nouvelle réservation apparaît dans « Réservations à venir » avec son lien de retour (`/reservations/11/retour`) | oui : lien avec BH-040 |
+
+### 3.3 `reservation_return` — `GET|POST /reservations/{id}/retour`
+
+Formulaire `form` : `endKm` (`<input type="number">`), `_token`. Page : `<h1>Retour de 1-RET-001</h1>`,
+`<p>Kilométrage au départ : 10.000 km</p>`.
+Retour réussi → `status = 'terminee'`, `end_km`, `cost = round(km × 0,35, 2)`, **kilométrage du véhicule =
+`end_km`** ; 302 vers `/vehicules/{id}` ; flash « Retour enregistré. Coût : 35,00 € ».
+
+Scénario `returns` : réservation 1 (véhicule 1, départ 10 000 km), 2 (départ 0), 3 terminée, 4 annulée, 5 (départ
+50 000, véhicule déjà à 50 500), 6 (départ 2 147 483 000), 7 (véhicule en entretien), 8 future et 9 en cours sur le
+même véhicule 8 (départ 8 000).
+
+| Fiche | Entrée (POST `form[endKm]` sauf mention) | Scénario | A1 | A3 / A4 — points clés (observés) | Sensible |
+|---|---|---|---|---|---|
+| BH-150 | `GET /reservations/1/retour` | returns | 200 | titre, kilométrage au départ formaté, champ `type="number"` `required`, **pas de bouton** | oui : rendu des formulaires |
+| BH-151 | réservation 1, `10100` | returns | 302 | `Location: /vehicules/1` ; flash « Retour enregistré. Coût : 35,00 € » ; A4 : r1 `status 'terminee'`, `end_km 10100`, `cost 35` (**INTEGER**) ; v1 `mileage 10100` | oui : arithmétique, types (step-05, DBAL 3) |
+| BH-152 | réservation 1, `10000` (0 km) | returns | 302 | « Coût : 0,00 € » ; `cost 0` ; kilométrage du véhicule inchangé | non |
+| BH-153 | réservation 1, `9999` (moins qu'au départ) | returns | 200 | « Kilométrage invalide. » ; base inchangée | non |
+| BH-154 | réservation 3 (**terminée**) | returns | 200 | « Cette réservation est déjà clôturée. » | non |
+| BH-155 | réservation 4 (**annulée**) | returns | 200 | **même** message « déjà clôturée » | non |
+| BH-156 | réservation 2, `1` / `3` / `7` / `13` km | returns | 302 | coûts `0,35 €` / `1,05 €` / `2,45 €` / `4,55 €` ; stockés `0.35`, `1.05`, `2.45`, `4.55` (REAL) | **oui** : flottants, `round`, `number_format` |
+| BH-157 | réservation 7 (véhicule **en entretien**), `7050` | returns | 302 | accepté, `cost 17.5` (REAL), « 17,50 € » | non |
+| BH-158 | réservation 5 (`50200` alors que le véhicule est à 50 500) | returns | 302 | accepté ; **le kilométrage du véhicule recule** à 50 200 ; « 70,00 € » | non |
+| BH-159 | réservation 8 (**pas encore commencée**), `8100` | returns | 302 | accepté (aucun contrôle de date) | non |
+| BH-160 | réservation 9 (en cours, même véhicule que 8), `8300` | returns | 302 | r9 clôturée « 105,00 € », v8 à 8 300 ; **r8 reste `confirmee` avec `start_km 8000`** | non |
+| BH-161 | réservation 6, `2147484000` | returns | 302 | « 350,00 € » ; **kilométrage du véhicule > 2^31-1** enregistré | oui : entiers 32/64 bits, DBAL |
+| BH-162 | `99999999999999999999` | returns | 200 | `This value is not valid.` (champ) | oui : `IntegerType`, ICU |
+| BH-163 | `abc` ; `+10100` ; `10 100` (espace) | returns | 200 | `This value is not valid.` | oui : `IntegerType` (locale `fr`) |
+| BH-164 | `10100.6` et `10100,6` | returns | 302 | **tronqué à 10100** (arrondi vers le bas), 35,00 € | **oui** : `IntegerType` (`rounding_mode`, `scale`), step-02/04 |
+| BH-165 | `10.100` (point des milliers) | returns | 200 | interprété comme **10** → « Kilométrage invalide. » | **oui** : idem, locale |
+| BH-166 | `010100` (zéro initial) | returns | 302 | accepté = 10100 | oui : idem |
+| BH-167 | `1e4` | returns | 302 | **interprété comme 10000** → clôture à 0 km, « 0,00 € » | **oui** : idem |
+| BH-168 | réservation 1, valeur **vide** | returns | 200 | « Kilométrage invalide. » (`null < 10000`) | **oui** : comparaison `null` (PHP 8) |
+| BH-169 | réservation 2 (départ **0**), valeur **vide** | returns | **500** | page d'erreur générique ; **base inchangée** ; aucune trace dans un journal (cause déduite : kilométrage du véhicule mis à `NULL` → violation `NOT NULL`, transaction annulée) | **oui** : erreur différente attendue en PHP 8 / DBAL 3 |
+| BH-170 | réservation 2, `-5` | returns | 200 | « Kilométrage invalide. » | non |
+| BH-171 | sans jeton CSRF, puis jeton faux | returns | 200 | `The CSRF token is invalid. Please try to resubmit the form.` ; base inchangée | oui : CSRF |
+| BH-172 | champ en trop `form[cost]=0` | returns | 200 | `This form should not contain extra fields.` | oui : `allow_extra_fields` |
+| BH-173 | POST **sans corps** | returns | 200 | formulaire réaffiché sans erreur, rien écrit | **oui** : Symfony 4 (`isValid()` non soumis) |
+| BH-174 | même POST **deux fois** | returns | 302 puis 200 | 1re : clôturée ; 2e : « déjà clôturée » ; une seule mise à jour | non |
+| BH-175 | `GET /reservations/3/retour` (terminée) | returns | 200 | formulaire affiché normalement | non |
+| BH-176 | `POST /reservations/999/retour` ; `GET /reservations/abc/retour` | returns | 404 | base inchangée | oui : ParamConverter |
+| BH-177 | `PUT /reservations/1/retour` | returns | 405 | `Allow: GET, POST, HEAD` | non |
+| BH-178 | réservation `terminee` du scénario `anomalies` (id 3, `end_km` NULL) | anomalies | 200 | « déjà clôturée » | non |
+| BH-179 | retour réussi puis **fiche véhicule** | returns | 302 → 200 | la réservation passe de « Réservations à venir » à « Historique » (`10100 − 10000 = 100 km, 35,00 €`) ; kilométrage affiché `10.100 km` | oui : lien avec BH-040 |
+
+### 3.4 Exemple complet : BH-122
+
+```markdown
+### BH-122 — Une année saisie sur 2 chiffres est enregistrée en l'an 26, décalée
+- Route / interface : reservation_new · POST /vehicules/1/reserver
+- Suite : edge (+ diff, + db)            Groupe : zone-reservation-new
+- Scénario de données : booking
+- Authentification : aucune
+- Sensible à la migration : oui, très → le format ICU `dd/MM/yyyy` accepte `26` comme année 26 ; la conversion en
+  DateTime applique le calendrier julien (−2 jours) et l'heure solaire de Bruxelles d'avant 1892 (−17 min 30 s).
+  Toute montée d'ICU, de PHP (step-03/05/07) ou de DBAL (step-06) peut changer ce résultat.
+- Entrée : reservation[driverName]=X, reservation[startAt]=20/02/26 08:00, reservation[endAt]=20/02/26 18:00, jeton valide
+- Attendu (step-00) :
+  - A1 statut : 302
+  - A2 en-têtes : Location /vehicules/1 · X-Fleet-Version 1.4.2
+  - A3 corps : (après GET de Location) flash « Réservation enregistrée. » ; « Réservations à venir » contient
+    `18/02/0026 07:42 → 18/02/0026 17:42 : X` (observé)
+  - A4 base : +1 ligne reservation id 11 = (1, 'X', '0026-02-18 07:42:30', '0026-02-18 17:42:30', 'confirmee',
+    10000, NULL, NULL) ; rien d'autre
+  - A5 journal PHP : aucune entrée
+- Golden : tests/golden/http/reservation-new/two-digit-year.html
+```
+
+### 3.5 Points à trancher avant d'écrire les tests
+
+| Question | Proposition |
+|---|---|
+| BH-122 (année sur 2 chiffres → an 26 décalé), BH-164/165/167 (`10100,6` tronqué, `10.100` = 10, `1e4` = 10000) : préserver ? | **Oui** pendant la migration (données réellement enregistrées) ; corrections dans une étape séparée, après décision |
+| BH-169 (500 sur retour vide quand le départ est à 0) : figer le 500 ? | Figer **statut 500 + base inchangée** ; corps non contractuel (page d'erreur du framework) |
+| BH-133 / BH-173 (POST vide → 200 sans erreur) : préserver malgré Symfony 4 ? | Oui : le migrator devra ajouter le contrôle `isSubmitted()` **sans** changer la réponse |
+| Messages Symfony en anglais (`This value is not valid.`…) : contractuels ? | Oui (texte visible par l'utilisateur) — toute traduction future est un changement accepté à consigner |
+| Absence de bouton de soumission : préserver ? | Oui (le HTML est contractuel) ; à signaler comme bug d'ergonomie |
+| Exceptions non journalisées (pas de MonologBundle) | Hors contrat de test ; à signaler pour la migration (ajout de journalisation = changement accepté) |
+
+## 4. `ApiController` — API JSON du planning des dépôts
+
+> **Objet** : appliquer le gabarit commun (§ 1 : fiche `BH-NNN`, déroulé
+> Arrange → Act → Assert, A1 à A5, variante `diff`, définition de « terminé ») à l'unique route de l'API JSON,
+> consommée par **un client externe** (« l'écran de planning des dépôts ») : c'est la route où un écart, même d'un
+> octet, casse quelqu'un d'autre.
+>
+> Valeurs observées sur l'application step-00 réelle (PHP 7.2.34 / Symfony 2.8.52), scénarios `empty`, `demo`,
+> `booking`, `edge`, `anomalies`, `nominal`, `volume`, le 2026-11-17.
+
+### 4.1 Ce qui change par rapport au gabarit commun
+
+- **A3 = comparaison octet par octet** du corps (aucune normalisation) contre le golden : l'ordre des clés,
+  l'échappement des caractères, les types JSON (`84210` ≠ `"84210"`, `null` ≠ `""`) et l'absence de retour à la ligne
+  final sont contractuels. Une empreinte SHA-256 du corps est stockée avec le golden pour un diagnostic rapide.
+- En complément, **assertions structurelles** (après `json_decode`) pour localiser l'écart : nombre d'éléments, ordre
+  des plaques, clés exactes `id, plate, label, mileage, status, nextReservation` dans cet ordre, types.
+- **Lecture seule** : A4 = base inchangée pour toutes les fiches.
+- Les **erreurs** (404, 405, 401) ne sont **pas** du JSON mais les pages HTML génériques du framework : on asserte
+  statut et en-têtes, corps non contractuel (§ 1.2.4).
+
+Format observé de la réponse (scénario `demo`, 591 octets, empreinte `6fe447542af8…`) :
+
+```json
+[{"id":1,"plate":"1-ABC-123","label":"Renault Kangoo","mileage":84210,"status":"Disponible","nextReservation":"15\/06\/2030 08:00"},{"id":2,"plate":"1-BCD-234","label":"Peugeot Partner","mileage":120450,"status":"Disponible","nextReservation":""},…]
+```
+
+Règles d'encodage observées (`JsonResponse` de Symfony 2.8 : `JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP |
+JSON_HEX_QUOT`, sans `JSON_UNESCAPED_UNICODE` ni `JSON_UNESCAPED_SLASHES`) :
+
+| Caractère | Encodé | Exemple observé |
+|---|---|---|
+| `/` | `\/` | `"15\/06\/2030 08:00"` |
+| non ASCII | `\uXXXX` (paires de substitution pour les emoji) | `"Citroën"`, `"🚐"` |
+| `<` `>` | `<` `>` | `<script>` |
+| `&` `'` `"` | `&` `'` `"` | `"Aircross" &` |
+
+### 4.2 `api_vehicles` — `GET /api/vehicules`
+
+Champs par véhicule, dans cet ordre : `id` (entier), `plate` (plaque **brute** de la base, non normalisée),
+`label` (`"<marque> <modèle>"`), `mileage` (entier), `status` (libellé ou `null`), `nextReservation` (début de la
+**première réservation `confirmee` dans l'ordre des dates**, même passée, au format `d\/m\/Y H:i`, ou `""`).
+Tri : plaque, ordre binaire SQLite.
+
+| Fiche | Requête | Scénario | A1 | A2 / A3 — points clés (observés) | Sensible |
+|---|---|---|---|---|---|
+| BH-200 | `GET /api/vehicules` | empty | 200 | corps exactement `[]` (2 octets) | oui : `JsonResponse` (encodage d'un tableau vide) |
+| BH-201 | `GET /api/vehicules` | demo | 200 | 591 octets, golden + empreinte ; 5 éléments ; `nextReservation` `"15\/06\/2030 08:00"` pour 1-ABC-123, `""` sinon | **oui** : options d'encodage JSON (Symfony 2.8 → 6.4), sérialisation |
+| BH-202 | en-têtes de la réponse | demo | 200 | `Content-Type: application/json` (**sans** `charset`) ; `X-Fleet-Version: 1.4.2` ; `Cache-Control: no-cache` ; **aucun** `Set-Cookie`, aucun en-tête CORS, `ETag` ni `Last-Modified` | **oui** : `JsonResponse`, `Content-Type`, session |
+| BH-203 | octets du corps | demo | 200 | pas de BOM, pas de retour à la ligne final (se termine par `"}]`), aucun espace hors des valeurs | oui : encodage |
+| BH-204 | types JSON | demo | 200 | `id` et `mileage` **nombres**, les autres **chaînes** | oui : DBAL 3 (entiers rendus en chaînes ?) |
+| BH-205 | `GET /api/vehicules` | edge | 200 | ordre binaire des plaques **brutes** : `" 2-BBB-004 "` (espaces conservés) en premier, puis `0-AAA-000`, `1-ABC-12`… ; `1-aaa-003` en minuscules (non normalisée, contrairement au HTML) | oui : tri SQLite, plaque brute |
+| BH-206 | caractères spéciaux | edge | 200 | `label` du véhicule 18 = `"Citroën <b>C3<\/b> "Aircross" & <script>alert('x')<\/script>"` ; véhicule 20 : `"Škoda Énergie … 電気 🚐"` | **oui, très** : drapeaux `JSON_HEX_*`, `JSON_UNESCAPED_*` |
+| BH-207 | grands nombres | edge | 200 | `"mileage":2147483647` (nombre, pas de notation exponentielle) | oui : entiers, DBAL |
+| BH-208 | longueur maximale | edge | 200 | `label` de 101 caractères (50 + espace + 50) | non |
+| BH-209 | réservation **en retard** | edge (1-OVD-001) | 200 | `"nextReservation":"05\/01\/2026 08:00"` : la réservation passée non rendue est présentée comme la « prochaine » | non (bug figé) |
+| BH-210 | même date de début | edge (1-SAM-001) | 200 | `"20\/02\/2026 08:00"` | oui : ordre des réservations (`@OrderBy`, ORM) |
+| BH-211 | statuts du véhicule | edge (11, 12) | 200 | « En entretien » avec `"03\/02\/2026 08:00"` ; « Hors service » avec la réservation en cours `"14\/01\/2026 08:00"` | non |
+| BH-212 | longue liste de réservations | edge (1-LNG-040) | 200 | `nextReservation` = première confirmée (`"19\/01\/2026 08:00"`), annulées et terminées ignorées | non |
+| BH-213 | heure d'été | edge (1-DST-001) | 200 | `"29\/03\/2026 01:30"` (heure naïve, telle qu'en base) | oui : `DateTime`, fuseau |
+| BH-214 | création et blocages | booking | 200 | 8 éléments ; `nextReservation` : `"10\/02\/2026 10:00"` (BOK-002), `"02\/02\/2026 08:00"` (BOK-003 en entretien), `"14\/01\/2026 08:00"` (en cours), `"05\/01\/2026 08:00"` (en retard), `""` quand seules des annulées / terminées existent | non |
+| BH-215 | données incohérentes | anomalies | 200 | statut inconnu (3, -1) → **`"status":null`** (notice PHP) ; plaque vide `""` triée en premier ; marque et modèle vides → `"label":" "` ; `"mileage":-500` ; fin avant début → `"08\/01\/2026 18:00"` ; statut `CONFIRMEE` (majuscules) **ignoré** ; A5 : notices `Undefined offset` | **oui** : notice → warning (PHP 8) ; `null` |
+| BH-216 | flotte réaliste | nominal | 200 | 24 éléments, golden + empreinte (3 124 octets) | oui : comme BH-201 |
+| BH-217 | volume | volume | 200 | 500 éléments, 58 504 octets ; **~300 ms** en step-00, contre ~40 ms pour la liste HTML du même volume (une requête SQL par véhicule pour charger ses réservations : N+1) ; suite `diff` : temps `app` ≤ 2 × `app-ref` | oui : performance, chargement paresseux (ORM) |
+| BH-218 | `GET /api/vehicules?status=1&callback=x` | demo | 200 | paramètres **ignorés** : corps identique à BH-201 (pas de filtre, pas de JSONP) | non |
+| BH-219 | `Accept: application/xml` ; `Origin: https://planning.example` | demo | 200 | aucune négociation de contenu (JSON quand même), aucun en-tête CORS | oui : si un composant CORS est ajouté |
+| BH-220 | `HEAD /api/vehicules` | demo | 200 | corps vide, `Content-Type: application/json` | non |
+| BH-221 | `POST` et `OPTIONS /api/vehicules` | demo | 405 | `Allow: GET, HEAD` ; corps **HTML** (pas de JSON d'erreur) | oui : page d'erreur |
+| BH-222 | `GET /api/vehicules/`, `/api/vehicules.json`, `/api/vehicules/1` | demo | 404 | page HTML ; aucune autre route d'API | oui : routage |
+| BH-223 | Basic `gestionnaire:mauvais` | demo | **401** | `WWW-Authenticate: Basic realm="Secured Area"` : de mauvais identifiants bloquent l'API pourtant publique | **oui** : authenticators (step-06) |
+| BH-224 | Basic `gestionnaire:flotte2016` | demo | 200 | corps identique à BH-201, **mais** `Set-Cookie: PHPSESSID` (session ouverte par l'authentification) | **oui** : firewall sans état ou non (step-06) |
+
+### 4.3 Exemple complet : BH-206
+
+```markdown
+### BH-206 — L'API échappe le HTML, les guillemets et tout caractère non ASCII
+- Route / interface : api_vehicles · GET /api/vehicules
+- Suite : http (+ diff)            Groupe : zone-api-vehicles
+- Scénario de données : edge
+- Authentification : aucune
+- Sensible à la migration : oui, très → l'encodage dépend des options de `JsonResponse`
+  (`JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT` en 2.8) ; une autre combinaison (ou
+  `JSON_UNESCAPED_UNICODE` / `JSON_UNESCAPED_SLASHES`) change les octets sans changer le sens.
+- Entrée : aucune
+- Attendu (step-00) :
+  - A1 statut : 200
+  - A2 en-têtes : Content-Type application/json · X-Fleet-Version 1.4.2 · pas de Set-Cookie
+  - A3 corps : octet par octet = golden `api-vehicles/edge.json` (3 458 octets, empreinte 6f2bebf09564…) ;
+    élément id 18 : label exactement
+    "Citroën <b>C3<\/b> "Aircross" & <script>alert('x')<\/script>" ;
+    après json_decode : label = `Citroën <b>C3</b> "Aircross" & <script>alert('x')</script>`
+  - A4 base : inchangée
+  - A5 journal PHP : aucune entrée
+- Golden : tests/golden/http/api-vehicles/edge.json
+```
+
+### 4.4 Points à trancher avant d'écrire les tests
+
+| Question | Proposition |
+|---|---|
+| Octets exacts (échappements `\/`, `\uXXXX`, `<`) ou seulement JSON équivalent ? | **Octets exacts** : le client externe n'est pas sous notre contrôle ; un changement d'encodage est un changement accepté à consigner |
+| `nextReservation` qui renvoie une réservation **passée** (BH-209) | Préserver (bug figé), correction éventuelle dans une étape séparée, en prévenant le client du planning |
+| `"status": null` pour un statut inconnu (BH-215) | Préserver le `null` ; la notice PHP devient warning en PHP 8 sans changer le corps |
+| 401 avec de mauvais identifiants (BH-223), cookie de session après authentification (BH-224) | Préserver tant que le client ne s'authentifie pas ; à revoir à step-06 (nouveau système de sécurité) |
+| Performance N+1 (BH-217) | Seuil ≤ 2 × la référence ; l'optimisation (jointure) est un changement interne, autorisé s'il ne change aucun octet |
+| Erreurs HTML sur une route d'API (BH-221, BH-222) | Corps non contractuel ; une page d'erreur JSON future serait un changement accepté |
+
+## 5. `AdminController` — ajout d'un véhicule (HTTP Basic)
+
+> **Objet** : appliquer le gabarit commun (§ 1) et le parcours avec
+> formulaire (§ 3.1 : GET du formulaire, jeton CSRF, POST, suivi de la
+> redirection, diff exact de la base) à l'unique route d'administration : l'ajout d'un véhicule, **protégé par
+> authentification HTTP Basic**. C'est la route la plus exposée à la migration : le système de sécurité de Symfony
+> est entièrement remplacé entre 2.8 et 6.4 (`security.context`, `anonymous`, `http_basic`, encodeur `plaintext` →
+> authenticators, password hasher).
+>
+> Valeurs observées sur l'application step-00 réelle (PHP 7.2.34 / Symfony 2.8.52), soumissions complètes avec et
+> sans identifiants, scénarios `demo` et `empty`, comparaison de la base avant / après (2026-11-17).
+
+### 5.1 Ce qui change par rapport aux gabarits précédents
+
+- **Authentification dans l'Arrange** : chaque fiche précise les identifiants envoyés **au GET** du formulaire et
+  **au POST** (en-tête `Authorization: Basic …`, ou rien). La session ouverte par l'authentification fait partie du
+  comportement observé (voir BH-336, BH-337).
+- **A2 sécurité** : sur un refus, `401` + `WWW-Authenticate: Basic realm="Secured Area"` (et corps vide côté
+  contrat) ; sur un succès, `Set-Cookie: PHPSESSID`.
+- **A4** : diff exact de la table `vehicle` ; `created_at` est la seule valeur **non déterministe** (horloge du
+  conteneur qui démarre au 15/01/2026 10:00 puis avance) : asserter le format `Y-m-d H:i:s` et la date
+  `2026-01-15`, **jamais les minutes ni les secondes**. Identifiant attendu : `max(id) + 1` (6 sur `demo`, 1 sur
+  `empty`).
+- **A5** : les erreurs 500 ne sont journalisées nulle part en step-00 (pas de MonologBundle) : on les constate par la
+  réponse et par la base (inchangée, transaction annulée).
+
+Rappels observés :
+
+- identifiants : utilisateur en mémoire `gestionnaire` / `flotte2016`, rôle `ROLE_ADMIN` ;
+- formulaire `vehicle` (page `<h1>Nouveau véhicule</h1>`, **aucun bouton de soumission**) :
+
+  | Champ | Rendu | Valeur par défaut |
+  |---|---|---|
+  | `vehicle[plate]` | `<input type="text" required>` | — |
+  | `vehicle[brand]` | `<input type="text" required>` | — |
+  | `vehicle[model]` | `<input type="text" required>` | — |
+  | `vehicle[mileage]` | `<input type="number" required>` | `0` |
+  | `vehicle[status]` | `<select>` : `0` Disponible (**sélectionné**), `1` En entretien, `2` Hors service | `0` |
+  | `vehicle[_token]` | caché | jeton CSRF |
+
+- succès → 302 vers `/vehicules/{id}`, flash « Véhicule 1-XYZ-789 ajouté par gestionnaire. » ; plaque **normalisée**
+  avant enregistrement (`PlateFormatter`), validation `BelgianPlate` sur la saisie **normalisée** ;
+- le layout affiche le lien « Ajouter un véhicule » dans `<nav>` une fois authentifié.
+
+### 5.2 `admin_vehicle_new` — `GET|POST /admin/vehicules/nouveau`
+
+Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`, `model=Master`, `mileage=1500`,
+`status=0`, jeton valide, Basic `gestionnaire:flotte2016` au GET et au POST.
+
+| Fiche | Entrée | Scénario | A1 | A2 / A3 / A4 — points clés (observés) | Sensible |
+|---|---|---|---|---|---|
+| BH-300 | `GET` sans identifiants | demo | 401 | `WWW-Authenticate: Basic realm="Secured Area"` | **oui** : `http_basic` → authenticator (step-06) |
+| BH-301 | `GET`, mot de passe faux ; utilisateur inconnu `admin` ; mot de passe vide | demo | 401 | même en-tête | **oui** : idem |
+| BH-302 | `GET`, utilisateur **`Gestionnaire`** ou **`GESTIONNAIRE`** | demo | **200** | le nom d'utilisateur est **insensible à la casse** (fournisseur en mémoire) | **oui** : `InMemoryUserProvider` (step-06) |
+| BH-303 | `GET`, identifiants valides | demo | 200 | formulaire complet (tableau du § 5.1), kilométrage `0` et statut « Disponible » pré-remplis, lien « Ajouter un véhicule » dans `<nav>`, **pas de bouton**, cookie `PHPSESSID` | oui : rendu des formulaires (step-01→04) |
+| BH-304 | POST nominal | demo | 302 | `Location: /vehicules/6` ; flash « Véhicule 1-XYZ-789 ajouté par gestionnaire. » ; A4 : +1 ligne `vehicle` id 6 `('1-XYZ-789', 'Renault', 'Master', 1500, 0, '2026-01-15 hh:mm:ss')` | **oui** : `security.context`, `new VehicleType()`, `isValid()` sans `isSubmitted()` (step-01/02) |
+| BH-305 | POST nominal sur base vide | empty | 302 | `Location: /vehicules/1`, id 1 | non |
+| BH-306 | plaque `1-xyz-789` ; ` 1 xyz 789 ` ; `1.XYZ.789` ; `1xyz789` | demo | 302 | toujours enregistrée **`1-XYZ-789`** (normalisation : majuscules, sans espaces, points ni tirets, puis `N-LLL-NNN`) | oui : `PlateFormatter` (regex), PHP 8 |
+| BH-307 | plaque `ABC-123` ; `1-AB-123` ; `X-XYZ-789` | demo | 200 | `La plaque "ABC-123" n'est pas une plaque belge valide (format 1-ABC-123).` (la **saisie brute** est citée) ; base inchangée | oui : messages de validation |
+| BH-308 | plaque vide `""` ou `"   "` | demo | 200 | `This value should not be blank.` (anglais ; la saisie est rognée) | oui : `NotBlank`, `trim` |
+| BH-309 | plaque **déjà existante** `1-ABC-123`, ou `1abc123` (même plaque une fois normalisée) | demo | **500** | page d'erreur générique ; **base inchangée** (index unique SQLite, aucune contrainte `UniqueEntity`) | **oui** : exception DBAL différente (step-06), 500 à préserver ou non (§ 5.4) |
+| BH-310 | même POST valide envoyé **deux fois** | demo | 302 puis **500** | 1re : créé ; 2e : doublon → 500 ; **une seule** ligne | **oui** : idem |
+| BH-311 | marque et modèle vides | demo | 200 | `This value should not be blank.` ×2 | non |
+| BH-312 | marque et modèle avec espaces autour (`  Renault  `, ` Master `) | demo | 302 | enregistrés **rognés** | oui : option `trim` |
+| BH-313 | marque de **51** caractères, modèle de **60** | demo | 302 | **acceptés et enregistrés en entier** (colonnes VARCHAR(50), SQLite ne contrôle pas, aucune contrainte `Length`) | **oui** : DBAL 3 / validation |
+| BH-314 | marque `<b>Citroën</b>`, modèle `"C3" & 'Aircross' 🚐` | demo | 302 | enregistrés tels quels ; échappés à l'affichage (fiche, liste) et dans l'API (cf. BH-021, BH-049, BH-206) | oui : échappement |
+| BH-315 | kilométrage `-1` | demo | 200 | `This value should be greater than or equal to 0.` | non |
+| BH-316 | kilométrage `0` | demo | 302 | accepté (`mileage 0`) | non |
+| BH-317 | kilométrage `abc` ; `99999999999999999999` | demo | 200 | `This value is not valid.` | oui : `IntegerType`, ICU |
+| BH-318 | kilométrage `1500,7` | demo | 302 | **tronqué à 1500** | **oui** : `IntegerType` (arrondi, locale `fr`) |
+| BH-319 | kilométrage `1e3` | demo | 302 | **enregistré 1000** | **oui** : idem |
+| BH-320 | kilométrage `2147483648` (2^31) | demo | 302 | accepté et enregistré tel quel | oui : entiers 32/64 bits, DBAL |
+| BH-321 | kilométrage **vide** | demo | **500** | base inchangée (kilométrage NULL → `NOT NULL` violé ; cause déduite, aucune trace de journal) | **oui** : erreur différente attendue (step-05/06) |
+| BH-322 | statut `2` | demo | 302 | `status 2` (INTEGER) | non |
+| BH-323 | statut `3` ; `abc` | demo | 200 | `This value is not valid.` (choix inexistant) | oui : `ChoiceType` (choices clé/libellé inversés en Symfony 3) |
+| BH-324 | statut **absent** du POST | demo | **500** | base inchangée (statut NULL → `NOT NULL` violé ; cause déduite) | **oui** : `ChoiceType`, step-01 |
+| BH-325 | sans jeton CSRF ; jeton faux | demo | 200 | `The CSRF token is invalid. Please try to resubmit the form.` ; base inchangée | oui : CSRF |
+| BH-326 | champ en trop `vehicle[createdAt]` ; `vehicle[id]` | demo | 200 | `This form should not contain extra fields.` ; **aucune** affectation | oui : `allow_extra_fields` |
+| BH-327 | POST **sans corps** (authentifié) | demo | 200 | formulaire réaffiché sans erreur, rien écrit | **oui** : Symfony 4 (`isValid()` non soumis) |
+| BH-328 | `PUT` (authentifié) | demo | 405 | `Allow: GET, POST, HEAD` | non |
+| BH-329 | POST sans identifiants **ni session** | demo | 401 | `WWW-Authenticate` ; base inchangée | **oui** : authenticators |
+| BH-330 | utilisateur `GESTIONNAIRE` puis POST | demo | 302 | flash « ajouté par **gestionnaire** » : le nom affiché est celui du compte, pas celui saisi | oui : `getUsername()` → `getUserIdentifier()` (step-06) |
+| BH-331 | véhicule créé puis **fiche véhicule** | demo | 302 → 200 | `<h1>1-XYZ-789 — Renault Master</h1>`, `1.500 km`, « Disponible », lien « Réserver » ; aucune réservation | oui : lien avec BH-040 |
+| BH-332 | véhicule créé puis **liste** et **API** | demo | 200 | 6 lignes / 6 éléments ; `1-XYZ-789` placé à sa place dans le tri par plaque | oui : lien avec BH-010, BH-201 |
+| BH-333 | GET authentifié puis **POST sans en-tête `Authorization`**, même session | demo | 302 | **accepté** : l'authentification Basic est mémorisée dans la session (pare-feu avec état) | **oui, très** : pare-feu `stateless` ou non (step-06) |
+| BH-334 | GET authentifié puis `GET /vehicules` sans en-tête, même session | demo | 200 | lien « Ajouter un véhicule » **affiché** (session) | **oui** : idem |
+| BH-335 | `created_at` du véhicule créé | demo | 302 | format `Y-m-d H:i:s`, date `2026-01-15` (horloge du conteneur) ; `PrePersist` ne l'écrase pas s'il était fourni (non atteignable par le formulaire, cf. BH-326) | oui : `DateTime`, ORM |
+| BH-336 | `GET` refusé (401) | demo | 401 | **`Set-Cookie: PHPSESSID`** : même refusée, la requête ouvre une session (le pare-feu y mémorise l'URL demandée) | oui : session, `TargetPathTrait` (step-06) |
+| BH-337 | succès | demo | 302 | `Set-Cookie: PHPSESSID` (session ouverte par l'authentification) | oui : session |
+
+### 5.3 Exemple complet : BH-309
+
+```markdown
+### BH-309 — Ajouter un véhicule avec une plaque existante provoque une erreur 500
+- Route / interface : admin_vehicle_new · POST /admin/vehicules/nouveau
+- Suite : http (+ db, + diff)            Groupe : zone-admin-vehicle-new
+- Scénario de données : demo
+- Authentification : Basic gestionnaire:flotte2016 au GET et au POST
+- Sensible à la migration : oui → aucune contrainte UniqueEntity : le doublon n'est détecté que par l'index unique
+  SQLite au flush ; l'exception (DBALException 2.5 → UniqueConstraintViolationException DBAL 3) et la page
+  d'erreur changent avec les versions.
+- Entrée : plate=1-ABC-123 (puis variante 1abc123), brand=Renault, model=Master, mileage=1500, status=0, jeton valide
+- Attendu (step-00) :
+  - A1 statut : 500
+  - A2 en-têtes : X-Fleet-Version 1.4.2 · Content-Type text/html; charset=UTF-8
+  - A3 corps : non contractuel (page d'erreur générique du framework)
+  - A4 base : strictement inchangée (5 véhicules, 5 réservations, empreinte du scénario demo)
+  - A5 journal PHP : aucune entrée (exceptions non journalisées en step-00)
+- Golden : aucun (statut + base suffisent)
+```
+
+### 5.4 Points à trancher avant d'écrire les tests
+
+| Question | Proposition |
+|---|---|
+| BH-309 / BH-310 / BH-321 / BH-324 (500 sur doublon, kilométrage vide, statut absent) : figer le 500 ? | Figer **statut 500 + base inchangée** ; corriger plus tard (message de formulaire) dans une étape séparée, après décision |
+| BH-302 / BH-330 (nom d'utilisateur insensible à la casse, nom du compte affiché) : préserver ? | Oui : c'est le comportement de connexion vu par l'utilisateur ; à vérifier à step-06 |
+| BH-333 / BH-334 (authentification mémorisée en session) : préserver ? | Oui pendant la migration ; le passage à un pare-feu sans état serait un changement accepté (et une amélioration de sécurité à proposer) |
+| Mot de passe `flotte2016` en clair (`plaintext`) dans la configuration | Hors contrat de test ; **vulnérabilité de configuration** à tracer par `/vuln-audit` (CFG), le mot de passe est passé par variable d'environnement dans les tests |
+| BH-313 (marque / modèle > 50 caractères acceptés) : préserver ? | Oui (données réellement enregistrées en step-00) ; une contrainte `Length` future est un changement accepté |
+| BH-318 / BH-319 (`1500,7` → 1500, `1e3` → 1000) | Préserver, comme BH-164 / BH-167 pour le retour de véhicule |
+
+## 6. Commandes console — `fleet:report`, `fleet:demo:load`
+
+> **Objet** : appliquer le gabarit commun (§ 1) aux 2 commandes de
+> l'application : `fleet:report` (rapport mensuel) et `fleet:demo:load` (rechargement destructif des données de
+> démonstration). Ce sont des interfaces utilisées par des personnes et, potentiellement, par des scripts
+> planifiés (cron) qui lisent la sortie et le code de retour : leur texte exact est contractuel.
+>
+> Valeurs observées sur l'application step-00 réelle (PHP 7.2.34 / Symfony 2.8.52), via
+> `.claude/bin/console.sh` (`app/console`, sans terminal), scénarios `report-months`, `edge`, `anomalies`, `demo`,
+> `volume`, `empty`, `nominal`, le 2026-11-17.
+
+### 6.1 Ce qui change par rapport au gabarit HTTP
+
+| Vérification | Pour une commande |
+|---|---|
+| **Act** | une exécution, **sans terminal** (pas de TTY : aucune couleur ANSI), dans le conteneur de la cible : `CONSOLE_APP_CMD` / `CONSOLE_REF_CMD` (`docker exec -i flotte-mig-app[-ref] sf-console …`), arguments **exactement** ceux de la fiche ; horloge du conteneur (démarre au 15/01/2026 10:00) |
+| **A1** | **code de retour** (0, 1…) |
+| **A2** | **sortie d'erreur** (stderr) : vide, ou message attendu (bloc d'exception du framework : seule la ligne du message est contractuelle) |
+| **A3** | **sortie standard** comparée **octet par octet** au golden (titre, largeur des colonnes du tableau, séparateurs de milliers, `€`, fins de ligne `\n`) + assertions ciblées (ordre des lignes, totaux) |
+| **A4** | `fleet:report` : base **inchangée** ; `fleet:demo:load` : base **égale au scénario `demo`** (empreinte `.claude/bin/seed.sh demo --verify`) |
+| **A5** | journal PHP (les warnings deviennent des exceptions en environnement `dev`, cf. BH-416) |
+
+Rappels observés communs :
+
+- environnement par défaut **`dev`** avec débogage (`app/console`) : un warning PHP **interrompt** la commande
+  (`ContextErrorException`, code 1) ; avec `--env=prod`, le même warning est ignoré et la commande va au bout ;
+- messages applicatifs écrits sur la **sortie standard**, même les erreurs (balise `<error>`) ; exceptions et erreurs
+  de syntaxe de la ligne de commande sur la **sortie d'erreur** ;
+- aucune couleur sans terminal ; avec `--ansi`, le titre est en vert (`\e[32m…\e[39m`) ;
+- `-q` : aucune sortie, même code de retour.
+
+### 6.2 `fleet:report` — rapport mensuel d'utilisation
+
+`fleet:report [-m|--month=AAAA-MM]` ; défaut = **mois courant calculé au démarrage de la commande**
+(`date('Y-m')` → `2026-01` avec l'horloge des conteneurs). Prend les réservations **terminées** dont la **date de
+fin** est dans `[1er du mois 00:00:00, 1er du mois suivant 00:00:00[`, regroupées par plaque (nombre, km, coût),
+triées par km décroissants (`usort` avec comparateur booléen).
+
+| Fiche | Commande | Scénario | A1 | A2 / A3 — points clés (observés) | Sensible |
+|---|---|---|---|---|---|
+| BH-400 | `fleet:report --month=2016-05` | demo | 0 | exemple du README, sortie exacte : `1-BCD-234 2 450 157,50 €`, `1-ABC-123 1 210 73,50 €`, `2-EFG-567 1 157 54,95 €`, `TOTAL 817 285,95 €` | oui : tableau `Table` (console 2.8 → 6.4) |
+| BH-401 | `fleet:report --month=2026-01` | report-months | 0 | 7 lignes + TOTAL `1.707` km / `597,45 €` ; tableau au format `+---+` / `\| … \|` ; titre `Rapport de flotte - 2026-01` | **oui** : rendu de `Table` (bordures, alignement, largeur Unicode du `€`) |
+| BH-402 | `fleet:report` (sans option) | report-months | 0 | **identique** à BH-401 : le défaut suit l'horloge (2026-01) | oui : défaut calculé à `configure()` |
+| BH-403 | `fleet:report -m 2025-11` ; `-m2025-11` ; `--month 2025-11` | report-months | 0 | trois syntaxes équivalentes, sortie identique | oui : analyse des options |
+| BH-404 | `fleet:report --month=2025-11` | report-months | 0 | **ex æquo à 300 km** : ordre observé `1-REP-001`, `1-REP-002`, `1-REP-003` (2 réservations), puis `1-REP-008` (3 km), `1-REP-004` (1 km) ; TOTAL `904` / `316,40 €` | **oui, très** : `usort` booléen, tri stable de PHP 8 (step-05) |
+| BH-405 | `fleet:report --month=2026-01` | report-months | 0 | **ex æquo à 250 km** : `1-REP-002`, `1-REP-003`, `1-REP-004` (3 réservations) | **oui, très** : idem |
+| BH-406 | `fleet:report --month=2026-01` | edge | 0 | `1-LNG-040` (265 km) puis **4 ex æquo à 100 km** `1-TIE-001` … `1-TIE-004` ; TOTAL `665` / `232,75 €` | **oui, très** : idem |
+| BH-407 | `fleet:report --month=2025-12` | report-months | 0 | mois **sans donnée** : tableau réduit à l'en-tête et `TOTAL 0 0,00 €` | oui : `Table` vide |
+| BH-408 | `fleet:report --month=2026-01` | report-months | 0 | bornes : réservation finissant **le 01/01/2026 à 00:00:00** comptée (900 km) ; celle **à cheval sur le Nouvel An** comptée (44 km) ; **dernière seconde** de janvier comptée (13 km) ; celle finissant le **01/02/2026 à 00:00:00 exclue** | oui : comparaison de dates (DQL, DBAL) |
+| BH-409 | `fleet:report --month=2026-02` | report-months | 0 | la réservation exclue de janvier y figure (101 km) ; très grands nombres `999.999` km, `349 999,65 €`, TOTAL `1.000.112` / `350 039,20 €` | oui : `number_format`, flottants |
+| BH-410 | `fleet:report --month=2025-10` et `--month=2026-03` | report-months | 0 | réservations autour des **changements d'heure** comptées (heures naïves) ; 7 km = `2,45 €` | oui : `DateTime`, fuseau |
+| BH-411 | `fleet:report --month=2024-02` et `--month=2024-03` | report-months | 0 | **29 février 2024** compté en février ; réservation du 29/02 au 01/03 08:00 comptée en **mars** (date de fin) | non |
+| BH-412 | `fleet:report --month=2025-13` | report-months | 0 | **accepté** : titre `Rapport de flotte - 2025-13` mais **données de janvier 2026** (débordement de `createFromFormat`) | **oui** : `DateTime::createFromFormat` (PHP 8) |
+| BH-413 | `fleet:report --month=2026-00` ; `2016-13` ; `0000-01` ; `9999-12` | report-months | 0 | acceptés ; `2026-00` = décembre 2025 (vide ici) ; tableaux vides | oui : idem |
+| BH-414 | `fleet:report --month=abc` ; `2026-1` ; `26-01` ; `2026/01` ; `2026-01-15` ; `" 2026-01"` ; `"2026-01 "` | report-months | **1** | **sortie standard** (pas d'erreur) : `Format de mois invalide (attendu : AAAA-MM).` ; stderr vide | oui : sortie `<error>` |
+| BH-415 | `fleet:report --month=` | report-months | **1** | stderr : `The "--month" option requires a value.` + rappel de syntaxe ; stdout vide | **oui** : messages et format des erreurs de console (step-02/06) |
+| BH-416 | `fleet:report --month=2026-01` | anomalies | **1** | env `dev` : stderr `[Symfony\Component\Debug\Exception\ContextErrorException]` `Warning: A non-numeric value encountered` (coût `"N/A"`), **stdout vide** | **oui, très** : PHP 8 lève `TypeError` (`Unsupported operand types`), composant Debug → ErrorHandler |
+| BH-417 | `fleet:report --month=2026-01 --env=prod` | anomalies | 0 | rapport produit : `1-ANO-001 1 100 35,00 €`, `1-ANO-008 2 20 12,35 €` (`"N/A"` compté 0, `12.345` arrondi à l'affichage), `1-ANO-006 2 -50 -35,00 €`, `1-ANO-007 1 -7.000 0,00 €` (fin sans `end_km`), TOTAL `-6.930` / `12,35 €` | **oui, très** : idem, nombres négatifs |
+| BH-418 | `fleet:report --mois=2026-01` | demo | **1** | stderr : `The "--mois" option does not exist.` | oui : messages console |
+| BH-419 | `fleet:report 2026-01` | demo | **1** | stderr : `Too many arguments, expected arguments "command".` | oui : idem |
+| BH-420 | `fleet:report --month=2026-01 -q` | report-months | 0 | **aucune** sortie | non |
+| BH-421 | `fleet:report --month=2026-01 --env=prod` | report-months | 0 | sortie **identique** à BH-401 (dev) quand les données sont saines | oui : environnements |
+| BH-422 | `fleet:report --month=2026-01 --ansi` | report-months | 0 | titre entouré de `\e[32m` … `\e[39m`, tableau sans couleur | oui : styles de sortie |
+| BH-423 | `fleet:report --month=2024-03` | volume | 0 | 172 véhicules, TOTAL `187.606` km / `65 662,10 €` ; ~130 ms en step-00 ; suite `diff` : durée `app` ≤ 2 × `app-ref` | oui : performance |
+| BH-424 | toute exécution de `fleet:report` | report-months | 0 | **base inchangée** (lecture seule) | non |
+| BH-425 | `list` ; `help fleet:report` | demo | 0 | `fleet:report` décrite « Rapport mensuel d'utilisation de la flotte » ; option `-m, --month=MONTH Mois au format AAAA-MM [default: "2026-01"]` (défaut dépendant de l'horloge : à normaliser) | oui : rendu de l'aide (step-02/06) |
+
+### 6.3 `fleet:demo:load` — rechargement des données de démonstration
+
+**Destructive et sans confirmation** : supprime toutes les réservations puis tous les véhicules (DQL `DELETE`), puis
+insère 5 véhicules (créés le `2016-01-04 08:00:00`) et 5 réservations ; les identifiants repartent à 1.
+Sortie : `Données de démonstration chargées : 5 véhicules, 5 réservations.` (code 0).
+
+| Fiche | Commande | Scénario | A1 | A2 / A3 / A4 — points clés (observés) | Sensible |
+|---|---|---|---|---|---|
+| BH-450 | `fleet:demo:load` | empty | 0 | stdout exact (une ligne) ; stderr vide ; **base = scénario `demo`** (empreinte identique, types SQLite compris) | **oui** : `ContainerAwareCommand`, DQL `DELETE` (step-02/06) |
+| BH-451 | `fleet:demo:load` | nominal | 0 | 24 véhicules et 476 réservations **supprimés sans demande** ; base = `demo` ; ids repartent à 1 | oui : idem |
+| BH-452 | `fleet:demo:load` | anomalies | 0 | données incohérentes supprimées sans erreur ; base = `demo` | oui : idem |
+| BH-453 | `fleet:demo:load` | edge | 0 | 75 réservations supprimées (y compris celles des véhicules aux plaques non normalisées) ; base = `demo` | non |
+| BH-454 | `fleet:demo:load` **deux fois** de suite | demo | 0, 0 | même sortie, base = `demo` : commande **idempotente** | non |
+| BH-455 | `fleet:demo:load -n` (non interactif) | demo | 0 | même comportement : aucune question n'est jamais posée | oui : si une confirmation est ajoutée |
+| BH-456 | `fleet:demo:load -q` | nominal | 0 | **aucune** sortie, base = `demo` quand même | non |
+| BH-457 | `fleet:demo:load --env=prod` | nominal | 0 | **exécutée aussi en production** (aucun garde-fou d'environnement), base = `demo` | **oui** : un garde-fou futur serait un changement accepté |
+| BH-458 | `fleet:demo:load extra` | demo | **1** | stderr : `Too many arguments, expected arguments "command".` ; **base inchangée** | oui : messages console |
+| BH-459 | `help fleet:demo:load` ; `list` | demo | 0 | description `Vide la base et charge les donnees de demonstration` (**sans accents**, comme dans le code) | oui : rendu de l'aide |
+| BH-460 | après `fleet:demo:load` : `GET /vehicules`, `GET /api/vehicules`, `fleet:report --month=2016-05` | nominal | 0 / 200 | mêmes sorties que BH-010, BH-201 et BH-400 | oui : liens avec ces fiches |
+
+### 6.4 Exemple complet : BH-404
+
+```markdown
+### BH-404 — Le rapport ordonne les véhicules ex æquo dans leur ordre d'apparition (tri instable figé)
+- Interface : console · fleet:report --month=2025-11
+- Suite : cli (+ edge, + diff)            Groupe : zone-cli-report
+- Scénario de données : report-months
+- Sensible à la migration : oui, très → usort() avec un comparateur qui renvoie un booléen
+  ($a['km'] < $b['km']) : PHP 8.0 (step-05) rend le tri stable et déprécie ce comparateur ; l'ordre des ex æquo
+  peut changer, puis le comparateur booléen sera refusé dans une version future.
+- Entrée : argument --month=2025-11, aucun terminal
+- Attendu (step-00) :
+  - A1 code de retour : 0
+  - A2 stderr : vide
+  - A3 stdout : golden `cli/report/2025-11.txt`, exactement :
+      Rapport de flotte - 2025-11
+      +-----------+--------------+-----+----------+
+      | Plaque    | Réservations | Km  | Coût     |
+      +-----------+--------------+-----+----------+
+      | 1-REP-001 | 1            | 300 | 105,00 € |
+      | 1-REP-002 | 1            | 300 | 105,00 € |
+      | 1-REP-003 | 2            | 300 | 105,00 € |
+      | 1-REP-008 | 1            | 3   | 1,05 €   |
+      | 1-REP-004 | 1            | 1   | 0,35 €   |
+      | TOTAL     |              | 904 | 316,40 € |
+      +-----------+--------------+-----+----------+
+    assertions ciblées : ordre des plaques ; TOTAL 904 / 316,40 €
+  - A4 base : inchangée
+  - A5 journal PHP : aucune entrée en step-00 (en PHP 8 : dépréciation du comparateur booléen attendue)
+- Golden : tests/golden/cli/report/2025-11.txt
+```
+
+### 6.5 Points à trancher avant d'écrire les tests
+
+| Question | Proposition |
+|---|---|
+| Ordre des ex æquo (BH-404 à BH-406) : figer l'ordre observé ? | **Oui** : le migrator devra rendre l'ordre explicite (même résultat qu'en PHP 7.2), sans s'appuyer sur la stabilité du tri |
+| `--month=2025-13` accepté avec les données du mois suivant (BH-412, BH-413) | Préserver pendant la migration ; une validation stricte du mois serait un changement accepté |
+| Message d'erreur de format sur la **sortie standard** avec code 1 (BH-414) | Préserver (des scripts peuvent lire stdout) |
+| BH-416 / BH-417 : comportement différent `dev` / `prod` sur données incohérentes | Figer les deux ; c'est la divergence PHP 7 / 8 la plus probable du projet |
+| `fleet:demo:load` destructive, sans confirmation ni garde-fou en `prod` (BH-450 à BH-457) | Préserver le comportement ; signaler le risque (perte de données en production) comme point d'amélioration post-migration |
+| Défaut de `--month` affiché dans l'aide (BH-425) | Normaliser la date dans le golden (dépend de l'horloge) |
+| Rendu exact des tableaux (bordures, largeurs, caractère `€`) | Contractuel (octet par octet) ; un changement de rendu du composant `Table` est un changement accepté à consigner |
+
+## Journal d'implémentation
+
+Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills `write-*-tests` / `golden-master`.
+
+| Date | Fiche | Classe::méthode | Suite(s) | Golden(s) | app-ref | Écart corrigé dans la fiche |
+|---|---|---|---|---|---|---|
+
+## Blocages
+
+Fiches mises en attente (décision, environnement…), une par ligne : `- BH-NNN : ⏸ raison`.
