@@ -54,8 +54,12 @@ abstract class FormDiffTestCase extends DiffTestCase
                 self::assertSame(Normalizer::html($r->body), Normalizer::html($a->body), "A3 corps normalisé app ≠ app-ref — $where");
             }
         }
-        self::assertSame($this->dbDiff(Target::REF), $this->dbDiff(Target::APP), "A4 diff de la base app ≠ app-ref — $label");
-        self::assertSame(Db::dump(Target::REF), Db::dump(Target::APP), "A4 dump canonique app ≠ app-ref — $label");
+        self::assertSame(
+            array_map($this->comparableDbLine(...), $this->dbDiff(Target::REF)),
+            array_map($this->comparableDbLine(...), $this->dbDiff(Target::APP)),
+            "A4 diff de la base app ≠ app-ref — $label",
+        );
+        self::assertSame($this->comparableDump(Target::REF), $this->comparableDump(Target::APP), "A4 dump canonique app ≠ app-ref — $label");
         self::assertSame($logs[Target::REF], $logs[Target::APP], "A5 journal PHP app ≠ app-ref — $label");
         $this->lastRefLog = $logs[Target::REF];
 
@@ -84,6 +88,21 @@ abstract class FormDiffTestCase extends DiffTestCase
 
             return $out;
         };
+    }
+
+    /**
+     * Ligne de base (diff ou dump) telle que comparée entre app et app-ref. Par défaut : inchangée. Une sous-classe ne
+     * la redéfinit que pour masquer une valeur **non déterministe** documentée par les fiches (ex. `created_at` posé
+     * par l'horloge du conteneur, § 5.1) — jamais une valeur métier.
+     */
+    protected function comparableDbLine(string $line): string
+    {
+        return $line;
+    }
+
+    private function comparableDump(string $target): string
+    {
+        return implode("\n", array_map($this->comparableDbLine(...), explode("\n", Db::dump($target))));
     }
 
     /** @return array<string, list<string>> */

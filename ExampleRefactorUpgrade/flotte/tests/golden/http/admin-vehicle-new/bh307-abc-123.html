@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Flotte Delvaux & Fils</title>
+</head>
+<body>
+<nav><a href="/vehicules">Véhicules</a>
+| <a href="/admin/vehicules/nouveau">Ajouter un véhicule</a></nav>
+<h1>Nouveau véhicule</h1>
+<form name="vehicle" method="post"><div id="vehicle"><div><label for="vehicle_plate" class="required">Plaque</label><ul><li>La plaque &quot;ABC-123&quot; n&#039;est pas une plaque belge valide (format 1-ABC-123).</li></ul><input type="text" id="vehicle_plate" name="vehicle[plate]" required="required" value="ABC-123" /></div><div><label for="vehicle_brand" class="required">Marque</label><input type="text" id="vehicle_brand" name="vehicle[brand]" required="required" value="Renault" /></div><div><label for="vehicle_model" class="required">Modèle</label><input type="text" id="vehicle_model" name="vehicle[model]" required="required" value="Master" /></div><div><label for="vehicle_mileage" class="required">Kilométrage</label><input type="number" id="vehicle_mileage" name="vehicle[mileage]" required="required" value="1500" /></div><div><label for="vehicle_status" class="required">Statut</label><select id="vehicle_status" name="vehicle[status]"><option value="0" selected="selected">Disponible</option><option value="1">En entretien</option><option value="2">Hors service</option></select></div><input type="hidden" id="vehicle__token" name="vehicle[_token]" value="__CSRF__" /></div></form>
+</body>
+</html>

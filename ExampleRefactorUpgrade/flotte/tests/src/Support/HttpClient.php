@@ -33,6 +33,14 @@ final class HttpClient
         return $this;
     }
 
+    /** Requêtes suivantes sans en-tête Authorization (cookies de session conservés, BH-333 / BH-334). */
+    public function withoutBasicAuth(): self
+    {
+        $this->authorization = null;
+
+        return $this;
+    }
+
     public function get(string $path, array $headers = []): HttpResponse
     {
         return $this->request('GET', $path, $headers);

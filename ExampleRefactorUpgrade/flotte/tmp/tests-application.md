@@ -12,11 +12,11 @@
 <!-- tracking:start -->
 ## Suivi d'avancement (généré)
 
-> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:53. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 12:08. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
 
-**134/209 terminés (64 %)** `███████████████████░░░░░░░░░░░`
+**172/209 terminés (82 %)** `████████████████████████░░░░░░`
 
-✅ 134 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 75 à écrire
+✅ 172 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 37 à écrire
 
 | Groupe | Route | Écrites | Terminées | Avancement |
 |---|---|---|---|---|
@@ -29,8 +29,8 @@
 | | `reservation_return` | 30/30 | 30/30 | `██████████` 100 % |
 | **`ApiController`** | | **25/25** | **25/25** | `██████████` 100 % |
 | | `api_vehicles` | 25/25 | 25/25 | `██████████` 100 % |
-| **`AdminController`** | | **0/38** | **0/38** | `░░░░░░░░░░` 0 % |
-| | `admin_vehicle_new` | 0/38 | 0/38 | `░░░░░░░░░░` 0 % |
+| **`AdminController`** | | **38/38** | **38/38** | `██████████` 100 % |
+| | `admin_vehicle_new` | 38/38 | 38/38 | `██████████` 100 % |
 | **Commandes console** | | **0/37** | **0/37** | `░░░░░░░░░░` 0 % |
 | | `fleet:report` | 0/26 | 0/26 | `░░░░░░░░░░` 0 % |
 | | `fleet:demo:load` | 0/11 | 0/11 | `░░░░░░░░░░` 0 % |
@@ -173,44 +173,44 @@
 | BH-222 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-223 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-224 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
-| BH-300 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-301 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-302 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-303 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-304 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-305 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-306 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-307 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-308 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-309 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-310 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-311 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-312 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-313 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-314 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-315 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-316 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-317 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-318 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-319 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-320 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-321 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-322 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-323 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-324 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-325 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-326 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-327 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-328 | `admin_vehicle_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-329 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-330 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-331 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-332 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-333 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-334 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-335 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-336 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-337 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-300 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-301 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-302 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-303 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-304 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-305 | `admin_vehicle_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-306 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-307 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-308 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-309 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-310 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-311 | `admin_vehicle_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-312 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-313 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-314 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-315 | `admin_vehicle_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-316 | `admin_vehicle_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-317 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-318 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-319 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-320 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-321 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-322 | `admin_vehicle_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-323 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-324 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-325 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-326 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-327 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-328 | `admin_vehicle_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-329 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-330 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-331 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-332 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-333 | `admin_vehicle_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-334 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-335 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-336 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-337 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-400 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-401 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-402 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
@@ -832,14 +832,14 @@ Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`
 
 | Fiche | Entrée | Scénario | A1 | A2 / A3 / A4 — points clés (observés) | Sensible |
 |---|---|---|---|---|---|
-| BH-300 | `GET` sans identifiants | demo | 401 | `WWW-Authenticate: Basic realm="Secured Area"` | **oui** : `http_basic` → authenticator (step-06) |
+| BH-300 | `GET` sans identifiants | demo | 401 | `WWW-Authenticate: Basic realm="Secured Area"` ; corps **vide** (`Content-Length: 0`), `Content-Type: text/html; charset=UTF-8`, `X-Fleet-Version`, `Cache-Control: no-cache` (observé à l'implémentation ; mêmes en-têtes pour BH-301 et BH-329) | **oui** : `http_basic` → authenticator (step-06) |
 | BH-301 | `GET`, mot de passe faux ; utilisateur inconnu `admin` ; mot de passe vide | demo | 401 | même en-tête | **oui** : idem |
 | BH-302 | `GET`, utilisateur **`Gestionnaire`** ou **`GESTIONNAIRE`** | demo | **200** | le nom d'utilisateur est **insensible à la casse** (fournisseur en mémoire) | **oui** : `InMemoryUserProvider` (step-06) |
 | BH-303 | `GET`, identifiants valides | demo | 200 | formulaire complet (tableau du § 5.1), kilométrage `0` et statut « Disponible » pré-remplis, lien « Ajouter un véhicule » dans `<nav>`, **pas de bouton**, cookie `PHPSESSID` | oui : rendu des formulaires (step-01→04) |
 | BH-304 | POST nominal | demo | 302 | `Location: /vehicules/6` ; flash « Véhicule 1-XYZ-789 ajouté par gestionnaire. » ; A4 : +1 ligne `vehicle` id 6 `('1-XYZ-789', 'Renault', 'Master', 1500, 0, '2026-01-15 hh:mm:ss')` | **oui** : `security.context`, `new VehicleType()`, `isValid()` sans `isSubmitted()` (step-01/02) |
 | BH-305 | POST nominal sur base vide | empty | 302 | `Location: /vehicules/1`, id 1 | non |
 | BH-306 | plaque `1-xyz-789` ; ` 1 xyz 789 ` ; `1.XYZ.789` ; `1xyz789` | demo | 302 | toujours enregistrée **`1-XYZ-789`** (normalisation : majuscules, sans espaces, points ni tirets, puis `N-LLL-NNN`) | oui : `PlateFormatter` (regex), PHP 8 |
-| BH-307 | plaque `ABC-123` ; `1-AB-123` ; `X-XYZ-789` | demo | 200 | `La plaque "ABC-123" n'est pas une plaque belge valide (format 1-ABC-123).` (la **saisie brute** est citée) ; base inchangée | oui : messages de validation |
+| BH-307 | plaque `ABC-123` ; `1-AB-123` ; `X-XYZ-789` | demo | 200 | `La plaque "ABC-123" n'est pas une plaque belge valide (format 1-ABC-123).` (la **saisie brute** est citée) ; base inchangée ; **erreur de champ** dans le `<div>` de `plate` (avant l'`<input>`), saisie réaffichée `value="ABC-123"`, aucune erreur globale (observé à l'implémentation ; même emplacement pour BH-308, BH-311, BH-315, BH-317) | oui : messages de validation |
 | BH-308 | plaque vide `""` ou `"   "` | demo | 200 | `This value should not be blank.` (anglais ; la saisie est rognée) | oui : `NotBlank`, `trim` |
 | BH-309 | plaque **déjà existante** `1-ABC-123`, ou `1abc123` (même plaque une fois normalisée) | demo | **500** | page d'erreur générique ; **base inchangée** (index unique SQLite, aucune contrainte `UniqueEntity`) | **oui** : exception DBAL différente (step-06), 500 à préserver ou non (§ 5.4) |
 | BH-310 | même POST valide envoyé **deux fois** | demo | 302 puis **500** | 1re : créé ; 2e : doublon → 500 ; **une seule** ligne | **oui** : idem |
@@ -855,7 +855,7 @@ Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`
 | BH-320 | kilométrage `2147483648` (2^31) | demo | 302 | accepté et enregistré tel quel | oui : entiers 32/64 bits, DBAL |
 | BH-321 | kilométrage **vide** | demo | **500** | base inchangée (kilométrage NULL → `NOT NULL` violé ; cause déduite, aucune trace de journal) | **oui** : erreur différente attendue (step-05/06) |
 | BH-322 | statut `2` | demo | 302 | `status 2` (INTEGER) | non |
-| BH-323 | statut `3` ; `abc` | demo | 200 | `This value is not valid.` (choix inexistant) | oui : `ChoiceType` (choices clé/libellé inversés en Symfony 3) |
+| BH-323 | statut `3` ; `abc` | demo | 200 | `This value is not valid.` (choix inexistant) ; erreur de champ dans le `<div>` du `<select>` `vehicle_status` (observé à l'implémentation ; BH-325 et BH-326 : erreur **globale** en tête du formulaire) | oui : `ChoiceType` (choices clé/libellé inversés en Symfony 3) |
 | BH-324 | statut **absent** du POST | demo | **500** | base inchangée (statut NULL → `NOT NULL` violé ; cause déduite) | **oui** : `ChoiceType`, step-01 |
 | BH-325 | sans jeton CSRF ; jeton faux | demo | 200 | `The CSRF token is invalid. Please try to resubmit the form.` ; base inchangée | oui : CSRF |
 | BH-326 | champ en trop `vehicle[createdAt]` ; `vehicle[id]` | demo | 200 | `This form should not contain extra fields.` ; **aucune** affectation | oui : `allow_extra_fields` |
@@ -863,20 +863,20 @@ Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`
 | BH-328 | `PUT` (authentifié) | demo | 405 | `Allow: GET, POST, HEAD` | non |
 | BH-329 | POST sans identifiants **ni session** | demo | 401 | `WWW-Authenticate` ; base inchangée | **oui** : authenticators |
 | BH-330 | utilisateur `GESTIONNAIRE` puis POST | demo | 302 | flash « ajouté par **gestionnaire** » : le nom affiché est celui du compte, pas celui saisi | oui : `getUsername()` → `getUserIdentifier()` (step-06) |
-| BH-331 | véhicule créé puis **fiche véhicule** | demo | 302 → 200 | `<h1>1-XYZ-789 — Renault Master</h1>`, `1.500 km`, « Disponible », lien « Réserver » ; aucune réservation | oui : lien avec BH-040 |
+| BH-331 | véhicule créé puis **fiche véhicule** | demo | 302 → 200 | `<h1>1-XYZ-789 — Renault Master</h1>`, `1.500 km`, « Disponible », lien « Réserver » ; aucune réservation : « Réservations à venir » = un seul `<li>Aucune réservation à venir.</li>`, « Historique » = `<ul>` vide (observé à l'implémentation) | oui : lien avec BH-040 |
 | BH-332 | véhicule créé puis **liste** et **API** | demo | 200 | 6 lignes / 6 éléments ; `1-XYZ-789` placé à sa place dans le tri par plaque | oui : lien avec BH-010, BH-201 |
 | BH-333 | GET authentifié puis **POST sans en-tête `Authorization`**, même session | demo | 302 | **accepté** : l'authentification Basic est mémorisée dans la session (pare-feu avec état) | **oui, très** : pare-feu `stateless` ou non (step-06) |
 | BH-334 | GET authentifié puis `GET /vehicules` sans en-tête, même session | demo | 200 | lien « Ajouter un véhicule » **affiché** (session) | **oui** : idem |
-| BH-335 | `created_at` du véhicule créé | demo | 302 | format `Y-m-d H:i:s`, date `2026-01-15` (horloge du conteneur) ; `PrePersist` ne l'écrase pas s'il était fourni (non atteignable par le formulaire, cf. BH-326) | oui : `DateTime`, ORM |
+| BH-335 | `created_at` du véhicule créé | demo | 302 | format `Y-m-d H:i:s`, type SQLite TEXT (observé à l'implémentation), date `2026-01-15` (horloge du conteneur) ; `PrePersist` ne l'écrase pas s'il était fourni (non atteignable par le formulaire, cf. BH-326) | oui : `DateTime`, ORM |
 | BH-336 | `GET` refusé (401) | demo | 401 | **`Set-Cookie: PHPSESSID`** : même refusée, la requête ouvre une session (le pare-feu y mémorise l'URL demandée) | oui : session, `TargetPathTrait` (step-06) |
-| BH-337 | succès | demo | 302 | `Set-Cookie: PHPSESSID` (session ouverte par l'authentification) | oui : session |
+| BH-337 | succès | demo | 302 | session ouverte par l'authentification : `Set-Cookie: PHPSESSID` posé dès le **GET** authentifié du formulaire ; le POST réussi (302), qui renvoie ce cookie, **ne repose pas** de `Set-Cookie` (observé à l'implémentation) | oui : session |
 
 ### 5.3 Exemple complet : BH-309
 
 ```markdown
 ### BH-309 — Ajouter un véhicule avec une plaque existante provoque une erreur 500
 - Route / interface : admin_vehicle_new · POST /admin/vehicules/nouveau
-- Suite : http (+ db, + diff)            Groupe : zone-admin-vehicle-new
+- Suite : http (+ diff)            Groupe : zone-admin-vehicle-new
 - Scénario de données : demo
 - Authentification : Basic gestionnaire:flotte2016 au GET et au POST
 - Sensible à la migration : oui → aucune contrainte UniqueEntity : le doublon n'est détecté que par l'index unique
@@ -890,7 +890,12 @@ Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`
   - A4 base : strictement inchangée (5 véhicules, 5 réservations, empreinte du scénario demo)
   - A5 journal PHP : aucune entrée (exceptions non journalisées en step-00)
 - Golden : aucun (statut + base suffisent)
+- Tests : AdminVehicleNewTest::bh309_existing_plate_is_a_server_error (http),
+  AdminVehicleNewDiffTest::bh309_duplicate_plate_same_as_reference (diff)
 ```
+
+Note : le mot de passe du compte de test est lu par les tests dans la variable d'environnement
+`FLEET_ADMIN_PASSWORD` (repli : valeur de step-00), via `Support\AdminVehicleForm::adminPassword()`.
 
 ### 5.4 Points à trancher avant d'écrire les tests
 
@@ -902,6 +907,9 @@ Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`
 | Mot de passe `flotte2016` en clair (`plaintext`) dans la configuration | Hors contrat de test ; **vulnérabilité de configuration** à tracer par `/vuln-audit` (CFG), le mot de passe est passé par variable d'environnement dans les tests |
 | BH-313 (marque / modèle > 50 caractères acceptés) : préserver ? | Oui (données réellement enregistrées en step-00) ; une contrainte `Length` future est un changement accepté |
 | BH-318 / BH-319 (`1500,7` → 1500, `1e3` → 1000) | Préserver, comme BH-164 / BH-167 pour le retour de véhicule |
+
+> Toutes les propositions ci-dessus sont appliquées **à titre provisoire** par les tests (2026-11-17), en attente de
+> décision de l'utilisateur ; aucune ne bloque une fiche. Voir le journal d'implémentation.
 
 ## 6. Commandes console — `fleet:report`, `fleet:demo:load`
 
@@ -1177,6 +1185,45 @@ Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills 
 | 2026-11-17 | BH-223 | `Http\ApiVehiclesTest::bh223_wrong_credentials_block_the_public_api`, `Diff\ApiVehiclesDiffTest::bh223_wrong_credentials_same_as_reference` | http, diff | — (401, corps non contractuel) | ✔ | oui (HTML, pas de `Set-Cookie`) |
 | 2026-11-17 | BH-224 | `Http\ApiVehiclesTest::bh224_valid_credentials_open_a_session`, `Diff\ApiVehiclesDiffTest::bh224_authenticated_session_cookie_same_as_reference` | http, diff | `http/api-vehicles/demo.json` | ✔ | non |
 | 2026-11-17 | BH-200…224 | Propositions § 4.4 appliquées à titre provisoire, **en attente de décision** : octets exacts (golden `.json` sans normalisation + `.json.sha256`), BH-209 / BH-215 / BH-223 / BH-224 figés, seuil BH-217 ≤ 2 × référence, corps 401/404/405 non contractuels ; A5 comparé en diff uniquement (§ 2.5). Support : nouvelle classe `Support\ApiJson` (structure, golden + empreinte, `lit()`) ; `Support\HttpClient` modifié sans effet sur l'existant (un `Accept` fourni par l'appelant remplace celui par défaut au lieu de s'y ajouter). Suite complète verte 3 fois sur app-ref (252 tests). Fichier sonde `tests/src/Edge/ZzProbeTest.php` laissé par le diagnostic : **à supprimer** par la session principale | — | — | — | — |
+| 2026-11-17 | BH-300 | `Http\AdminVehicleNewTest::bh300_form_without_credentials_is_unauthorized`, `Diff\AdminVehicleNewDiffTest::bh300_no_credentials_same_as_reference` | http, diff | — (401, corps vide) | ✔ | oui (corps vide, en-têtes communs) |
+| 2026-11-17 | BH-301 | `Http\AdminVehicleNewTest::bh301_wrong_unknown_or_empty_credentials_are_unauthorized`, `Diff\AdminVehicleNewDiffTest::bh301_bad_credentials_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-302 | `Http\AdminVehicleNewTest::bh302_username_is_case_insensitive`, `Diff\AdminVehicleNewDiffTest::bh302_case_insensitive_username_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-303 | `Http\AdminVehicleNewTest::bh303_form_with_defaults_admin_link_and_no_button`, `Diff\AdminVehicleNewDiffTest::bh303_form_same_as_reference` | http, diff | `http/admin-vehicle-new/bh303.html` | ✔ | non |
+| 2026-11-17 | BH-304 | `Http\AdminVehicleNewTest::bh304_nominal_creation_redirects_with_flash`, `Diff\AdminVehicleNewDiffTest::bh304_nominal_creation_same_as_reference` | http, diff | `http/admin-vehicle-new/bh304-after-redirect.html` | ✔ | non |
+| 2026-11-17 | BH-305 | `Http\AdminVehicleNewTest::bh305_first_vehicle_on_empty_base_gets_id_1` | http | — | ✔ | non |
+| 2026-11-17 | BH-306 | `Http\AdminVehicleNewTest::bh306_plate_is_normalized_before_storage`, `Edge\AdminInputParsingTest::bh306_plate_variants_are_normalized_to_belgian_format`, `Diff\AdminVehicleNewDiffTest::bh306_plate_normalization_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-307 | `Http\AdminVehicleNewTest::bh307_invalid_plate_is_refused_quoting_raw_input`, `Diff\AdminVehicleNewDiffTest::bh307_invalid_plate_message_same_as_reference` | http, diff | `http/admin-vehicle-new/bh307-{abc-123,1-ab-123,x-xyz-789}.html` | ✔ | oui (erreur de champ, saisie réaffichée) |
+| 2026-11-17 | BH-308 | `Http\AdminVehicleNewTest::bh308_blank_plate_is_refused_after_trim`, `Diff\AdminVehicleNewDiffTest::bh308_blank_plate_same_as_reference` | http, diff | `http/admin-vehicle-new/bh308-{empty,spaces}.html` | ✔ | non |
+| 2026-11-17 | BH-309 | `Http\AdminVehicleNewTest::bh309_existing_plate_is_a_server_error`, `Diff\AdminVehicleNewDiffTest::bh309_duplicate_plate_same_as_reference` | http, diff | — (500, corps non contractuel : proposition § 5.4) | ✔ | non (exemple § 5.3 aligné : suites, noms des tests) |
+| 2026-11-17 | BH-310 | `Http\AdminVehicleNewTest::bh310_same_post_twice_gives_302_then_500_and_a_single_row`, `Diff\AdminVehicleNewDiffTest::bh310_double_post_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-311 | `Http\AdminVehicleNewTest::bh311_blank_brand_and_model_are_refused` | http | `http/admin-vehicle-new/bh311.html` | ✔ | non |
+| 2026-11-17 | BH-312 | `Http\AdminVehicleNewTest::bh312_brand_and_model_are_trimmed`, `Diff\AdminVehicleNewDiffTest::bh312_trimmed_brand_and_model_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-313 | `Http\AdminVehicleNewTest::bh313_brand_and_model_longer_than_columns_are_stored_in_full`, `Edge\AdminInputParsingTest::bh313_brand_and_model_beyond_varchar_50_are_not_truncated`, `Diff\AdminVehicleNewDiffTest::bh313_overlong_brand_and_model_same_as_reference` | http, edge, diff | — | ✔ | non (variante multi-octets `é` ×51 en edge et diff) |
+| 2026-11-17 | BH-314 | `Http\AdminVehicleNewTest::bh314_html_and_unicode_stored_raw_and_displayed_escaped`, `Diff\AdminVehicleNewDiffTest::bh314_html_and_unicode_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-315 | `Http\AdminVehicleNewTest::bh315_negative_mileage_is_refused` | http | `http/admin-vehicle-new/bh315.html` | ✔ | non |
+| 2026-11-17 | BH-316 | `Http\AdminVehicleNewTest::bh316_zero_mileage_is_accepted` | http | — | ✔ | non |
+| 2026-11-17 | BH-317 | `Http\AdminVehicleNewTest::bh317_non_numeric_or_huge_mileage_is_not_valid`, `Diff\AdminVehicleNewDiffTest::bh317_invalid_mileage_same_as_reference` | http, diff | `http/admin-vehicle-new/bh317-{abc,huge}.html` | ✔ | non |
+| 2026-11-17 | BH-318 | `Http\AdminVehicleNewTest::bh318_decimal_mileage_is_truncated`, `Edge\AdminInputParsingTest::bh318_decimal_comma_is_truncated_down`, `Diff\AdminVehicleNewDiffTest::bh318_decimal_mileage_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-319 | `Http\AdminVehicleNewTest::bh319_exponent_mileage_is_stored_as_thousand`, `Edge\AdminInputParsingTest::bh319_exponent_is_read_as_thousand`, `Diff\AdminVehicleNewDiffTest::bh319_exponent_mileage_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-320 | `Http\AdminVehicleNewTest::bh320_mileage_of_two_pow_31_is_stored`, `Edge\AdminInputParsingTest::bh320_two_pow_31_is_stored_as_64_bit_integer`, `Diff\AdminVehicleNewDiffTest::bh320_int32_overflow_mileage_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-321 | `Http\AdminVehicleNewTest::bh321_empty_mileage_is_a_server_error`, `Edge\AdminInputParsingTest::bh321_empty_mileage_fails_without_writing`, `Diff\AdminVehicleNewDiffTest::bh321_empty_mileage_same_as_reference` | http, edge, diff | — (500) | ✔ | non |
+| 2026-11-17 | BH-322 | `Http\AdminVehicleNewTest::bh322_status_two_is_stored` | http | — | ✔ | non |
+| 2026-11-17 | BH-323 | `Http\AdminVehicleNewTest::bh323_unknown_status_is_not_valid`, `Diff\AdminVehicleNewDiffTest::bh323_unknown_status_same_as_reference` | http, diff | `http/admin-vehicle-new/bh323-{3,abc}.html` | ✔ | oui (erreur dans le `<div>` du `<select>`) |
+| 2026-11-17 | BH-324 | `Http\AdminVehicleNewTest::bh324_missing_status_is_a_server_error`, `Edge\AdminInputParsingTest::bh324_missing_status_fails_without_writing`, `Diff\AdminVehicleNewDiffTest::bh324_missing_status_same_as_reference` | http, edge, diff | — (500) | ✔ | non |
+| 2026-11-17 | BH-325 | `Http\AdminVehicleNewTest::bh325_missing_or_wrong_csrf_token_is_refused`, `Diff\AdminVehicleNewDiffTest::bh325_csrf_same_as_reference` | http, diff | `http/admin-vehicle-new/bh325-missing.html` | ✔ | non |
+| 2026-11-17 | BH-326 | `Http\AdminVehicleNewTest::bh326_extra_fields_are_refused_without_assignment`, `Diff\AdminVehicleNewDiffTest::bh326_extra_fields_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-327 | `Http\AdminVehicleNewTest::bh327_post_without_body_redisplays_form_without_error`, `Diff\AdminVehicleNewDiffTest::bh327_post_without_body_same_as_reference` | http, diff | `http/admin-vehicle-new/bh327.html` | ✔ | non |
+| 2026-11-17 | BH-328 | `Http\AdminVehicleNewTest::bh328_put_is_method_not_allowed` | http | — (405) | ✔ | non |
+| 2026-11-17 | BH-329 | `Http\AdminVehicleNewTest::bh329_post_without_credentials_nor_session_is_unauthorized`, `Diff\AdminVehicleNewDiffTest::bh329_post_without_credentials_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-330 | `Http\AdminVehicleNewTest::bh330_flash_shows_account_name_not_typed_name`, `Diff\AdminVehicleNewDiffTest::bh330_uppercase_username_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-331 | `Http\AdminVehicleNewTest::bh331_created_vehicle_page`, `Diff\AdminVehicleNewDiffTest::bh331_vehicle_page_after_creation_same_as_reference` | http, diff | `http/admin-vehicle-new/bh331-vehicle-page.html` | ✔ | oui (message « Aucune réservation à venir. » dans un `<li>`, historique vide) |
+| 2026-11-17 | BH-332 | `Http\AdminVehicleNewTest::bh332_created_vehicle_in_list_and_api_in_plate_order`, `Diff\AdminVehicleNewDiffTest::bh332_list_and_api_after_creation_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-333 | `Http\AdminVehicleNewTest::bh333_post_without_authorization_in_same_session_is_accepted`, `Edge\AdminInputParsingTest::bh333_basic_authentication_is_remembered_by_the_session`, `Diff\AdminVehicleNewDiffTest::bh333_session_remembers_authentication_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-334 | `Http\AdminVehicleNewTest::bh334_session_keeps_admin_link_on_public_list`, `Diff\AdminVehicleNewDiffTest::bh334_admin_link_from_session_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-335 | `Http\AdminVehicleNewTest::bh335_created_at_is_set_from_the_container_clock`, `Diff\AdminVehicleNewDiffTest::bh335_created_at_same_date_as_reference` | http, diff | — | ✔ | oui (type TEXT) |
+| 2026-11-17 | BH-336 | `Http\AdminVehicleNewTest::bh336_refused_request_still_opens_a_session`, `Diff\AdminVehicleNewDiffTest::bh336_session_cookie_on_401_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-337 | `Http\AdminVehicleNewTest::bh337_successful_creation_sets_session_cookie`, `Diff\AdminVehicleNewDiffTest::bh337_session_cookies_of_a_success_same_as_reference` | http, diff | — | ✔ | oui (cookie posé au GET authentifié, pas au POST) |
+| 2026-11-17 | BH-300…337 | Propositions § 5.4 appliquées à titre provisoire, **en attente de décision** : BH-309 / BH-310 / BH-321 / BH-324 figés en « 500 + base inchangée », corps non contractuel ; BH-302 / BH-330, BH-333 / BH-334, BH-313, BH-318 / BH-319 figés ; mot de passe du compte de test lu dans `FLEET_ADMIN_PASSWORD` (repli : valeur step-00, uniquement dans `tests/`). A4 : diff exact, `created_at` vérifié au format `Y-m-d H:i:s` et réduit à sa date `2026-01-15` (heure jamais assertée) ; en suite diff, seul le `created_at` des véhicules **ajoutés** est réduit à sa date. Corps 401/405 non contractuels et A5 comparé en diff uniquement (§ 2.5). Support : nouveau trait `Support\AdminVehicleForm` ; `Support\HttpClient::withoutBasicAuth()` ajouté ; `Support\FormDiffTestCase::comparableDbLine()` ajouté (identité par défaut : aucun effet sur l'existant). Suite complète verte 3 fois sur app-ref (329 tests). Le fichier sonde `tests/src/Edge/ZzProbeTest.php` signalé au journal BH-200…224 n'existe plus (251 tests avant cette zone) | — | — | — | — |
 
 ## Blocages
 
