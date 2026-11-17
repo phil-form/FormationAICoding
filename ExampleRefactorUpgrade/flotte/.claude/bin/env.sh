@@ -51,9 +51,10 @@ case "$cmd" in
   ref-sync)
     tag="${1:?usage: env.sh ref-sync <tag>}"
     git -C "$ROOT" rev-parse -q --verify "refs/tags/$tag" >/dev/null || die "Tag introuvable : $tag"
-    prefix="$(git -C "$ROOT" rev-parse --show-prefix)"; prefix="${prefix%/}"
     tmp="$(mktemp -d)"
-    git -C "$ROOT" archive --format=tar "$tag:${prefix}" | tar -x -C "$tmp"
+    # Lancé depuis flotte/ (sous-dossier du dépôt parent), « -- . » limite l'archive à flotte/ avec des chemins relatifs.
+    (cd "$ROOT" && git archive --format=tar "$tag" -- .) | tar -x -C "$tmp"
+    [[ -f "$tmp/composer.json" ]] || die "Archive du tag $tag vide ou incomplète (composer.json absent)"
     rm -rf "$ROOT/.ref"; mv "$tmp" "$ROOT/.ref"
     # Référence (Symfony 2.8) : parameters.yml non versionné, base pointée sur le volume db-ref.
     if [[ -f .ref/app/config/parameters.yml.dist && ! -f .ref/app/config/parameters.yml ]]; then

@@ -37,7 +37,27 @@ Règles, sources autorisées, gel, `--fix`, « vert sur `app-ref` » et squelett
 2. Écris les tests ; exécute `.claude/bin/tests.sh --suite db` sur la référence.
 3. Rapport (même format que `write-http-tests`).
 
+## Mise à jour du document de fiches (obligatoire après chaque implémentation)
+
+Document concerné : `tmp/tests-<contrôleur>.md` (ou `tmp/tests-commands.md`). Le mettre à jour **dans toutes ses
+parties** (`.claude/reference/conventions.md` § 5.6) :
+
+1. **Lignes de fiches** : pour chaque fiche implémentée dont la valeur observée sur `app-ref` diffère de la fiche, ou
+   était « à confirmer » / « déduite », corriger la cellule avec la **valeur observée** et ajouter
+   `(observé à l'implémentation)`. Jamais de fiche supprimée ni renumérotée ; jamais de valeur ajustée sans
+   observation sur la référence.
+2. **Journal d'implémentation** (section créée si absente, juste avant « Blocages ») : une ligne par fiche —
+   `| date | BH-NNN | Classe::méthode | suite(s) | golden(s) | app-ref ✔/✘ | écart corrigé oui/non |`.
+3. **Blocages** : `- BH-NNN : ⏸ <raison>` pour chaque fiche non implémentée faute de décision, de reproductibilité ou
+   d'environnement ; retirer la ligne d'un blocage levé.
+4. **Points à trancher** : ne rien décider ; ajouter `→ bloque BH-NNN` à la ligne concernée si nécessaire.
+5. **Exemple complet** du document : aligner ses valeurs sur le test si elles ont changé.
+6. **Bloc de suivi** : lancer `.claude/bin/tests.sh --suite <suite> --target ref` (qui régénère le bloc), puis
+   `.claude/bin/test-tracking.py` après les dernières modifications.
+
+Rapport final : lister les fiches dont la ligne a été corrigée (avant → après) et les blocages ajoutés.
+
 ## Après la skill
 
-La session principale lance **`/step-commit`** (mode hors marche) pour les fichiers produits (règle « Commit automatique des tests » de
+La session principale lance **`/step-commit`** (mode hors marche) pour les fichiers produits **et le document de fiches mis à jour** (règle « Commit automatique des tests » de
 `CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.

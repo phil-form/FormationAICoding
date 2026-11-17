@@ -57,7 +57,8 @@ case "$mode" in
                 "docs/migration/accepted-changes.md" "README.md" "CLAUDE.md" "tmp/" ".claude/reference/"
                 ".claude/skills/" ".claude/state/migration/feedback-tests.md" ".claude/state/migration/test-results/"
                 ".claude/state/migration/state.json")
-    WRITE_ALLOW=("tests/") ;;
+    WRITE_ALLOW=("tests/")
+    WRITE_GLOB=("tmp/tests-*.md") ;;   # documents de fiches (conventions § 5.6)
   migrate)
     READ_DENY=(".claude/state/migration/feedback-tests.md" ".claude/state/migration/audit/")
     WRITE_DENY=("tests" "docs" ".claude" "tmp" ".ref" "README.md" "CLAUDE.md") ;;
@@ -95,8 +96,11 @@ check_write() {
   local p; p="$(rel "$1")"
   [[ -z "$p" ]] && deny "Écriture sans chemin."
   [[ "$p" == /* ]] && deny "Écriture hors du projet interdite ('$p')."
+  if [[ -n "${WRITE_GLOB+x}" ]]; then
+    local g; for g in "${WRITE_GLOB[@]}"; do [[ "$p" == $g && "$p" != */*/* ]] && return 0; done
+  fi
   if [[ -n "${WRITE_ALLOW+x}" ]]; then
-    in_list "$p" "${WRITE_ALLOW[@]}" || deny "Écriture de '$p' interdite. Zones autorisées : ${WRITE_ALLOW[*]}"
+    in_list "$p" "${WRITE_ALLOW[@]}" || deny "Écriture de '$p' interdite. Zones autorisées : ${WRITE_ALLOW[*]} ${WRITE_GLOB[*]:-}"
   else
     in_list "$p" "${WRITE_DENY[@]}" && deny "Écriture de '$p' interdite pour cet agent (zones gelées : ${WRITE_DENY[*]})."
   fi
@@ -135,9 +139,9 @@ check_bash() {
   case "$mode" in
     tests)
       # Boîte noire : HTTP, console limitée aux commandes métier, chargement des données, exécution des tests.
-      if [[ "$cmd" =~ ^[[:space:]]*\.claude/bin/(http\.sh|seed\.sh|tests\.sh|junit-summary\.py)([[:space:]]|$) ]]; then return 0; fi
+      if [[ "$cmd" =~ ^[[:space:]]*\.claude/bin/(http\.sh|seed\.sh|tests\.sh|junit-summary\.py|test-tracking\.py)([[:space:]]|$) ]]; then return 0; fi
       if [[ "$cmd" =~ ^[[:space:]]*\.claude/bin/console\.sh([[:space:]]+--ref)?[[:space:]]+(fleet:[a-z:-]+|list|help)([[:space:]]|$) ]]; then return 0; fi
-      deny "Autorisé : .claude/bin/http.sh, seed.sh, tests.sh, junit-summary.py, console.sh [--ref] fleet:*|list|help."
+      deny "Autorisé : .claude/bin/http.sh, seed.sh, tests.sh, junit-summary.py, test-tracking.py, console.sh [--ref] fleet:*|list|help."
       ;;
     migrate)
       [[ "$cmd" =~ $SCRIPT_RE || "$cmd" =~ $GIT_RE ]] || deny "Autorisé : scripts .claude/bin/* et .claude/skills/*/scripts/*, git diff|log|show|status|ls-files|rev-parse."

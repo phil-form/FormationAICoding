@@ -61,6 +61,9 @@ même en `--auto`.
 ## Suivi des tests
 
 Les fiches de tests par contrôleur sont dans `tmp/tests-*.md` (gabarit : `tmp/tests-vehicle-controller.md` § 2).
+**Après chaque implémentation de tests, le document concerné est mis à jour dans toutes ses parties** (lignes de
+fiches corrigées avec la valeur observée, journal d'implémentation, blocages, points à trancher, exemple, bloc de
+suivi) : `.claude/reference/conventions.md` § 5.6, étape obligatoire des skills `write-*-tests` et `golden-master`.
 Leur bloc « Suivi d'avancement » est régénéré à chaque `.claude/bin/tests.sh` par `.claude/bin/test-tracking.py`
 (à lancer aussi à la main après l'écriture d'un test). Bloquer une fiche : `- BH-NNN : ⏸ raison` dans la section
 « Blocages » du document.

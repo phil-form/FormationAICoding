@@ -194,6 +194,23 @@ encodeur `plaintext`, compte de test en clair — identifiant interne `CFG-xxx`,
 - `.claude/state/migration/feedback-code.md` : pour `migrator`, en termes de `BH-xxx` et de dépréciations uniquement.
 - Jamais de code de test recopié vers `migrator`, ni de code de production vers `test-writer`.
 
+### 5.6 Documents de fiches de tests (`tmp/tests-*.md`) — mise à jour après chaque implémentation
+
+Un document par contrôleur ou groupe de commandes (`tmp/tests-vehicle-controller.md`…). Après **chaque**
+implémentation de tests (skills `write-*-tests`, `golden-master`), le document concerné est mis à jour **dans toutes
+ses parties**, dans cet ordre :
+
+| Partie | Mise à jour | Par qui |
+|---|---|---|
+| **Bloc « Suivi d'avancement »** (`<!-- tracking:start -->` … `<!-- tracking:end -->`) | régénéré, jamais édité à la main | `.claude/bin/test-tracking.py` (automatique en fin de `tests.sh`, à relancer après l'écriture) |
+| **Lignes de fiches** (tableaux `\| BH-NNN \| …`) | si la référence a montré une valeur différente de la fiche, ou si une valeur était « à confirmer » / « déduite » : corriger la cellule **avec la valeur observée sur `app-ref`** et ajouter `(observé à l'implémentation)` ; **ne jamais** retirer une fiche ni changer son numéro ; ne jamais ajuster une fiche pour faire passer un test sans l'avoir observé sur la référence | `test-writer` |
+| **Section « Journal d'implémentation »** (créée si absente, avant « Blocages ») | une ligne par fiche implémentée : date, `BH-NNN`, `Classe::méthode` (une ou plusieurs), suite(s), golden(s), résultat sur `app-ref`, écart corrigé dans la fiche (oui/non) | `test-writer` |
+| **Section « Blocages »** | `- BH-NNN : ⏸ <raison>` pour toute fiche non implémentable (dépend d'un point à trancher, comportement non reproductible, environnement) ; retirer la ligne quand le blocage est levé | `test-writer` |
+| **Section « Points à trancher »** | **ne pas trancher** : ajouter seulement `→ bloque BH-NNN` en fin de ligne si un point empêche une fiche ; la décision revient à l'utilisateur | `test-writer` |
+| **Exemple complet** (§ 3 des documents) | aligner les valeurs sur celles du test si elles ont changé | `test-writer` |
+
+Le document modifié est commité **avec** les tests qu'il décrit (commit automatique `/step-commit`, mode hors marche).
+
 ## 6. État des orchestrateurs (`.claude/state/migration/state.json`)
 
 ```json
