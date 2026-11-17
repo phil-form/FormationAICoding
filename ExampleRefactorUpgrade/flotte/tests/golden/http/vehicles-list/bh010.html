@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Flotte Delvaux & Fils</title>
+</head>
+<body>
+<nav><a href="/vehicules">Véhicules</a></nav>
+<h1>Véhicules</h1>
+<form method="get">
+<select name="status">
+<option value="">Tous</option>
+<option value="0">Disponible</option>
+<option value="1">En entretien</option>
+<option value="2">Hors service</option>
+</select>
+<button type="submit">Filtrer</button>
+</form>
+<table>
+<thead>
+<tr><th>Plaque</th><th>Véhicule</th><th>Kilométrage</th><th>Statut</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/vehicules/1">1-ABC-123</a></td>
+<td>Renault Kangoo</td>
+<td>84.210 km</td>
+<td>Disponible</td>
+</tr>
+<tr>
+<td><a href="/vehicules/2">1-BCD-234</a></td>
+<td>Peugeot Partner</td>
+<td>120.450 km</td>
+<td>Disponible</td>
+</tr>
+<tr>
+<td><a href="/vehicules/3">1-CDE-345</a></td>
+<td>Volkswagen Crafter</td>
+<td>45.800 km</td>
+<td>En entretien</td>
+</tr>
+<tr>
+<td><a href="/vehicules/4">1-DEF-456</a></td>
+<td>Iveco Daily</td>
+<td>210.300 km</td>
+<td>Hors service</td>
+</tr>
+<tr>
+<td><a href="/vehicules/5">2-EFG-567</a></td>
+<td>Skoda Octavia</td>
+<td>15.200 km</td>
+<td>Disponible</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Tests de caractérisation boîte noire de flotte (conteneur "tests", PHP 8.4, PHPUnit 11).
+    Suites : http, cli, db, edge, diff — voir .claude/reference/conventions.md § 2 et § 5.2.
+    Ordre d'exécution déterministe (pas de réordonnancement par défauts) : chaque test restaure lui-même son scénario.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory="/tmp/phpunit-cache"
+         executionOrder="default"
+         resolveDependencies="false"
+         failOnWarning="true"
+         failOnRisky="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true">
+    <testsuites>
+        <testsuite name="http">
+            <directory>src/Http</directory>
+        </testsuite>
+        <testsuite name="cli">
+            <directory>src/Cli</directory>
+        </testsuite>
+        <testsuite name="db">
+            <directory>src/Db</directory>
+        </testsuite>
+        <testsuite name="edge">
+            <directory>src/Edge</directory>
+        </testsuite>
+        <testsuite name="diff">
+            <directory>src/Diff</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="date.timezone" value="Europe/Brussels"/>
+        <!-- Valeurs par défaut : les variables du conteneur "tests" (docker-compose.yml) priment. -->
+        <env name="TARGET" value="app" force="false"/>
+        <env name="APP_URL" value="http://app:8080" force="false"/>
+        <env name="REF_URL" value="http://app-ref:8080" force="false"/>
+        <env name="APP_DB" value="/data/app/flotte.sqlite" force="false"/>
+        <env name="REF_DB" value="/data/ref/flotte.sqlite" force="false"/>
+        <env name="APP_CONTAINER" value="flotte-mig-app" force="false"/>
+        <env name="REF_CONTAINER" value="flotte-mig-app-ref" force="false"/>
+        <env name="FIXTURES_DIR" value="fixtures" force="false"/>
+        <env name="GOLDEN_DIR" value="golden" force="false"/>
+        <env name="GOLDEN_RECORD" value="0" force="false"/>
+    </php>
+</phpunit>

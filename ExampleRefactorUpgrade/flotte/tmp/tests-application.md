@@ -12,18 +12,18 @@
 <!-- tracking:start -->
 ## Suivi d'avancement (généré)
 
-> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:12. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:13. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
 
-**14/209 terminés (6 %)** `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
+**40/209 terminés (19 %)** `█████░░░░░░░░░░░░░░░░░░░░░░░░░`
 
-✅ 14 terminés · 🟡 26 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 169 à écrire
+✅ 40 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 169 à écrire
 
 | Groupe | Route | Écrites | Terminées | Avancement |
 |---|---|---|---|---|
-| **`VehicleController`** | | **40/40** | **14/40** | `███░░░░░░░` 35 % |
-| | `homepage` | 4/4 | 3/4 | `███████░░░` 75 % |
-| | `vehicle_index` | 19/19 | 6/19 | `███░░░░░░░` 31 % |
-| | `vehicle_show` | 17/17 | 5/17 | `██░░░░░░░░` 29 % |
+| **`VehicleController`** | | **40/40** | **40/40** | `██████████` 100 % |
+| | `homepage` | 4/4 | 4/4 | `██████████` 100 % |
+| | `vehicle_index` | 19/19 | 19/19 | `██████████` 100 % |
+| | `vehicle_show` | 17/17 | 17/17 | `██████████` 100 % |
 | **`ReservationController`** | | **0/69** | **0/69** | `░░░░░░░░░░` 0 % |
 | | `reservation_new` | 0/39 | 0/39 | `░░░░░░░░░░` 0 % |
 | | `reservation_return` | 0/30 | 0/30 | `░░░░░░░░░░` 0 % |
@@ -39,46 +39,46 @@
 
 | Fiche | Route | Fiche BH | Tests | Golden | Réf | App | Diff | Statut |
 |---|---|---|---|---|---|---|---|---|
-| BH-001 | `homepage` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-002 | `homepage` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-003 | `homepage` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-004 | `homepage` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-010 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-011 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-012 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-013 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-014 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-015 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-016 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-017 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-018 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-019 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-020 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-021 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-022 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-023 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-024 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-025 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-026 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-027 | `vehicle_index` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-028 | `vehicle_index` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-040 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-041 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-042 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-043 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-044 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-045 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-046 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-047 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
-| BH-048 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-049 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-050 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-051 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-052 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-053 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-054 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-055 | `vehicle_show` | — | 1 | — | ✔ | — | ✘ | 🟡 incomplet |
-| BH-056 | `vehicle_show` | — | 1 | — | ✔ | — | — | ✅ terminé |
+| BH-001 | `homepage` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-002 | `homepage` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-003 | `homepage` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-004 | `homepage` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-010 | `vehicle_index` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-011 | `vehicle_index` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-012 | `vehicle_index` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-013 | `vehicle_index` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-014 | `vehicle_index` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-015 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-016 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-017 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-018 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-019 | `vehicle_index` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-020 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-021 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-022 | `vehicle_index` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-023 | `vehicle_index` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-024 | `vehicle_index` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-025 | `vehicle_index` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-026 | `vehicle_index` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-027 | `vehicle_index` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-028 | `vehicle_index` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-040 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-041 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-042 | `vehicle_show` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-043 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-044 | `vehicle_show` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-045 | `vehicle_show` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-046 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-047 | `vehicle_show` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-048 | `vehicle_show` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-049 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-050 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-051 | `vehicle_show` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-052 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-053 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-054 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-055 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-056 | `vehicle_show` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
 | BH-100 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-101 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-102 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
@@ -396,8 +396,8 @@ Rappels communs à toutes les réponses de ce contrôleur (observés) :
 | BH-019 | `GET /vehicules` | edge | 200 | ordre **binaire** : ` 2-BBB-004` (espace en tête) en premier, puis `0-AAA-000`, `1ABC12`…, plaques en minuscules après les majuscules ; affichage **normalisé** (`2-BBB-004`, `ABC123`…) | oui : tri SQLite + filtre `plate` |
 | BH-020 | `GET /vehicules` | edge | 200 | formats : `0 km`, `2.147.483.647 km` | oui : `number_format` |
 | BH-021 | `GET /vehicules` | edge | 200 | échappement : `Citroën &lt;b&gt;C3&lt;/b&gt;`, `&quot;Aircross&quot; &amp; &lt;script&gt;…`, Unicode et emoji intacts | oui : auto-échappement Twig 1 → 3 |
-| BH-022 | `GET /vehicules` | anomalies | 200 | statut inconnu → cellule de statut **vide** ; plaque vide, km négatif `-500 km` ; A5 : notices `Undefined offset: 3`, `Undefined offset: -1` | **oui** : notice → warning (PHP 8), libellé |
-| BH-023 | `GET /vehicules` (Basic `gestionnaire:flotte2016`) | demo | 200 | lien « Ajouter un véhicule » présent dans `<nav>` | oui : sécurité (step-06) |
+| BH-022 | `GET /vehicules` | anomalies | 200 | statut inconnu → cellule de statut **vide** ; plaque vide, km négatif `-500 km` ; A5 : notices `Undefined offset: 3`, `Undefined offset: -1` ; plaque vide en **première** ligne, marque et modèle vides → cellule `<td> </td>` (une espace) ; A5 exact : `PHP Notice: Undefined offset: 3` puis `PHP Notice: Undefined offset: -1` (observé à l'implémentation) | **oui** : notice → warning (PHP 8), libellé |
+| BH-023 | `GET /vehicules` (Basic `gestionnaire:flotte2016`) | demo | 200 | lien « Ajouter un véhicule » présent dans `<nav>` : `<a href="/admin/vehicules/nouveau">`, après « Véhicules » séparé par ` \| ` (observé à l'implémentation) | oui : sécurité (step-06) |
 | BH-024 | `GET /vehicules` (Basic `gestionnaire:mauvais`) | demo | **401** | `WWW-Authenticate: Basic realm="Secured Area"` : de mauvais identifiants sur une page **publique** sont refusés | **oui** : authenticators (step-06) |
 | BH-025 | `GET /vehicules/` | demo | 404 | barre oblique finale non redirigée | oui : routage |
 | BH-026 | `POST /vehicules` | demo | 405 | `Allow: GET, HEAD` | non |
@@ -408,20 +408,20 @@ Rappels communs à toutes les réponses de ce contrôleur (observés) :
 
 | Fiche | Requête | Scénario | A1 | A3 — points clés | Sensible |
 |---|---|---|---|---|---|
-| BH-040 | `GET /vehicules/1` | demo | 200 | `<h1>1-ABC-123 — Renault Kangoo</h1>`, `Kilométrage : 84.210 km · Statut : Disponible`, lien `/vehicules/1/reserver` « Réserver ce véhicule », à venir : `15/06/2030 08:00 → 15/06/2030 18:00 : Sophie Martin` + lien `/reservations/5/retour`, historique : `02/05/2016 : Jean Dupont, 210 km, 73,50 €` | oui : `{% for … if %}` (Twig 3, step-04) |
+| BH-040 | `GET /vehicules/1` | demo | 200 | `<h1>1-ABC-123 — Renault Kangoo</h1>`, `Kilométrage : 84.210 km · Statut : Disponible`, lien `/vehicules/1/reserver` « Réserver ce véhicule », à venir : `15/06/2030 08:00 → 15/06/2030 18:00 : Sophie Martin` + lien `/reservations/5/retour` (libellé « retour » entre parenthèses, observé à l'implémentation), historique : `02/05/2016 : Jean Dupont, 210 km, 73,50 €` | oui : `{% for … if %}` (Twig 3, step-04) |
 | BH-041 | `GET /vehicules/2` | demo | 200 | « Aucune réservation à venir. » ; historique de 2 lignes dans l'ordre des dates | oui : idem |
 | BH-042 | `GET /vehicules/3` et `/4` | demo | 200 | statut « En entretien » / « Hors service », **pas** de lien « Réserver » | non |
 | BH-043 | `GET /vehicules/<véhicule sans historique>` | edge (#1) | 200 | « Aucune réservation à venir. » et historique = `<ul>` **vide** (pas de message) | oui : Twig |
 | BH-044 | `GET /vehicules/<véhicule en entretien avec réservation future>` | edge (#11) | 200 | réservation future affichée, pas de lien « Réserver » | non |
 | BH-045 | `GET /vehicules/<véhicule en retard>` | edge (`1-OVD-001`) | 200 | la réservation **passée non rendue** figure dans « Réservations à venir », avant la future | non (bug figé) |
 | BH-046 | `GET /vehicules/<même date de début>` | edge (`1-SAM-001`) | 200 | ordre des deux réservations de même début = ordre observé (dépend de la base) | oui : `@OrderBy`, ORM |
-| BH-047 | `GET /vehicules/<40 réservations>` | edge (`1-LNG-040`) | 200 | toutes listées (aucune pagination), annulées absentes | non |
+| BH-047 | `GET /vehicules/<40 réservations>` | edge (`1-LNG-040`) | 200 | toutes listées (aucune pagination), annulées absentes : 7 à venir, 29 dans l'historique (observé à l'implémentation) | non |
 | BH-048 | `GET /vehicules/<arrondis>` | edge (`1-CST-001`) | 200 | historique : `1 km, 0,35 €` · `3 km, 1,05 €` · `7 km, 2,45 €` · `0 km, 0,00 €` · `999 km, 349,65 €` | oui : flottants, `number_format` |
 | BH-049 | `GET /vehicules/<XSS>` | edge (`1-XSS-001`) | 200 | `<h1>` échappé (`&lt;script&gt;…&#039;x&#039;`), 11 conducteurs « difficiles » échappés (vide, 100 caractères, guillemets, script, emoji, arabe) | oui : échappement Twig |
 | BH-050 | `GET /vehicules/<changements d'heure>` | edge (`1-DST-001`) | 200 | heures naïves affichées telles qu'en base (`29/03/2026 01:30 → 29/03/2026 03:30`) | oui : `DateTime`, fuseau |
-| BH-051 | `GET /vehicules/<anomalies>` | anomalies (#1, #6, #8) | 200 | libellé de statut vide ; km retour < départ → `-100 km, -35,00 €` ; coût NULL → `0,00 €` ; coût `N/A` → `10 km,  €` (montant vide, warning) ; coût `12.345` → `12,35 €` ; statuts `CONFIRMEE`/vide absents des deux listes ; A5 : notice + warning `number_format()` | **oui** : `number_format(null)` déprécié (8.1), `number_format('N/A')` → TypeError (8.0) → 500 probable |
+| BH-051 | `GET /vehicules/<anomalies>` | anomalies (#1, #6, #8) | 200 | libellé de statut vide ; km retour < départ → `-100 km, -35,00 €` ; coût NULL → `0,00 €` ; coût `N/A` → `10 km,  €` (montant vide, warning) ; coût `12.345` → `12,35 €` ; statuts `CONFIRMEE`/vide absents des deux listes ; A5 : notice + warning `number_format()` ; statut inconnu (#1) : **pas** de lien « Réserver » (observé à l'implémentation) | **oui** : `number_format(null)` déprécié (8.1), `number_format('N/A')` → TypeError (8.0) → 500 probable |
 | BH-052 | `GET /vehicules/01` | demo | **200** | même page que `/vehicules/1` (contenu dupliqué) | oui : ParamConverter → MapEntity (step-06) |
-| BH-053 | `GET /vehicules/999`, `/vehicules/0` | demo | 404 | en-têtes communs ; corps non contractuel (§ 1.2.4) | oui : page d'erreur |
+| BH-053 | `GET /vehicules/999`, `/vehicules/0` | demo | 404 | en-têtes communs ; corps non contractuel (§ 1.2.4) ; **pas** de `Set-Cookie` sur les 302/404/405 (observé à l'implémentation) | oui : page d'erreur |
 | BH-054 | `GET /vehicules/abc`, `/vehicules/-1`, `/vehicules/99999999999999999999` | demo | 404 | prérequis `\d+` / dépassement d'entier : 404, jamais 500 | **oui** : très grand id (PHP 8 / DBAL 3) |
 | BH-055 | `GET /vehicules/1/` | demo | 404 | barre oblique finale | oui : routage |
 | BH-056 | `POST /vehicules/1` | demo | 405 | `Allow: GET, HEAD` | non |
@@ -431,7 +431,7 @@ Rappels communs à toutes les réponses de ce contrôleur (observés) :
 ```markdown
 ### BH-015 — Le filtre de statut non numérique affiche les véhicules disponibles
 - Route / interface : vehicle_index · GET /vehicules?status=abc
-- Suite : edge (+ diff)            Groupe : zone-vehicles-list
+- Suite : http + edge (+ diff)     Groupe : zone-vehicles-list
 - Scénario de données : demo
 - Authentification : aucune
 - Sensible à la migration : oui → comparaison lâche `0 != 'abc'` (PHP) et `status == value` (Twig) ; PHP 8.0
@@ -441,11 +441,14 @@ Rappels communs à toutes les réponses de ce contrôleur (observés) :
   - A1 statut : 200
   - A2 en-têtes : Content-Type text/html; charset=UTF-8 · X-Fleet-Version 1.4.2 · Cache-Control no-cache ·
     Set-Cookie PHPSESSID (path=/, HttpOnly)
-  - A3 corps : golden `vehicles-list/status-abc` ; 3 lignes : 1-ABC-123, 1-BCD-234, 2-EFG-567 ;
+  - A3 corps : golden `vehicles-list/bh015-status-abc` ; 3 lignes : 1-ABC-123, 1-BCD-234, 2-EFG-567 ;
     `<option value="0" selected>Disponible</option>` ; aucune autre option sélectionnée
   - A4 base : inchangée
-  - A5 journal PHP : aucune entrée
-- Golden : tests/golden/http/vehicles-list/status-abc.html
+  - A5 journal PHP : aucune entrée (comparé en suite diff uniquement, proposition § 2.5)
+- Golden : tests/golden/http/vehicles-list/bh015-status-abc.html
+- Tests : VehiclesListTest::bh015_status_filter_with_non_numeric_value (http),
+  LooseStatusFilterTest::bh015_non_numeric_status_matches_available_vehicles (edge),
+  VehiclesListDiffTest::bh015_non_numeric_status_same_as_reference (diff)
 ```
 
 Déroulé correspondant (pseudo-code, pas une implémentation) :
@@ -457,11 +460,11 @@ r = http(target).get('/vehicules?status=abc')   (client neuf, sans redirection)
 assert r.status == 200
 assert headers(r) ⊇ {Content-Type, X-Fleet-Version: 1.4.2, Cache-Control: no-cache}; cookie PHPSESSID présent
 html = normalizeHtml(r.body)
-assertMatchesGolden('vehicles-list/status-abc', html)
+assertMatchesGolden('http/vehicles-list/bh015-status-abc.html', html)
 assert rows(html) == ['1-ABC-123', '1-BCD-234', '2-EFG-567']
 assert selectedOptions(html) == ['0']
 assert dbFingerprint(target) == fingerprint('demo')
-assert phpLogSignatures(target, since=log0) == []
+(A5 : phpLogSignatures(ref) == phpLogSignatures(app), en suite diff uniquement)
 ```
 
 ### 2.5 Points à trancher avant d'écrire les tests
@@ -1016,6 +1019,47 @@ Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills 
 
 | Date | Fiche | Classe::méthode | Suite(s) | Golden(s) | app-ref | Écart corrigé dans la fiche |
 |---|---|---|---|---|---|---|
+| 2026-11-17 | BH-001 | `Http\HomepageTest::bh001_root_redirects_to_vehicle_list` | http | — (302, corps non contractuel) | ✔ | non |
+| 2026-11-17 | BH-002 | `Http\HomepageTest::bh002_root_redirects_whatever_the_method`, `Diff\HomepageDiffTest::bh002_root_redirect_for_any_method_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-003 | `Http\HomepageTest::bh003_root_redirect_drops_query_string` | http | — | ✔ | non |
+| 2026-11-17 | BH-004 | `Http\HomepageTest::bh004_head_on_root_redirects_with_empty_body` | http | — | ✔ | non |
+| 2026-11-17 | BH-010 | `Http\VehiclesListTest::bh010_list_sorted_by_plate_with_formatted_columns` | http | `http/vehicles-list/bh010.html` | ✔ | non |
+| 2026-11-17 | BH-011 | `Http\VehiclesListTest::bh011_empty_list_shows_single_placeholder_row`, `Diff\VehiclesListDiffTest::bh011_empty_list_same_as_reference` | http, diff | `http/vehicles-list/bh011.html` | ✔ | non |
+| 2026-11-17 | BH-012 | `Http\VehiclesListTest::bh012_numeric_status_filter_selects_option` | http | `http/vehicles-list/bh012-status-{0,1,2}.html` | ✔ | non |
+| 2026-11-17 | BH-013 | `Http\VehiclesListTest::bh013_empty_status_filter_lists_all` | http | `http/vehicles-list/bh013.html` | ✔ | non |
+| 2026-11-17 | BH-014 | `Http\VehiclesListTest::bh014_unknown_numeric_status_shows_no_vehicle` | http | `http/vehicles-list/bh014.html` | ✔ | non |
+| 2026-11-17 | BH-015 | `Http\VehiclesListTest::bh015_status_filter_with_non_numeric_value`, `Edge\LooseStatusFilterTest::bh015_non_numeric_status_matches_available_vehicles`, `Diff\VehiclesListDiffTest::bh015_non_numeric_status_same_as_reference` | http, edge, diff | `http/vehicles-list/bh015-status-abc.html` | ✔ | non (exemple § 2.4 aligné : nom du golden, A5 en diff) |
+| 2026-11-17 | BH-016 | `Http\VehiclesListTest::bh016_status_filter_with_numeric_prefix_string`, `Edge\LooseStatusFilterTest::bh016_numeric_prefix_string_matches_status_zero`, `Diff\VehiclesListDiffTest::bh016_numeric_prefix_status_same_as_reference` | http, edge, diff | `http/vehicles-list/bh016-status-0abc.html` | ✔ | non |
+| 2026-11-17 | BH-017 | `Http\VehiclesListTest::bh017_status_filter_with_leading_zero_or_space`, `Edge\LooseStatusFilterTest::bh017_leading_zero_and_leading_space_match_status_one`, `Diff\VehiclesListDiffTest::bh017_leading_zero_and_space_status_same_as_reference` | http, edge, diff | `http/vehicles-list/bh017-status-01.html`, `bh017-status-space-1.html` | ✔ | non |
+| 2026-11-17 | BH-018 | `Http\VehiclesListTest::bh018_status_filter_with_array_value`, `Edge\LooseStatusFilterTest::bh018_array_status_matches_nothing_and_never_fails`, `Diff\VehiclesListDiffTest::bh018_array_status_same_as_reference` | http, edge, diff | `http/vehicles-list/bh018-status-array.html` | ✔ | non |
+| 2026-11-17 | BH-019 | `Http\VehiclesListTest::bh019_binary_plate_order_with_normalized_display`, `Diff\VehiclesListDiffTest::bh019_edge_plate_order_same_as_reference` | http, diff | `http/vehicles-list/bh019-edge.html` | ✔ | non |
+| 2026-11-17 | BH-020 | `Http\VehiclesListTest::bh020_mileage_number_format`, `Edge\NumberFormatTest::bh020_mileage_zero_and_int32_max`, `Diff\VehiclesListDiffTest::bh020_edge_number_format_same_as_reference` | http, edge, diff | `http/vehicles-list/bh020-edge.html` | ✔ | non |
+| 2026-11-17 | BH-021 | `Http\VehiclesListTest::bh021_html_escaping_and_unicode`, `Edge\HtmlEscapingTest::bh021_brand_and_model_escaped_exactly`, `Diff\VehiclesListDiffTest::bh021_edge_escaping_same_as_reference` | http, edge, diff | `http/vehicles-list/bh021-edge.html` | ✔ | non |
+| 2026-11-17 | BH-022 | `Http\VehiclesListTest::bh022_legacy_anomalies_in_list`, `Edge\LegacyAnomaliesTest::bh022_unknown_status_renders_empty_label_without_error`, `Diff\VehiclesListDiffTest::bh022_anomalies_list_and_php_log_same_as_reference` | http, edge, diff | `http/vehicles-list/bh022-anomalies.html` | ✔ | oui (ordre, cellule « une espace », signatures A5 exactes) |
+| 2026-11-17 | BH-023 | `Http\VehiclesListTest::bh023_admin_sees_add_vehicle_link`, `Diff\VehiclesListDiffTest::bh023_admin_list_same_as_reference` | http, diff | `http/vehicles-list/bh023-admin.html` | ✔ | oui (href `/admin/vehicules/nouveau`) |
+| 2026-11-17 | BH-024 | `Http\VehiclesListTest::bh024_wrong_credentials_on_public_page_are_rejected`, `Diff\VehiclesListDiffTest::bh024_wrong_credentials_same_as_reference` | http, diff | — (corps non contractuel) | ✔ | non |
+| 2026-11-17 | BH-025 | `Http\VehiclesListTest::bh025_trailing_slash_is_not_found`, `Diff\VehiclesListDiffTest::bh025_trailing_slash_same_as_reference` | http, diff | — (404, proposition § 2.5) | ✔ | non |
+| 2026-11-17 | BH-026 | `Http\VehiclesListTest::bh026_post_is_method_not_allowed` | http | — (405, proposition § 2.5) | ✔ | non |
+| 2026-11-17 | BH-027 | `Http\VehiclesListTest::bh027_head_returns_same_headers_without_body` | http | — | ✔ | non |
+| 2026-11-17 | BH-028 | `Http\VehiclesListTest::bh028_volume_list_shows_all_vehicles`, `Diff\VehiclesListDiffTest::bh028_volume_list_content_and_performance_vs_reference` | http, diff | — (500 lignes, contenu comparé en diff) | ✔ | non |
+| 2026-11-17 | BH-040 | `Http\VehicleShowTest::bh040_vehicle_page_with_upcoming_and_history`, `Diff\VehicleShowDiffTest::bh040_vehicle_page_same_as_reference` | http, diff | `http/vehicle-show/bh040.html` | ✔ | oui (libellé « (retour) ») |
+| 2026-11-17 | BH-041 | `Http\VehicleShowTest::bh041_no_upcoming_and_history_in_date_order`, `Diff\VehicleShowDiffTest::bh041_history_order_same_as_reference` | http, diff | `http/vehicle-show/bh041.html` | ✔ | non |
+| 2026-11-17 | BH-042 | `Http\VehicleShowTest::bh042_unavailable_vehicle_has_no_booking_link` | http | `http/vehicle-show/bh042-vehicle-{3,4}.html` | ✔ | non |
+| 2026-11-17 | BH-043 | `Http\VehicleShowTest::bh043_vehicle_without_reservations_has_empty_history_list`, `Diff\VehicleShowDiffTest::bh043_empty_history_same_as_reference` | http, diff | `http/vehicle-show/bh043-edge-1.html` | ✔ | non |
+| 2026-11-17 | BH-044 | `Http\VehicleShowTest::bh044_maintenance_vehicle_shows_future_booking_without_link` | http | `http/vehicle-show/bh044-edge-11.html` | ✔ | non |
+| 2026-11-17 | BH-045 | `Http\VehicleShowTest::bh045_overdue_booking_listed_as_upcoming` | http | `http/vehicle-show/bh045-edge-21.html` | ✔ | non |
+| 2026-11-17 | BH-046 | `Http\VehicleShowTest::bh046_same_start_bookings_keep_observed_order`, `Diff\VehicleShowDiffTest::bh046_same_start_order_same_as_reference` | http, diff | `http/vehicle-show/bh046-edge-22.html` | ✔ | non (ordre observé : réservation 61 puis 62) |
+| 2026-11-17 | BH-047 | `Http\VehicleShowTest::bh047_long_lists_without_pagination` | http | `http/vehicle-show/bh047-edge-17.html` | ✔ | oui (7 à venir / 29 historique) |
+| 2026-11-17 | BH-048 | `Http\VehicleShowTest::bh048_cost_rounding_in_history`, `Edge\NumberFormatTest::bh048_cost_rounding_two_decimals_with_comma`, `Diff\VehicleShowDiffTest::bh048_cost_rounding_same_as_reference` | http, edge, diff | `http/vehicle-show/bh048-edge-25.html` | ✔ | non |
+| 2026-11-17 | BH-049 | `Http\VehicleShowTest::bh049_html_escaping_on_vehicle_page`, `Diff\VehicleShowDiffTest::bh049_escaping_same_as_reference` | http, diff | `http/vehicle-show/bh049-edge-18.html` | ✔ | non |
+| 2026-11-17 | BH-050 | `Http\VehicleShowTest::bh050_naive_times_around_dst_changes`, `Diff\VehicleShowDiffTest::bh050_dst_times_same_as_reference` | http, diff | `http/vehicle-show/bh050-edge-24.html` | ✔ | non |
+| 2026-11-17 | BH-051 | `Http\VehicleShowTest::bh051_legacy_anomalies_on_vehicle_page`, `Edge\LegacyAnomaliesTest::bh051_non_numeric_and_null_costs_render_without_error`, `Diff\VehicleShowDiffTest::bh051_anomalies_pages_and_php_log_same_as_reference` | http, edge, diff | `http/vehicle-show/bh051-anomalies-{1,6,8}.html` | ✔ | oui (pas de lien « Réserver » sur statut inconnu) |
+| 2026-11-17 | BH-052 | `Http\VehicleShowTest::bh052_leading_zero_id_serves_same_page`, `Diff\VehicleShowDiffTest::bh052_leading_zero_id_same_as_reference` | http, diff | `http/vehicle-show/bh052.html` | ✔ | non |
+| 2026-11-17 | BH-053 | `Http\VehicleShowTest::bh053_unknown_id_is_not_found`, `Diff\VehicleShowDiffTest::bh053_unknown_id_same_as_reference` | http, diff | — (404, proposition § 2.5) | ✔ | oui (pas de `Set-Cookie` sur 302/404/405) |
+| 2026-11-17 | BH-054 | `Http\VehicleShowTest::bh054_invalid_or_huge_id_is_not_found_never_500`, `Diff\VehicleShowDiffTest::bh054_invalid_or_huge_id_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-055 | `Http\VehicleShowTest::bh055_trailing_slash_is_not_found`, `Diff\VehicleShowDiffTest::bh055_trailing_slash_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-056 | `Http\VehicleShowTest::bh056_post_is_method_not_allowed` | http | — (405) | ✔ | non |
+| 2026-11-17 | BH-001…056 | Propositions § 2.5 appliquées à titre provisoire, **en attente de décision** : corps 404/405 non contractuels, A5 comparé en diff uniquement, seuil BH-028 ≤ 2 × référence, BH-015 à BH-018 / BH-024 / BH-052 figés | — | — | — | — |
 
 ## Blocages
 
