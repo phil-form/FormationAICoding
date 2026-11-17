@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flotte\Tests\Diff;
 
+use Flotte\Tests\Support\AcceptedChanges;
 use Flotte\Tests\Support\ApiJson;
 use Flotte\Tests\Support\DiffTestCase;
 use Flotte\Tests\Support\HttpResponse;
@@ -65,13 +66,19 @@ final class ApiVehiclesDiffTest extends DiffTestCase
         return ['ref' => $ref, 'app' => $app];
     }
 
-    /** @return array<string, list<string>> */
+    /**
+     * En-têtes comparés : valeurs brutes, sauf Cache-Control / Expires ramenés à leur équivalent step-00 s'ils sont
+     * conformes à ACC-001 (AcceptedChanges::comparableCacheHeaders).
+     *
+     * @return array<string, list<string>>
+     */
     private function headers(HttpResponse $r): array
     {
         $out = [];
         foreach (self::HEADERS as $name) {
             $out[$name] = $r->headerValues($name);
         }
+        $out = array_replace($out, AcceptedChanges::comparableCacheHeaders($r));
         $out['set-cookie'] = $r->cookieShapes();
 
         return $out;

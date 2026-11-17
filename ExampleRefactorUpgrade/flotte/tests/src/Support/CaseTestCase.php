@@ -80,12 +80,21 @@ abstract class CaseTestCase extends TestCase
         self::assertSame($expected, $r->status, 'A1 statut — '.$r->describe());
     }
 
-    /** X-Fleet-Version, Cache-Control, Content-Type : présents sur toutes les réponses (200, 302, 401, 404, 405). */
+    /**
+     * X-Fleet-Version, Cache-Control, Content-Type : présents sur toutes les réponses (200, 302, 401, 404, 405).
+     * Cache-Control / Expires : attente selon l'étape de la cible (ACC-001, AcceptedChanges).
+     */
     protected function assertCommonHeaders(HttpResponse $r): void
     {
         self::assertSame(self::FLEET_VERSION, $r->header('X-Fleet-Version'), 'A2 X-Fleet-Version — '.$r->describe());
-        self::assertSame('no-cache', $r->header('Cache-Control'), 'A2 Cache-Control — '.$r->describe());
+        $this->assertCacheHeaders($r);
         self::assertSame(self::HTML_CONTENT_TYPE, $r->header('Content-Type'), 'A2 Content-Type — '.$r->describe());
+    }
+
+    /** Cache-Control exact et présence d'Expires (ACC-001 à partir de step-01, « no-cache » sans Expires avant). */
+    protected function assertCacheHeaders(HttpResponse $r): void
+    {
+        AcceptedChanges::assertCacheHeaders($r);
     }
 
     /** Cookie de session PHPSESSID posé (path=/, HttpOnly) — jamais sa valeur. */

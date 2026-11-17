@@ -43,7 +43,7 @@ final class ApiVehiclesTest extends CaseTestCase
         $this->assertStatus(200, $r);
         self::assertSame(ApiJson::CONTENT_TYPE, $r->header('Content-Type'), 'A2 Content-Type (sans charset) — '.$r->describe());
         self::assertSame(self::FLEET_VERSION, $r->header('X-Fleet-Version'), 'A2 X-Fleet-Version — '.$r->describe());
-        self::assertSame('no-cache', $r->header('Cache-Control'), 'A2 Cache-Control — '.$r->describe());
+        $this->assertCacheHeaders($r);
         $cookie ? $this->assertSessionCookie($r) : $this->assertNoCookie($r);
     }
 

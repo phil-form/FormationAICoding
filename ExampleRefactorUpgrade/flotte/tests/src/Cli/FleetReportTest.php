@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flotte\Tests\Cli;
 
+use Flotte\Tests\Support\AcceptedChanges;
 use Flotte\Tests\Support\ConsoleTestCase;
 use Flotte\Tests\Support\Golden;
 use Flotte\Tests\Support\Normalizer;
@@ -22,6 +23,11 @@ final class FleetReportTest extends ConsoleTestCase
 {
     private const JANUARY_PLATES = ['1-REP-001', '1-REP-002', '1-REP-003', '1-REP-004', '1-REP-006', '1-REP-008', '2-REP-007'];
     private const INVALID_FORMAT = "Format de mois invalide (attendu : AAAA-MM).\n";
+    /** Lignes fleet:* de `list` (nom → description exacte), contractuelles à toutes les étapes (ACC-002). */
+    private const FLEET_COMMANDS = [
+        'fleet:demo:load' => 'Vide la base et charge les donnees de demonstration',
+        'fleet:report' => "Rapport mensuel d'utilisation de la flotte",
+    ];
 
     #[Test]
     #[Group('BH-400')]
@@ -393,16 +399,33 @@ final class FleetReportTest extends ConsoleTestCase
     #[Scenario('demo')]
     public function bh425_list_and_help_describe_the_report(): void
     {
+        // ACC-002 (à partir de step-01) : seules les lignes propres aux commandes fleet:* sont contractuelles ; avant
+        // step-01, la sortie complète reste comparée au golden step-00.
+        $legacy = !AcceptedChanges::applies('ACC-002', $this->target());
+
         $list = $this->console(['list']);
         $this->assertConsoleOk($list);
-        Golden::assertMatchesGolden('cli/help/list.txt', self::helpText($list->stdout), 'A3 list — '.$list->describe());
-        self::assertMatchesRegularExpression("/^  fleet:report +Rapport mensuel d'utilisation de la flotte$/m", Normalizer::cli($list->stdout));
+        self::assertSame(self::FLEET_COMMANDS, self::helpContract(['list'], $list->stdout), 'A3 list : commandes fleet:* — '.$list->describe());
+        if ($legacy) {
+            Golden::assertMatchesGolden('cli/help/list.txt', self::helpText($list->stdout), 'A3 list (step-00) — '.$list->describe());
+        }
 
         $help = $this->console(['help', 'fleet:report']);
         $this->assertConsoleOk($help);
-        Golden::assertMatchesGolden('cli/help/fleet-report.txt', self::helpText($help->stdout), 'A3 help — '.$help->describe());
-        self::assertMatchesRegularExpression('/^  -m, --month=MONTH +Mois au format AAAA-MM \[default: "2026-01"\]$/m', Normalizer::cli($help->stdout), 'défaut = mois de l\'horloge du conteneur');
-        self::assertStringContainsString("Rapport mensuel d'utilisation de la flotte", $help->stdout);
+        self::assertSame(
+            [
+                'usage' => 'fleet:report [options]',
+                'arguments' => [],
+                'options' => ['-m, --month=MONTH | Mois au format AAAA-MM [default: "'.self::MONTH_DEFAULT_PLACEHOLDER.'"]'],
+                'help' => "Rapport mensuel d'utilisation de la flotte",
+            ],
+            self::helpContract(['help', 'fleet:report'], $help->stdout),
+            'A3 help : partie propre à fleet:report — '.$help->describe(),
+        );
+        self::assertMatchesRegularExpression('/--month=MONTH\s+Mois au format AAAA-MM \[default: "2026-01"\]$/m', Normalizer::cli($help->stdout), 'défaut = mois de l\'horloge du conteneur');
+        if ($legacy) {
+            Golden::assertMatchesGolden('cli/help/fleet-report.txt', self::helpText($help->stdout), 'A3 help (step-00) — '.$help->describe());
+        }
         $this->assertDbUnchanged();
     }
 }

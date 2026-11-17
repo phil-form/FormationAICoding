@@ -12,7 +12,7 @@
 <!-- tracking:start -->
 ## Suivi d'avancement (généré)
 
-> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 12:28. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 14:08. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
 
 **209/209 terminés (100 %)** `██████████████████████████████`
 
@@ -278,7 +278,7 @@ Est **observable**, donc contractuel :
 | Canal | Contractuel | Non contractuel (à ignorer ou normaliser) |
 |---|---|---|
 | Statut HTTP | toujours | — |
-| En-têtes | `Location`, `Content-Type`, `X-Fleet-Version`, `Cache-Control`, `Allow`, `WWW-Authenticate`, présence et attributs de `Set-Cookie` | `Date`, `Server`, `X-Powered-By`, `Content-Length`, valeur de `PHPSESSID` |
+| En-têtes | `Location`, `Content-Type`, `X-Fleet-Version`, `Cache-Control` (valeur selon l'étape : ACC-001, § 1.2.6), `Allow`, `WWW-Authenticate`, présence et attributs de `Set-Cookie`, présence d'`Expires` (ACC-001) | `Date`, `Server`, `X-Powered-By`, `Content-Length`, valeur de `PHPSESSID`, valeur d'`Expires` |
 | Corps HTML | contenu, ordre, libellés, liens, formats de nombres et de dates, échappement | indentation et espaces entre balises, jetons CSRF, pages d'erreur génériques du framework (voir § 1.2.4) |
 | Corps JSON | octet par octet | — |
 | Base de données | état exact après l'action (lecture seule = **inchangée**) | — |
@@ -360,12 +360,30 @@ attendue : il garantit seulement « identique à la référence », ce qui couvr
 - [ ] si « sensible à la migration » : variante `diff` et, le cas échéant, test `edge` dédié ;
 - [ ] déterministe : 3 exécutions consécutives identiques, ordre des tests indifférent.
 
+#### 1.2.6 Changements acceptés (`ACC-xxx`) : attentes par étape
+
+Décisions de l'utilisateur consignées dans `docs/migration/accepted-changes.md`, reprises côté tests dans un **registre
+unique** : `tests/src/Support/AcceptedChanges.php` (indexé par `ACC-xxx` et par étape d'application). Un ACC
+s'applique aux attentes d'une cible **à partir de son étape** (`AcceptedChanges::stepAtLeast` / `applies`, étape servie
+lue dans `APP_STEP` / `REF_STEP` du conteneur `tests`) : la référence `app-ref` (step-00) garde l'attente historique,
+`app` (≥ step-01) reçoit l'attente acceptée. Aucune condition d'étape n'est écrite dans les tests eux-mêmes.
+
+| ACC | Depuis | Fiches | Attente avant l'étape | Attente à partir de l'étape |
+|---|---|---|---|---|
+| ACC-001 | step-01 | BH-001 à BH-337, BH-460 (toute réponse HTTP ; suites http, edge, diff) | `Cache-Control: no-cache`, pas d'`Expires` | sans session : `Cache-Control: no-cache, private`, pas d'`Expires` ; avec session : `Cache-Control: max-age=0, must-revalidate, private` + `Expires` **présent** (valeur jamais comparée). Session = la réponse pose `PHPSESSID`, ou la requête envoyait le cookie (sauf 405 : rejet par le routage, avant la session — observé sur app step-01). Diff : valeur conforme ramenée à son équivalent step-00 des deux côtés, tout autre en-tête en égalité stricte |
+| ACC-002 | step-01 | BH-425, BH-459 (suites cli, diff) | sortie complète de `list` / `help` comparée aux goldens `golden/cli/help/*.txt` | seule la partie propre aux commandes `fleet:*` : `list` → nom et description exacts ; `help` → synopsis, options propres (défaut de `--month` normalisé), texte d'aide ; code de retour et flux. En-tête de version, options globales et mise en page non vérifiés (goldens complets non consultés) |
+
+Hors ACC mais lié (verdict TEST du triage step-01) : le message d'un bloc d'exception console (BH-415, BH-416, BH-418,
+BH-419, BH-458) est extrait indépendamment de l'habillage du framework (`[Classe]` en 2.8, `In <fichier> line <n>:` en
+3.4) — `Support\ConsoleRun::exceptionMessage`, valable à toutes les étapes.
+
 ## 2. `VehicleController`
 
 Rappels communs à toutes les réponses de ce contrôleur (observés) :
 
 - `X-Fleet-Version: 1.4.2`, `Cache-Control: no-cache`, `Content-Type: text/html; charset=UTF-8` — **y compris** sur
-  les 302, 404 et 405 ;
+  les 302, 404 et 405 ; **ACC-001 à partir de step-01** : `Cache-Control: max-age=0, must-revalidate, private` +
+  `Expires` sur les pages qui posent `PHPSESSID`, `no-cache, private` sans `Expires` sur les 302 / 404 / 405 (§ 1.2.6) ;
 - pages HTML : `Set-Cookie: PHPSESSID=…; path=/; HttpOnly` (le layout lit les messages flash) ;
 - titre `<title>Flotte Delvaux & Fils</title>`, `<nav>` avec le lien « Véhicules » ; lien « Ajouter un véhicule »
   **seulement** si authentifié `ROLE_ADMIN` ;
@@ -440,7 +458,8 @@ Rappels communs à toutes les réponses de ce contrôleur (observés) :
 - Attendu (step-00) :
   - A1 statut : 200
   - A2 en-têtes : Content-Type text/html; charset=UTF-8 · X-Fleet-Version 1.4.2 · Cache-Control no-cache ·
-    Set-Cookie PHPSESSID (path=/, HttpOnly)
+    Set-Cookie PHPSESSID (path=/, HttpOnly) — ACC-001 à partir de step-01 (session ouverte) : Cache-Control
+    max-age=0, must-revalidate, private · Expires présent (valeur non comparée)
   - A3 corps : golden `vehicles-list/bh015-status-abc` ; 3 lignes : 1-ABC-123, 1-BCD-234, 2-EFG-567 ;
     `<option value="0" selected>Disponible</option>` ; aucune autre option sélectionnée
   - A4 base : inchangée
@@ -458,7 +477,9 @@ restore('demo', target)                     → empreinte OK
 log0 = phpLogSize(target)
 r = http(target).get('/vehicules?status=abc')   (client neuf, sans redirection)
 assert r.status == 200
-assert headers(r) ⊇ {Content-Type, X-Fleet-Version: 1.4.2, Cache-Control: no-cache}; cookie PHPSESSID présent
+assert headers(r) ⊇ {Content-Type, X-Fleet-Version: 1.4.2}; cookie PHPSESSID présent
+assert Cache-Control == AcceptedChanges.expected(r)   (step-00 : no-cache ; ≥ step-01 : max-age=0, must-revalidate, private)
+assert has(Expires) == AcceptedChanges.expectsExpires(r)   (step-00 : absent ; ≥ step-01 : présent, valeur ignorée)
 html = normalizeHtml(r.body)
 assertMatchesGolden('http/vehicles-list/bh015-status-abc.html', html)
 assert rows(html) == ['1-ABC-123', '1-BCD-234', '2-EFG-567']
@@ -520,7 +541,8 @@ Rappels observés communs aux deux routes :
 - `POST` sans aucun champ du formulaire : **200 sans erreur**, rien n'est écrit (`isValid()` appelé sur un formulaire
   non soumis — **lève une exception à partir de Symfony 4**) ;
 - en-têtes : `X-Fleet-Version: 1.4.2`, `Cache-Control: no-cache`, cookie `PHPSESSID` ; 404 si l'id n'existe pas,
-  405 pour une autre méthode que GET/POST.
+  405 pour une autre méthode que GET/POST. **ACC-001 à partir de step-01** : réponses du parcours (session) en
+  `Cache-Control: max-age=0, must-revalidate, private` + `Expires` ; 405 en `no-cache, private` (§ 1.2.6).
 
 ### 3.2 `reservation_new` — `GET|POST /vehicules/{id}/reserver`
 
@@ -715,7 +737,7 @@ Tri : plaque, ordre binaire SQLite.
 |---|---|---|---|---|---|
 | BH-200 | `GET /api/vehicules` | empty | 200 | corps exactement `[]` (2 octets) | oui : `JsonResponse` (encodage d'un tableau vide) |
 | BH-201 | `GET /api/vehicules` | demo | 200 | 591 octets, golden + empreinte ; 5 éléments ; `nextReservation` `"15\/06\/2030 08:00"` pour 1-ABC-123, `""` sinon | **oui** : options d'encodage JSON (Symfony 2.8 → 6.4), sérialisation |
-| BH-202 | en-têtes de la réponse | demo | 200 | `Content-Type: application/json` (**sans** `charset`) ; `X-Fleet-Version: 1.4.2` ; `Cache-Control: no-cache` ; **aucun** `Set-Cookie`, aucun en-tête CORS, `ETag` ni `Last-Modified` | **oui** : `JsonResponse`, `Content-Type`, session |
+| BH-202 | en-têtes de la réponse | demo | 200 | `Content-Type: application/json` (**sans** `charset`) ; `X-Fleet-Version: 1.4.2` ; `Cache-Control: no-cache` (**ACC-001 à partir de step-01** : `no-cache, private`, sans `Expires`) ; **aucun** `Set-Cookie`, aucun en-tête CORS, `ETag` ni `Last-Modified` | **oui** : `JsonResponse`, `Content-Type`, session |
 | BH-203 | octets du corps | demo | 200 | pas de BOM, pas de retour à la ligne final (se termine par `"}]`), aucun espace hors des valeurs | oui : encodage |
 | BH-204 | types JSON | demo | 200 | `id` et `mileage` **nombres**, les autres **chaînes** | oui : DBAL 3 (entiers rendus en chaînes ?) |
 | BH-205 | `GET /api/vehicules` | edge | 200 | ordre binaire des plaques **brutes** : `" 2-BBB-004 "` (espaces conservés) en premier, puis `0-AAA-000`, `1-ABC-12`… ; `1-aaa-003` en minuscules (non normalisée, contrairement au HTML) ; 27 éléments, 3 458 octets, `1-aaa-003` entre `1-XSS-001` et `2.BBB.006`, `Z-ZZZ-999` en dernier (observé à l'implémentation) | oui : tri SQLite, plaque brute |
@@ -734,10 +756,10 @@ Tri : plaque, ordre binaire SQLite.
 | BH-218 | `GET /api/vehicules?status=1&callback=x` | demo | 200 | paramètres **ignorés** : corps identique à BH-201 (pas de filtre, pas de JSONP) | non |
 | BH-219 | `Accept: application/xml` ; `Origin: https://planning.example` | demo | 200 | aucune négociation de contenu (JSON quand même), aucun en-tête CORS | oui : si un composant CORS est ajouté |
 | BH-220 | `HEAD /api/vehicules` | demo | 200 | corps vide, `Content-Type: application/json` | non |
-| BH-221 | `POST` et `OPTIONS /api/vehicules` | demo | 405 | `Allow: GET, HEAD` ; corps **HTML** (pas de JSON d'erreur) ; `Content-Type: text/html; charset=UTF-8`, `X-Fleet-Version`, `Cache-Control: no-cache`, **pas** de `Set-Cookie` (observé à l'implémentation) | oui : page d'erreur |
+| BH-221 | `POST` et `OPTIONS /api/vehicules` | demo | 405 | `Allow: GET, HEAD` ; corps **HTML** (pas de JSON d'erreur) ; `Content-Type: text/html; charset=UTF-8`, `X-Fleet-Version`, `Cache-Control: no-cache` (ACC-001 à partir de step-01 : `no-cache, private`), **pas** de `Set-Cookie` (observé à l'implémentation) | oui : page d'erreur |
 | BH-222 | `GET /api/vehicules/`, `/api/vehicules.json`, `/api/vehicules/1` | demo | 404 | page HTML ; aucune autre route d'API ; mêmes en-têtes que BH-221, pas de `Location`, pas de `Set-Cookie` (observé à l'implémentation) | oui : routage |
 | BH-223 | Basic `gestionnaire:mauvais` | demo | **401** | `WWW-Authenticate: Basic realm="Secured Area"` : de mauvais identifiants bloquent l'API pourtant publique ; corps et `Content-Type: text/html; charset=UTF-8`, **pas** de `Set-Cookie` (observé à l'implémentation) | **oui** : authenticators (step-06) |
-| BH-224 | Basic `gestionnaire:flotte2016` | demo | 200 | corps identique à BH-201, **mais** `Set-Cookie: PHPSESSID` (session ouverte par l'authentification) | **oui** : firewall sans état ou non (step-06) |
+| BH-224 | Basic `gestionnaire:flotte2016` | demo | 200 | corps identique à BH-201, **mais** `Set-Cookie: PHPSESSID` (session ouverte par l'authentification) ; ACC-001 à partir de step-01 : `Cache-Control: max-age=0, must-revalidate, private` + `Expires` | **oui** : firewall sans état ou non (step-06) |
 
 ### 4.3 Exemple complet : BH-206
 
@@ -823,7 +845,10 @@ Rappels observés :
 
 - succès → 302 vers `/vehicules/{id}`, flash « Véhicule 1-XYZ-789 ajouté par gestionnaire. » ; plaque **normalisée**
   avant enregistrement (`PlateFormatter`), validation `BelgianPlate` sur la saisie **normalisée** ;
-- le layout affiche le lien « Ajouter un véhicule » dans `<nav>` une fois authentifié.
+- le layout affiche le lien « Ajouter un véhicule » dans `<nav>` une fois authentifié ;
+- en-têtes de cache : `Cache-Control: no-cache` en step-00 ; **ACC-001 à partir de step-01** : toute réponse de la
+  zone qui ouvre ou utilise la session (401 comprises) en `max-age=0, must-revalidate, private` + `Expires`, le 405
+  (BH-328) en `no-cache, private` (§ 1.2.6).
 
 ### 5.2 `admin_vehicle_new` — `GET|POST /admin/vehicules/nouveau`
 
@@ -832,7 +857,7 @@ Entrée par défaut des POST (sauf mention) : `plate=1-XYZ-789`, `brand=Renault`
 
 | Fiche | Entrée | Scénario | A1 | A2 / A3 / A4 — points clés (observés) | Sensible |
 |---|---|---|---|---|---|
-| BH-300 | `GET` sans identifiants | demo | 401 | `WWW-Authenticate: Basic realm="Secured Area"` ; corps **vide** (`Content-Length: 0`), `Content-Type: text/html; charset=UTF-8`, `X-Fleet-Version`, `Cache-Control: no-cache` (observé à l'implémentation ; mêmes en-têtes pour BH-301 et BH-329) | **oui** : `http_basic` → authenticator (step-06) |
+| BH-300 | `GET` sans identifiants | demo | 401 | `WWW-Authenticate: Basic realm="Secured Area"` ; corps **vide** (`Content-Length: 0`), `Content-Type: text/html; charset=UTF-8`, `X-Fleet-Version`, `Cache-Control: no-cache` (observé à l'implémentation ; mêmes en-têtes pour BH-301 et BH-329) ; **ACC-001 à partir de step-01** : la 401 ouvre la session (BH-336) → `Cache-Control: max-age=0, must-revalidate, private` + `Expires` | **oui** : `http_basic` → authenticator (step-06) |
 | BH-301 | `GET`, mot de passe faux ; utilisateur inconnu `admin` ; mot de passe vide | demo | 401 | même en-tête | **oui** : idem |
 | BH-302 | `GET`, utilisateur **`Gestionnaire`** ou **`GESTIONNAIRE`** | demo | **200** | le nom d'utilisateur est **insensible à la casse** (fournisseur en mémoire) | **oui** : `InMemoryUserProvider` (step-06) |
 | BH-303 | `GET`, identifiants valides | demo | 200 | formulaire complet (tableau du § 5.1), kilométrage `0` et statut « Disponible » pré-remplis, lien « Ajouter un véhicule » dans `<nav>`, **pas de bouton**, cookie `PHPSESSID` | oui : rendu des formulaires (step-01→04) |
@@ -928,7 +953,7 @@ Note : le mot de passe du compte de test est lu par les tests dans la variable d
 |---|---|
 | **Act** | une exécution, **sans terminal** (pas de TTY : aucune couleur ANSI), dans le conteneur de la cible : `CONSOLE_APP_CMD` / `CONSOLE_REF_CMD` (`docker exec -i flotte-mig-app[-ref] sf-console …`), arguments **exactement** ceux de la fiche ; horloge du conteneur (démarre au 15/01/2026 10:00) |
 | **A1** | **code de retour** (0, 1…) |
-| **A2** | **sortie d'erreur** (stderr) : vide, ou message attendu (bloc d'exception du framework : seule la ligne du message est contractuelle) |
+| **A2** | **sortie d'erreur** (stderr) : vide, ou message attendu (bloc d'exception du framework : seule la ligne du message est contractuelle, extraite quel que soit l'habillage — titre `[Classe]` en 2.8, localisation `In <fichier> line <n>:` en 3.4 ; `ConsoleRun::exceptionMessage`) |
 | **A3** | **sortie standard** comparée **octet par octet** au golden (titre, largeur des colonnes du tableau, séparateurs de milliers, `€`, fins de ligne `\n`) + assertions ciblées (ordre des lignes, totaux) |
 | **A4** | `fleet:report` : base **inchangée** ; `fleet:demo:load` : base **égale au scénario `demo`** (empreinte `tests/fixtures/db/demo.sqlite.sha256`, même dump canonique que `.claude/bin/seed.sh demo --verify`) |
 | **A5** | journal PHP (les warnings deviennent des exceptions en environnement `dev`, cf. BH-416) |
@@ -968,7 +993,7 @@ triées par km décroissants (`usort` avec comparateur booléen).
 | BH-413 | `fleet:report --month=2026-00` ; `2016-13` ; `0000-01` ; `9999-12` | report-months | 0 | acceptés ; `2026-00` = décembre 2025 (vide ici) ; `2016-13` = janvier 2017 (tableau identique, observé à l'implémentation) ; tableaux vides | oui : idem |
 | BH-414 | `fleet:report --month=abc` ; `2026-1` ; `26-01` ; `2026/01` ; `2026-01-15` ; `" 2026-01"` ; `"2026-01 "` | report-months | **1** | **sortie standard** (pas d'erreur) : `Format de mois invalide (attendu : AAAA-MM).` ; stderr vide | oui : sortie `<error>` |
 | BH-415 | `fleet:report --month=` | report-months | **1** | stderr : `The "--month" option requires a value.` + rappel de syntaxe ; stdout vide | **oui** : messages et format des erreurs de console (step-02/06) |
-| BH-416 | `fleet:report --month=2026-01` | anomalies | **1** | env `dev` : stderr `[Symfony\Component\Debug\Exception\ContextErrorException]` `Warning: A non-numeric value encountered` (coût `"N/A"`), **stdout vide** ; A5 : **aucune** entrée au journal PHP (observé à l'implémentation) | **oui, très** : PHP 8 lève `TypeError` (`Unsupported operand types`), composant Debug → ErrorHandler |
+| BH-416 | `fleet:report --month=2026-01` | anomalies | **1** | env `dev` : stderr `[Symfony\Component\Debug\Exception\ContextErrorException]` `Warning: A non-numeric value encountered` (coût `"N/A"`), **stdout vide** ; A5 : **aucune** entrée au journal PHP (observé à l'implémentation) ; contractuel : la **ligne de message** seule, habillage hors contrat (step-01 : `In ReservationManager.php line 98:` puis le même message, observé le 2026-11-17) | **oui, très** : PHP 8 lève `TypeError` (`Unsupported operand types`), composant Debug → ErrorHandler |
 | BH-417 | `fleet:report --month=2026-01 --env=prod` | anomalies | 0 | rapport produit : `1-ANO-001 1 100 35,00 €`, `1-ANO-008 2 20 12,35 €` (`"N/A"` compté 0, `12.345` arrondi à l'affichage), `1-ANO-006 2 -50 -35,00 €`, `1-ANO-007 1 -7.000 0,00 €` (fin sans `end_km`), TOTAL `-6.930` / `12,35 €` ; stderr vide ; A5 : **une** entrée `PHP Warning: A non-numeric value encountered` (observé à l'implémentation) | **oui, très** : idem, nombres négatifs |
 | BH-418 | `fleet:report --mois=2026-01` | demo | **1** | stderr : `The "--mois" option does not exist.` | oui : messages console |
 | BH-419 | `fleet:report 2026-01` | demo | **1** | stderr : `Too many arguments, expected arguments "command".` | oui : idem |
@@ -977,7 +1002,7 @@ triées par km décroissants (`usort` avec comparateur booléen).
 | BH-422 | `fleet:report --month=2026-01 --ansi` | report-months | 0 | titre entouré de `\e[32m` … `\e[39m` ; **les 4 cellules d'en-tête du tableau aussi** (`\|\e[32m Plaque    \e[39m\|…`, espaces de remplissage compris), lignes de données et TOTAL sans couleur (10 séquences ESC au total) ; sans les séquences, sortie identique à BH-401 (observé à l'implémentation) | oui : styles de sortie |
 | BH-423 | `fleet:report --month=2024-03` | volume | 0 | 172 véhicules, TOTAL `187.606` km / `65 662,10 €` ; ~130 ms en step-00 ; suite `diff` : durée `app` ≤ 2 × `app-ref` | oui : performance |
 | BH-424 | toute exécution de `fleet:report` | report-months | 0 | **base inchangée** (lecture seule) | non |
-| BH-425 | `list` ; `help fleet:report` | demo | 0 | `fleet:report` décrite « Rapport mensuel d'utilisation de la flotte » ; option `-m, --month=MONTH Mois au format AAAA-MM [default: "2026-01"]` (défaut dépendant de l'horloge : à normaliser) | oui : rendu de l'aide (step-02/06) |
+| BH-425 | `list` ; `help fleet:report` | demo | 0 | `fleet:report` décrite « Rapport mensuel d'utilisation de la flotte » ; option `-m, --month=MONTH Mois au format AAAA-MM [default: "2026-01"]` (défaut dépendant de l'horloge : à normaliser) ; **ACC-002 à partir de step-01** : seules les lignes `fleet:*` (nom, description, synopsis `fleet:report [options]`, option `--month` et son défaut, aide) sont contractuelles, en-tête de version et options globales non vérifiés | oui : rendu de l'aide (step-02/06) |
 
 ### 6.3 `fleet:demo:load` — rechargement des données de démonstration
 
@@ -996,7 +1021,7 @@ Sortie : `Données de démonstration chargées : 5 véhicules, 5 réservations.`
 | BH-456 | `fleet:demo:load -q` | nominal | 0 | **aucune** sortie, base = `demo` quand même | non |
 | BH-457 | `fleet:demo:load --env=prod` | nominal | 0 | **exécutée aussi en production** (aucun garde-fou d'environnement), base = `demo` | **oui** : un garde-fou futur serait un changement accepté |
 | BH-458 | `fleet:demo:load extra` | demo | **1** | stderr : `Too many arguments, expected arguments "command".` ; **base inchangée** | oui : messages console |
-| BH-459 | `help fleet:demo:load` ; `list` | demo | 0 | description `Vide la base et charge les donnees de demonstration` (**sans accents**, comme dans le code) | oui : rendu de l'aide |
+| BH-459 | `help fleet:demo:load` ; `list` | demo | 0 | description `Vide la base et charge les donnees de demonstration` (**sans accents**, comme dans le code) ; **ACC-002 à partir de step-01** : seules les lignes `fleet:demo:load` (synopsis, aucune option propre, description) sont contractuelles | oui : rendu de l'aide |
 | BH-460 | après `fleet:demo:load` : `GET /vehicules`, `GET /api/vehicules`, `fleet:report --month=2016-05` | nominal | 0 / 200 | mêmes sorties que BH-010, BH-201 et BH-400 | oui : liens avec ces fiches |
 
 ### 6.4 Exemple complet : BH-404
@@ -1269,6 +1294,10 @@ Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills 
 | 2026-11-17 | BH-459 | `Cli\FleetDemoLoadTest::bh459_help_and_list_describe_without_accents`, `Diff\FleetDemoLoadDiffTest::bh459_help_and_list_same_as_reference` | cli, diff | `cli/help/fleet-demo-load.txt`, `cli/help/list.txt` | ✔ | non |
 | 2026-11-17 | BH-460 | `Cli\FleetDemoLoadTest::bh460_after_loading_pages_api_and_report_match_demo_fiches`, `Diff\FleetDemoLoadDiffTest::bh460_pages_api_and_report_after_loading_same_as_reference` | cli, diff | lus sans réenregistrement : `http/vehicles-list/bh010.html`, `http/api-vehicles/demo.json`, `cli/report/demo-2016-05.txt` | ✔ | non |
 | 2026-11-17 | BH-400…460 | Propositions § 6.5 appliquées à titre provisoire, **en attente de décision** : ordre des ex æquo figé (BH-404 à BH-406), `--month` en débordement préservé (BH-412, BH-413), message de format sur stdout + code 1 (BH-414), divergence dev / prod figée (BH-416, BH-417), `fleet:demo:load` destructive sans garde-fou figée (BH-450 à BH-457), défaut de `--month` normalisé dans le golden d'aide (BH-425), rendu des tableaux octet par octet (stdout brut, aucune normalisation ; aide et liste : `Normalizer::cli`). A2 : seul le message du bloc d'exception est comparé (classe et rappel de syntaxe non contractuels). A5 : journal vide asserté sur toute exécution réussie, sauf BH-417 (un warning). Exécution via `CONSOLE_<CIBLE>_CMD` (test **incomplet** si absente), sans terminal, stdout / stderr séparés. Support : nouvelles classes `Support\ConsoleRun`, `Support\ConsoleCommands` (trait), `Support\ConsoleTestCase`, `Support\ConsoleDiffTestCase` (aucune classe existante modifiée) ; `src/Diff/README.md` complété (normalisations console). Suite complète verte 3 fois sur app-ref (404 tests : http 172, cli 37, edge 49, diff 146). Aucun fichier de sonde | — | — | — | — |
+| 2026-11-17 | BH-001…337, BH-460 | **`--fix` step-01, ACC-001** (gel levé par l'utilisateur) : registre unique `Support\AcceptedChanges` (`step`, `stepAtLeast`, `applies`, `appliesToComparison` ; étape servie lue dans `APP_STEP` / `REF_STEP`). A2 : `CaseTestCase::assertCommonHeaders` → `assertCacheHeaders` → `AcceptedChanges::assertCacheHeaders` (Cache-Control exact + présence / absence d'`Expires`, selon l'étape de la cible de la réponse et l'usage de la session) ; `Http\ApiVehiclesTest::assertJsonOk` idem (seule assertion littérale `no-cache` restante). Diff : `DiffTestCase::contractHeaders` (désormais partagé par `FormDiffTestCase`) et `Diff\ApiVehiclesDiffTest::headers` normalisent Cache-Control / Expires via `AcceptedChanges::comparableCacheHeaders` ; autres en-têtes, corps, base, A5 inchangés. `HttpResponse` porte la cible et l'envoi du cookie de session (`HttpClient`). Aucun golden modifié (aucun golden ne capture d'en-tête) | http, edge, diff | — | ✔ | oui (lignes BH-202, BH-221, BH-224, BH-300, exemple § 2.4, rappels § 2, § 3, § 5 : « ACC-001 à partir de step-01 ») |
+| 2026-11-17 | BH-415, BH-416, BH-418, BH-419, BH-458 | **`--fix` step-01, famille E** : `Support\ConsoleRun::exceptionMessage` n'extrait plus que la ligne de message de l'encadré (titre `[Classe]` 2.8 et localisation `In <fichier> line <n>:` 3.4 ignorés) ; utilisé par `ConsoleCommands::assertConsoleError` (cli, edge) et `ConsoleDiffTestCase::assertConsoleSameAsReference` (diff) ; attentes inchangées | cli, edge, diff | — | ✔ | oui (BH-416 : habillage step-01 observé, § 6.1 A2) |
+| 2026-11-17 | BH-425 | **`--fix` step-01, ACC-002** : `Cli\FleetReportTest::bh425_list_and_help_describe_the_report` vérifie à toutes les étapes la partie fleet:* (`AcceptedChanges::fleetCommands`, `commandHelpContract` via `ConsoleCommands::helpContract`) + défaut `2026-01` ; goldens complets consultés seulement si ACC-002 ne s'applique pas (step-00). `Diff\FleetReportDiffTest::bh425_list_and_help_same_as_reference` : partie fleet:* comparée dès qu'ACC-002 s'applique à un côté | cli, diff | `cli/help/list.txt`, `cli/help/fleet-report.txt` (step-00 uniquement, non modifiés) | ✔ | oui (« ACC-002 à partir de step-01 ») |
+| 2026-11-17 | BH-459 | **`--fix` step-01, ACC-002** : `Cli\FleetDemoLoadTest::bh459_help_and_list_describe_without_accents` et `Diff\FleetDemoLoadDiffTest::bh459_help_and_list_same_as_reference`, même mécanisme que BH-425 (synopsis `fleet:demo:load`, aucune option propre, description sans accents) | cli, diff | `cli/help/fleet-demo-load.txt`, `cli/help/list.txt` (step-00 uniquement, non modifiés) | ✔ | oui (« ACC-002 à partir de step-01 ») |
 
 ## Blocages
 

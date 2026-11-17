@@ -6,7 +6,11 @@ namespace Flotte\Tests\Support;
 
 use Symfony\Component\DomCrawler\Crawler;
 
-/** Réponse HTTP brute : statut, en-têtes (noms en minuscules, valeurs dans l'ordre reçu), corps, durée. */
+/**
+ * Réponse HTTP brute : statut, en-têtes (noms en minuscules, valeurs dans l'ordre reçu), corps, durée ; plus deux
+ * faits sur la requête utiles aux attentes dépendant de l'étape (AcceptedChanges) : cible interrogée et envoi du
+ * cookie de session.
+ */
 final class HttpResponse
 {
     /**
@@ -19,6 +23,8 @@ final class HttpResponse
         public readonly array $headers,
         public readonly string $body,
         public readonly float $durationMs,
+        public readonly ?string $target = null,
+        public readonly bool $sessionCookieSent = false,
     ) {
     }
 

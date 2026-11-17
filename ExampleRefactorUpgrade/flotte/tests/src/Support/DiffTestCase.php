@@ -61,13 +61,19 @@ abstract class DiffTestCase extends CaseTestCase
         self::assertSame(Db::dump(Target::REF), Db::dump(Target::APP), 'A4 dump canonique app ≠ app-ref');
     }
 
-    /** @return array<string, list<string>> */
-    private function contractHeaders(HttpResponse $r): array
+    /**
+     * En-têtes contractuels comparés entre app et app-ref : valeurs brutes, sauf Cache-Control / Expires ramenés à
+     * leur équivalent step-00 quand ils sont conformes à ACC-001 (AcceptedChanges::comparableCacheHeaders).
+     *
+     * @return array<string, list<string>>
+     */
+    protected function contractHeaders(HttpResponse $r): array
     {
         $out = [];
         foreach (self::CONTRACT_HEADERS as $name) {
             $out[$name] = $r->headerValues($name);
         }
+        $out = array_replace($out, AcceptedChanges::comparableCacheHeaders($r));
         $out['set-cookie'] = $r->cookieShapes();
 
         return $out;

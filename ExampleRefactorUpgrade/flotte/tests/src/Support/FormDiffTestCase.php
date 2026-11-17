@@ -15,8 +15,6 @@ abstract class FormDiffTestCase extends DiffTestCase
 {
     use FormJourney;
 
-    private const CONTRACT_HEADERS = ['location', 'content-type', 'x-fleet-version', 'cache-control', 'allow', 'www-authenticate'];
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -49,7 +47,7 @@ abstract class FormDiffTestCase extends DiffTestCase
             $a = $app[$i];
             $where = "$label, étape ".($i + 1).' ('.$r->describe().')';
             self::assertSame($r->status, $a->status, "A1 statut app ≠ app-ref — $where");
-            self::assertSame($this->journeyHeaders($r), $this->journeyHeaders($a), "A2 en-têtes app ≠ app-ref — $where");
+            self::assertSame($this->contractHeaders($r), $this->contractHeaders($a), "A2 en-têtes app ≠ app-ref — $where");
             if ($r->status < 300) {
                 self::assertSame(Normalizer::html($r->body), Normalizer::html($a->body), "A3 corps normalisé app ≠ app-ref — $where");
             }
@@ -103,17 +101,5 @@ abstract class FormDiffTestCase extends DiffTestCase
     private function comparableDump(string $target): string
     {
         return implode("\n", array_map($this->comparableDbLine(...), explode("\n", Db::dump($target))));
-    }
-
-    /** @return array<string, list<string>> */
-    private function journeyHeaders(HttpResponse $r): array
-    {
-        $out = [];
-        foreach (self::CONTRACT_HEADERS as $name) {
-            $out[$name] = $r->headerValues($name);
-        }
-        $out['set-cookie'] = $r->cookieShapes();
-
-        return $out;
     }
 }

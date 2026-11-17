@@ -32,29 +32,49 @@ final class ConsoleRun
     }
 
     /**
-     * Extrait le message d'un bloc d'exception de la console : les lignes qui suivent la ligne « [Classe] » jusqu'à la
-     * fin du bloc (ligne blanche), rognées et jointes par une espace. Sans ligne « [Classe] » (autre format de
-     * console), premier bloc non vide. La classe d'exception et le rappel de syntaxe ne sont pas contractuels.
+     * Extrait **la seule ligne de message** d'un bloc d'exception de la console (tmp/tests-application.md § 6.1),
+     * indépendamment de l'habillage produit par le framework, qui n'est pas contractuel :
+     * - Symfony 2.8 : encadré « ligne de remplissage / [Classe] / message / remplissage » ;
+     * - Symfony 3.4 : « In <fichier> line <n>: » (exceptions PHP) puis encadré « remplissage / message / remplissage » ;
+     * - rappel de syntaxe après le bloc.
+     * Règle : lignes de l'encadré (entre la première ligne de remplissage — blancs seuls, non vide — et la ligne blanche
+     * suivante), sans titre « [Classe] », rognées et jointes par une espace. Sans encadré : premier bloc non vide, sans
+     * titre « [Classe] » ni localisation « In … line N: ».
      */
     public static function exceptionMessage(string $stderr): string
     {
         $lines = explode("\n", str_replace(["\r\n", "\r"], "\n", $stderr));
-        $start = null;
+        $isTitle = static fn (string $text): bool => 1 === preg_match('/^\[[^\]]+\]$/', $text);
+        $isLocation = static fn (string $text): bool => 1 === preg_match('/^In \S.* line \d+:$/', $text);
+
         foreach ($lines as $i => $line) {
-            if (preg_match('/^\s*\[[^\]]+\]\s*$/', $line)) {
-                $start = $i + 1;
+            if ('' !== $line && '' === trim($line)) {
+                $message = [];
+                for ($j = $i + 1; $j < \count($lines) && '' !== trim($lines[$j]); ++$j) {
+                    $text = trim($lines[$j]);
+                    if (!$isTitle($text)) {
+                        $message[] = $text;
+                    }
+                }
+                if ([] !== $message) {
+                    return implode(' ', $message);
+                }
                 break;
             }
         }
-        if (null === $start) {
-            $start = 0;
-            while ($start < \count($lines) && '' === trim($lines[$start])) {
-                ++$start;
-            }
-        }
+
         $message = [];
-        for ($i = $start; $i < \count($lines) && '' !== trim($lines[$i]); ++$i) {
-            $message[] = trim($lines[$i]);
+        foreach ($lines as $line) {
+            $text = trim($line);
+            if ('' === $text) {
+                if ([] !== $message) {
+                    break;
+                }
+                continue;
+            }
+            if (!$isTitle($text) && !$isLocation($text)) {
+                $message[] = $text;
+            }
         }
 
         return implode(' ', $message);

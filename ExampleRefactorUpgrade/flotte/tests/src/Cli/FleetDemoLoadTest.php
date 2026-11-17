@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Flotte\Tests\Cli;
 
+use Flotte\Tests\Support\AcceptedChanges;
 use Flotte\Tests\Support\ConsoleTestCase;
 use Flotte\Tests\Support\Db;
 use Flotte\Tests\Support\Golden;
-use Flotte\Tests\Support\Normalizer;
 use Flotte\Tests\Support\Scenario;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
@@ -21,6 +21,8 @@ use PHPUnit\Framework\Attributes\Test;
 final class FleetDemoLoadTest extends ConsoleTestCase
 {
     private const LOADED = "Données de démonstration chargées : 5 véhicules, 5 réservations.\n";
+    /** Description de la commande, sans accents (texte exact contractuel, ACC-002). */
+    private const DESCRIPTION = 'Vide la base et charge les donnees de demonstration';
 
     #[Test]
     #[Group('BH-450')]
@@ -130,15 +132,27 @@ final class FleetDemoLoadTest extends ConsoleTestCase
     #[Scenario('demo')]
     public function bh459_help_and_list_describe_without_accents(): void
     {
+        // ACC-002 (à partir de step-01) : seule la partie propre à fleet:demo:load est contractuelle ; avant step-01,
+        // la sortie complète reste comparée aux goldens step-00.
+        $legacy = !AcceptedChanges::applies('ACC-002', $this->target());
+
         $help = $this->console(['help', 'fleet:demo:load']);
         $this->assertConsoleOk($help);
-        Golden::assertMatchesGolden('cli/help/fleet-demo-load.txt', self::helpText($help->stdout), 'A3 help — '.$help->describe());
-        self::assertStringContainsString('Vide la base et charge les donnees de demonstration', $help->stdout);
+        self::assertSame(
+            ['usage' => 'fleet:demo:load', 'arguments' => [], 'options' => [], 'help' => self::DESCRIPTION],
+            self::helpContract(['help', 'fleet:demo:load'], $help->stdout),
+            'A3 help : partie propre à fleet:demo:load (aucune option propre) — '.$help->describe(),
+        );
+        if ($legacy) {
+            Golden::assertMatchesGolden('cli/help/fleet-demo-load.txt', self::helpText($help->stdout), 'A3 help (step-00) — '.$help->describe());
+        }
 
         $list = $this->console(['list']);
         $this->assertConsoleOk($list);
-        Golden::assertMatchesGolden('cli/help/list.txt', self::helpText($list->stdout), 'A3 list — '.$list->describe());
-        self::assertMatchesRegularExpression('/^  fleet:demo:load +Vide la base et charge les donnees de demonstration$/m', Normalizer::cli($list->stdout));
+        self::assertSame(self::DESCRIPTION, self::helpContract(['list'], $list->stdout)['fleet:demo:load'] ?? null, 'A3 list : description sans accents — '.$list->describe());
+        if ($legacy) {
+            Golden::assertMatchesGolden('cli/help/list.txt', self::helpText($list->stdout), 'A3 list (step-00) — '.$list->describe());
+        }
         $this->assertDbUnchanged();
     }
 

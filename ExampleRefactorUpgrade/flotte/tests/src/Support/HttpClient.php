@@ -17,13 +17,13 @@ final class HttpClient
     private array $cookies = [];
     private ?string $authorization = null;
 
-    public function __construct(private readonly string $baseUrl)
+    public function __construct(private readonly string $baseUrl, private readonly ?string $target = null)
     {
     }
 
     public static function for(string $target): self
     {
-        return new self(Target::url($target));
+        return new self(Target::url($target), $target);
     }
 
     public function withBasicAuth(string $user, string $password): self
@@ -59,6 +59,7 @@ final class HttpClient
         if (null !== $this->authorization) {
             $lines[] = 'Authorization: '.$this->authorization;
         }
+        $sessionCookieSent = isset($this->cookies['PHPSESSID']);
         if ([] !== $this->cookies) {
             $lines[] = 'Cookie: '.implode('; ', array_map(static fn (string $k, string $v): string => "$k=$v", array_keys($this->cookies), $this->cookies));
         }
@@ -105,7 +106,7 @@ final class HttpClient
             }
         }
 
-        return new HttpResponse($method, $path, $status, $headers, $content, $duration);
+        return new HttpResponse($method, $path, $status, $headers, $content, $duration, $this->target, $sessionCookieSent);
     }
 
     /** Jeton CSRF lu dans le premier champ `*[_token]` ou `_token` d'une page. */

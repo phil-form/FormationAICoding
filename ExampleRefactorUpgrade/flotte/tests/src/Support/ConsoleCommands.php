@@ -88,6 +88,22 @@ trait ConsoleCommands
     }
 
     /**
+     * Partie contractuelle de `list` / `help <commande>` depuis ACC-002 (indépendante de la version du framework) :
+     * `list` → commandes fleet:* (nom → description) ; `help` → synopsis, arguments, options propres à la commande
+     * (défaut de --month normalisé) et texte d'aide. Voir AcceptedChanges::fleetCommands / commandHelpContract.
+     *
+     * @param list<string> $args
+     *
+     * @return array<string, mixed>
+     */
+    protected static function helpContract(array $args, string $stdout): array
+    {
+        return 'list' === ($args[0] ?? null)
+            ? AcceptedChanges::fleetCommands($stdout)
+            : AcceptedChanges::commandHelpContract(self::helpText($stdout));
+    }
+
+    /**
      * Lignes de données du tableau du rapport : [plaque, réservations, km, coût], TOTAL compris, dans l'ordre.
      *
      * @return list<list<string>>
