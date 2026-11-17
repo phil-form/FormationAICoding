@@ -12,11 +12,11 @@
 <!-- tracking:start -->
 ## Suivi d'avancement (généré)
 
-> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 12:08. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 12:28. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
 
-**172/209 terminés (82 %)** `████████████████████████░░░░░░`
+**209/209 terminés (100 %)** `██████████████████████████████`
 
-✅ 172 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 37 à écrire
+✅ 209 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 0 à écrire
 
 | Groupe | Route | Écrites | Terminées | Avancement |
 |---|---|---|---|---|
@@ -31,9 +31,9 @@
 | | `api_vehicles` | 25/25 | 25/25 | `██████████` 100 % |
 | **`AdminController`** | | **38/38** | **38/38** | `██████████` 100 % |
 | | `admin_vehicle_new` | 38/38 | 38/38 | `██████████` 100 % |
-| **Commandes console** | | **0/37** | **0/37** | `░░░░░░░░░░` 0 % |
-| | `fleet:report` | 0/26 | 0/26 | `░░░░░░░░░░` 0 % |
-| | `fleet:demo:load` | 0/11 | 0/11 | `░░░░░░░░░░` 0 % |
+| **Commandes console** | | **37/37** | **37/37** | `██████████` 100 % |
+| | `fleet:report` | 26/26 | 26/26 | `██████████` 100 % |
+| | `fleet:demo:load` | 11/11 | 11/11 | `██████████` 100 % |
 
 <details><summary>Détail par fiche</summary>
 
@@ -211,43 +211,43 @@
 | BH-335 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-336 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-337 | `admin_vehicle_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
-| BH-400 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-401 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-402 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-403 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-404 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-405 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-406 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-407 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-408 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-409 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-410 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-411 | `fleet:report` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-412 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-413 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-414 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-415 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-416 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-417 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-418 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-419 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-420 | `fleet:report` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-421 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-422 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-423 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-424 | `fleet:report` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-425 | `fleet:report` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-450 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-451 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-452 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-453 | `fleet:demo:load` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-454 | `fleet:demo:load` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-455 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-456 | `fleet:demo:load` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-457 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-458 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-459 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-460 | `fleet:demo:load` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-400 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-401 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-402 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-403 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-404 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-405 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-406 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-407 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-408 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-409 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-410 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-411 | `fleet:report` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-412 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-413 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-414 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-415 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-416 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-417 | `fleet:report` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-418 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-419 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-420 | `fleet:report` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-421 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-422 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-423 | `fleet:report` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-424 | `fleet:report` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-425 | `fleet:report` | — | 2 | ✔ 2 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-450 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-451 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-452 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-453 | `fleet:demo:load` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-454 | `fleet:demo:load` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-455 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-456 | `fleet:demo:load` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-457 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-458 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-459 | `fleet:demo:load` | — | 2 | ✔ 2 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-460 | `fleet:demo:load` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 
 Légende — Fiche BH : décrite dans `docs/migration/behaviors/` · Tests : méthodes `bhNNN_*` · Golden : ✔ présents / ✘ manquants / — aucun · Réf / App : dernier run sur `app-ref` / `app` (✔ ✘ ↷ —) · Diff : variante comparative requise si la fiche est sensible à la migration.
 
@@ -930,7 +930,7 @@ Note : le mot de passe du compte de test est lu par les tests dans la variable d
 | **A1** | **code de retour** (0, 1…) |
 | **A2** | **sortie d'erreur** (stderr) : vide, ou message attendu (bloc d'exception du framework : seule la ligne du message est contractuelle) |
 | **A3** | **sortie standard** comparée **octet par octet** au golden (titre, largeur des colonnes du tableau, séparateurs de milliers, `€`, fins de ligne `\n`) + assertions ciblées (ordre des lignes, totaux) |
-| **A4** | `fleet:report` : base **inchangée** ; `fleet:demo:load` : base **égale au scénario `demo`** (empreinte `.claude/bin/seed.sh demo --verify`) |
+| **A4** | `fleet:report` : base **inchangée** ; `fleet:demo:load` : base **égale au scénario `demo`** (empreinte `tests/fixtures/db/demo.sqlite.sha256`, même dump canonique que `.claude/bin/seed.sh demo --verify`) |
 | **A5** | journal PHP (les warnings deviennent des exceptions en environnement `dev`, cf. BH-416) |
 
 Rappels observés communs :
@@ -939,7 +939,8 @@ Rappels observés communs :
   (`ContextErrorException`, code 1) ; avec `--env=prod`, le même warning est ignoré et la commande va au bout ;
 - messages applicatifs écrits sur la **sortie standard**, même les erreurs (balise `<error>`) ; exceptions et erreurs
   de syntaxe de la ligne de commande sur la **sortie d'erreur** ;
-- aucune couleur sans terminal ; avec `--ansi`, le titre est en vert (`\e[32m…\e[39m`) ;
+- aucune couleur sans terminal ; avec `--ansi`, le titre **et les en-têtes du tableau** sont en vert (`\e[32m…\e[39m`,
+  observé à l'implémentation, BH-422) ;
 - `-q` : aucune sortie, même code de retour.
 
 ### 6.2 `fleet:report` — rapport mensuel d'utilisation
@@ -959,21 +960,21 @@ triées par km décroissants (`usort` avec comparateur booléen).
 | BH-405 | `fleet:report --month=2026-01` | report-months | 0 | **ex æquo à 250 km** : `1-REP-002`, `1-REP-003`, `1-REP-004` (3 réservations) | **oui, très** : idem |
 | BH-406 | `fleet:report --month=2026-01` | edge | 0 | `1-LNG-040` (265 km) puis **4 ex æquo à 100 km** `1-TIE-001` … `1-TIE-004` ; TOTAL `665` / `232,75 €` | **oui, très** : idem |
 | BH-407 | `fleet:report --month=2025-12` | report-months | 0 | mois **sans donnée** : tableau réduit à l'en-tête et `TOTAL 0 0,00 €` | oui : `Table` vide |
-| BH-408 | `fleet:report --month=2026-01` | report-months | 0 | bornes : réservation finissant **le 01/01/2026 à 00:00:00** comptée (900 km) ; celle **à cheval sur le Nouvel An** comptée (44 km) ; **dernière seconde** de janvier comptée (13 km) ; celle finissant le **01/02/2026 à 00:00:00 exclue** | oui : comparaison de dates (DQL, DBAL) |
+| BH-408 | `fleet:report --month=2026-01` | report-months | 0 | bornes : réservation finissant **le 01/01/2026 à 00:00:00** comptée (900 km) ; celle **à cheval sur le Nouvel An** comptée (44 km) ; **dernière seconde** de janvier comptée (13 km) ; celle finissant le **01/02/2026 à 00:00:00 exclue** (`1-REP-008`, 101 km, présente en février — observé à l'implémentation) | oui : comparaison de dates (DQL, DBAL) |
 | BH-409 | `fleet:report --month=2026-02` | report-months | 0 | la réservation exclue de janvier y figure (101 km) ; très grands nombres `999.999` km, `349 999,65 €`, TOTAL `1.000.112` / `350 039,20 €` | oui : `number_format`, flottants |
-| BH-410 | `fleet:report --month=2025-10` et `--month=2026-03` | report-months | 0 | réservations autour des **changements d'heure** comptées (heures naïves) ; 7 km = `2,45 €` | oui : `DateTime`, fuseau |
-| BH-411 | `fleet:report --month=2024-02` et `--month=2024-03` | report-months | 0 | **29 février 2024** compté en février ; réservation du 29/02 au 01/03 08:00 comptée en **mars** (date de fin) | non |
+| BH-410 | `fleet:report --month=2025-10` et `--month=2026-03` | report-months | 0 | réservations autour des **changements d'heure** comptées (heures naïves) ; 7 km = `2,45 €` (`2-REP-007`, octobre 2025 : 5 lignes, TOTAL `761` / `266,35 €` ; mars 2026 : 2 lignes, TOTAL `95` / `33,25 €` — observé à l'implémentation) | oui : `DateTime`, fuseau |
+| BH-411 | `fleet:report --month=2024-02` et `--month=2024-03` | report-months | 0 | **29 février 2024** compté en février ; réservation du 29/02 au 01/03 08:00 comptée en **mars** (date de fin) ; février 2024 : une ligne `1-REP-001 1 120 42,00 €`, mars 2024 : une ligne `1-REP-002 1 80 28,00 €` (observé à l'implémentation) | non |
 | BH-412 | `fleet:report --month=2025-13` | report-months | 0 | **accepté** : titre `Rapport de flotte - 2025-13` mais **données de janvier 2026** (débordement de `createFromFormat`) | **oui** : `DateTime::createFromFormat` (PHP 8) |
-| BH-413 | `fleet:report --month=2026-00` ; `2016-13` ; `0000-01` ; `9999-12` | report-months | 0 | acceptés ; `2026-00` = décembre 2025 (vide ici) ; tableaux vides | oui : idem |
+| BH-413 | `fleet:report --month=2026-00` ; `2016-13` ; `0000-01` ; `9999-12` | report-months | 0 | acceptés ; `2026-00` = décembre 2025 (vide ici) ; `2016-13` = janvier 2017 (tableau identique, observé à l'implémentation) ; tableaux vides | oui : idem |
 | BH-414 | `fleet:report --month=abc` ; `2026-1` ; `26-01` ; `2026/01` ; `2026-01-15` ; `" 2026-01"` ; `"2026-01 "` | report-months | **1** | **sortie standard** (pas d'erreur) : `Format de mois invalide (attendu : AAAA-MM).` ; stderr vide | oui : sortie `<error>` |
 | BH-415 | `fleet:report --month=` | report-months | **1** | stderr : `The "--month" option requires a value.` + rappel de syntaxe ; stdout vide | **oui** : messages et format des erreurs de console (step-02/06) |
-| BH-416 | `fleet:report --month=2026-01` | anomalies | **1** | env `dev` : stderr `[Symfony\Component\Debug\Exception\ContextErrorException]` `Warning: A non-numeric value encountered` (coût `"N/A"`), **stdout vide** | **oui, très** : PHP 8 lève `TypeError` (`Unsupported operand types`), composant Debug → ErrorHandler |
-| BH-417 | `fleet:report --month=2026-01 --env=prod` | anomalies | 0 | rapport produit : `1-ANO-001 1 100 35,00 €`, `1-ANO-008 2 20 12,35 €` (`"N/A"` compté 0, `12.345` arrondi à l'affichage), `1-ANO-006 2 -50 -35,00 €`, `1-ANO-007 1 -7.000 0,00 €` (fin sans `end_km`), TOTAL `-6.930` / `12,35 €` | **oui, très** : idem, nombres négatifs |
+| BH-416 | `fleet:report --month=2026-01` | anomalies | **1** | env `dev` : stderr `[Symfony\Component\Debug\Exception\ContextErrorException]` `Warning: A non-numeric value encountered` (coût `"N/A"`), **stdout vide** ; A5 : **aucune** entrée au journal PHP (observé à l'implémentation) | **oui, très** : PHP 8 lève `TypeError` (`Unsupported operand types`), composant Debug → ErrorHandler |
+| BH-417 | `fleet:report --month=2026-01 --env=prod` | anomalies | 0 | rapport produit : `1-ANO-001 1 100 35,00 €`, `1-ANO-008 2 20 12,35 €` (`"N/A"` compté 0, `12.345` arrondi à l'affichage), `1-ANO-006 2 -50 -35,00 €`, `1-ANO-007 1 -7.000 0,00 €` (fin sans `end_km`), TOTAL `-6.930` / `12,35 €` ; stderr vide ; A5 : **une** entrée `PHP Warning: A non-numeric value encountered` (observé à l'implémentation) | **oui, très** : idem, nombres négatifs |
 | BH-418 | `fleet:report --mois=2026-01` | demo | **1** | stderr : `The "--mois" option does not exist.` | oui : messages console |
 | BH-419 | `fleet:report 2026-01` | demo | **1** | stderr : `Too many arguments, expected arguments "command".` | oui : idem |
 | BH-420 | `fleet:report --month=2026-01 -q` | report-months | 0 | **aucune** sortie | non |
 | BH-421 | `fleet:report --month=2026-01 --env=prod` | report-months | 0 | sortie **identique** à BH-401 (dev) quand les données sont saines | oui : environnements |
-| BH-422 | `fleet:report --month=2026-01 --ansi` | report-months | 0 | titre entouré de `\e[32m` … `\e[39m`, tableau sans couleur | oui : styles de sortie |
+| BH-422 | `fleet:report --month=2026-01 --ansi` | report-months | 0 | titre entouré de `\e[32m` … `\e[39m` ; **les 4 cellules d'en-tête du tableau aussi** (`\|\e[32m Plaque    \e[39m\|…`, espaces de remplissage compris), lignes de données et TOTAL sans couleur (10 séquences ESC au total) ; sans les séquences, sortie identique à BH-401 (observé à l'implémentation) | oui : styles de sortie |
 | BH-423 | `fleet:report --month=2024-03` | volume | 0 | 172 véhicules, TOTAL `187.606` km / `65 662,10 €` ; ~130 ms en step-00 ; suite `diff` : durée `app` ≤ 2 × `app-ref` | oui : performance |
 | BH-424 | toute exécution de `fleet:report` | report-months | 0 | **base inchangée** (lecture seule) | non |
 | BH-425 | `list` ; `help fleet:report` | demo | 0 | `fleet:report` décrite « Rapport mensuel d'utilisation de la flotte » ; option `-m, --month=MONTH Mois au format AAAA-MM [default: "2026-01"]` (défaut dépendant de l'horloge : à normaliser) | oui : rendu de l'aide (step-02/06) |
@@ -1027,7 +1028,10 @@ Sortie : `Données de démonstration chargées : 5 véhicules, 5 réservations.`
     assertions ciblées : ordre des plaques ; TOTAL 904 / 316,40 €
   - A4 base : inchangée
   - A5 journal PHP : aucune entrée en step-00 (en PHP 8 : dépréciation du comparateur booléen attendue)
-- Golden : tests/golden/cli/report/2025-11.txt
+- Golden : tests/golden/cli/report/2025-11.txt (stdout brut, octet par octet ; partagé avec BH-403)
+- Tests : FleetReportTest::bh404_ties_at_300_km_keep_observed_order (cli),
+  ReportOrderingTest::bh404_three_ties_at_300_km (edge, 3 exécutions : ordre déterministe),
+  FleetReportDiffTest::bh404_tie_order_at_300_km_same_as_reference (diff)
 ```
 
 ### 6.5 Points à trancher avant d'écrire les tests
@@ -1041,6 +1045,9 @@ Sortie : `Données de démonstration chargées : 5 véhicules, 5 réservations.`
 | `fleet:demo:load` destructive, sans confirmation ni garde-fou en `prod` (BH-450 à BH-457) | Préserver le comportement ; signaler le risque (perte de données en production) comme point d'amélioration post-migration |
 | Défaut de `--month` affiché dans l'aide (BH-425) | Normaliser la date dans le golden (dépend de l'horloge) |
 | Rendu exact des tableaux (bordures, largeurs, caractère `€`) | Contractuel (octet par octet) ; un changement de rendu du composant `Table` est un changement accepté à consigner |
+
+> Toutes les propositions ci-dessus sont appliquées **à titre provisoire** par les tests (2026-11-17), en attente de
+> décision de l'utilisateur ; aucune ne bloque une fiche. Voir le journal d'implémentation.
 
 ## Journal d'implémentation
 
@@ -1224,6 +1231,44 @@ Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills 
 | 2026-11-17 | BH-336 | `Http\AdminVehicleNewTest::bh336_refused_request_still_opens_a_session`, `Diff\AdminVehicleNewDiffTest::bh336_session_cookie_on_401_same_as_reference` | http, diff | — | ✔ | non |
 | 2026-11-17 | BH-337 | `Http\AdminVehicleNewTest::bh337_successful_creation_sets_session_cookie`, `Diff\AdminVehicleNewDiffTest::bh337_session_cookies_of_a_success_same_as_reference` | http, diff | — | ✔ | oui (cookie posé au GET authentifié, pas au POST) |
 | 2026-11-17 | BH-300…337 | Propositions § 5.4 appliquées à titre provisoire, **en attente de décision** : BH-309 / BH-310 / BH-321 / BH-324 figés en « 500 + base inchangée », corps non contractuel ; BH-302 / BH-330, BH-333 / BH-334, BH-313, BH-318 / BH-319 figés ; mot de passe du compte de test lu dans `FLEET_ADMIN_PASSWORD` (repli : valeur step-00, uniquement dans `tests/`). A4 : diff exact, `created_at` vérifié au format `Y-m-d H:i:s` et réduit à sa date `2026-01-15` (heure jamais assertée) ; en suite diff, seul le `created_at` des véhicules **ajoutés** est réduit à sa date. Corps 401/405 non contractuels et A5 comparé en diff uniquement (§ 2.5). Support : nouveau trait `Support\AdminVehicleForm` ; `Support\HttpClient::withoutBasicAuth()` ajouté ; `Support\FormDiffTestCase::comparableDbLine()` ajouté (identité par défaut : aucun effet sur l'existant). Suite complète verte 3 fois sur app-ref (329 tests). Le fichier sonde `tests/src/Edge/ZzProbeTest.php` signalé au journal BH-200…224 n'existe plus (251 tests avant cette zone) | — | — | — | — |
+| 2026-11-17 | BH-400 | `Cli\FleetReportTest::bh400_readme_example_for_may_2016`, `Diff\FleetReportDiffTest::bh400_readme_report_same_as_reference` | cli, diff | `cli/report/demo-2016-05.txt` | ✔ | non |
+| 2026-11-17 | BH-401 | `Cli\FleetReportTest::bh401_january_report_table_with_total`, `Diff\FleetReportDiffTest::bh401_table_rendering_same_as_reference` | cli, diff | `cli/report/2026-01.txt` | ✔ | non |
+| 2026-11-17 | BH-402 | `Cli\FleetReportTest::bh402_default_month_follows_container_clock`, `Diff\FleetReportDiffTest::bh402_default_month_same_as_reference` | cli, diff | `cli/report/2026-01.txt` | ✔ | non (comparé à la sortie explicite `--month=2026-01`) |
+| 2026-11-17 | BH-403 | `Cli\FleetReportTest::bh403_short_attached_and_spaced_option_syntaxes_are_equivalent`, `Diff\FleetReportDiffTest::bh403_option_syntaxes_same_as_reference` | cli, diff | `cli/report/2025-11.txt` | ✔ | non |
+| 2026-11-17 | BH-404 | `Cli\FleetReportTest::bh404_ties_at_300_km_keep_observed_order`, `Edge\ReportOrderingTest::bh404_three_ties_at_300_km`, `Diff\FleetReportDiffTest::bh404_tie_order_at_300_km_same_as_reference` | cli, edge, diff | `cli/report/2025-11.txt` | ✔ | non (exemple § 6.4 : ligne « Tests » ajoutée) |
+| 2026-11-17 | BH-405 | `Cli\FleetReportTest::bh405_ties_at_250_km_keep_observed_order`, `Edge\ReportOrderingTest::bh405_three_ties_at_250_km`, `Diff\FleetReportDiffTest::bh405_tie_order_at_250_km_same_as_reference` | cli, edge, diff | `cli/report/2026-01.txt` | ✔ | non |
+| 2026-11-17 | BH-406 | `Cli\FleetReportTest::bh406_four_ties_at_100_km_on_edge_data`, `Edge\ReportOrderingTest::bh406_four_ties_at_100_km`, `Diff\FleetReportDiffTest::bh406_tie_order_on_edge_data_same_as_reference` | cli, edge, diff | `cli/report/edge-2026-01.txt` | ✔ | non |
+| 2026-11-17 | BH-407 | `Cli\FleetReportTest::bh407_month_without_data_gives_header_and_zero_total`, `Diff\FleetReportDiffTest::bh407_empty_table_same_as_reference` | cli, diff | `cli/report/2025-12.txt` | ✔ | non |
+| 2026-11-17 | BH-408 | `Cli\FleetReportTest::bh408_month_bounds_on_end_date`, `Diff\FleetReportDiffTest::bh408_month_bounds_same_as_reference` | cli, diff | `cli/report/2026-01.txt` | ✔ | oui (réservation exclue = `1-REP-008`, 101 km) |
+| 2026-11-17 | BH-409 | `Cli\FleetReportTest::bh409_february_with_very_large_numbers`, `Diff\FleetReportDiffTest::bh409_large_numbers_same_as_reference` | cli, diff | `cli/report/2026-02.txt` | ✔ | non |
+| 2026-11-17 | BH-410 | `Cli\FleetReportTest::bh410_bookings_around_dst_changes_are_counted`, `Diff\FleetReportDiffTest::bh410_dst_months_same_as_reference` | cli, diff | `cli/report/2025-10.txt`, `cli/report/2026-03.txt` | ✔ | oui (lignes et totaux observés) |
+| 2026-11-17 | BH-411 | `Cli\FleetReportTest::bh411_leap_day_counted_by_end_date` | cli | `cli/report/2024-02.txt`, `cli/report/2024-03.txt` | ✔ | oui (lignes observées) |
+| 2026-11-17 | BH-412 | `Cli\FleetReportTest::bh412_month_13_is_accepted_with_next_january_data`, `Edge\ReportMonthOverflowTest::bh412_month_13_reports_next_january`, `Diff\FleetReportDiffTest::bh412_month_13_same_as_reference` | cli, edge, diff | `cli/report/2025-13.txt` | ✔ | non |
+| 2026-11-17 | BH-413 | `Cli\FleetReportTest::bh413_out_of_range_months_are_accepted`, `Edge\ReportMonthOverflowTest::bh413_month_00_and_13_overflow_to_neighbour_months`, `Diff\FleetReportDiffTest::bh413_out_of_range_months_same_as_reference` | cli, edge, diff | `cli/report/{2026-00,2016-13,0000-01,9999-12}.txt` | ✔ | oui (`2016-13` = janvier 2017) |
+| 2026-11-17 | BH-414 | `Cli\FleetReportTest::bh414_invalid_month_format_message_on_stdout_with_code_1`, `Diff\FleetReportDiffTest::bh414_invalid_formats_same_as_reference` | cli, diff | — (stdout exact asserté : une ligne + `\n`) | ✔ | non |
+| 2026-11-17 | BH-415 | `Cli\FleetReportTest::bh415_empty_month_option_requires_a_value`, `Diff\FleetReportDiffTest::bh415_missing_option_value_same_as_reference` | cli, diff | — (message de stderr seul contractuel) | ✔ | non |
+| 2026-11-17 | BH-416 | `Cli\FleetReportTest::bh416_non_numeric_cost_aborts_in_dev`, `Edge\ReportInconsistentDataTest::bh416_dev_aborts_before_any_output`, `Diff\FleetReportDiffTest::bh416_dev_failure_on_inconsistent_data_same_as_reference` | cli, edge, diff | — | ✔ | oui (A5 : aucune entrée) |
+| 2026-11-17 | BH-417 | `Cli\FleetReportTest::bh417_non_numeric_cost_ignored_in_prod`, `Edge\ReportInconsistentDataTest::bh417_prod_counts_non_numeric_cost_as_zero_and_negative_km`, `Diff\FleetReportDiffTest::bh417_prod_report_on_inconsistent_data_same_as_reference` | cli, edge, diff | `cli/report/anomalies-2026-01-prod.txt` | ✔ | oui (A5 : un `PHP Warning: A non-numeric value encountered`) |
+| 2026-11-17 | BH-418 | `Cli\FleetReportTest::bh418_unknown_option_is_refused`, `Diff\FleetReportDiffTest::bh418_unknown_option_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-419 | `Cli\FleetReportTest::bh419_positional_month_is_refused`, `Diff\FleetReportDiffTest::bh419_positional_argument_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-420 | `Cli\FleetReportTest::bh420_quiet_prints_nothing` | cli | — | ✔ | non |
+| 2026-11-17 | BH-421 | `Cli\FleetReportTest::bh421_prod_environment_gives_same_report_on_sane_data`, `Diff\FleetReportDiffTest::bh421_prod_environment_same_as_reference` | cli, diff | `cli/report/2026-01.txt` | ✔ | non |
+| 2026-11-17 | BH-422 | `Cli\FleetReportTest::bh422_ansi_colours_title_and_table_headers`, `Diff\FleetReportDiffTest::bh422_ansi_output_same_as_reference` | cli, diff | `cli/report/2026-01-ansi.txt` | ✔ | **oui** (en-têtes du tableau colorés aussi, pas seulement le titre) |
+| 2026-11-17 | BH-423 | `Cli\FleetReportTest::bh423_volume_report_content`, `Diff\FleetReportDiffTest::bh423_volume_report_content_and_performance_vs_reference` | cli, diff | `cli/report/volume-2024-03.txt` | ✔ | non (durée : médiane de 3 exécutions, app ≤ 2 × app-ref, jamais de durée absolue) |
+| 2026-11-17 | BH-424 | `Cli\FleetReportTest::bh424_report_never_writes_to_the_database` | cli | — | ✔ | non (6 variantes, empreinte vérifiée après chacune ; base aussi vérifiée dans chaque test de la zone) |
+| 2026-11-17 | BH-425 | `Cli\FleetReportTest::bh425_list_and_help_describe_the_report`, `Diff\FleetReportDiffTest::bh425_list_and_help_same_as_reference` | cli, diff | `cli/help/list.txt`, `cli/help/fleet-report.txt` | ✔ | non (défaut de `--month` remplacé par `<mois courant>` dans le golden, `2026-01` asserté à part) |
+| 2026-11-17 | BH-450 | `Cli\FleetDemoLoadTest::bh450_loads_demo_data_into_empty_database`, `Diff\FleetDemoLoadDiffTest::bh450_load_into_empty_database_same_as_reference` | cli, diff | — (stdout exact asserté) | ✔ | non |
+| 2026-11-17 | BH-451 | `Cli\FleetDemoLoadTest::bh451_replaces_realistic_fleet_without_asking`, `Diff\FleetDemoLoadDiffTest::bh451_replace_realistic_fleet_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-452 | `Cli\FleetDemoLoadTest::bh452_inconsistent_data_removed_without_error`, `Diff\FleetDemoLoadDiffTest::bh452_replace_inconsistent_data_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-453 | `Cli\FleetDemoLoadTest::bh453_edge_data_removed_including_non_normalized_plates` | cli | — | ✔ | non |
+| 2026-11-17 | BH-454 | `Cli\FleetDemoLoadTest::bh454_running_twice_is_idempotent` | cli | — | ✔ | non |
+| 2026-11-17 | BH-455 | `Cli\FleetDemoLoadTest::bh455_non_interactive_flag_changes_nothing`, `Diff\FleetDemoLoadDiffTest::bh455_non_interactive_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-456 | `Cli\FleetDemoLoadTest::bh456_quiet_prints_nothing_but_still_loads` | cli | — | ✔ | non |
+| 2026-11-17 | BH-457 | `Cli\FleetDemoLoadTest::bh457_runs_in_prod_environment_without_guard`, `Diff\FleetDemoLoadDiffTest::bh457_prod_environment_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-458 | `Cli\FleetDemoLoadTest::bh458_extra_argument_is_refused_without_touching_data`, `Diff\FleetDemoLoadDiffTest::bh458_extra_argument_same_as_reference` | cli, diff | — | ✔ | non |
+| 2026-11-17 | BH-459 | `Cli\FleetDemoLoadTest::bh459_help_and_list_describe_without_accents`, `Diff\FleetDemoLoadDiffTest::bh459_help_and_list_same_as_reference` | cli, diff | `cli/help/fleet-demo-load.txt`, `cli/help/list.txt` | ✔ | non |
+| 2026-11-17 | BH-460 | `Cli\FleetDemoLoadTest::bh460_after_loading_pages_api_and_report_match_demo_fiches`, `Diff\FleetDemoLoadDiffTest::bh460_pages_api_and_report_after_loading_same_as_reference` | cli, diff | lus sans réenregistrement : `http/vehicles-list/bh010.html`, `http/api-vehicles/demo.json`, `cli/report/demo-2016-05.txt` | ✔ | non |
+| 2026-11-17 | BH-400…460 | Propositions § 6.5 appliquées à titre provisoire, **en attente de décision** : ordre des ex æquo figé (BH-404 à BH-406), `--month` en débordement préservé (BH-412, BH-413), message de format sur stdout + code 1 (BH-414), divergence dev / prod figée (BH-416, BH-417), `fleet:demo:load` destructive sans garde-fou figée (BH-450 à BH-457), défaut de `--month` normalisé dans le golden d'aide (BH-425), rendu des tableaux octet par octet (stdout brut, aucune normalisation ; aide et liste : `Normalizer::cli`). A2 : seul le message du bloc d'exception est comparé (classe et rappel de syntaxe non contractuels). A5 : journal vide asserté sur toute exécution réussie, sauf BH-417 (un warning). Exécution via `CONSOLE_<CIBLE>_CMD` (test **incomplet** si absente), sans terminal, stdout / stderr séparés. Support : nouvelles classes `Support\ConsoleRun`, `Support\ConsoleCommands` (trait), `Support\ConsoleTestCase`, `Support\ConsoleDiffTestCase` (aucune classe existante modifiée) ; `src/Diff/README.md` complété (normalisations console). Suite complète verte 3 fois sur app-ref (404 tests : http 172, cli 37, edge 49, diff 146). Aucun fichier de sonde | — | — | — | — |
 
 ## Blocages
 
