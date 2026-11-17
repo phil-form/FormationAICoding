@@ -12,11 +12,11 @@
 <!-- tracking:start -->
 ## Suivi d'avancement (généré)
 
-> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:36. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:53. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
 
-**109/209 terminés (52 %)** `███████████████░░░░░░░░░░░░░░░`
+**134/209 terminés (64 %)** `███████████████████░░░░░░░░░░░`
 
-✅ 109 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 100 à écrire
+✅ 134 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 75 à écrire
 
 | Groupe | Route | Écrites | Terminées | Avancement |
 |---|---|---|---|---|
@@ -27,8 +27,8 @@
 | **`ReservationController`** | | **69/69** | **69/69** | `██████████` 100 % |
 | | `reservation_new` | 39/39 | 39/39 | `██████████` 100 % |
 | | `reservation_return` | 30/30 | 30/30 | `██████████` 100 % |
-| **`ApiController`** | | **0/25** | **0/25** | `░░░░░░░░░░` 0 % |
-| | `api_vehicles` | 0/25 | 0/25 | `░░░░░░░░░░` 0 % |
+| **`ApiController`** | | **25/25** | **25/25** | `██████████` 100 % |
+| | `api_vehicles` | 25/25 | 25/25 | `██████████` 100 % |
 | **`AdminController`** | | **0/38** | **0/38** | `░░░░░░░░░░` 0 % |
 | | `admin_vehicle_new` | 0/38 | 0/38 | `░░░░░░░░░░` 0 % |
 | **Commandes console** | | **0/37** | **0/37** | `░░░░░░░░░░` 0 % |
@@ -148,31 +148,31 @@
 | BH-177 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
 | BH-178 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
 | BH-179 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
-| BH-200 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-201 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-202 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-203 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-204 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-205 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-206 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-207 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-208 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-209 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-210 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-211 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-212 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-213 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-214 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-215 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-216 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-217 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-218 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-219 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-220 | `api_vehicles` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-221 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-222 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-223 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-224 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-200 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-201 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-202 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-203 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-204 | `api_vehicles` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-205 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-206 | `api_vehicles` | — | 3 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-207 | `api_vehicles` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-208 | `api_vehicles` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-209 | `api_vehicles` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-210 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-211 | `api_vehicles` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-212 | `api_vehicles` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-213 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-214 | `api_vehicles` | — | 1 | ✔ 1 | ✔ | ✔ | — | ✅ terminé |
+| BH-215 | `api_vehicles` | — | 3 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-216 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-217 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-218 | `api_vehicles` | — | 1 | ✔ 1 | ✔ | ✔ | — | ✅ terminé |
+| BH-219 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-220 | `api_vehicles` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-221 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-222 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-223 | `api_vehicles` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-224 | `api_vehicles` | — | 2 | ✔ 1 | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-300 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-301 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-302 | `admin_vehicle_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
@@ -695,9 +695,14 @@ JSON_HEX_QUOT`, sans `JSON_UNESCAPED_UNICODE` ni `JSON_UNESCAPED_SLASHES`) :
 | Caractère | Encodé | Exemple observé |
 |---|---|---|
 | `/` | `\/` | `"15\/06\/2030 08:00"` |
-| non ASCII | `\uXXXX` (paires de substitution pour les emoji) | `"Citroën"`, `"🚐"` |
-| `<` `>` | `<` `>` | `<script>` |
-| `&` `'` `"` | `&` `'` `"` | `"Aircross" &` |
+| non ASCII | &#92;uXXXX en hexadécimal **minuscule** (paires de substitution pour les emoji) | Citro&#92;u00ebn ; 🚐 → &#92;ud83d&#92;ude90 (observé à l'implémentation) |
+| `<` `>` | &#92;u003C &#92;u003E (hexadécimal **majuscule**) | &#92;u003Cscript&#92;u003E (observé à l'implémentation) |
+| `&` `'` `"` | &#92;u0026 &#92;u0027 &#92;u0022 (majuscule) | &#92;u0022Aircross&#92;u0022 &#92;u0026 (observé à l'implémentation) |
+
+> Note d'outillage (2026-11-17) : dans ce document et dans les sources de tests, ne jamais écrire la séquence
+> « barre oblique inverse + u + 4 chiffres hexadécimaux » telle quelle : l'outil d'écriture de fichiers de Claude Code la
+> décode silencieusement (c'est ce qui avait vidé ce tableau). Documents : entité `&#92;` ; tests :
+> `Support\ApiJson::lit('Citro{u00eb}n')`.
 
 ### 4.2 `api_vehicles` — `GET /api/vehicules`
 
@@ -713,8 +718,8 @@ Tri : plaque, ordre binaire SQLite.
 | BH-202 | en-têtes de la réponse | demo | 200 | `Content-Type: application/json` (**sans** `charset`) ; `X-Fleet-Version: 1.4.2` ; `Cache-Control: no-cache` ; **aucun** `Set-Cookie`, aucun en-tête CORS, `ETag` ni `Last-Modified` | **oui** : `JsonResponse`, `Content-Type`, session |
 | BH-203 | octets du corps | demo | 200 | pas de BOM, pas de retour à la ligne final (se termine par `"}]`), aucun espace hors des valeurs | oui : encodage |
 | BH-204 | types JSON | demo | 200 | `id` et `mileage` **nombres**, les autres **chaînes** | oui : DBAL 3 (entiers rendus en chaînes ?) |
-| BH-205 | `GET /api/vehicules` | edge | 200 | ordre binaire des plaques **brutes** : `" 2-BBB-004 "` (espaces conservés) en premier, puis `0-AAA-000`, `1-ABC-12`… ; `1-aaa-003` en minuscules (non normalisée, contrairement au HTML) | oui : tri SQLite, plaque brute |
-| BH-206 | caractères spéciaux | edge | 200 | `label` du véhicule 18 = `"Citroën <b>C3<\/b> "Aircross" & <script>alert('x')<\/script>"` ; véhicule 20 : `"Škoda Énergie … 電気 🚐"` | **oui, très** : drapeaux `JSON_HEX_*`, `JSON_UNESCAPED_*` |
+| BH-205 | `GET /api/vehicules` | edge | 200 | ordre binaire des plaques **brutes** : `" 2-BBB-004 "` (espaces conservés) en premier, puis `0-AAA-000`, `1-ABC-12`… ; `1-aaa-003` en minuscules (non normalisée, contrairement au HTML) ; 27 éléments, 3 458 octets, `1-aaa-003` entre `1-XSS-001` et `2.BBB.006`, `Z-ZZZ-999` en dernier (observé à l'implémentation) | oui : tri SQLite, plaque brute |
+| BH-206 | caractères spéciaux | edge | 200 | `label` du véhicule 18 = "Citro&#92;u00ebn &#92;u003Cb&#92;u003EC3&#92;u003C\/b&#92;u003E &#92;u0022Aircross&#92;u0022 &#92;u0026 &#92;u003Cscript&#92;u003Ealert(&#92;u0027x&#92;u0027)&#92;u003C\/script&#92;u003E" ; véhicule 20 : "&#92;u0160koda &#92;u00c9nergie &#92;u00d6l&#92;u00e7&#92;u00fc &#92;u00d1and&#92;u00fa &#92;u96fb&#92;u6c17 &#92;ud83d&#92;ude90" ; corps 100 % ASCII (observé à l'implémentation) | **oui, très** : drapeaux `JSON_HEX_*`, `JSON_UNESCAPED_*` |
 | BH-207 | grands nombres | edge | 200 | `"mileage":2147483647` (nombre, pas de notation exponentielle) | oui : entiers, DBAL |
 | BH-208 | longueur maximale | edge | 200 | `label` de 101 caractères (50 + espace + 50) | non |
 | BH-209 | réservation **en retard** | edge (1-OVD-001) | 200 | `"nextReservation":"05\/01\/2026 08:00"` : la réservation passée non rendue est présentée comme la « prochaine » | non (bug figé) |
@@ -723,15 +728,15 @@ Tri : plaque, ordre binaire SQLite.
 | BH-212 | longue liste de réservations | edge (1-LNG-040) | 200 | `nextReservation` = première confirmée (`"19\/01\/2026 08:00"`), annulées et terminées ignorées | non |
 | BH-213 | heure d'été | edge (1-DST-001) | 200 | `"29\/03\/2026 01:30"` (heure naïve, telle qu'en base) | oui : `DateTime`, fuseau |
 | BH-214 | création et blocages | booking | 200 | 8 éléments ; `nextReservation` : `"10\/02\/2026 10:00"` (BOK-002), `"02\/02\/2026 08:00"` (BOK-003 en entretien), `"14\/01\/2026 08:00"` (en cours), `"05\/01\/2026 08:00"` (en retard), `""` quand seules des annulées / terminées existent | non |
-| BH-215 | données incohérentes | anomalies | 200 | statut inconnu (3, -1) → **`"status":null`** (notice PHP) ; plaque vide `""` triée en premier ; marque et modèle vides → `"label":" "` ; `"mileage":-500` ; fin avant début → `"08\/01\/2026 18:00"` ; statut `CONFIRMEE` (majuscules) **ignoré** ; A5 : notices `Undefined offset` | **oui** : notice → warning (PHP 8) ; `null` |
-| BH-216 | flotte réaliste | nominal | 200 | 24 éléments, golden + empreinte (3 124 octets) | oui : comme BH-201 |
+| BH-215 | données incohérentes | anomalies | 200 | statut inconnu (3, -1) → **`"status":null`** (notice PHP) ; plaque vide `""` triée en premier ; marque et modèle vides → `"label":" "` ; `"mileage":-500` ; fin avant début → `"08\/01\/2026 18:00"` (1-ANO-007) ; statut `CONFIRMEE` (majuscules) **ignoré** ; A5 exact : `PHP Notice: Undefined offset: 3` puis `PHP Notice: Undefined offset: -1` (observé à l'implémentation) | **oui** : notice → warning (PHP 8) ; `null` |
+| BH-216 | flotte réaliste | nominal | 200 | 24 éléments, golden + empreinte (3 124 octets, empreinte `1d3add568c40…`, observé à l'implémentation) | oui : comme BH-201 |
 | BH-217 | volume | volume | 200 | 500 éléments, 58 504 octets ; **~300 ms** en step-00, contre ~40 ms pour la liste HTML du même volume (une requête SQL par véhicule pour charger ses réservations : N+1) ; suite `diff` : temps `app` ≤ 2 × `app-ref` | oui : performance, chargement paresseux (ORM) |
 | BH-218 | `GET /api/vehicules?status=1&callback=x` | demo | 200 | paramètres **ignorés** : corps identique à BH-201 (pas de filtre, pas de JSONP) | non |
 | BH-219 | `Accept: application/xml` ; `Origin: https://planning.example` | demo | 200 | aucune négociation de contenu (JSON quand même), aucun en-tête CORS | oui : si un composant CORS est ajouté |
 | BH-220 | `HEAD /api/vehicules` | demo | 200 | corps vide, `Content-Type: application/json` | non |
-| BH-221 | `POST` et `OPTIONS /api/vehicules` | demo | 405 | `Allow: GET, HEAD` ; corps **HTML** (pas de JSON d'erreur) | oui : page d'erreur |
-| BH-222 | `GET /api/vehicules/`, `/api/vehicules.json`, `/api/vehicules/1` | demo | 404 | page HTML ; aucune autre route d'API | oui : routage |
-| BH-223 | Basic `gestionnaire:mauvais` | demo | **401** | `WWW-Authenticate: Basic realm="Secured Area"` : de mauvais identifiants bloquent l'API pourtant publique | **oui** : authenticators (step-06) |
+| BH-221 | `POST` et `OPTIONS /api/vehicules` | demo | 405 | `Allow: GET, HEAD` ; corps **HTML** (pas de JSON d'erreur) ; `Content-Type: text/html; charset=UTF-8`, `X-Fleet-Version`, `Cache-Control: no-cache`, **pas** de `Set-Cookie` (observé à l'implémentation) | oui : page d'erreur |
+| BH-222 | `GET /api/vehicules/`, `/api/vehicules.json`, `/api/vehicules/1` | demo | 404 | page HTML ; aucune autre route d'API ; mêmes en-têtes que BH-221, pas de `Location`, pas de `Set-Cookie` (observé à l'implémentation) | oui : routage |
+| BH-223 | Basic `gestionnaire:mauvais` | demo | **401** | `WWW-Authenticate: Basic realm="Secured Area"` : de mauvais identifiants bloquent l'API pourtant publique ; corps et `Content-Type: text/html; charset=UTF-8`, **pas** de `Set-Cookie` (observé à l'implémentation) | **oui** : authenticators (step-06) |
 | BH-224 | Basic `gestionnaire:flotte2016` | demo | 200 | corps identique à BH-201, **mais** `Set-Cookie: PHPSESSID` (session ouverte par l'authentification) | **oui** : firewall sans état ou non (step-06) |
 
 ### 4.3 Exemple complet : BH-206
@@ -750,24 +755,31 @@ Tri : plaque, ordre binaire SQLite.
   - A1 statut : 200
   - A2 en-têtes : Content-Type application/json · X-Fleet-Version 1.4.2 · pas de Set-Cookie
   - A3 corps : octet par octet = golden `api-vehicles/edge.json` (3 458 octets, empreinte 6f2bebf09564…) ;
-    élément id 18 : label exactement
-    "Citroën <b>C3<\/b> "Aircross" & <script>alert('x')<\/script>" ;
+    élément id 18 : label exactement (notation {uXXXX} = séquence d'échappement JSON, cf. note du § 4.1)
+    "Citro{u00eb}n {u003C}b{u003E}C3{u003C}\/b{u003E} {u0022}Aircross{u0022} {u0026} {u003C}script{u003E}alert({u0027}x{u0027}){u003C}\/script{u003E}" ;
+    hexadécimal majuscule pour < > & ' ", minuscule pour les caractères non ASCII ; corps 100 % ASCII ;
     après json_decode : label = `Citroën <b>C3</b> "Aircross" & <script>alert('x')</script>`
   - A4 base : inchangée
-  - A5 journal PHP : aucune entrée
-- Golden : tests/golden/http/api-vehicles/edge.json
+  - A5 journal PHP : aucune entrée (comparé en suite diff uniquement, proposition § 2.5)
+- Golden : tests/golden/http/api-vehicles/edge.json (+ edge.json.sha256 : 6f2bebf0956404a0bd189bfad551eb43a69ac8189d4c135596853141946a2a49)
+- Tests : ApiVehiclesTest::bh206_html_quotes_and_non_ascii_are_escaped (http),
+  JsonEncodingTest::bh206_hex_escapes_for_html_quotes_slashes_and_non_ascii (edge),
+  ApiVehiclesDiffTest::bh206_escaping_same_as_reference (diff)
 ```
 
 ### 4.4 Points à trancher avant d'écrire les tests
 
 | Question | Proposition |
 |---|---|
-| Octets exacts (échappements `\/`, `\uXXXX`, `<`) ou seulement JSON équivalent ? | **Octets exacts** : le client externe n'est pas sous notre contrôle ; un changement d'encodage est un changement accepté à consigner |
+| Octets exacts (échappements `\/`, `\uXXXX`, &#92;u003C) ou seulement JSON équivalent ? | **Octets exacts** : le client externe n'est pas sous notre contrôle ; un changement d'encodage est un changement accepté à consigner |
 | `nextReservation` qui renvoie une réservation **passée** (BH-209) | Préserver (bug figé), correction éventuelle dans une étape séparée, en prévenant le client du planning |
 | `"status": null` pour un statut inconnu (BH-215) | Préserver le `null` ; la notice PHP devient warning en PHP 8 sans changer le corps |
 | 401 avec de mauvais identifiants (BH-223), cookie de session après authentification (BH-224) | Préserver tant que le client ne s'authentifie pas ; à revoir à step-06 (nouveau système de sécurité) |
 | Performance N+1 (BH-217) | Seuil ≤ 2 × la référence ; l'optimisation (jointure) est un changement interne, autorisé s'il ne change aucun octet |
 | Erreurs HTML sur une route d'API (BH-221, BH-222) | Corps non contractuel ; une page d'erreur JSON future serait un changement accepté |
+
+> Toutes les propositions ci-dessus sont appliquées **à titre provisoire** par les tests (2026-11-17), en attente de
+> décision de l'utilisateur ; aucune ne bloque une fiche. Voir le journal d'implémentation.
 
 ## 5. `AdminController` — ajout d'un véhicule (HTTP Basic)
 
@@ -1139,6 +1151,32 @@ Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills 
 | 2026-11-17 | BH-178 | `Http\ReservationReturnTest::bh178_finished_booking_without_end_km_is_already_closed` | http | `http/reservation-return/bh178-anomalies.html` | ✔ | non |
 | 2026-11-17 | BH-179 | `Http\ReservationReturnTest::bh179_returned_booking_moves_to_history_on_vehicle_page`, `Diff\ReservationReturnDiffTest::bh179_vehicle_page_after_return_same_as_reference` | http, diff | `http/reservation-return/bh179-vehicle-page.html` | ✔ | oui (historique exact, date de début) |
 | 2026-11-17 | BH-100…179 | Propositions § 3.5 appliquées à titre provisoire, **en attente de décision** : BH-122 / BH-164 / BH-165 / BH-167 figés ; BH-169 figé en « 500 + base inchangée », corps non contractuel ; BH-133 / BH-173 figés (200 sans erreur) ; messages anglais et absence de bouton contractuels (goldens) ; exceptions non journalisées hors contrat. Corps 404/405 non contractuels et A5 comparé en diff uniquement (§ 2.5). Nouvelles classes support : `Support\DbDiff` (diff exact typé), `Support\FormJourney`, `Support\FormTestCase`, `Support\FormDiffTestCase` (aucune classe existante modifiée) | — | — | — | — |
+| 2026-11-17 | BH-200 | `Http\ApiVehiclesTest::bh200_empty_fleet_returns_empty_array`, `Diff\ApiVehiclesDiffTest::bh200_empty_array_same_as_reference` | http, diff | `http/api-vehicles/empty.json` (+ `.sha256` `4f53cda18c2b…`) | ✔ | non |
+| 2026-11-17 | BH-201 | `Http\ApiVehiclesTest::bh201_demo_fleet_byte_for_byte`, `Diff\ApiVehiclesDiffTest::bh201_demo_bytes_same_as_reference` | http, diff | `http/api-vehicles/demo.json` (+ `.sha256` `6fe447542af8c8e1bed02959c512fd78283e9ee89ebcdc1b71d4161953ccb556`) | ✔ | non |
+| 2026-11-17 | BH-202 | `Http\ApiVehiclesTest::bh202_json_headers_without_session_cors_or_validators`, `Diff\ApiVehiclesDiffTest::bh202_headers_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-203 | `Http\ApiVehiclesTest::bh203_compact_body_without_bom_or_trailing_newline`, `Diff\ApiVehiclesDiffTest::bh203_body_bytes_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-204 | `Http\ApiVehiclesTest::bh204_ids_and_mileage_are_numbers_other_fields_strings`, `Edge\JsonEncodingTest::bh204_integer_columns_are_json_numbers`, `Diff\ApiVehiclesDiffTest::bh204_json_types_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-205 | `Http\ApiVehiclesTest::bh205_raw_plates_in_binary_order`, `Diff\ApiVehiclesDiffTest::bh205_raw_plate_order_same_as_reference` | http, diff | `http/api-vehicles/edge.json` | ✔ | oui (ordre complet des 27 plaques) |
+| 2026-11-17 | BH-206 | `Http\ApiVehiclesTest::bh206_html_quotes_and_non_ascii_are_escaped`, `Edge\JsonEncodingTest::bh206_hex_escapes_for_html_quotes_slashes_and_non_ascii`, `Diff\ApiVehiclesDiffTest::bh206_escaping_same_as_reference` | http, edge, diff | `http/api-vehicles/edge.json` (+ `.sha256` `6f2bebf0956404a0bd189bfad551eb43a69ac8189d4c135596853141946a2a49`) | ✔ | oui (séquences d'échappement rétablies dans la fiche, le § 4.1 et l'exemple § 4.3 : elles avaient été décodées par l'outil d'écriture) |
+| 2026-11-17 | BH-207 | `Http\ApiVehiclesTest::bh207_int32_max_mileage_is_a_plain_number`, `Edge\JsonEncodingTest::bh207_large_integers_without_exponent`, `Diff\ApiVehiclesDiffTest::bh207_large_numbers_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-208 | `Http\ApiVehiclesTest::bh208_label_of_maximum_length` | http | — | ✔ | non |
+| 2026-11-17 | BH-209 | `Http\ApiVehiclesTest::bh209_overdue_booking_reported_as_next` | http | — | ✔ | non |
+| 2026-11-17 | BH-210 | `Http\ApiVehiclesTest::bh210_same_start_bookings_give_that_start`, `Diff\ApiVehiclesDiffTest::bh210_same_start_order_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-211 | `Http\ApiVehiclesTest::bh211_unavailable_vehicles_still_report_next_booking` | http | — | ✔ | non |
+| 2026-11-17 | BH-212 | `Http\ApiVehiclesTest::bh212_first_confirmed_of_a_long_list` | http | — | ✔ | non |
+| 2026-11-17 | BH-213 | `Http\ApiVehiclesTest::bh213_naive_time_on_dst_day`, `Diff\ApiVehiclesDiffTest::bh213_dst_time_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-214 | `Http\ApiVehiclesTest::bh214_next_reservation_on_booking_scenario` | http | `http/api-vehicles/booking.json` (+ `.sha256` `8dff97bd1a28…`, 978 octets) | ✔ | non |
+| 2026-11-17 | BH-215 | `Http\ApiVehiclesTest::bh215_inconsistent_data_unknown_status_is_null`, `Edge\JsonEncodingTest::bh215_unknown_status_is_json_null_never_empty_string`, `Diff\ApiVehiclesDiffTest::bh215_anomalies_and_php_log_same_as_reference` | http, edge, diff | `http/api-vehicles/anomalies.json` (+ `.sha256` `d6ceb3100b5f…`, 885 octets) | ✔ | oui (signatures A5 exactes) |
+| 2026-11-17 | BH-216 | `Http\ApiVehiclesTest::bh216_realistic_fleet_byte_for_byte`, `Diff\ApiVehiclesDiffTest::bh216_nominal_bytes_same_as_reference` | http, diff | `http/api-vehicles/nominal.json` (+ `.sha256` `1d3add568c40fc1b27c55be698bc74d4c75e560387c88cf42adc9be769bc913a`) | ✔ | oui (empreinte) |
+| 2026-11-17 | BH-217 | `Http\ApiVehiclesTest::bh217_volume_returns_all_vehicles`, `Diff\ApiVehiclesDiffTest::bh217_volume_bytes_and_performance_vs_reference` | http, diff | `http/api-vehicles/volume.json` (+ `.sha256` `98f20c5e1ee3…`, 58 504 octets) | ✔ | non (durée absolue non assertée : seule la comparaison ≤ 2 × app-ref l'est, médiane de 5 mesures) |
+| 2026-11-17 | BH-218 | `Http\ApiVehiclesTest::bh218_query_parameters_are_ignored` | http | `http/api-vehicles/demo.json` | ✔ | non |
+| 2026-11-17 | BH-219 | `Http\ApiVehiclesTest::bh219_no_content_negotiation_and_no_cors`, `Diff\ApiVehiclesDiffTest::bh219_accept_and_origin_same_as_reference` | http, diff | `http/api-vehicles/demo.json` | ✔ | non (deux requêtes distinctes, un en-tête chacune) |
+| 2026-11-17 | BH-220 | `Http\ApiVehiclesTest::bh220_head_returns_json_headers_without_body` | http | — | ✔ | non |
+| 2026-11-17 | BH-221 | `Http\ApiVehiclesTest::bh221_post_and_options_are_method_not_allowed_in_html`, `Diff\ApiVehiclesDiffTest::bh221_method_not_allowed_same_as_reference` | http, diff | — (405, corps non contractuel) | ✔ | oui (en-têtes, pas de `Set-Cookie`) |
+| 2026-11-17 | BH-222 | `Http\ApiVehiclesTest::bh222_no_other_api_route`, `Diff\ApiVehiclesDiffTest::bh222_unknown_api_paths_same_as_reference` | http, diff | — (404, corps non contractuel) | ✔ | oui (en-têtes, pas de `Set-Cookie`) |
+| 2026-11-17 | BH-223 | `Http\ApiVehiclesTest::bh223_wrong_credentials_block_the_public_api`, `Diff\ApiVehiclesDiffTest::bh223_wrong_credentials_same_as_reference` | http, diff | — (401, corps non contractuel) | ✔ | oui (HTML, pas de `Set-Cookie`) |
+| 2026-11-17 | BH-224 | `Http\ApiVehiclesTest::bh224_valid_credentials_open_a_session`, `Diff\ApiVehiclesDiffTest::bh224_authenticated_session_cookie_same_as_reference` | http, diff | `http/api-vehicles/demo.json` | ✔ | non |
+| 2026-11-17 | BH-200…224 | Propositions § 4.4 appliquées à titre provisoire, **en attente de décision** : octets exacts (golden `.json` sans normalisation + `.json.sha256`), BH-209 / BH-215 / BH-223 / BH-224 figés, seuil BH-217 ≤ 2 × référence, corps 401/404/405 non contractuels ; A5 comparé en diff uniquement (§ 2.5). Support : nouvelle classe `Support\ApiJson` (structure, golden + empreinte, `lit()`) ; `Support\HttpClient` modifié sans effet sur l'existant (un `Accept` fourni par l'appelant remplace celui par défaut au lieu de s'y ajouter). Suite complète verte 3 fois sur app-ref (252 tests). Fichier sonde `tests/src/Edge/ZzProbeTest.php` laissé par le diagnostic : **à supprimer** par la session principale | — | — | — | — |
 
 ## Blocages
 

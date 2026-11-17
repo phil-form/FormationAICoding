@@ -43,7 +43,11 @@ final class HttpClient
      */
     public function request(string $method, string $path, array $headers = [], ?string $body = null): HttpResponse
     {
-        $lines = ['Connection: close', 'User-Agent: flotte-characterization-tests', 'Accept: text/html,application/json;q=0.9,*/*;q=0.8'];
+        $lines = ['Connection: close', 'User-Agent: flotte-characterization-tests'];
+        // Accept par défaut, sauf si l'appelant en fournit un (négociation de contenu, BH-219) : jamais deux en-têtes.
+        if (!isset(array_change_key_case($headers)['accept'])) {
+            $lines[] = 'Accept: text/html,application/json;q=0.9,*/*;q=0.8';
+        }
         if (null !== $this->authorization) {
             $lines[] = 'Authorization: '.$this->authorization;
         }
