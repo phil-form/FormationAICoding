@@ -1,0 +1,150 @@
+[
+  {
+    "block_prefix": "reservation",
+    "class": "AppBundle\\Form\\ReservationType",
+    "csrf": true,
+    "data_class": "AppBundle\\Entity\\Reservation",
+    "fields": [
+      {
+        "constraints": ["NotBlank(message=\"Le nom du conducteur est obligatoire.\")"],
+        "html_name": "reservation[driverName]",
+        "name": "driverName",
+        "options": { "label": "Conducteur" },
+        "type": "text",
+        "type_raw": "'text'"
+      },
+      {
+        "constraints": ["NotBlank"],
+        "html_name": "reservation[startAt]",
+        "name": "startAt",
+        "options": { "format": "dd/MM/yyyy HH:mm", "label": "Début", "widget": "single_text" },
+        "type": "datetime",
+        "type_raw": "'datetime'"
+      },
+      {
+        "constraints": ["NotBlank"],
+        "html_name": "reservation[endAt]",
+        "name": "endAt",
+        "options": { "format": "dd/MM/yyyy HH:mm", "label": "Fin", "widget": "single_text" },
+        "type": "datetime",
+        "type_raw": "'datetime'"
+      },
+      {
+        "constraints": [],
+        "html_name": "reservation[_token]",
+        "name": "_token",
+        "options": {},
+        "type": "csrf",
+        "type_raw": "framework.csrf_protection (field_name _token)"
+      }
+    ],
+    "instantiation": "new ReservationType()",
+    "name_source": "getName()",
+    "provenance": {
+      "deduced": ["block_prefix", "class", "csrf", "data_class", "fields", "instantiation", "name_source", "used_by"],
+      "observed": []
+    },
+    "submission_check": "isValid() sans isSubmitted()",
+    "used_by": ["reservation_new"]
+  },
+  {
+    "block_prefix": "vehicle",
+    "class": "AppBundle\\Form\\VehicleType",
+    "csrf": true,
+    "data_class": "AppBundle\\Entity\\Vehicle",
+    "fields": [
+      {
+        "constraints": ["NotBlank", "BelgianPlate"],
+        "html_name": "vehicle[plate]",
+        "name": "plate",
+        "options": { "label": "Plaque" },
+        "type": "text",
+        "type_raw": "'text'"
+      },
+      {
+        "constraints": ["NotBlank"],
+        "html_name": "vehicle[brand]",
+        "name": "brand",
+        "options": { "label": "Marque" },
+        "type": "text",
+        "type_raw": "'text'"
+      },
+      {
+        "constraints": ["NotBlank"],
+        "html_name": "vehicle[model]",
+        "name": "model",
+        "options": { "label": "Modèle" },
+        "type": "text",
+        "type_raw": "'text'"
+      },
+      {
+        "constraints": ["GreaterThanOrEqual(0)"],
+        "html_name": "vehicle[mileage]",
+        "name": "mileage",
+        "options": { "label": "Kilométrage" },
+        "type": "integer",
+        "type_raw": "'integer'"
+      },
+      {
+        "constraints": [],
+        "html_name": "vehicle[status]",
+        "name": "status",
+        "options": {
+          "choices": { "0": "Disponible", "1": "En entretien", "2": "Hors service" },
+          "choices_as_values": "défaut 2.8 (false) : clés = valeurs soumises, valeurs = libellés",
+          "label": "Statut"
+        },
+        "type": "choice",
+        "type_raw": "'choice'"
+      },
+      {
+        "constraints": [],
+        "html_name": "vehicle[_token]",
+        "name": "_token",
+        "options": {},
+        "type": "csrf",
+        "type_raw": "framework.csrf_protection (field_name _token)"
+      }
+    ],
+    "instantiation": "new VehicleType()",
+    "name_source": "getName()",
+    "provenance": {
+      "deduced": ["block_prefix", "class", "csrf", "data_class", "fields", "instantiation", "name_source", "used_by"],
+      "observed": []
+    },
+    "submission_check": "isValid() sans isSubmitted()",
+    "used_by": ["admin_vehicle_new"]
+  },
+  {
+    "block_prefix": "form",
+    "class": "inline:ReservationController::returnAction",
+    "csrf": true,
+    "data_class": null,
+    "fields": [
+      {
+        "constraints": [],
+        "html_name": "form[endKm]",
+        "name": "endKm",
+        "options": { "label": "Kilométrage au retour" },
+        "type": "integer",
+        "type_raw": "'integer'"
+      },
+      {
+        "constraints": [],
+        "html_name": "form[_token]",
+        "name": "_token",
+        "options": {},
+        "type": "csrf",
+        "type_raw": "framework.csrf_protection (field_name _token)"
+      }
+    ],
+    "instantiation": "createFormBuilder()",
+    "name_source": "défaut de createFormBuilder() (form)",
+    "provenance": {
+      "deduced": ["block_prefix", "class", "csrf", "data_class", "fields", "instantiation", "name_source", "used_by"],
+      "observed": []
+    },
+    "submission_check": "isValid() sans isSubmitted()",
+    "used_by": ["reservation_return"]
+  }
+]

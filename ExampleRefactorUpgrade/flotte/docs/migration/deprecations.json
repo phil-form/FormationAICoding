@@ -1,0 +1,1266 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {
+      "step": "step-00",
+      "date": "2026-11-17",
+      "php": "7.2",
+      "symfony": "2.8",
+      "composer_lock_sha256": "d3c96ce503d57454bddd90e2c3e5c9a502fd03ad96ddb2e1b86282ffdd57093e",
+      "counts": {
+        "new": 0,
+        "fixed": 0,
+        "open": 47,
+        "accepted": 0,
+        "reappeared": 0
+      }
+    }
+  ],
+  "items": [
+    {
+      "signature": "dependency: doctrine/annotations abandoned",
+      "source": "dependency",
+      "family": "dependencies",
+      "location": [
+        "composer.json",
+        "app/autoload.php"
+      ],
+      "deprecated_since": "abandon (Packagist)",
+      "removed_in": "n/a",
+      "blocking_for": null,
+      "autofix": "none (attributs PHP 8)",
+      "behavior_risk": "aucun",
+      "id": "DEP-0041",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "dependency: doctrine/cache abandoned",
+      "source": "dependency",
+      "family": "dependencies",
+      "location": [
+        "composer.json"
+      ],
+      "deprecated_since": "abandon (Packagist)",
+      "removed_in": "n/a",
+      "blocking_for": null,
+      "autofix": "none",
+      "behavior_risk": "aucun",
+      "id": "DEP-0039",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "dependency: doctrine/common abandoned",
+      "source": "dependency",
+      "family": "dependencies",
+      "location": [
+        "composer.json"
+      ],
+      "deprecated_since": "abandon (Packagist)",
+      "removed_in": "n/a",
+      "blocking_for": null,
+      "autofix": "none",
+      "behavior_risk": "aucun",
+      "id": "DEP-0040",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "dependency: doctrine/doctrine-cache-bundle abandoned",
+      "source": "dependency",
+      "family": "dependencies",
+      "location": [
+        "composer.json"
+      ],
+      "deprecated_since": "doctrine/doctrine-cache-bundle 1.4 (abandon)",
+      "removed_in": "doctrine/doctrine-bundle 2.0 (plus requis)",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "aucun",
+      "id": "DEP-0038",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "dependency: sensio/framework-extra-bundle abandoned (replaced by Symfony core)",
+      "source": "dependency",
+      "family": "dependencies",
+      "location": [
+        "composer.json",
+        "app/AppKernel.php:15"
+      ],
+      "deprecated_since": "sensio/framework-extra-bundle 6.2 (abandon)",
+      "removed_in": "n/a",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "voir familles routing (@Route, @Template, ParamConverter)",
+      "id": "DEP-0037",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "dependency: symfony/security-acl required but not used",
+      "source": "dependency",
+      "family": "dependencies",
+      "location": [
+        "composer.json"
+      ],
+      "deprecated_since": "n/a",
+      "removed_in": "n/a",
+      "blocking_for": null,
+      "autofix": "none (retrait prévu par le plan)",
+      "behavior_risk": "aucun : bundle non enregistré dans AppKernel",
+      "id": "DEP-0042",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "doctrine/annotations: AnnotationRegistry::registerLoader() in the autoloader",
+      "source": "static-review",
+      "family": "doctrine",
+      "location": [
+        "app/autoload.php:9"
+      ],
+      "deprecated_since": "doctrine/annotations 1.10",
+      "removed_in": "doctrine/annotations 2.0",
+      "blocking_for": null,
+      "autofix": "none (fichier supprimé par la structure Flex à step-02)",
+      "behavior_risk": "aucun",
+      "id": "DEP-0032",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "doctrine/orm: mapping declared with docblock annotations (use attributes)",
+      "source": "doctrine",
+      "family": "doctrine",
+      "location": [
+        "src/AppBundle/Entity/Vehicle.php",
+        "src/AppBundle/Entity/Reservation.php"
+      ],
+      "deprecated_since": "doctrine/orm 2.16 (pilote d'annotations)",
+      "removed_in": "doctrine/orm 3.0",
+      "blocking_for": null,
+      "autofix": "rector:DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES (PHP >= 8.0)",
+      "behavior_risk": "faible ; bloquant seulement si ORM 3 est retenu à step-06",
+      "id": "DEP-0030",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "doctrine/orm: underscore naming strategy without number awareness",
+      "source": "config",
+      "family": "doctrine",
+      "location": [
+        "app/config/config.yml:37"
+      ],
+      "deprecated_since": "doctrine/orm 2.7",
+      "removed_in": "doctrine/orm 3.0",
+      "blocking_for": null,
+      "autofix": "none",
+      "behavior_risk": "faible : aucun champ avec chiffre, noms de colonnes inchangés avec underscore_number_aware",
+      "id": "DEP-0031",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "doctrine/persistence: short entity namespace alias (Bundle:Entity) in getRepository() or DQL",
+      "source": "doctrine",
+      "family": "doctrine",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php:32",
+        "src/AppBundle/Controller/ApiController.php:21",
+        "src/AppBundle/Service/ReservationManager.php:35",
+        "src/AppBundle/Service/ReservationManager.php:91",
+        "src/AppBundle/Command/LoadDemoDataCommand.php:24-25 (DQL)"
+      ],
+      "deprecated_since": "doctrine/orm 2.10",
+      "removed_in": "doctrine/orm 3.0 ; l'alias AppBundle disparaît avec AppBundle -> App (step-02)",
+      "blocking_for": "step-02",
+      "autofix": "rector:EntityAliasToClassConstantReferenceRector (rector-doctrine, configurable, non exécutée)",
+      "behavior_risk": "faible",
+      "id": "DEP-0029",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "php: arithmetic on a non-numeric string (TypeError since PHP 8.0)",
+      "source": "runtime-php",
+      "family": "php",
+      "kind": "incompatibility",
+      "location": [
+        "src/AppBundle/Service/ReservationManager.php:66 (close)",
+        "src/AppBundle/Service/ReservationManager.php:97 (monthlyReport)"
+      ],
+      "deprecated_since": "php 7.x (Warning)",
+      "removed_in": "php 8.0",
+      "blocking_for": "step-05",
+      "autofix": "none",
+      "occurrences": {
+        "app_error_log": 2,
+        "ref_error_log": 5
+      },
+      "behavior_risk": "élevé : calcul du coût / du kilométrage, 500 en PHP 8",
+      "id": "DEP-0044",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "php: loose comparison between int and non-numeric string (PHP 8.0 saner comparisons)",
+      "source": "static-review",
+      "family": "php",
+      "kind": "incompatibility",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php:37 (filtre status)",
+        "src/AppBundle/Resources/views/Vehicle/index.html.twig:10 (option sélectionnée)"
+      ],
+      "deprecated_since": "php 8.0",
+      "removed_in": "php 8.0 (changement de comportement)",
+      "blocking_for": "step-05",
+      "autofix": "none",
+      "behavior_risk": "élevé : /vehicules?status=abc garde les véhicules de statut 0 en PHP 7, plus en PHP 8",
+      "id": "DEP-0046",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "php: non-numeric string passed to number_format() (TypeError since PHP 8.0)",
+      "source": "runtime-php",
+      "family": "php",
+      "kind": "incompatibility",
+      "location": [
+        "src/AppBundle/Twig/FleetExtension.php:27 (formatKm)",
+        "src/AppBundle/Twig/FleetExtension.php:32 (formatEuros)"
+      ],
+      "deprecated_since": "php 7.x (Warning, renvoie null)",
+      "removed_in": "php 8.0",
+      "blocking_for": "step-05",
+      "autofix": "none",
+      "occurrences": {
+        "app_error_log": 47,
+        "ref_error_log": 63
+      },
+      "behavior_risk": "élevé : PHP 7 affiche une chaîne vide, PHP 8 lève une TypeError (500) ; décision « bug pour bug » nécessaire",
+      "id": "DEP-0043",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "php: undefined array offset read (Notice in PHP 7, Warning since PHP 8.0)",
+      "source": "runtime-php",
+      "family": "php",
+      "kind": "incompatibility",
+      "location": [
+        "src/AppBundle/Entity/Vehicle.php:97 (getStatusLabel)"
+      ],
+      "deprecated_since": "php 8.0",
+      "removed_in": "n/a (niveau d'erreur seulement)",
+      "blocking_for": null,
+      "autofix": "none",
+      "occurrences": {
+        "app_error_log": 199,
+        "ref_error_log": 266
+      },
+      "behavior_risk": "faible : valeur null inchangée, seul le niveau de log change",
+      "id": "DEP-0047",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "php: usort() comparison callback returning bool (sort is stable since PHP 8.0)",
+      "source": "static-review",
+      "family": "php",
+      "kind": "incompatibility",
+      "location": [
+        "src/AppBundle/Service/ReservationManager.php:101-103 (monthlyReport)"
+      ],
+      "deprecated_since": "php 8.0",
+      "removed_in": "php 8.0 (changement de comportement : tri stable)",
+      "blocking_for": "step-05",
+      "autofix": "none",
+      "behavior_risk": "élevé : ordre des ex-æquo du rapport fleet:report",
+      "id": "DEP-0045",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "sensio/framework-extra-bundle: @Route/@Method annotations (use Symfony Routing @Route with methods)",
+      "source": "rector",
+      "family": "routing",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php",
+        "src/AppBundle/Controller/ReservationController.php",
+        "src/AppBundle/Controller/AdminController.php",
+        "src/AppBundle/Controller/ApiController.php",
+        "app/config/routing.yml"
+      ],
+      "deprecated_since": "sensio/framework-extra-bundle 5.2",
+      "removed_in": "sensio/framework-extra-bundle 6.0 (paquet abandonné)",
+      "blocking_for": "step-04",
+      "autofix": "rector:Rector\\Symfony\\Symfony34\\Rector\\ClassMethod\\ReplaceSensioRouteAnnotationWithSymfonyRector + MergeMethodAnnotationToRouteAnnotationRector (déclenchées, applicables dès Symfony 3.4)",
+      "behavior_risk": "moyen : 405 et ordre des routes à préserver (requirements id \\d+)",
+      "id": "DEP-0011",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "sensio/framework-extra-bundle: @Template annotation with guessed template name",
+      "source": "static-review",
+      "family": "routing",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php:25",
+        "src/AppBundle/Controller/VehicleController.php:53"
+      ],
+      "deprecated_since": "sensio/framework-extra-bundle (paquet abandonné)",
+      "removed_in": "sensio/framework-extra-bundle (retrait du bundle)",
+      "blocking_for": "step-04",
+      "autofix": "none (render() explicite)",
+      "behavior_risk": "moyen : le nom deviné (AppBundle:Vehicle:index.html.twig) change avec la structure Flex de step-02",
+      "id": "DEP-0012",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "sensio/framework-extra-bundle: implicit Doctrine ParamConverter for entity controller arguments",
+      "source": "static-review",
+      "family": "routing",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php:55",
+        "src/AppBundle/Controller/ReservationController.php:20",
+        "src/AppBundle/Controller/ReservationController.php:49"
+      ],
+      "deprecated_since": "sensio/framework-extra-bundle (paquet abandonné)",
+      "removed_in": "sensio/framework-extra-bundle (retrait du bundle ; EntityValueResolver depuis symfony 6.2)",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "moyen : 404 sur identifiant inconnu (statut et page d'erreur)",
+      "id": "DEP-0013",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/console: command auto-registered from the bundle Command/ directory",
+      "source": "static-review",
+      "family": "console",
+      "location": [
+        "src/AppBundle/Command/FleetReportCommand.php",
+        "src/AppBundle/Command/LoadDemoDataCommand.php",
+        "app/config/services.yml"
+      ],
+      "deprecated_since": "symfony 3.4",
+      "removed_in": "symfony 4.0",
+      "blocking_for": "step-02",
+      "autofix": "none (déclarer les commandes en services, tag console.command)",
+      "behavior_risk": "faible ; non exercé au runtime (aucune occurrence CLI journalisée)",
+      "id": "DEP-0009",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/debug: Debug component used in front controllers (use symfony/error-handler)",
+      "source": "static-review",
+      "family": "configuration",
+      "location": [
+        "app/console:6",
+        "web/app_dev.php:4"
+      ],
+      "deprecated_since": "symfony 4.4",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none (front controllers Flex à step-02)",
+      "behavior_risk": "faible",
+      "id": "DEP-0021",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: ChoiceType option choices_as_values=false (choice keys used as submitted values)",
+      "source": "runtime-symfony",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Form/VehicleType.php:19-22",
+        "src/AppBundle/Entity/Vehicle.php:84-91 (getStatusLabels)"
+      ],
+      "deprecated_since": "symfony 2.8",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "none",
+      "occurrences": {
+        "app": 1015,
+        "ref": 1248
+      },
+      "routes": [
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "élevé : inverser les choix (libellé => valeur) ; valeurs d'option HTML, option sélectionnée, valeur hors liste (goldens admin-vehicle-new bh323-*) à préserver. En 2.8 : choices_as_values=true + choix inversés ; dès 3.1, l'option elle-même est dépréciée (la retirer à step-01)",
+      "id": "DEP-0004",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: DateTimeType format option used while html5 is enabled",
+      "source": "static-review",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Form/ReservationType.php:15-19",
+        "src/AppBundle/Form/ReservationType.php:20-24"
+      ],
+      "deprecated_since": "symfony 4.3",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none ('html5' => false)",
+      "behavior_risk": "élevé : type d'input HTML et analyse du format dd/MM/yyyy HH:mm (dates invalides, ambiguës) à préserver",
+      "id": "DEP-0022",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: FormTypeInterface::getName() implemented by a form type (use getBlockPrefix())",
+      "source": "runtime-symfony",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Form/ReservationType.php:35",
+        "src/AppBundle/Form/VehicleType.php:33"
+      ],
+      "deprecated_since": "symfony 2.8",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "rector:Rector\\Symfony\\Symfony30\\Rector\\ClassMethod\\RemoveDefaultGetBlockPrefixRector (non déclenchée en simulation)",
+      "occurrences": {
+        "app": 3119,
+        "ref": 3635
+      },
+      "routes": [
+        "reservation_new",
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "moyen : le préfixe de bloc donne le nom des champs HTML (reservation[…], vehicle[…]) ; renommer en getBlockPrefix() en gardant la même valeur",
+      "id": "DEP-0002",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: form type instance passed to createForm()/FormFactory instead of its FQCN",
+      "source": "runtime-symfony",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Controller/ReservationController.php:25",
+        "src/AppBundle/Controller/AdminController.php:26"
+      ],
+      "deprecated_since": "symfony 2.8",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "rector:Rector\\Symfony\\Symfony30\\Rector\\MethodCall\\FormTypeInstanceToClassConstRector (non déclenchée en simulation : correction manuelle triviale)",
+      "occurrences": {
+        "app": 3119,
+        "ref": 3635
+      },
+      "routes": [
+        "reservation_new",
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "faible",
+      "id": "DEP-0001",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: form type referenced by its string name instead of its FQCN",
+      "source": "runtime-symfony",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Form/ReservationType.php:14 (text)",
+        "src/AppBundle/Form/ReservationType.php:15 (datetime)",
+        "src/AppBundle/Form/ReservationType.php:20 (datetime)",
+        "src/AppBundle/Form/VehicleType.php:15-17 (text)",
+        "src/AppBundle/Form/VehicleType.php:18 (integer)",
+        "src/AppBundle/Form/VehicleType.php:19 (choice)",
+        "src/AppBundle/Controller/ReservationController.php:52 (integer)"
+      ],
+      "deprecated_since": "symfony 2.8",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "rector:Rector\\Symfony\\Symfony30\\Rector\\MethodCall\\StringFormTypeToClassRector (déclenchée sur le 1er add() de chaque chaîne seulement ; ReservationController::returnAction non couvert)",
+      "occurrences": {
+        "app": 13387,
+        "ref": 15596
+      },
+      "routes": [
+        "reservation_new",
+        "reservation_return",
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "faible",
+      "id": "DEP-0003",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: isValid() called on a form that is not submitted",
+      "source": "rector",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Controller/ReservationController.php:28",
+        "src/AppBundle/Controller/ReservationController.php:57",
+        "src/AppBundle/Controller/AdminController.php:29"
+      ],
+      "deprecated_since": "symfony 3.2",
+      "removed_in": "symfony 4.0",
+      "blocking_for": "step-02",
+      "autofix": "rector:Rector\\Symfony\\Symfony40\\Rector\\MethodCall\\FormIsValidRector (non déclenchée : createForm() typé FormInterface)",
+      "behavior_risk": "faible : isSubmitted() && isValid() rend le même résultat sur GET ; apparaîtra au runtime dès step-01 (pré-enregistrée pour ne pas lever d'introduced)",
+      "id": "DEP-0008",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/form: legacy ArrayKeyChoiceList choice list instantiated",
+      "source": "runtime-symfony",
+      "family": "forms",
+      "location": [
+        "src/AppBundle/Form/VehicleType.php:19-22 (conséquence de choices_as_values=false)"
+      ],
+      "deprecated_since": "symfony 2.8",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "none",
+      "occurrences": {
+        "app": 1015,
+        "ref": 1248
+      },
+      "routes": [
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "disparaît avec la correction de choices_as_values",
+      "id": "DEP-0005",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/framework-bundle: Controller::getDoctrine() (inject ManagerRegistry)",
+      "source": "static-review",
+      "family": "controllers",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php:31",
+        "src/AppBundle/Controller/ApiController.php:21",
+        "src/AppBundle/Controller/AdminController.php:32"
+      ],
+      "deprecated_since": "symfony 5.4",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "none",
+      "behavior_risk": "faible",
+      "id": "DEP-0028",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/framework-bundle: commands extend ContainerAwareCommand",
+      "source": "static-review",
+      "family": "console",
+      "location": [
+        "src/AppBundle/Command/FleetReportCommand.php:11",
+        "src/AppBundle/Command/LoadDemoDataCommand.php:11"
+      ],
+      "deprecated_since": "symfony 4.2",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "faible ; non exercé au runtime",
+      "id": "DEP-0015",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/framework-bundle: controllers extend the Controller base class (use AbstractController)",
+      "source": "static-review",
+      "family": "controllers",
+      "location": [
+        "src/AppBundle/Controller/VehicleController.php",
+        "src/AppBundle/Controller/ReservationController.php",
+        "src/AppBundle/Controller/AdminController.php",
+        "src/AppBundle/Controller/ApiController.php"
+      ],
+      "deprecated_since": "symfony 4.2",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none (injection des services app.* au lieu de $this->get())",
+      "behavior_risk": "faible",
+      "id": "DEP-0014",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/framework-bundle: session service fetched from the container (use Request::getSession())",
+      "source": "static-review",
+      "family": "controllers",
+      "location": [
+        "src/AppBundle/Controller/ReservationController.php:31",
+        "src/AppBundle/Controller/ReservationController.php:60",
+        "src/AppBundle/Controller/AdminController.php:36"
+      ],
+      "deprecated_since": "symfony 5.3",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "none",
+      "behavior_risk": "faible : messages flash",
+      "id": "DEP-0027",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/framework-bundle: templating component enabled (framework.templating)",
+      "source": "config",
+      "family": "configuration",
+      "location": [
+        "app/config/config.yml:19-20"
+      ],
+      "deprecated_since": "symfony 4.3",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "faible",
+      "id": "DEP-0017",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/http-kernel: FilterResponseEvent type-hint (use ResponseEvent)",
+      "source": "static-review",
+      "family": "events",
+      "location": [
+        "src/AppBundle/EventListener/VersionHeaderListener.php:5",
+        "src/AppBundle/EventListener/VersionHeaderListener.php:16"
+      ],
+      "deprecated_since": "symfony 4.3",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "rector:RenameClassRector (set symfony43)",
+      "behavior_risk": "faible : en-tête X-Fleet-Version",
+      "id": "DEP-0019",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/http-kernel: Kernel::getRootDir() and kernel.root_dir parameter",
+      "source": "config",
+      "family": "configuration",
+      "location": [
+        "app/AppKernel.php:24",
+        "app/config/config.yml:14",
+        "app/config/config_dev.yml:6"
+      ],
+      "deprecated_since": "symfony 4.2",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none (remplacé par la structure Flex à step-02)",
+      "behavior_risk": "faible",
+      "id": "DEP-0016",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/http-kernel: KernelEvent::isMasterRequest() (use isMainRequest())",
+      "source": "static-review",
+      "family": "events",
+      "location": [
+        "src/AppBundle/EventListener/VersionHeaderListener.php:18"
+      ],
+      "deprecated_since": "symfony 5.3",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "rector:RenameMethodRector (set symfony53)",
+      "behavior_risk": "faible",
+      "id": "DEP-0020",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/security-bundle: firewall anonymous option (authenticator system)",
+      "source": "config",
+      "family": "security",
+      "location": [
+        "app/config/security.yml:16"
+      ],
+      "deprecated_since": "symfony 5.1",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "none",
+      "behavior_risk": "élevé : 401/403 et défi Basic sur /admin",
+      "id": "DEP-0025",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/security-bundle: security.encoders configuration (use password_hashers)",
+      "source": "config",
+      "family": "security",
+      "location": [
+        "app/config/security.yml:2-3"
+      ],
+      "deprecated_since": "symfony 5.3",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "none",
+      "behavior_risk": "moyen : encodeur plaintext à reproduire à l'identique",
+      "id": "DEP-0024",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/security-core: UserInterface::getUsername() (use getUserIdentifier())",
+      "source": "static-review",
+      "family": "security",
+      "location": [
+        "src/AppBundle/Controller/AdminController.php:37"
+      ],
+      "deprecated_since": "symfony 5.3",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "rector:RenameMethodRector (set symfony53)",
+      "behavior_risk": "faible : texte du message flash",
+      "id": "DEP-0026",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/security-core: in-memory users with the User class (use InMemoryUser)",
+      "source": "config",
+      "family": "security",
+      "location": [
+        "app/config/security.yml:2-9"
+      ],
+      "deprecated_since": "symfony 5.3",
+      "removed_in": "symfony 6.0",
+      "blocking_for": "step-06",
+      "autofix": "none",
+      "behavior_risk": "moyen : authentification Basic du compte gestionnaire",
+      "id": "DEP-0023",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/security: SecurityContext class instantiated",
+      "source": "runtime-symfony",
+      "family": "security",
+      "location": [
+        "src/AppBundle/Controller/AdminController.php:21 (conséquence de security.context)"
+      ],
+      "deprecated_since": "symfony 2.6",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "none",
+      "occurrences": {
+        "app": 1015,
+        "ref": 1248
+      },
+      "routes": [
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "disparaît avec la correction de security.context",
+      "id": "DEP-0007",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/security: security.context service fetched from the container",
+      "source": "runtime-symfony",
+      "family": "security",
+      "location": [
+        "src/AppBundle/Controller/AdminController.php:21"
+      ],
+      "deprecated_since": "symfony 2.6",
+      "removed_in": "symfony 3.0",
+      "blocking_for": "step-01",
+      "autofix": "none (remplacer par security.authorization_checker ou $this->isGranted())",
+      "occurrences": {
+        "app": 1015,
+        "ref": 1248
+      },
+      "routes": [
+        "admin_vehicle_new"
+      ],
+      "behavior_risk": "faible : même décision d'accès ; le refus reste AccessDeniedException (access_control ^/admin intervient avant)",
+      "id": "DEP-0006",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/twig-bundle: legacy bundle template notation (::template or Bundle:Dir:file)",
+      "source": "twig",
+      "family": "twig",
+      "location": [
+        "src/AppBundle/Resources/views/Vehicle/index.html.twig:1",
+        "src/AppBundle/Resources/views/Vehicle/show.html.twig:1"
+      ],
+      "deprecated_since": "symfony 4.3",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "none (chemins templates/ de step-02)",
+      "behavior_risk": "faible ; à traiter avec le déplacement des templates (step-02)",
+      "id": "DEP-0018",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "symfony/validator: constraint validator typed against the legacy 2.4 ExecutionContextInterface",
+      "source": "phpstan",
+      "family": "validator",
+      "location": [
+        "src/AppBundle/Validator/Constraints/BelgianPlateValidator.php:25"
+      ],
+      "deprecated_since": "symfony 2.5",
+      "removed_in": "symfony 3.0",
+      "blocking_for": null,
+      "autofix": "rector:Rector\\Symfony\\Symfony25\\Rector\\MethodCall\\AddViolationToBuildViolationRector (optionnelle)",
+      "behavior_risk": "faible ; constat de typage (phpdoc de ConstraintValidator::$context) : addViolation($message, $params) existe sur la nouvelle interface et aucun avis runtime n'est émis. À revérifier au runtime de step-01",
+      "id": "DEP-0010",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "twig/twig: PSR-0 Twig_ class names (Twig_Extension, Twig_SimpleFilter)",
+      "source": "twig",
+      "family": "twig",
+      "location": [
+        "src/AppBundle/Twig/FleetExtension.php:7",
+        "src/AppBundle/Twig/FleetExtension.php:19-21"
+      ],
+      "deprecated_since": "twig/twig 1.38 (classes namespacées par défaut)",
+      "removed_in": "twig/twig 3.0",
+      "blocking_for": "step-04",
+      "autofix": "rector:RenameClassRector (TwigSetList composer-based, underscore -> namespace)",
+      "behavior_risk": "faible",
+      "id": "DEP-0033",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "twig/twig: Twig extension implements getName()",
+      "source": "twig",
+      "family": "twig",
+      "location": [
+        "src/AppBundle/Twig/FleetExtension.php:35"
+      ],
+      "deprecated_since": "twig/twig 1.26",
+      "removed_in": "twig/twig 2.0 (méthode plus appelée)",
+      "blocking_for": null,
+      "autofix": "none (suppression de la méthode)",
+      "behavior_risk": "aucun",
+      "id": "DEP-0034",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "twig/twig: if condition on the for tag (use the filter filter)",
+      "source": "twig",
+      "family": "twig",
+      "location": [
+        "src/AppBundle/Resources/views/Vehicle/show.html.twig:14",
+        "src/AppBundle/Resources/views/Vehicle/show.html.twig:26"
+      ],
+      "deprecated_since": "twig/twig 2.10",
+      "removed_in": "twig/twig 3.0",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "moyen : clause else (« Aucune réservation à venir. ») et ordre des réservations à préserver",
+      "id": "DEP-0036",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    },
+    {
+      "signature": "twig/twig: spaceless tag (use the spaceless filter with apply)",
+      "source": "twig",
+      "family": "twig",
+      "location": [
+        "app/Resources/views/base.html.twig:8-15"
+      ],
+      "deprecated_since": "twig/twig 2.7",
+      "removed_in": "twig/twig 3.0",
+      "blocking_for": "step-04",
+      "autofix": "none",
+      "behavior_risk": "moyen : espaces du bloc <nav> dans toutes les pages HTML (goldens)",
+      "id": "DEP-0035",
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "id_seq": 47
+}

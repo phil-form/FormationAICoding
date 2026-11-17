@@ -1,0 +1,251 @@
+[
+  {
+    "access": ["event:kernel.response"],
+    "aliases": [],
+    "arguments": ["%app.version%"],
+    "class": "AppBundle\\EventListener\\VersionHeaderListener",
+    "consumed_by": ["event:kernel.response (requête principale uniquement, en-tête X-Fleet-Version)"],
+    "framework": false,
+    "id": "app.listener.version_header",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "arguments", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public", "tags"]
+    },
+    "public": true,
+    "tags": [
+      { "name": "kernel.event_listener", "parameters": { "event": "kernel.response", "method": "onKernelResponse" } }
+    ]
+  },
+  {
+    "access": ["$this->get()", "argument"],
+    "aliases": [],
+    "arguments": [],
+    "class": "AppBundle\\Service\\PlateFormatter",
+    "consumed_by": [
+      "service:app.twig.fleet_extension",
+      "service:app.validator.belgian_plate",
+      "src/AppBundle/Controller/AdminController.php:30"
+    ],
+    "framework": false,
+    "id": "app.plate_formatter",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "arguments", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public", "tags"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["$this->get()", "getContainer()->get()"],
+    "aliases": [],
+    "arguments": ["@doctrine.orm.entity_manager", "%app.cost_per_km%"],
+    "class": "AppBundle\\Service\\ReservationManager",
+    "consumed_by": [
+      "src/AppBundle/Command/FleetReportCommand.php:30",
+      "src/AppBundle/Controller/ReservationController.php:30",
+      "src/AppBundle/Controller/ReservationController.php:59"
+    ],
+    "framework": false,
+    "id": "app.reservation_manager",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "arguments", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public", "tags"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["tag:twig.extension"],
+    "aliases": [],
+    "arguments": ["@app.plate_formatter"],
+    "class": "AppBundle\\Twig\\FleetExtension",
+    "consumed_by": ["twig: filtres plate, km, euros"],
+    "framework": false,
+    "id": "app.twig.fleet_extension",
+    "in_compiled_container": false,
+    "provenance": {
+      "deduced": ["access", "arguments", "consumed_by", "id", "public"],
+      "observed": ["class", "in_compiled_container", "tags"]
+    },
+    "public": false,
+    "tags": [
+      { "name": "twig.extension", "parameters": {} }
+    ]
+  },
+  {
+    "access": ["tag:validator.constraint_validator"],
+    "aliases": [],
+    "arguments": ["@app.plate_formatter"],
+    "class": "AppBundle\\Validator\\Constraints\\BelgianPlateValidator",
+    "consumed_by": ["constraint:BelgianPlate (validatedBy 'belgian_plate', propriété Vehicle::plate)"],
+    "framework": false,
+    "id": "app.validator.belgian_plate",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "arguments", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public", "tags"]
+    },
+    "public": true,
+    "tags": [
+      { "name": "validator.constraint_validator", "parameters": { "alias": "belgian_plate" } }
+    ]
+  },
+  {
+    "access": ["$this->getDoctrine()", "getContainer()->get()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Doctrine\\Bundle\\DoctrineBundle\\Registry",
+    "consumed_by": [
+      "src/AppBundle/Command/LoadDemoDataCommand.php:22",
+      "src/AppBundle/Controller/AdminController.php:32",
+      "src/AppBundle/Controller/ApiController.php:21",
+      "src/AppBundle/Controller/VehicleController.php:31"
+    ],
+    "framework": true,
+    "id": "doctrine",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["argument"],
+    "alias_of": "doctrine.orm.default_entity_manager",
+    "aliases": [],
+    "arguments": [],
+    "class": null,
+    "consumed_by": ["service:app.reservation_manager"],
+    "framework": true,
+    "id": "doctrine.orm.entity_manager",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["alias_of", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["helper:createForm()", "helper:createFormBuilder()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Symfony\\Component\\Form\\FormFactory",
+    "consumed_by": [
+      "src/AppBundle/Controller/AdminController.php:26",
+      "src/AppBundle/Controller/ReservationController.php:25",
+      "src/AppBundle/Controller/ReservationController.php:51"
+    ],
+    "framework": true,
+    "id": "form.factory",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["helper:generateUrl()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Symfony\\Bundle\\FrameworkBundle\\Routing\\Router",
+    "consumed_by": [
+      "src/AppBundle/Controller/AdminController.php:40",
+      "src/AppBundle/Controller/ReservationController.php:33",
+      "src/AppBundle/Controller/ReservationController.php:65",
+      "src/AppBundle/Controller/VehicleController.php:19"
+    ],
+    "framework": true,
+    "id": "router",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["$this->get()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Symfony\\Component\\Security\\Core\\SecurityContext",
+    "consumed_by": ["src/AppBundle/Controller/AdminController.php:21"],
+    "framework": true,
+    "id": "security.context",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by", "removed_in"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "removed_in": "symfony 3.0",
+    "tags": []
+  },
+  {
+    "access": ["helper:getUser()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorage",
+    "consumed_by": ["src/AppBundle/Controller/AdminController.php:37"],
+    "framework": true,
+    "id": "security.token_storage",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["$this->get()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Symfony\\Component\\HttpFoundation\\Session\\Session",
+    "consumed_by": [
+      "src/AppBundle/Controller/AdminController.php:36",
+      "src/AppBundle/Controller/ReservationController.php:31",
+      "src/AppBundle/Controller/ReservationController.php:60",
+      "twig:base (app.session.flashbag)"
+    ],
+    "framework": true,
+    "id": "session",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  },
+  {
+    "access": ["@Template()", "helper:render()"],
+    "aliases": [],
+    "arguments": [],
+    "class": "Symfony\\Bundle\\TwigBundle\\TwigEngine",
+    "consumed_by": [
+      "src/AppBundle/Controller/AdminController.php:43",
+      "src/AppBundle/Controller/ReservationController.php:39",
+      "src/AppBundle/Controller/ReservationController.php:71",
+      "src/AppBundle/Controller/VehicleController.php:25",
+      "src/AppBundle/Controller/VehicleController.php:53"
+    ],
+    "framework": true,
+    "id": "templating",
+    "in_compiled_container": true,
+    "provenance": {
+      "deduced": ["access", "consumed_by"],
+      "observed": ["class", "id", "in_compiled_container", "public"]
+    },
+    "public": true,
+    "tags": []
+  }
+]

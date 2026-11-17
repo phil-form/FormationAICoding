@@ -213,7 +213,7 @@ fleet:report [-m|--month=MONTH]     Mois au format AAAA-MM [default: date du jou
 - Coût non numérique en base (scénario `anomalies`) : `ContextErrorException: A non-numeric value encountered`
   (PHP 8 : erreur de nature différente).
 
-### 4.2 `fleet:demo:load` — « Vide la base et charge les données de démonstration »
+### 4.2 `fleet:demo:load` — « Vide la base et charge les donnees de demonstration » (sans accents, tel quel)
 
 - **Destructive, sans confirmation** : supprime toutes les réservations puis tous les véhicules (DQL `DELETE`).
 - Charge 5 véhicules (créés le 04/01/2016 08:00) et 5 réservations (4 terminées en mai 2016, 1 confirmée le

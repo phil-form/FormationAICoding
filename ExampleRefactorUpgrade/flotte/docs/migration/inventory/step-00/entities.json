@@ -1,0 +1,105 @@
+[
+  {
+    "class": "AppBundle\\Entity\\Reservation",
+    "columns": [
+      { "column": "id", "generated": "AUTO", "id": true, "length": null, "nullable": false, "precision": null, "property": "id", "scale": null, "sqlite_type": "INTEGER", "type": "integer", "unique": false },
+      { "column": "vehicle_id", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "vehicle", "scale": null, "sqlite_type": "INTEGER", "type": "association", "unique": false },
+      { "column": "driver_name", "generated": null, "id": false, "length": 100, "nullable": false, "precision": null, "property": "driverName", "scale": null, "sqlite_type": "VARCHAR(100)", "type": "string", "unique": false },
+      { "column": "start_at", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "startAt", "scale": null, "sqlite_type": "DATETIME", "type": "datetime", "unique": false },
+      { "column": "end_at", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "endAt", "scale": null, "sqlite_type": "DATETIME", "type": "datetime", "unique": false },
+      { "column": "status", "generated": null, "id": false, "length": 20, "nullable": false, "precision": null, "property": "status", "scale": null, "sqlite_type": "VARCHAR(20)", "type": "string", "unique": false },
+      { "column": "start_km", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "startKm", "scale": null, "sqlite_type": "INTEGER", "type": "integer", "unique": false },
+      { "column": "end_km", "generated": null, "id": false, "length": null, "nullable": true, "precision": null, "property": "endKm", "scale": null, "sqlite_type": "INTEGER", "type": "integer", "unique": false },
+      { "column": "cost", "generated": null, "id": false, "length": null, "nullable": true, "precision": 10, "property": "cost", "scale": 2, "sqlite_type": "NUMERIC(10, 2)", "type": "decimal", "unique": false }
+    ],
+    "constants": { "STATUS_CANCELLED": "annulee", "STATUS_CONFIRMED": "confirmee", "STATUS_DONE": "terminee" },
+    "constraints": {
+      "driverName": ["NotBlank(message=\"Le nom du conducteur est obligatoire.\")"],
+      "endAt": ["NotBlank"],
+      "startAt": ["NotBlank"]
+    },
+    "ddl": "CREATE TABLE reservation (id INTEGER NOT NULL, vehicle_id INTEGER NOT NULL, driver_name VARCHAR(100) NOT NULL, start_at DATETIME NOT NULL, end_at DATETIME NOT NULL, status VARCHAR(20) NOT NULL, start_km INTEGER NOT NULL, end_km INTEGER DEFAULT NULL, cost NUMERIC(10, 2) DEFAULT NULL, PRIMARY KEY(id), CONSTRAINT FK_42C84955545317D1 FOREIGN KEY (vehicle_id) REFERENCES vehicle (id) NOT DEFERRABLE INITIALLY IMMEDIATE)",
+    "defaults": { "startKm": 0, "status": "confirmee" },
+    "foreign_keys": [
+      { "columns": ["vehicle_id"], "name": "FK_42C84955545317D1", "on_delete": null, "references": "vehicle (id)" }
+    ],
+    "indexes": [
+      { "columns": ["vehicle_id"], "name": "IDX_42C84955545317D1", "unique": false }
+    ],
+    "lifecycle_callbacks": {},
+    "provenance": {
+      "deduced": ["constants", "constraints", "defaults", "lifecycle_callbacks", "relations", "repository", "repository_methods"],
+      "observed": ["class", "columns", "ddl", "foreign_keys", "indexes", "schema_drift", "table"]
+    },
+    "relations": [
+      { "fetch": "LAZY", "inversed_by": "reservations", "join_column": { "name": "vehicle_id", "nullable": false }, "mapped_by": null, "order_by": {}, "property": "vehicle", "target": "AppBundle\\Entity\\Vehicle", "type": "ManyToOne" }
+    ],
+    "repository": "AppBundle\\Repository\\ReservationRepository",
+    "repository_methods": [
+      {
+        "filters": ["r.status = 'terminee'", "r.endAt >= :from", "r.endAt < :to", "JOIN r.vehicle"],
+        "name": "findDoneBetween",
+        "order_by": ["r.id ASC"],
+        "params": ["\\DateTime $from", "\\DateTime $to"]
+      },
+      {
+        "filters": ["r.vehicle = :vehicle", "r.status = 'confirmee'", "r.startAt <= :end", "r.endAt >= :start"],
+        "name": "findOverlapping",
+        "order_by": [],
+        "params": ["Vehicle $vehicle", "\\DateTime $start", "\\DateTime $end"]
+      }
+    ],
+    "schema_drift": [
+      {
+        "detail": "doctrine:schema:update --dump-sql propose de recréer la table reservation (COLLATE BINARY sur driver_name et status, index et FK recréés) et doctrine:schema:validate échoue (code 2) ; le DDL réel (sqlite_master) est identique à doctrine:schema:create --dump-sql et à tests/fixtures/schema.sql : faux positif du comparateur SQLite de DBAL 2.5",
+        "kind": "false_positive",
+        "source": "doctrine:schema:update --dump-sql"
+      }
+    ],
+    "table": "reservation"
+  },
+  {
+    "class": "AppBundle\\Entity\\Vehicle",
+    "columns": [
+      { "column": "id", "generated": "AUTO", "id": true, "length": null, "nullable": false, "precision": null, "property": "id", "scale": null, "sqlite_type": "INTEGER", "type": "integer", "unique": false },
+      { "column": "plate", "generated": null, "id": false, "length": 20, "nullable": false, "precision": null, "property": "plate", "scale": null, "sqlite_type": "VARCHAR(20)", "type": "string", "unique": true },
+      { "column": "brand", "generated": null, "id": false, "length": 50, "nullable": false, "precision": null, "property": "brand", "scale": null, "sqlite_type": "VARCHAR(50)", "type": "string", "unique": false },
+      { "column": "model", "generated": null, "id": false, "length": 50, "nullable": false, "precision": null, "property": "model", "scale": null, "sqlite_type": "VARCHAR(50)", "type": "string", "unique": false },
+      { "column": "mileage", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "mileage", "scale": null, "sqlite_type": "INTEGER", "type": "integer", "unique": false },
+      { "column": "status", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "status", "scale": null, "sqlite_type": "INTEGER", "type": "integer", "unique": false },
+      { "column": "created_at", "generated": null, "id": false, "length": null, "nullable": false, "precision": null, "property": "createdAt", "scale": null, "sqlite_type": "DATETIME", "type": "datetime", "unique": false }
+    ],
+    "constants": { "STATUS_AVAILABLE": 0, "STATUS_MAINTENANCE": 1, "STATUS_OUT_OF_SERVICE": 2 },
+    "constraints": {
+      "brand": ["NotBlank"],
+      "mileage": ["GreaterThanOrEqual(0)"],
+      "model": ["NotBlank"],
+      "plate": ["NotBlank", "BelgianPlate"]
+    },
+    "ddl": "CREATE TABLE vehicle (id INTEGER NOT NULL, plate VARCHAR(20) NOT NULL, brand VARCHAR(50) NOT NULL, model VARCHAR(50) NOT NULL, mileage INTEGER NOT NULL, status INTEGER NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id))",
+    "defaults": { "mileage": 0, "status": 0 },
+    "foreign_keys": [],
+    "indexes": [
+      { "columns": ["plate"], "name": "UNIQ_1B80E486719ED75B", "unique": true }
+    ],
+    "lifecycle_callbacks": { "prePersist": ["onPrePersist"] },
+    "provenance": {
+      "deduced": ["constants", "constraints", "defaults", "lifecycle_callbacks", "relations", "repository", "repository_methods"],
+      "observed": ["class", "columns", "ddl", "foreign_keys", "indexes", "schema_drift", "table"]
+    },
+    "relations": [
+      { "fetch": "LAZY", "inversed_by": null, "join_column": null, "mapped_by": "vehicle", "order_by": { "startAt": "ASC" }, "property": "reservations", "target": "AppBundle\\Entity\\Reservation", "type": "OneToMany" }
+    ],
+    "repository": "AppBundle\\Repository\\VehicleRepository",
+    "repository_methods": [
+      {
+        "filters": [],
+        "name": "findAllOrderedByPlate",
+        "order_by": ["plate ASC"],
+        "params": []
+      }
+    ],
+    "schema_drift": [],
+    "table": "vehicle"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "aliases": [],
+    "arguments": [],
+    "class": "AppBundle\\Command\\LoadDemoDataCommand",
+    "confirmation": false,
+    "db_effects": "purge+write",
+    "description": "Vide la base et charge les donnees de demonstration",
+    "exit_codes": { "0": "succès" },
+    "file": "src/AppBundle/Command/LoadDemoDataCommand.php",
+    "name": "fleet:demo:load",
+    "options": [],
+    "output": "text",
+    "provenance": {
+      "deduced": ["class", "confirmation", "db_effects", "exit_codes", "file", "output"],
+      "observed": ["aliases", "arguments", "description", "name", "options", "usage"]
+    },
+    "usage": "fleet:demo:load"
+  },
+  {
+    "aliases": [],
+    "arguments": [],
+    "class": "AppBundle\\Command\\FleetReportCommand",
+    "confirmation": false,
+    "db_effects": "read",
+    "description": "Rapport mensuel d'utilisation de la flotte",
+    "exit_codes": { "0": "succès", "1": "format de mois invalide (regex ^\\d{4}-\\d{2}$)" },
+    "file": "src/AppBundle/Command/FleetReportCommand.php",
+    "name": "fleet:report",
+    "options": [
+      {
+        "default": "<date('Y-m') calculée dans configure(), selon l'horloge du processus>",
+        "description": "Mois au format AAAA-MM",
+        "is_multiple": false,
+        "mode": "required",
+        "name": "month",
+        "shortcut": "m"
+      }
+    ],
+    "output": "table",
+    "provenance": {
+      "deduced": ["class", "confirmation", "db_effects", "exit_codes", "file", "options.default", "output"],
+      "observed": ["aliases", "arguments", "description", "name", "options", "usage"]
+    },
+    "usage": "fleet:report [-m|--month MONTH]"
+  }
+]

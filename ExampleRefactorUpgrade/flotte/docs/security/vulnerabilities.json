@@ -1,0 +1,3814 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {
+      "step": "step-00",
+      "date": "2026-11-17",
+      "php": "7.2",
+      "symfony": "2.8",
+      "composer_lock_sha256": "d3c96ce503d57454bddd90e2c3e5c9a502fd03ad96ddb2e1b86282ffdd57093e",
+      "counts": {
+        "new": 0,
+        "fixed": 0,
+        "open": 111,
+        "accepted": 0,
+        "reappeared": 0
+      }
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "id": "CFG-001",
+      "aliases": [],
+      "package": "app/config/parameters.yml.dist",
+      "installed_version": "step-00",
+      "kind": "config",
+      "summary": "Secret Symfony par défaut (de démonstration (valeur publique, non recopiée)) versionné et recopié dans parameters.yml",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "toute valeur publique de framework.secret",
+      "fixed_versions": [
+        "secret aléatoire hors dépôt (variable d'environnement / secrets Symfony)"
+      ],
+      "fix_step": "hors marche (décision utilisateur ; occasion naturelle : step-02, passage à .env / APP_SECRET)",
+      "url": "https://symfony.com/doc/current/reference/configuration/framework.html#secret",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "kernel.secret est chargé (config.yml framework.secret) mais ses usages sensibles en 2.8 ne sont pas actifs : pas de remember_me, framework.fragments désactivé (pas de route _fragment signée), jetons CSRF aléatoires en session. Couvert par la dérogation durable des commits (CLAUDE.md, 2026-11-17)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-00"
+        }
+      ]
+    },
+    {
+      "id": "CFG-002",
+      "aliases": [],
+      "package": "app/config/security.yml",
+      "installed_version": "step-00",
+      "kind": "config",
+      "summary": "Encodeur de mot de passe plaintext pour Symfony\\Component\\Security\\Core\\User\\User",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": "encoders: plaintext",
+      "fixed_versions": [
+        "bcrypt/auto (password_hashers en 6.x)"
+      ],
+      "fix_step": "step-06 (password hasher ; changement de comportement à arbitrer)",
+      "url": "https://symfony.com/doc/current/security/passwords.html",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Utilisé par http_basic à chaque accès à /admin/vehicules/nouveau : le mot de passe est comparé et stocké en clair."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-00"
+        }
+      ]
+    },
+    {
+      "id": "CFG-003",
+      "aliases": [],
+      "package": "app/config/security.yml",
+      "installed_version": "step-00",
+      "kind": "config",
+      "summary": "Compte administrateur gestionnaire / flotte2016 (ROLE_ADMIN) en clair dans un fichier versionné, transmis en HTTP Basic sans TLS",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "providers.in_memory.users.gestionnaire",
+      "fixed_versions": [
+        "identifiants hors dépôt + mot de passe haché"
+      ],
+      "fix_step": "hors marche (décision utilisateur)",
+      "url": "https://cwe.mitre.org/data/definitions/798.html",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Le compte donne ROLE_ADMIN (création de véhicules via AdminController) ; identifiants lisibles par quiconque lit le dépôt, envoyés en Basic sur HTTP (Apache :8080 sans TLS, publié sur 127.0.0.1)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-00"
+        }
+      ]
+    },
+    {
+      "id": "CFG-004",
+      "aliases": [],
+      "package": "docker/app/php.ini",
+      "installed_version": "step-00",
+      "kind": "config",
+      "summary": "Divulgation de version : X-Powered-By: PHP/7.2.34 (expose_php non désactivé), signature Apache par défaut, en-tête applicatif X-Fleet-Version",
+      "severity": "low",
+      "cvss": null,
+      "affected_range": "expose_php=On (défaut), ServerTokens par défaut",
+      "fixed_versions": [
+        "expose_php = Off, ServerTokens Prod"
+      ],
+      "fix_step": "hors marche (environnement ; X-Fleet-Version est un comportement applicatif à préserver)",
+      "url": "https://owasp.org/www-project-secure-headers/",
+      "exposure": {
+        "level": "reachable",
+        "justification": "docker/app/php.ini ne fixe pas expose_php : chaque réponse PHP porte la version exacte d'un runtime en fin de vie ; VersionHeaderListener ajoute X-Fleet-Version (app.version 1.4.2) sur chaque requête maître."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-00"
+        }
+      ]
+    },
+    {
+      "id": "CFG-005",
+      "aliases": [],
+      "package": "web/app_dev.php",
+      "installed_version": "step-00",
+      "kind": "config",
+      "summary": "Front controller de debug présent dans le docroot, liste blanche incluant la passerelle Docker 172.17.0.1, Debug::enable()",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": "web/app_dev.php",
+      "fixed_versions": [
+        "retirer du docroot servi ou restreindre à la CLI"
+      ],
+      "fix_step": "step-02 (public/index.php remplace web/ ; à arbitrer)",
+      "url": "https://symfony.com/doc/2.8/configuration/front_controllers_and_kernel.html",
+      "exposure": {
+        "level": "unknown",
+        "justification": "Apache sert tout web/ (FallbackResource vers app.php, mais /app_dev.php reste accessible directement). L'accès dépend de REMOTE_ADDR vu par le conteneur : la passerelle du réseau compose flotte-mig n'est pas forcément 172.17.0.1. Si elle correspond, traces d'exception et configuration exposées."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-00"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2019-20367",
+      "aliases": [],
+      "package": "debian10/libbsd",
+      "installed_version": "0.9.1-2",
+      "kind": "os-image",
+      "summary": "libbsd nlist() : lecture hors limites",
+      "severity": "critical",
+      "cvss": 9.1,
+      "affected_range": "<0.9.1-2+deb10u1",
+      "fixed_versions": [
+        "0.9.1-2+deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2019-20367",
+      "exposure": {
+        "level": "not-used",
+        "justification": "nlist() non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "0.9.1-2"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2019-8457",
+      "aliases": [],
+      "package": "debian10/db5.3",
+      "installed_version": "5.3.28+dfsg1-0.5",
+      "kind": "os-image",
+      "summary": "SQLite embarqué de Berkeley DB : lecture hors limites (rtreenode), will_not_fix",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "toutes (pas de correctif Debian)",
+      "fixed_versions": [],
+      "fix_step": "step-03 (nouvelle base d'image, à rescanner)",
+      "url": "https://avd.aquasec.com/nvd/cve-2019-8457",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Berkeley DB non utilisée par l'application (base = SQLite via pdo_sqlite)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "5.3.28+dfsg1-0.5"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2020-35527",
+      "aliases": [],
+      "package": "debian10/sqlite3",
+      "installed_version": "3.27.2-3+deb10u1",
+      "kind": "os-image",
+      "summary": "SQLite : accès hors limites (ALTER TABLE sur vues avec FROM imbriqué)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<3.27.2-3+deb10u2",
+      "fixed_versions": [
+        "3.27.2-3+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2020-35527",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "libsqlite3 utilisée par pdo_sqlite (base de l'application), mais aucun ALTER TABLE ni vue : requêtes Doctrine paramétrées sur les tables vehicle et reservation."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.27.2-3+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-20231",
+      "aliases": [],
+      "package": "debian10/gnutls28",
+      "installed_version": "3.6.7-4+deb10u5",
+      "kind": "os-image",
+      "summary": "GnuTLS : use-after-free client (key_share)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<3.6.7-4+deb10u7",
+      "fixed_versions": [
+        "3.6.7-4+deb10u7"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-20231",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune connexion TLS sortante par l'application ; PHP/Apache s'appuient sur OpenSSL."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.6.7-4+deb10u5"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-20232",
+      "aliases": [],
+      "package": "debian10/gnutls28",
+      "installed_version": "3.6.7-4+deb10u5",
+      "kind": "os-image",
+      "summary": "GnuTLS : use-after-free client (pre_shared_key)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<3.6.7-4+deb10u7",
+      "fixed_versions": [
+        "3.6.7-4+deb10u7"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-20232",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune connexion TLS sortante par l'application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.6.7-4+deb10u5"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-21705",
+      "aliases": [
+        "CVE-2021-21705"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "filter_var(FILTER_VALIDATE_URL) accepte des URL à mot de passe invalide (SSRF)",
+      "severity": "medium",
+      "cvss": 5.3,
+      "affected_range": "<7.3.29 | >=7.4.0,<7.4.21 | >=8.0.0,<8.0.8",
+      "fixed_versions": [
+        "7.3.29",
+        "7.4.21",
+        "8.0.8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://bugs.php.net/bug.php?id=81122",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune validation d'URL ni requête sortante dans l'application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-21707",
+      "aliases": [
+        "CVE-2021-21707"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Fonctions XML : caractères spéciaux (octet nul) dans les chemins acceptés",
+      "severity": "medium",
+      "cvss": 5.3,
+      "affected_range": "<7.3.33 | >=7.4.0,<7.4.26 | >=8.0.0,<8.0.13",
+      "fixed_versions": [
+        "7.3.33",
+        "7.4.26",
+        "8.0.13"
+      ],
+      "fix_step": "step-03",
+      "url": "https://bugs.php.net/bug.php?id=79971",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune fonction XML (simplexml_load_file, DOMDocument::load…) appelée avec un chemin issu de l'utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-21708",
+      "aliases": [
+        "CVE-2021-21708"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Use-after-free dans php_filter_float (FILTER_VALIDATE_FLOAT avec min/max)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<7.4.28 | >=8.0.0,<8.0.16 | >=8.1.0,<8.1.3",
+      "fixed_versions": [
+        "7.4.28",
+        "8.0.16",
+        "8.1.3"
+      ],
+      "fix_step": "step-03",
+      "url": "https://bugs.php.net/bug.php?id=81708",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun filter_var(FILTER_VALIDATE_FLOAT) avec bornes dans src/ ; les nombres passent par les types de formulaire integer."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-26691",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_session : débordement de tas",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u5",
+      "fixed_versions": [
+        "2.4.38-3+deb10u5"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-26691",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mod_session non activé (sessions gérées par PHP)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-33574",
+      "aliases": [],
+      "package": "debian10/glibc",
+      "installed_version": "2.28-10",
+      "kind": "os-image",
+      "summary": "mq_notify : use-after-free (libc6, libc-bin, libc6-dev, libc-dev-bin)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.28-10+deb10u2",
+      "fixed_versions": [
+        "2.28-10+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-33574",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mq_notify n'est pas utilisé par Apache/PHP dans cette configuration."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-3520",
+      "aliases": [],
+      "package": "debian10/lz4",
+      "installed_version": "1.8.3-1",
+      "kind": "os-image",
+      "summary": "liblz4 : corruption mémoire (LZ4_decompress_generic)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<1.8.3-1+deb10u1",
+      "fixed_versions": [
+        "1.8.3-1+deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-3520",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Dépendance de libsystemd, non utilisée par l'application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.8.3-1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-35942",
+      "aliases": [],
+      "package": "debian10/glibc",
+      "installed_version": "2.28-10",
+      "kind": "os-image",
+      "summary": "wordexp : lecture hors limites",
+      "severity": "critical",
+      "cvss": 9.1,
+      "affected_range": "<2.28-10+deb10u2",
+      "fixed_versions": [
+        "2.28-10+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-35942",
+      "exposure": {
+        "level": "not-used",
+        "justification": "wordexp non appelé par PHP/Apache."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-3711",
+      "aliases": [],
+      "package": "debian10/openssl",
+      "installed_version": "1.1.1d-0+deb10u4",
+      "kind": "os-image",
+      "summary": "OpenSSL : débordement de tampon au déchiffrement SM2 (libssl1.1, openssl)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<1.1.1d-0+deb10u7",
+      "fixed_versions": [
+        "1.1.1d-0+deb10u7"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-3711",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun déchiffrement SM2 ; mod_ssl non activé, pas de TLS côté application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.1.1d-0+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-39275",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "ap_escape_quotes() : écriture hors limites",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u6",
+      "fixed_versions": [
+        "2.4.38-3+deb10u6"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-39275",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Fonction du cœur, atteignable seulement via des modules tiers/proxy non activés ici."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-40438",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_proxy : SSRF via uri-path forgé (apache2, apache2-bin, apache2-data, apache2-utils)",
+      "severity": "critical",
+      "cvss": 9.0,
+      "affected_range": "<2.4.38-3+deb10u6",
+      "fixed_versions": [
+        "2.4.38-3+deb10u6"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-40438",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mod_proxy non activé (apache-site.conf : DocumentRoot + FallbackResource + Alias /__health uniquement)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-44790",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_lua : débordement dans le parseur multipart",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u7",
+      "fixed_versions": [
+        "2.4.38-3+deb10u7"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-44790",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mod_lua non activé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2021-46848",
+      "aliases": [],
+      "package": "debian10/libtasn1-6",
+      "installed_version": "4.13",
+      "kind": "os-image",
+      "summary": "libtasn1 : erreur de décalage dans asn1_encode_simple_der",
+      "severity": "critical",
+      "cvss": 9.1,
+      "affected_range": "<4.13-3+deb10u1",
+      "fixed_versions": [
+        "4.13-3+deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2021-46848",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Dépendance de GnuTLS, non utilisée."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "4.13"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-1664",
+      "aliases": [],
+      "package": "debian10/dpkg",
+      "installed_version": "1.19.7",
+      "kind": "os-image",
+      "summary": "dpkg-source : traversée de répertoire (dpkg, dpkg-dev, libdpkg-perl)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<1.19.8",
+      "fixed_versions": [
+        "1.19.8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-1664",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Outil de construction de paquets, jamais invoqué à l'exécution."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.19.7"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-22720",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "HTTP request smuggling sur erreur de lecture du corps",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u8",
+      "fixed_versions": [
+        "2.4.38-3+deb10u8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-22720",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Cœur HTTP d'Apache, sur toutes les requêtes vers app/app-ref (ports 127.0.0.1:8080/8072)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-22721",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "LimitXMLRequestBody : débordement d'entier (> 350 Mo)",
+      "severity": "critical",
+      "cvss": 9.1,
+      "affected_range": "<2.4.38-3+deb10u8",
+      "fixed_versions": [
+        "2.4.38-3+deb10u8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-22721",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Concerne les modules lisant des corps XML (mod_dav) non activés."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-22822",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : débordements d'entiers (addBinding)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u2",
+      "fixed_versions": [
+        "2.2.6-2+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-22822",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "libexpat chargée par apr-util (Apache) ; aucun XML utilisateur parsé (PHP utilise libxml2)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-22823",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : débordement d'entier (build_model)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u2",
+      "fixed_versions": [
+        "2.2.6-2+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-22823",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-22824",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : débordement d'entier (defineAttribute)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u2",
+      "fixed_versions": [
+        "2.2.6-2+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-22824",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-23218",
+      "aliases": [],
+      "package": "debian10/glibc",
+      "installed_version": "2.28-10",
+      "kind": "os-image",
+      "summary": "svcunix_create (sunrpc) : débordement de tampon",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.28-10+deb10u2",
+      "fixed_versions": [
+        "2.28-10+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-23218",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sun RPC non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-23219",
+      "aliases": [],
+      "package": "debian10/glibc",
+      "installed_version": "2.28-10",
+      "kind": "os-image",
+      "summary": "clnt_create (sunrpc) : débordement de tampon",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.28-10+deb10u2",
+      "fixed_versions": [
+        "2.28-10+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-23219",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sun RPC non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-23852",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : débordement d'entier (XML_GetBuffer)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u2",
+      "fixed_versions": [
+        "2.2.6-2+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-23852",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-23943",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_sed : écriture hors limites",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u8",
+      "fixed_versions": [
+        "2.4.38-3+deb10u8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-23943",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mod_sed non activé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-25235",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : validation UTF-8 manquante (xmltok_impl)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u3",
+      "fixed_versions": [
+        "2.2.6-2+deb10u3"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-25235",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-25236",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : injection de séparateur d'espace de noms",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u3",
+      "fixed_versions": [
+        "2.2.6-2+deb10u3"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-25236",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-25315",
+      "aliases": [],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "libexpat : débordement d'entier (storeRawNames)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.2.6-2+deb10u3",
+      "fixed_versions": [
+        "2.2.6-2+deb10u3"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-25315",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-28615",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "ap_strcmp_match() : lecture hors limites",
+      "severity": "critical",
+      "cvss": 9.1,
+      "affected_range": "<2.4.38-3+deb10u8",
+      "fixed_versions": [
+        "2.4.38-3+deb10u8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-28615",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Fonction du cœur, pas de chemin connu depuis la configuration minimale du site."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-29155",
+      "aliases": [],
+      "package": "debian10/openldap",
+      "installed_version": "2.4.47+dfsg-3+deb10u4",
+      "kind": "os-image",
+      "summary": "OpenLDAP slapd back-sql : injection SQL (libldap-2.4-2, libldap-common)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.47+dfsg-3+deb10u7",
+      "fixed_versions": [
+        "2.4.47+dfsg-3+deb10u7"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-29155",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Vulnérabilité serveur slapd ; seule la bibliothèque cliente est présente et l'application n'utilise pas LDAP."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.47+dfsg-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-31628",
+      "aliases": [
+        "CVE-2022-31628"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Phar : boucle infinie sur archive gzip « quine »",
+      "severity": "medium",
+      "cvss": 5.5,
+      "affected_range": "<7.4.31 | >=8.0.0,<8.0.24 | >=8.1.0,<8.1.11",
+      "fixed_versions": [
+        "7.4.31",
+        "8.0.24",
+        "8.1.11"
+      ],
+      "fix_step": "step-03",
+      "url": "https://bugs.php.net/bug.php?id=81726",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun téléversement ni ouverture de phar:// sur une donnée utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-31629",
+      "aliases": [
+        "CVE-2022-31629"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Cookies __Host-/__Secure- falsifiables via un nom encodé",
+      "severity": "medium",
+      "cvss": 6.5,
+      "affected_range": "<7.4.31 | >=8.0.0,<8.0.24 | >=8.1.0,<8.1.11",
+      "fixed_versions": [
+        "7.4.31",
+        "8.0.24",
+        "8.1.11"
+      ],
+      "fix_step": "step-03",
+      "url": "https://bugs.php.net/bug.php?id=81727",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun cookie préfixé __Host-/__Secure- dans l'application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-31813",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_proxy : suppression d'en-têtes X-Forwarded-* via Connection",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u8",
+      "fixed_versions": [
+        "2.4.38-3+deb10u8"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-31813",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mod_proxy non activé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-36760",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_proxy_ajp : request smuggling",
+      "severity": "critical",
+      "cvss": 9.0,
+      "affected_range": "<2.4.38-3+deb10u9",
+      "fixed_versions": [
+        "2.4.38-3+deb10u9"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-36760",
+      "exposure": {
+        "level": "not-used",
+        "justification": "mod_proxy_ajp non activé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-37434",
+      "aliases": [],
+      "package": "debian10/zlib",
+      "installed_version": "1:1.2.11.dfsg-1",
+      "kind": "os-image",
+      "summary": "zlib inflateGetHeader : débordement de tas (champ extra)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<1:1.2.11.dfsg-1+deb10u2",
+      "fixed_versions": [
+        "1:1.2.11.dfsg-1+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2022-37434",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "zlib chargée par PHP/Apache, mais inflateGetHeader n'est appelé sur aucune donnée utilisateur (pas de décompression d'entrée)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1:1.2.11.dfsg-1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2022-37454",
+      "aliases": [
+        "CVE-2022-37454"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Débordement de tampon dans l'implémentation SHA-3 (XKCP)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<7.4.33 | >=8.0.0,<8.0.25 | >=8.1.0,<8.1.12",
+      "fixed_versions": [
+        "7.4.33",
+        "8.0.25",
+        "8.1.12"
+      ],
+      "fix_step": "step-03",
+      "url": "https://bugs.php.net/bug.php?id=81738",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun appel hash('sha3-*') dans src/ ni dans les chemins Symfony utilisés (jetons CSRF aléatoires, pas de SHA-3)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2023-25690",
+      "aliases": [],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "mod_proxy + RewriteRule : request smuggling",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<2.4.38-3+deb10u10",
+      "fixed_versions": [
+        "2.4.38-3+deb10u10"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2023-25690",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Ni mod_proxy ni RewriteRule [P] dans apache-site.conf."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2023-25775",
+      "aliases": [],
+      "package": "debian10/linux",
+      "installed_version": "4.19.160-2",
+      "kind": "os-image",
+      "summary": "Noyau (pilote irdma) : contrôle d'accès incorrect — paquet linux-libc-dev (en-têtes)",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "<4.19.304-1",
+      "fixed_versions": [
+        "4.19.304-1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://avd.aquasec.com/nvd/cve-2023-25775",
+      "exposure": {
+        "level": "not-used",
+        "justification": "linux-libc-dev ne contient que des en-têtes de compilation ; le conteneur utilise le noyau de l'hôte."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "4.19.160-2"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2023-45853",
+      "aliases": [],
+      "package": "debian10/zlib",
+      "installed_version": "1:1.2.11.dfsg-1",
+      "kind": "os-image",
+      "summary": "MiniZip zipOpenNewFileInZip4_64 : débordement d'entier, will_not_fix",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": "toutes (pas de correctif Debian)",
+      "fixed_versions": [],
+      "fix_step": "step-03 (nouvelle base d'image, à rescanner)",
+      "url": "https://avd.aquasec.com/nvd/cve-2023-45853",
+      "exposure": {
+        "level": "not-used",
+        "justification": "MiniZip n'est pas utilisé (aucune création de zip)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1:1.2.11.dfsg-1"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2024-2756",
+      "aliases": [
+        "CVE-2024-2756"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Contournement des préfixes de cookie __Host- / __Secure- (correctif incomplet de CVE-2022-31629)",
+      "severity": "medium",
+      "cvss": 6.5,
+      "affected_range": "<8.1.28 | >=8.2.0,<8.2.18 | >=8.3.0,<8.3.5",
+      "fixed_versions": [
+        "8.1.28",
+        "8.2.18",
+        "8.3.5"
+      ],
+      "fix_step": "step-05",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-wpj3-hf5j-x4v4",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Seul cookie applicatif : PHPSESSID, sans préfixe __Host-/__Secure-."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2024-3096",
+      "aliases": [
+        "CVE-2024-3096"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "password_verify() accepte un mot de passe vide contre un hash commençant par un octet nul",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": "<8.1.28 | >=8.2.0,<8.2.18 | >=8.3.0,<8.3.5",
+      "fixed_versions": [
+        "8.1.28",
+        "8.2.18",
+        "8.3.5"
+      ],
+      "fix_step": "step-05",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-h746-cjrr-wfmr",
+      "exposure": {
+        "level": "not-used",
+        "justification": "L'encodeur plaintext (security.yml) compare les chaînes sans password_verify()."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2024-50345",
+      "aliases": [
+        "CVE-2024-50345"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "HttpFoundation Request : redirection ouverte via des URL assainies par le navigateur",
+      "severity": "low",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.46 | >=6.0.0,<6.4.14 | >=7.0.0,<7.1.7",
+      "fixed_versions": [
+        "5.4.46",
+        "6.4.14",
+        "7.1.7"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2024-50345",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Toutes les redirections (homeAction, AdminController, ReservationController) visent generateUrl() d'une route interne ; aucune URL fournie par l'utilisateur ni target_path (pas de form_login)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2024-8925",
+      "aliases": [
+        "CVE-2024-8925"
+      ],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Analyse erronée des données multipart/form-data (frontière) pouvant fausser les champs reçus",
+      "severity": "medium",
+      "cvss": 5.3,
+      "affected_range": "<8.1.30 | >=8.2.0,<8.2.24 | >=8.3.0,<8.3.12",
+      "fixed_versions": [
+        "8.1.30",
+        "8.2.24",
+        "8.3.12"
+      ],
+      "fix_step": "step-05",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-9pqp-7h25-4f32",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Le parseur multipart de PHP s'exécute pour tout POST multipart vers les routes publiques reservation_new / reservation_return (sans authentification) ; impact limité à l'intégrité des champs du formulaire."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-109449",
+      "aliases": [
+        "CVE-2026-109449"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "ExpressionLanguage : imbrication non bornée du parser (crash)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.4.0,<5.4.54 | >=6.0.0,<6.4.48 | >=7.0.0,<7.4.21 | >=8.0.0,<8.1.9",
+      "fixed_versions": [
+        "5.4.54",
+        "6.4.48",
+        "7.4.21",
+        "8.1.9"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-109449",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune expression (allow_if, @Security, expression de service) dans la configuration ni le code ; aucune expression ne vient d'un utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-118513",
+      "aliases": [
+        "CVE-2026-118513"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "X509Authenticator / X509AuthenticationListener : découpage RDN erroné du DN (correctif incomplet de CVE-2026-45063)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-118513",
+      "exposure": {
+        "level": "not-used",
+        "justification": "security.yml : pare-feu main en anonymous + http_basic uniquement, aucune authentification x509."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-118514",
+      "aliases": [
+        "CVE-2026-118514"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Requêtes HEAD contournant l'option methods des règles access_control et des pare-feu (correctif incomplet de CVE-2026-45075)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-118514",
+      "exposure": {
+        "level": "not-used",
+        "justification": "La seule règle access_control (^/admin, ROLE_ADMIN) et les pare-feu de security.yml n'utilisent pas l'option methods : la règle s'applique à toutes les méthodes."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-118515",
+      "aliases": [
+        "CVE-2026-118515"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Serializer : construction d'UploadedFile depuis les données de requête (fichier serveur arbitraire)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-118515",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Serializer non activé (pas de framework.serializer), aucun téléversement de fichier dans les formulaires (VehicleType, ReservationType, formulaire endKm)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46627",
+      "aliases": [
+        "CVE-2026-46627"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : aucune protection contre l'épuisement de ressources",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.26.0",
+      "fixed_versions": [
+        "3.26.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/cve-2026-46627",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46636",
+      "aliases": [
+        "CVE-2026-46636"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : contournement des listes filtres/balises/fonctions quand l'état du sandbox change entre rendus",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.27.0",
+      "fixed_versions": [
+        "3.27.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/blog/cve-2026-46636-sandbox-filter-tag-and-function-allow-list-bypass-when-sandbox-state-changes-between-renders",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-2v3c-qxhr-7vpv",
+      "aliases": [
+        "CVE-2026-109413"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Yaml : récursion non bornée du lexer inline (crash du processus)",
+      "severity": "high",
+      "cvss": 8.7,
+      "affected_range": ">=2.0.0,<5.4.54 | >=6.0.0,<6.4.45 | >=7.0.0,<7.4.18 | >=8.0.0,<8.1.6",
+      "fixed_versions": [
+        "5.4.54",
+        "6.4.45",
+        "7.4.18",
+        "8.1.6"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-109413",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Composant Yaml utilisé uniquement pour charger app/config/*.yml (fichiers de confiance, au build du cache). Aucun contrôleur ni commande (inventaire : VehicleController, ReservationController, ApiController, AdminController, fleet:report, fleet:demo:load) ne parse de YAML venant d'une requête."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-3gv2-29qc-v67m",
+      "aliases": [
+        "CVE-2022-24895"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Fixation de jeton CSRF (jetons non régénérés à l'authentification)",
+      "severity": "medium",
+      "cvss": 6.3,
+      "affected_range": ">=2.0.0,<4.4.50 | >=5.0.0,<5.4.20 | >=6.0.0,<6.0.20 | >=6.1.0,<6.1.12 | >=6.2.0,<6.2.6",
+      "fixed_versions": [
+        "4.4.50",
+        "5.4.20",
+        "6.2.6"
+      ],
+      "fix_step": "step-02",
+      "url": "https://symfony.com/cve-2022-24895",
+      "exposure": {
+        "level": "reachable",
+        "justification": "csrf_protection activé (config.yml) et jetons CSRF stockés en session pour les formulaires de ReservationController et AdminController ; l'authentification http_basic de gestionnaire ne régénère pas ces jetons. Impact limité (une seule identité privilégiée)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-3rg7-wf37-54rm",
+      "aliases": [
+        "CVE-2025-64500"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "HttpFoundation : PATH_INFO mal interprété (chemin sans / initial) permettant un contournement limité d'autorisation",
+      "severity": "high",
+      "cvss": 7.3,
+      "affected_range": ">=2.0.0,<5.4.50 | >=6.0.0,<6.4.29 | >=7.0.0,<7.3.7",
+      "fixed_versions": [
+        "5.4.50",
+        "6.4.29",
+        "7.3.7"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/blog/cve-2025-64500-incorrect-parsing-of-path-info-can-lead-to-limited-authorization-bypass",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Request::getPathInfo() est évalué à chaque requête (web/app.php, FallbackResource Apache) et la protection de /admin repose sur access_control path ^/admin (security.yml). Impact atténué : AdminController::newVehicleAction revérifie isGranted('ROLE_ADMIN') et lève AccessDeniedException."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-4j38-f5cw-54h7",
+      "aliases": [
+        "CVE-2026-46628"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Le filtre spaceless marque implicitement sa sortie comme sûre",
+      "severity": "low",
+      "cvss": 1.3,
+      "affected_range": ">=1.0.0,<3.26.0",
+      "fixed_versions": [
+        "3.26.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/cve-2026-46628",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "base.html.twig utilise la balise {% spaceless %} (pas le filtre) autour d'un menu statique dont les seules valeurs dynamiques sont des path() ; aucune donnée utilisateur non échappée n'y transite."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-4qpc-3hr4-r2p4",
+      "aliases": [
+        "CVE-2026-45304"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Yaml : expansion exponentielle d'alias de collection (Billion Laughs)",
+      "severity": "low",
+      "cvss": 2.7,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45304",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Yaml limité à la configuration versionnée ; aucun YAML utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-4qpf-57w4-m3wc",
+      "aliases": [
+        "CVE-2026-123125"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Contrainte Ip (modes public/private) : adresses IPv6 mappées IPv4 acceptées (contournement de filtre SSRF)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-4qpf-57w4-m3wc",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Contraintes utilisées : NotBlank, GreaterThanOrEqual, BelgianPlate (personnalisée) ; aucune contrainte Ip."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-529h-vh3j-85hq",
+      "aliases": [
+        "CVE-2026-49981"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : contournement des listes autorisées quand l'état du sandbox change entre deux rendus (Template en cache)",
+      "severity": "high",
+      "cvss": 8.7,
+      "affected_range": ">=1.0.0,<3.27.0",
+      "fixed_versions": [
+        "3.27.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-529h-vh3j-85hq",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune SandboxExtension enregistrée (TwigBundle 2.8 ne l'active pas, services.yml n'ajoute que FleetExtension) ; templates écrits par les développeurs, pas par les utilisateurs."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-52m2-vc4m-jj33",
+      "aliases": [
+        "CVE-2022-39261"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Chargement d'un template hors du répertoire configuré (filesystem loader)",
+      "severity": "high",
+      "cvss": 7.5,
+      "affected_range": ">=1.0.0,<1.44.7 | >=2.0.0,<2.15.3 | >=3.0.0,<3.4.3",
+      "fixed_versions": [
+        "1.44.7",
+        "2.15.3",
+        "3.4.3"
+      ],
+      "fix_step": "step-02",
+      "url": "https://symfony.com/blog/twig-security-release-possibility-to-load-a-template-outside-a-configured-directory-when-using-the-filesystem-loader",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Filesystem loader utilisé, mais tous les noms de templates sont des littéraux (render('admin/vehicle_new.html.twig'), render('reservation/...'), @Template()) ; aucun nom de template issu de la requête."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-5jff-8h8q-r5qx",
+      "aliases": [
+        "CVE-2026-123824"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Config XmlUtils::parse() : XXE (lecture de fichier local) via validateOnParse",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-5jff-8h8q-r5qx",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "XmlUtils ne charge que des fichiers XML internes du framework (mapping de validation du composant Form) au build du cache ; configuration applicative en YAML, traducteur non activé, aucun XML utilisateur parsé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-5mx8-mwrp-5693",
+      "aliases": [],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "URL générées pouvant pointer vers un hôte choisi par le client (sans CVE)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-5mx8-mwrp-5693",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "UrlGenerator utilisé (path() dans les templates, generateUrl() dans les contrôleurs) mais toujours en chemin relatif (ABSOLUTE_PATH) ; aucun url() absolu ni e-mail ; trusted_hosts non configuré."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-5pv8-ppvj-4h68",
+      "aliases": [
+        "CVE-2021-21424"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Énumération d'utilisateurs via les réponses d'authentification",
+      "severity": "medium",
+      "cvss": 5.3,
+      "affected_range": ">=2.8.0,<3.0.0 | >=3.0.0,<4.4.24 | >=5.0.0,<5.2.9",
+      "fixed_versions": [
+        "4.4.24",
+        "5.2.9"
+      ],
+      "fix_step": "step-02",
+      "url": "https://symfony.com/cve-2021-21424",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Authentification http_basic active, mais le point d'entrée Basic renvoie le même 401 que l'utilisateur existe ou non ; un seul compte in_memory (gestionnaire), dont le nom est de toute façon publié dans security.yml (voir CFG-003)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-5v5v-ww74-355v",
+      "aliases": [
+        "CVE-2026-48806"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : contournement de la politique __toString() via des clés de mapping dynamiques",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.27.0",
+      "fixed_versions": [
+        "3.27.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/blog/cve-2026-48806-sandbox-tostring-policy-bypass-via-dynamic-mapping-keys",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-6377-hfv9-hqf6",
+      "aliases": [
+        "CVE-2024-51754"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : appels __toString() non contrôlés pour un objet imbriqué dans un tableau",
+      "severity": "low",
+      "cvss": 2.2,
+      "affected_range": ">=1.0.0,<3.11.2 | >=3.12.0,<3.14.1",
+      "fixed_versions": [
+        "3.11.2",
+        "3.14.1"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/blog/cve-2024-51754-unguarded-calls-to-tostring-in-a-sandbox-when-an-object-is-in-an-array-or-an-argument-list",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-6h46-9jf5-q59x",
+      "aliases": [
+        "CVE-2026-48489"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Contournement du pare-feu via la sous-requête failure_forward (accès non authentifié à des GET protégés)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.53 | >=6.0.0,<6.4.41 | >=7.0.0,<7.4.13 | >=8.0.0,<8.0.13",
+      "fixed_versions": [
+        "5.4.53",
+        "6.4.41",
+        "7.4.13",
+        "8.0.13"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-48489",
+      "exposure": {
+        "level": "not-used",
+        "justification": "failure_forward est une option de form_login ; security.yml n'utilise que http_basic. De plus AdminController revérifie ROLE_ADMIN dans l'action."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-6j75-5wfj-gh66",
+      "aliases": [
+        "CVE-2024-45411"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : contournement possible (include/sandbox)",
+      "severity": "medium",
+      "cvss": 8.5,
+      "affected_range": ">=1.0.0,<1.44.7 | >=2.0.0,<2.16.0 | >=3.0.0,<3.11.0 | >=3.12.0,<3.14.0",
+      "fixed_versions": [
+        "1.44.7",
+        "2.16.0",
+        "3.11.0",
+        "3.14.0"
+      ],
+      "fix_step": "step-02",
+      "url": "https://symfony.com/blog/twig-security-release-possible-sandbox-bypass",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-6qh9-h6wf-jgqc",
+      "aliases": [
+        "CVE-2026-45073"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Cache PdoAdapter::doClear() : injection SQL",
+      "severity": "medium",
+      "cvss": 5.0,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45073",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun pool de cache configuré (pas de framework.cache), aucun PdoAdapter ; la base SQLite n'est accédée que par Doctrine."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-72xp-p242-47p9",
+      "aliases": [
+        "CVE-2026-45065"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "UrlGenerator : requirements en alternance non ancrés (URL protocol-relative hors site)",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45065",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune route n'a de requirement en alternance (a|b) : seuls requirements = id \\d+ (VehicleController::show, ReservationController)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-7fxw-r6jv-74c8",
+      "aliases": [
+        "CVE-2026-46638"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "{% sandbox %}{% include %} saute checkSecurity() sur les templates en cache",
+      "severity": "medium",
+      "cvss": 5.8,
+      "affected_range": ">=1.0.0,<3.26.0",
+      "fixed_versions": [
+        "3.26.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/cve-2026-46638",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune balise {% sandbox %} ni SandboxExtension."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-7p85-w9px-jpjp",
+      "aliases": [
+        "CVE-2026-46633"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Injection de code PHP via le nom de template de {% use %}",
+      "severity": "critical",
+      "cvss": 9.8,
+      "affected_range": ">=1.0.0,<3.26.0",
+      "fixed_versions": [
+        "3.26.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/cve-2026-46633",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "{% use %} n'apparaît dans aucun template applicatif ; seuls les thèmes de formulaire du framework l'emploient, avec des noms littéraux. Aucun nom de template n'est dérivé d'une entrée utilisateur (render() et @Template avec noms fixes)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-8x9c-rmqh-456c",
+      "aliases": [
+        "CVE-2026-48807"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : contournement __toString() via Traversable dans join/replace et in/not in",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.27.0",
+      "fixed_versions": [
+        "3.27.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/blog/cve-2026-48807-sandbox-tostring-policy-bypass-via-traversable-in-join-replace-and-in-not-in-operators",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-9frc-8383-795m",
+      "aliases": [
+        "CVE-2026-45305"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Yaml : ReDoS dans Parser::cleanup()",
+      "severity": "low",
+      "cvss": 2.7,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45305",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Yaml limité à la configuration versionnée ; aucun YAML utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-c2p3-7m5p-cv8x",
+      "aliases": [
+        "CVE-2026-45133"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Yaml : épuisement de pile par récursion non bornée (blocs, séquences, mappings imbriqués)",
+      "severity": "low",
+      "cvss": 2.7,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45133",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Yaml limité à la configuration versionnée ; aucun YAML utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-g3rh-rrhp-jhh9",
+      "aliases": [
+        "CVE-2024-50343"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Validator : réponse incorrecte quand l'entrée se termine par un saut de ligne",
+      "severity": "low",
+      "cvss": 3.1,
+      "affected_range": ">=2.0.0,<5.4.43 | >=6.0.0,<6.4.11 | >=7.0.0,<7.1.4",
+      "fixed_versions": [
+        "5.4.43",
+        "6.4.11",
+        "7.1.4"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2024-50343",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Contraintes Symfony concernées non utilisées (seules NotBlank et GreaterThanOrEqual) ; la plaque est validée par la contrainte applicative BelgianPlate, hors périmètre de l'avis."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-h5x3-xfc9-m39h",
+      "aliases": [
+        "CVE-2026-48784"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "UrlGenerator : encodage des segments ../ incomplet (URL générée hors route après normalisation)",
+      "severity": "medium",
+      "cvss": 6.9,
+      "affected_range": ">=2.0.0,<5.4.53 | >=6.0.0,<6.4.41 | >=7.0.0,<7.4.13 | >=8.0.0,<8.0.13",
+      "fixed_versions": [
+        "5.4.53",
+        "6.4.41",
+        "7.4.13",
+        "8.0.13"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-48784",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "UrlGenerator utilisé, mais les seuls paramètres de route sont des id entiers (requirements \\d+) issus de la base ; aucune valeur utilisateur libre n'entre dans une URL générée."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-h7vf-5wrv-9fhv",
+      "aliases": [
+        "CVE-2022-24894"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "HttpCache : stockage des en-têtes Set-Cookie",
+      "severity": "medium",
+      "cvss": 5.9,
+      "affected_range": ">=2.0.0,<4.4.50 | >=5.0.0,<5.4.20 | >=6.0.0,<6.0.20 | >=6.1.0,<6.1.12 | >=6.2.0,<6.2.6",
+      "fixed_versions": [
+        "4.4.50",
+        "5.4.20",
+        "6.2.6"
+      ],
+      "fix_step": "step-02",
+      "url": "https://symfony.com/cve-2022-24894",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun reverse proxy HttpCache : web/app.php instancie AppKernel directement, sans AppCache."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-h8vq-8gpg-mhcg",
+      "aliases": [
+        "CVE-2026-48808"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox (SourcePolicyInterface) : contournement de la liste de propriétés via le filtre column",
+      "severity": "medium",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.27.0",
+      "fixed_versions": [
+        "3.27.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-h8vq-8gpg-mhcg",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé ; filtre column absent des templates."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-hwfg-qwvh-2wfx",
+      "aliases": [
+        "CVE-2026-123792"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Yaml : temps de parsing exponentiel/quadratique (DoS)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-hwfg-qwvh-2wfx",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Yaml ne lit que la configuration versionnée (app/config/*.yml) ; aucun YAML utilisateur n'est parsé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-jjxq-ff2g-95vh",
+      "aliases": [
+        "CVE-2024-51755"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : appels __isset() et accès tableau non contrôlés",
+      "severity": "low",
+      "cvss": 2.2,
+      "affected_range": ">=1.0.0,<3.11.2 | >=3.12.0,<3.14.1",
+      "fixed_versions": [
+        "3.11.2",
+        "3.14.1"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/blog/cve-2024-51755-unguarded-calls-to-isset-and-to-array-accesses-in-a-sandbox",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-m7v2-7gxm-vc2v",
+      "aliases": [
+        "CVE-2026-45077"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "MonologBridge : désérialisation d'objets non authentifiée",
+      "severity": "high",
+      "cvss": 8.1,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45077",
+      "exposure": {
+        "level": "not-used",
+        "justification": "MonologBundle non enregistré dans AppKernel (Framework, Security, Twig, Doctrine, SensioFrameworkExtra, App) ; aucun serveur de logs."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-p42q-9prx-q5wq",
+      "aliases": [
+        "CVE-2026-48805"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : régression d'état dans les wrappers internes dépréciés (src/Resources/core.php)",
+      "severity": "low",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.27.0",
+      "fixed_versions": [
+        "3.27.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/blog/cve-2026-48805-sandbox-state-regression-in-deprecated-internal-wrappers-in-src-resources-core-php",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-ph86-p8f6-f9r2",
+      "aliases": [
+        "CVE-2026-45063"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "X509Authenticator : regex de DN non ancrée",
+      "severity": "high",
+      "cvss": 8.7,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45063",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucune authentification x509 : pare-feu main = anonymous + http_basic (security.yml)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-pr2w-4gpj-cpq4",
+      "aliases": [
+        "CVE-2026-47732"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : multiples contournements de la politique __toString()",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": ">=1.0.0,<3.26.0",
+      "fixed_versions": [
+        "3.26.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/cve-2026-47732",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-pxj9-jh84-vhm5",
+      "aliases": [
+        "CVE-2026-121623"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Serializer DataUriNormalizer : schéma data: non minuscule ouvert comme fichier local (lecture de fichier)",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.0.0,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-pxj9-jh84-vhm5",
+      "exposure": {
+        "level": "not-used",
+        "justification": "DataUriNormalizer n'existe pas en 2.8 (ajouté en 3.1) et le serializer n'est pas activé (aucune clé framework.serializer dans app/config/config.yml) ; ApiController construit son JSON à la main (JsonResponse)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-q847-2q57-wmr3",
+      "aliases": [
+        "CVE-2023-46734"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "TwigBridge CodeExtension : XSS dans les filtres file_excerpt/format_file/abbr_*",
+      "severity": "medium",
+      "cvss": 6.1,
+      "affected_range": ">=2.0.0,<4.4.51 | >=5.0.0,<5.4.31 | >=6.0.0,<6.3.8",
+      "fixed_versions": [
+        "4.4.51",
+        "5.4.31",
+        "6.3.8"
+      ],
+      "fix_step": "step-02",
+      "url": "https://symfony.com/cve-2023-46734",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Filtres utilisés seulement par les pages d'exception/profiler en mode debug (app_dev.php) ; les templates applicatifs ne les emploient pas et le front controller servi est web/app.php (prod, debug=false)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-qpmx-3rfj-7rhv",
+      "aliases": [
+        "CVE-2026-45067"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Mime Address : injection d'en-tête e-mail / commande SMTP via CRLF",
+      "severity": "high",
+      "cvss": 7.1,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45067",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Composant Mime absent en 2.8 ; aucun envoi d'e-mail."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-qq5c-677p-737q",
+      "aliases": [
+        "CVE-2024-51736"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Process : détournement d'exécution de commande sous Windows",
+      "severity": "high",
+      "cvss": 8.6,
+      "affected_range": ">=2.0.0,<5.4.46 | >=6.0.0,<6.4.14 | >=7.0.0,<7.1.7",
+      "fixed_versions": [
+        "5.4.46",
+        "6.4.14",
+        "7.1.7"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2024-51736",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Windows uniquement ; Linux et aucun usage de Process dans src/."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-r39x-jcww-82v6",
+      "aliases": [
+        "CVE-2026-24739"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Process : échappement d'arguments incorrect sous MSYS2/Git Bash (Windows)",
+      "severity": "medium",
+      "cvss": 6.3,
+      "affected_range": "<5.4.51 | >=6.4,<6.4.33 | >=7.3,<7.3.11 | >=7.4,<7.4.5 | >=8.0,<8.0.5",
+      "fixed_versions": [
+        "5.4.51",
+        "6.4.33",
+        "7.4.5",
+        "8.0.5"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/advisories/GHSA-r39x-jcww-82v6",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Windows uniquement ; exécution sous Linux (php:7.2-apache) et aucun usage du composant Process dans src/."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-vcc8-phrv-43wj",
+      "aliases": [
+        "CVE-2026-46635"
+      ],
+      "package": "twig/twig",
+      "installed_version": "1.42.5",
+      "kind": "composer",
+      "summary": "Sandbox : contournement de la liste de propriétés via le filtre column (array_column sur objets)",
+      "severity": "low",
+      "cvss": 2.1,
+      "affected_range": ">=1.0.0,<3.26.0",
+      "fixed_versions": [
+        "3.26.0"
+      ],
+      "fix_step": "step-05",
+      "url": "https://symfony.com/cve-2026-46635",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Sandbox Twig non utilisé."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-vqc8-7275-q272",
+      "aliases": [
+        "CVE-2026-45070"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Mime : injection d'en-tête e-mail via des noms de paramètres non-token",
+      "severity": "medium",
+      "cvss": 4.9,
+      "affected_range": ">=2.0.0,<5.4.55 | >=6.0.0,<6.4.49 | >=7.0.0,<7.4.22 | >=8.0.0,<8.1.10",
+      "fixed_versions": [
+        "5.4.55",
+        "6.4.49",
+        "7.4.22",
+        "8.1.10"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45070",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Composant Mime absent en 2.8 (introduit en 4.3) ; l'application n'envoie aucun e-mail (pas de swiftmailer ni mailer)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-wg5q-m2ww-f3c9",
+      "aliases": [
+        "CVE-2026-123339"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Fragments inline : en-têtes forwarded non fiables fixant hôte/schéma/port des URL générées pour la requête principale",
+      "severity": "unknown",
+      "cvss": null,
+      "affected_range": ">=2.8.44,<3.0.0 | >=3.4.14,<5.4.56 | >=6.0.0,<6.4.50 | >=7.0.0,<7.4.23 | >=8.0.0,<8.1.11",
+      "fixed_versions": [
+        "5.4.56",
+        "6.4.50",
+        "7.4.23",
+        "8.1.11"
+      ],
+      "fix_step": "step-04",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-wg5q-m2ww-f3c9",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Aucun render()/render_esi() dans les 6 templates, framework.fragments non activé, aucun trusted_proxies configuré."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-x6g4-fwcc-jj8w",
+      "aliases": [
+        "CVE-2026-45071"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "DomCrawler::addXmlContent() : XXE (divulgation de fichier local)",
+      "severity": "low",
+      "cvss": 1.3,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45071",
+      "exposure": {
+        "level": "not-used",
+        "justification": "DomCrawler n'est utilisé par aucun code de src/ (outil de test uniquement)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-xx3c-qf5g-hc39",
+      "aliases": [
+        "CVE-2026-45068"
+      ],
+      "package": "symfony/symfony",
+      "installed_version": "2.8.52",
+      "kind": "composer",
+      "summary": "Mailer SendmailTransport : injection d'argument via destinataire commençant par un tiret",
+      "severity": "medium",
+      "cvss": 6.2,
+      "affected_range": ">=2.0.0,<5.4.52 | >=6.0.0,<6.4.40 | >=7.0.0,<7.4.12 | >=8.0.0,<8.0.12",
+      "fixed_versions": [
+        "5.4.52",
+        "6.4.40",
+        "7.4.12",
+        "8.0.12"
+      ],
+      "fix_step": "step-04",
+      "url": "https://symfony.com/cve-2026-45068",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Composant Mailer absent en 2.8 ; aucun envoi d'e-mail dans l'application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.8.52"
+        }
+      ]
+    },
+    {
+      "id": "OS-EOL-debian10",
+      "aliases": [],
+      "package": "debian10/base-image",
+      "installed_version": "10.7",
+      "kind": "os-image",
+      "summary": "Image php:7.2-apache basée sur Debian 10.7 (buster, fin du LTS 2024-06-30), paquets jamais mis à jour (apt-archive-fallback installe sans upgrade)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "debian 10.x",
+      "fixed_versions": [
+        "image d'une famille PHP supportée (php:8.4-apache)"
+      ],
+      "fix_step": "step-07 (images php74/php81 à rescanner : bases elles aussi en fin de support)",
+      "url": "https://www.debian.org/releases/buster/",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Image des services app et app-ref (flotte-mig/app:php72) ; environnement de développement local publié sur 127.0.0.1 uniquement. ~90 lignes CRITICAL et ~650 lignes HIGH au scan Trivy 0.58.1."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "10.7"
+        }
+      ]
+    },
+    {
+      "id": "PHP-RUNTIME-EOL",
+      "aliases": [],
+      "package": "php",
+      "installed_version": "7.2.34",
+      "kind": "php-runtime",
+      "summary": "Runtime non maintenu : PHP 7.2 en fin de vie depuis le 30/11/2020, plus aucun correctif de sécurité (composer.json fige platform.php = 7.2.24, l'image exécute 7.2.34)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<8.2 (branches sans support de sécurité au 2026-11-17 : 7.x, 8.0, 8.1)",
+      "fixed_versions": [
+        "8.2.x",
+        "8.3.x",
+        "8.4.x"
+      ],
+      "fix_step": "step-07",
+      "url": "https://www.php.net/eol.php",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Toutes les requêtes HTTP (Apache mod_php, web/app.php) et les commandes fleet:* passent par ce runtime. Attention : les étapes intermédiaires restent sur des PHP en fin de vie (7.4 EOL 2022-11, 8.1 EOL 2025-12) ; seule step-07 (8.4) revient sur une branche supportée."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-apache2",
+      "aliases": [
+        "CVE-2006-20001",
+        "CVE-2019-0215",
+        "CVE-2020-35452",
+        "CVE-2021-26690",
+        "CVE-2021-31618",
+        "CVE-2021-33193",
+        "CVE-2021-34798",
+        "CVE-2021-36160",
+        "CVE-2021-44224",
+        "CVE-2022-22719",
+        "CVE-2022-26377",
+        "CVE-2022-29404",
+        "CVE-2022-30522",
+        "CVE-2022-30556",
+        "CVE-2023-27522",
+        "CVE-2023-31122",
+        "CVE-2024-27316"
+      ],
+      "package": "debian10/apache2",
+      "installed_version": "2.4.38-3+deb10u4",
+      "kind": "os-image",
+      "summary": "17 CVE HIGH d'Apache httpd (agrégées par paquet source)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<2.4.59-1~deb10u1",
+      "fixed_versions": [
+        "2.4.59-1~deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/apache2",
+      "exposure": {
+        "level": "reachable",
+        "justification": "Apache sert toutes les requêtes ; CVE-2006-20001 (en-tête If:) et CVE-2021-34798 (requête malformée) touchent le cœur. Les autres visent des modules non activés (mod_proxy*, mod_lua, mod_sed, mod_session, mod_http2, mod_ssl, mod_auth_digest, mod_macro)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-client-libs",
+      "aliases": [
+        "CVE-2020-36221",
+        "CVE-2020-36222",
+        "CVE-2020-36223",
+        "CVE-2020-36224",
+        "CVE-2020-36225",
+        "CVE-2020-36226",
+        "CVE-2020-36227",
+        "CVE-2020-36228",
+        "CVE-2020-36229",
+        "CVE-2020-36230",
+        "CVE-2021-27212",
+        "CVE-2023-2953",
+        "CVE-2022-24407",
+        "CVE-2019-13115",
+        "CVE-2019-17498",
+        "CVE-2020-22218",
+        "CVE-2020-11080",
+        "CVE-2023-44487"
+      ],
+      "package": "debian10/openldap+cyrus-sasl2+libssh2+nghttp2",
+      "installed_version": "debian 10.7",
+      "kind": "os-image",
+      "summary": "18 CVE HIGH des bibliothèques clientes OpenLDAP, Cyrus SASL, libssh2, nghttp2",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "versions deb10 initiales",
+      "fixed_versions": [
+        "openldap 2.4.47+dfsg-3+deb10u6",
+        "cyrus-sasl2 2.1.27+dfsg-1+deb10u2",
+        "libssh2 1.8.0-2.1+deb10u1",
+        "nghttp2 1.36.0-2+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Bibliothèques liées à libcurl ; aucun appel LDAP, SSH ou HTTP/2 (mod_http2 non activé) par l'application."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "debian 10.7"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-expat",
+      "aliases": [
+        "CVE-2021-45960",
+        "CVE-2021-46143",
+        "CVE-2022-22825",
+        "CVE-2022-22826",
+        "CVE-2022-22827",
+        "CVE-2022-23990",
+        "CVE-2022-25314",
+        "CVE-2022-40674",
+        "CVE-2022-43680",
+        "CVE-2023-52425"
+      ],
+      "package": "debian10/expat",
+      "installed_version": "2.2.6-2+deb10u1",
+      "kind": "os-image",
+      "summary": "10 CVE HIGH de libexpat",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<2.2.6-2+deb10u7",
+      "fixed_versions": [
+        "2.2.6-2+deb10u7"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/expat",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Aucun XML utilisateur parsé par expat."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-glibc",
+      "aliases": [
+        "CVE-2020-1751",
+        "CVE-2020-1752",
+        "CVE-2020-6096",
+        "CVE-2021-3326",
+        "CVE-2021-3999",
+        "CVE-2024-2961",
+        "CVE-2024-33599"
+      ],
+      "package": "debian10/glibc",
+      "installed_version": "2.28-10",
+      "kind": "os-image",
+      "summary": "7 CVE HIGH de la glibc dont CVE-2024-2961 (iconv ISO-2022-CN-EXT)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<2.28-10+deb10u4",
+      "fixed_versions": [
+        "2.28-10+deb10u4"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/glibc",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "CVE-2024-2961 est exploitable via les filtres php://filter/convert.iconv quand un chemin de fichier est contrôlé par l'attaquant ; aucune fonction de fichier de src/ ne reçoit de chemin utilisateur. nscd (CVE-2024-33599) absent."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-libxml2",
+      "aliases": [
+        "CVE-2017-16932",
+        "CVE-2021-3516",
+        "CVE-2021-3517",
+        "CVE-2021-3518",
+        "CVE-2022-2309",
+        "CVE-2022-23308",
+        "CVE-2022-40303",
+        "CVE-2022-40304",
+        "CVE-2024-25062"
+      ],
+      "package": "debian10/libxml2",
+      "installed_version": "2.9.4+dfsg1-7+deb10u1",
+      "kind": "os-image",
+      "summary": "9 CVE HIGH de libxml2",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<2.9.4+dfsg1-7+deb10u5",
+      "fixed_versions": [
+        "2.9.4+dfsg1-7+deb10u5"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/libxml2",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Extensions PHP dom/xml chargées ; seuls des XML internes du framework sont parsés (mapping de validation Form), jamais de XML utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.9.4+dfsg1-7+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-linux",
+      "aliases": [],
+      "package": "debian10/linux",
+      "installed_version": "4.19.160-2",
+      "kind": "os-image",
+      "summary": "≈ 380 CVE HIGH du noyau 4.19 rattachées au paquet linux-libc-dev (en-têtes de compilation)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<4.19.316-1 (quelques-unes sans correctif)",
+      "fixed_versions": [
+        "4.19.316-1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/linux",
+      "exposure": {
+        "level": "not-used",
+        "justification": "linux-libc-dev ne fournit que des en-têtes ; le conteneur s'exécute sur le noyau de l'hôte, hors périmètre de l'image."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "4.19.160-2"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-openssl",
+      "aliases": [
+        "CVE-2021-23840",
+        "CVE-2021-3712",
+        "CVE-2022-0778",
+        "CVE-2022-1292",
+        "CVE-2022-2068",
+        "CVE-2022-4450",
+        "CVE-2023-0215",
+        "CVE-2023-0286",
+        "CVE-2023-0464"
+      ],
+      "package": "debian10/openssl",
+      "installed_version": "1.1.1d-0+deb10u4",
+      "kind": "os-image",
+      "summary": "9 CVE HIGH d'OpenSSL 1.1.1d",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<1.1.1n-0+deb10u5",
+      "fixed_versions": [
+        "1.1.1n-0+deb10u5"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/openssl",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "libssl chargée par PHP, mais ni TLS entrant (mod_ssl non activé, HTTP :8080) ni connexion sortante ; c_rehash (CVE-2022-1292/2068) jamais exécuté."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.1.1d-0+deb10u4"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-sqlite3",
+      "aliases": [
+        "CVE-2019-19603",
+        "CVE-2020-35525",
+        "CVE-2023-7104"
+      ],
+      "package": "debian10/sqlite3",
+      "installed_version": "3.27.2-3+deb10u1",
+      "kind": "os-image",
+      "summary": "3 CVE HIGH de SQLite",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<3.27.2-3+deb10u2 (2 sans correctif)",
+      "fixed_versions": [
+        "3.27.2-3+deb10u2"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/source-package/sqlite3",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "Moteur de la base de l'application, mais SQL produit par Doctrine avec paramètres liés ; ni extension session (CVE-2023-7104) ni requêtes INTERSECT/vues piégées construites depuis l'entrée utilisateur."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.27.2-3+deb10u1"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-system",
+      "aliases": [
+        "CVE-2019-3843",
+        "CVE-2019-3844",
+        "CVE-2023-26604",
+        "CVE-2023-50387",
+        "CVE-2023-50868",
+        "CVE-2021-27218",
+        "CVE-2021-27219",
+        "CVE-2023-29499",
+        "CVE-2021-39537",
+        "CVE-2022-29458",
+        "CVE-2023-29491",
+        "CVE-2020-16156",
+        "CVE-2023-31484",
+        "CVE-2022-1304",
+        "CVE-2022-1271",
+        "CVE-2018-12886",
+        "CVE-2019-15847"
+      ],
+      "package": "debian10/systemd+glib2.0+ncurses+perl+e2fsprogs+gzip+xz-utils+gcc-8",
+      "installed_version": "debian 10.7",
+      "kind": "os-image",
+      "summary": "17 CVE HIGH des outils système et de compilation (systemd, glib2.0, ncurses, perl, e2fsprogs, gzip, xz-utils, gcc-8)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "versions deb10 initiales (gcc-8, perl, e2fsprogs : sans correctif)",
+      "fixed_versions": [
+        "systemd 241-7~deb10u9",
+        "glib2.0 2.58.3-2+deb10u5",
+        "ncurses 6.1+20181013-2+deb10u5",
+        "gzip 1.9-3+deb10u1",
+        "xz-utils 5.2.4-1+deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Outils de construction (gcc pour docker-php-ext-install, pecl) et utilitaires système non invoqués par Apache/PHP à l'exécution."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "debian 10.7"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-tls-libs",
+      "aliases": [
+        "CVE-2020-24659",
+        "CVE-2022-2509",
+        "CVE-2023-0361",
+        "CVE-2024-0553",
+        "CVE-2021-20305",
+        "CVE-2021-3580",
+        "CVE-2020-29361",
+        "CVE-2020-29363",
+        "CVE-2021-36222",
+        "CVE-2022-42898",
+        "CVE-2021-33560",
+        "CVE-2021-43618",
+        "CVE-2019-12290"
+      ],
+      "package": "debian10/gnutls28+nettle+p11-kit+krb5+libgcrypt20+gmp+libidn2",
+      "installed_version": "debian 10.7",
+      "kind": "os-image",
+      "summary": "13 CVE HIGH des bibliothèques crypto/réseau secondaires (gnutls28, nettle, p11-kit, krb5, libgcrypt20, gmp, libidn2)",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "versions deb10 initiales",
+      "fixed_versions": [
+        "gnutls28 3.6.7-4+deb10u12",
+        "nettle 3.4.1-1+deb10u1",
+        "p11-kit 0.23.15-2+deb10u1",
+        "krb5 1.17-3+deb10u5",
+        "gmp 2:6.1.2+dfsg-4+deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/",
+      "exposure": {
+        "level": "not-used",
+        "justification": "Dépendances de curl/git/apt ; l'application n'ouvre aucune connexion sortante ni authentification Kerberos."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "debian 10.7"
+        }
+      ]
+    },
+    {
+      "id": "TRIVY-HIGH-debian10-zlib",
+      "aliases": [
+        "CVE-2018-25032"
+      ],
+      "package": "debian10/zlib",
+      "installed_version": "1:1.2.11.dfsg-1",
+      "kind": "os-image",
+      "summary": "zlib deflate : corruption mémoire avec de nombreuses correspondances distantes",
+      "severity": "high",
+      "cvss": null,
+      "affected_range": "<1:1.2.11.dfsg-1+deb10u1",
+      "fixed_versions": [
+        "1:1.2.11.dfsg-1+deb10u1"
+      ],
+      "fix_step": "step-03",
+      "url": "https://security-tracker.debian.org/tracker/CVE-2018-25032",
+      "exposure": {
+        "level": "used-not-reachable",
+        "justification": "zlib.output_compression non activé, mod_deflate compresse des réponses générées par l'application (pas de contenu brut fourni par l'attaquant)."
+      },
+      "status": "open",
+      "first_seen_step": "step-00",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1:1.2.11.dfsg-1"
+        }
+      ]
+    }
+  ]
+}
