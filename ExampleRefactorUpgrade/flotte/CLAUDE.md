@@ -21,14 +21,15 @@ en passant LTS par LTS.
 - **Tests gelés pendant une marche** (`state.py freeze on`) : `tests/`, scénarios et golden masters ne se modifient
   pas pour « faire passer » une migration. Le hook `freeze-guard` l'impose à toute la session.
 - Une marche = une version (Symfony ou PHP), jamais de saut de LTS ; zéro dépréciation bloquante avant de monter.
-- Commits : **`/step-commit`** pour une marche de migration (tag d'étape, diffs de sécurité / dépréciations) ;
-  **`/commit`** pour le reste (outillage, tests, documents). Jamais de `git commit` direct, jamais de push.
+- Commits : **toujours `/step-commit`** (mode marche pour une étape de migration, mode hors marche pour l'outillage,
+  les tests et les documents). **Ne pas utiliser le `/commit` du dépôt parent** ni sa suite Java : le projet Java du
+  dossier parent est un autre exemple de la formation. Jamais de `git commit` direct, jamais de push.
 - **Commit automatique des tests** : à la fin de **chaque génération de tests** (skills `write-*-tests`,
   `golden-master --record`, `seed --rebuild`, ou création / mise à jour d'un document de fiches `tmp/tests-*.md`),
-  lancer `/commit` **sans attendre de demande**, dans un commit dédié (type `test(flotte): …`), sans y mêler d'autres
+  lancer `/step-commit` **sans attendre de demande**, dans un commit dédié (type `test(flotte): …`), sans y mêler d'autres
   changements. Le hook `Stop` `.claude/hooks/commit-after-tests.sh` le rappelle si c'est oublié (une fois par lot de
-  changements). Les décisions de `/commit` (dérogation, résultats bloquants) restent celles de l'utilisateur.
-- **Dérogation durable de `/commit` (décision de l'utilisateur, 2026-11-17)** : les résultats bloquants **legacy
+  changements). Les décisions du commit (dérogation, résultats bloquants) restent celles de l'utilisateur.
+- **Dérogation durable des commits (décision de l'utilisateur, 2026-11-17)** : les résultats bloquants **legacy
   step-00** ci-dessous ne demandent plus de décision ; les commits portent le trailer
   `Security-Exception: legacy step-00 baseline (Symfony 2.8/Twig 1.x CVEs and default demo secret) is the migration
   starting point, tracked by /vuln-audit; no new secret or vulnerable code introduced.` Périmètre **strict** :

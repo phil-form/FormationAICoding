@@ -34,9 +34,9 @@ Références : `conventions.md` (§ 2 arborescence, § 5.1 fiches BH, § 5.2 tes
 5. **Écriture des tests** — selon la couche indiquée dans les fiches :
    `write-http-tests`, `write-cli-tests`, `write-db-tests`, `write-edge-tests`, `write-unit-tests`,
    puis `write-diff-tests` (rejoue les parcours HTTP/CLI sur `app` et `app-ref`).
-   **Après chaque skill `write-*-tests`** : skill `commit` (commit dédié `test(flotte): …` des fichiers de `tests/`
+   **Après chaque skill `write-*-tests`** : skill `step-commit` (mode hors marche, commit dédié `test(flotte): …` des fichiers de `tests/`
    produits, règle « Commit automatique des tests » de `CLAUDE.md`).
-6. **Golden masters** — skill `golden-master --record`, puis skill `commit` (goldens enregistrés).
+6. **Golden masters** — skill `golden-master --record`, puis skill `step-commit` (goldens enregistrés).
 7. **Exécution** — skill `test-run` (`--suite all`). Tout échec contre la référence → feedback
    `.claude/state/migration/feedback-tests.md` (en termes de `BH-xxx`, via `failure-triage`) puis la skill
    `write-*-tests` concernée en `--fix`.

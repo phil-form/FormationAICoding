@@ -86,5 +86,5 @@ Le projet de tests vise **PHP 8.4** (conteneur `tests`), indépendamment du PHP 
 
 ## Après la skill
 
-La session principale lance **`/commit`** pour les fichiers produits (règle « Commit automatique des tests » de
+La session principale lance **`/step-commit`** (mode hors marche) pour les fichiers produits (règle « Commit automatique des tests » de
 `CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.
