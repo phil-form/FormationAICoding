@@ -134,6 +134,8 @@ Seuls points d'entrée autorisés pour les agents (cf. `hooks/guard.sh`). Tous r
 | `http.sh` | `http.sh [--ref] [--session <nom>] <METHOD> <path> [-d clé=valeur]… [--csrf-from <path>]` — requête vers app/app-ref, affiche statut, en-têtes et corps |
 | `seed.sh` | `seed.sh <scenario\|all> [--target app\|ref\|both] [--verify] [--rebuild]` |
 | `tests.sh` | `tests.sh [--suite http\|cli\|db\|edge\|diff\|unit\|all] [--target app\|ref] [--filter <motif>] [--group BH-xxx] [--coverage] [--record-golden]` → JUnit `.claude/state/migration/test-results/junit-<suite>.xml` + `summary.json`. `--record-golden` refusé si gelé ; `--coverage` refusé sur `ref` |
+| `test-progress.py` | appelé par `tests.sh` : sortie `--teamcity` de PHPUnit (8.5 → 11) → `.claude/state/migration/test-results/progress.json` (status line, ligne 🧪) + barre dans le terminal |
+| `test-tracking.py` | appelé en fin de `tests.sh` : met à jour le bloc « Suivi d'avancement » des documents de fiches `tmp/tests-*.md` (fiche décrite, tests `bhNNN_*`, goldens, résultat `app-ref` / `app`, variante `diff`, statut ⬜ ✍️ 🔴 🟡 ✅ ⏸). Résultats JUnit séparés par cible : `junit-<suite>.xml` (app), `junit-<suite>.ref.xml` (app-ref) |
 | `junit-summary.py` | `junit-summary.py <junit.xml…> [--json]` — totaux, échecs regroupés par `BH-xxx` |
 | `json-diff.py` | `json-diff.py <ancien.json> <nouveau.json> --key <champ> [--fields a,b]` — ajouts / suppressions / modifications |
 | `track-merge.py` | `track-merge.py <vulnerabilities\|deprecations> --step step-NN --input <constats.json>` — fusion avec transitions de statut (§ 5) |

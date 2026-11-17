@@ -83,3 +83,8 @@ Le projet de tests vise **PHP 8.4** (conteneur `tests`), indépendamment du PHP 
 - Fichiers créés / modifiés ; matrice `BH-xxx → classe::méthode`.
 - Résultat sur `app-ref` (vert / rouge par BH).
 - Fiches ambiguës ou contredites par l'observation (pour `/characterize`).
+
+## Après la skill
+
+La session principale lance **`/commit`** pour les fichiers produits (règle « Commit automatique des tests » de
+`CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.

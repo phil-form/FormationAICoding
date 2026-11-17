@@ -6,6 +6,8 @@
 # (TARGET=ref dans le conteneur tests : APP_URL et la console pointent sur app-ref ; la suite diff l'ignore).
 # --record-golden : GOLDEN_RECORD=1 (réservé à /golden-master --record, refusé si l'état est gelé).
 # JUnit : .claude/state/migration/test-results/junit-<suite>.xml (monté en /results dans tests), puis résumé.
+# Progression en direct : PHPUnit en --teamcity (8.5 → 11) → .claude/bin/test-progress.py → progress.json
+#   (lu par la status line, ligne 🧪) + barre dans le terminal.
 # --coverage : active la collecte PCOV côté app (prepend docker/app/coverage-prepend.php) le temps du run ;
 #   données brutes dans .claude/state/migration/coverage/raw/ (fusionnées en clover.xml par /coverage).
 set -euo pipefail
@@ -28,6 +30,8 @@ if ((golden)) && is_frozen; then die "État gelé : enregistrement des golden ma
 if ((coverage)) && [[ "$target" == ref ]]; then die "La couverture se mesure sur app, pas sur la référence."; fi
 results="$STATE/test-results"; mkdir -p "$results"
 envs=(-e "TARGET=$target" -e "GOLDEN_RECORD=$golden")
+# Résultats séparés par cible : junit-<suite>.xml (app) / junit-<suite>.ref.xml (app-ref), lus par test-tracking.py
+sfx=""; [[ "$target" == ref ]] && sfx=".ref"
 case "$suite" in
   all) suites=(http cli db edge diff unit) ;;
   http|cli|db|edge|diff|unit) suites=("$suite") ;;
@@ -39,20 +43,32 @@ if ((coverage)); then
   trap 'rm -f "$STATE/coverage/enabled"' EXIT
 fi
 status=0
+progress="$ROOT/.claude/bin/test-progress.py"
+"$progress" --start --scope "$suite" --target "$target"
+idx=0
 for s in "${suites[@]}"; do
-  rm -f "$results/junit-$s.xml"
+  idx=$((idx + 1))
+  rm -f "$results/junit-$s$sfx.xml"
   info "Suite $s…"
   if [[ "$s" == unit ]]; then
     [[ -f "$ROOT/tests/unit/phpunit.xml.dist" ]] || { info "tests/unit absent, suite ignorée"; continue; }
     svc=app; [[ "$target" == ref ]] && svc=app-ref
-    "${COMPOSE[@]}" exec -T "$svc" phpunit -c tests/unit/phpunit.xml.dist \
-      --log-junit "/results/junit-unit.xml" "${extra[@]}" || status=1
+    "${COMPOSE[@]}" exec -T "$svc" phpunit -c tests/unit/phpunit.xml.dist --teamcity \
+      --log-junit "/results/junit-unit$sfx.xml" "${extra[@]}" \
+      | "$progress" --suite unit --index "$idx" --count "${#suites[@]}" || status=1
   else
-    "${COMPOSE[@]}" run --rm -T "${envs[@]}" tests vendor/bin/phpunit --testsuite "$s" \
-      --log-junit "/results/junit-$s.xml" "${extra[@]}" || status=1
+    "${COMPOSE[@]}" run --rm -T "${envs[@]}" tests vendor/bin/phpunit --testsuite "$s" --teamcity \
+      --log-junit "/results/junit-$s$sfx.xml" "${extra[@]}" \
+      | "$progress" --suite "$s" --index "$idx" --count "${#suites[@]}" || status=1
   fi
 done
-shopt -s nullglob
-files=("$results"/junit-*.xml)
-((${#files[@]})) && "$ROOT/.claude/bin/junit-summary.py" "${files[@]}" --write "$results/summary.json"
+"$progress" --finish "$status"
+# Une suite sans test laisse un JUnit vide : on le retire pour ne pas fausser le résumé.
+find "$results" -maxdepth 1 -name 'junit-*.xml' -empty -delete
+# Résumé limité aux suites de CE run (pas de résultats périmés d'un run précédent)
+files=()
+for s in "${suites[@]}"; do [[ -s "$results/junit-$s$sfx.xml" ]] && files+=("$results/junit-$s$sfx.xml"); done
+((${#files[@]})) && "$ROOT/.claude/bin/junit-summary.py" "${files[@]}" --write "$results/summary$sfx.json"
+# Suivi d'avancement dans les documents de fiches (tmp/tests-*.md) ; n'échoue jamais le run.
+"$ROOT/.claude/bin/test-tracking.py" || true
 exit $status

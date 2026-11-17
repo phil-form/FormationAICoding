@@ -8,3 +8,5 @@
 /.claude/state/
 /tests/vendor/
 /tests/fixtures/db/volume.sqlite
+/tests/.phpunit.result.cache
+/tests/.phpunit.cache/

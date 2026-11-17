@@ -44,3 +44,8 @@ Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 2 
 ## Rapport final
 
 - Mode, fichiers enregistrés / vérifiés, écarts (BH, fichier), orphelins, non-reproductibilités détectées.
+
+## Après la skill
+
+La session principale lance **`/commit`** pour les fichiers produits (règle « Commit automatique des tests » de
+`CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.

@@ -1,4 +1,9 @@
 {
+  "statusLine": {
+    "type": "command",
+    "command": "\"${CLAUDE_PROJECT_DIR:-.}\"/.claude/statusline.sh",
+    "refreshInterval": 2
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -29,6 +34,15 @@
             "type": "command",
             "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/export-prompts-on-end.sh stop",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/commit-after-tests.sh",
+            "timeout": 15
           }
         ]
       }

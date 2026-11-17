@@ -44,3 +44,8 @@ Un piège sans fiche `BH` correspondante → pas de test, signalé (à caractér
 1. Comme `write-http-tests` étapes 1–2 ; lis le plan § 0.
 2. Écris les tests ; exécute `.claude/bin/tests.sh --suite edge` sur la référence.
 3. Rapport : matrice piège → BH → test, pièges sans fiche.
+
+## Après la skill
+
+La session principale lance **`/commit`** pour les fichiers produits (règle « Commit automatique des tests » de
+`CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.

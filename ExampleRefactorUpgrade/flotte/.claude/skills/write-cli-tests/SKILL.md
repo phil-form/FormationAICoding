@@ -35,3 +35,8 @@ Règles, sources autorisées, gel, mode `--fix`, exigence « vert sur `app-ref` 
 1. Comme `write-http-tests` étapes 1–2.
 2. Écris les tests ; exécute `.claude/bin/tests.sh --suite cli --filter <Zone>Test` sur la référence.
 3. Rapport (même format que `write-http-tests`).
+
+## Après la skill
+
+La session principale lance **`/commit`** pour les fichiers produits (règle « Commit automatique des tests » de
+`CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.

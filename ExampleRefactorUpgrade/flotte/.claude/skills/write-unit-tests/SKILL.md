@@ -39,3 +39,8 @@ n'as **pas** accès au code : la seule source d'API est le champ **Contrat** des
 1. Comme `write-http-tests` étape 1 ; si `tests/unit/bootstrap-map.php` est absent, crée-le pour step-00.
 2. Écris les tests ; exécute `.claude/bin/tests.sh --suite unit` (sur la référence si l'option de cible existe).
 3. Rapport (même format que `write-http-tests`, plus la liste des contrats incomplets).
+
+## Après la skill
+
+La session principale lance **`/commit`** pour les fichiers produits (règle « Commit automatique des tests » de
+`CLAUDE.md` ; l'agent `test-writer` n'a pas accès à git). Signaler dans le rapport final la liste des fichiers à commiter.

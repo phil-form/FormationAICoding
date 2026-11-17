@@ -6,6 +6,7 @@ Totaux (réussis / échoués / en erreur / ignorés) et échecs regroupés par B
 """
 import argparse
 import json
+import os
 import re
 import sys
 from xml.parsers import expat
@@ -60,7 +61,11 @@ def parse(path):
         a = c["attrs"]
         name = a.get("name", "")
         m = BH.search(name)
-        message = c["message"] or "".join(c["text"])
+        text = "".join(c["text"]).strip().splitlines()
+        # PHPUnit 10+ : pas d'attribut message, la 1re ligne du texte est « Classe::méthode ».
+        if text and text[0].strip().endswith("::" + name):
+            text = text[1:]
+        message = c["message"] or "\n".join(text)
         yield {
             "file": path, "class": a.get("class") or a.get("classname") or "", "name": name,
             "bh": f"BH-{m.group(1)}" if m else None,
@@ -78,6 +83,8 @@ def main():
 
     cases = []
     for f in a.files:
+        if os.path.exists(f) and os.path.getsize(f) == 0:
+            continue  # suite sans test
         try:
             cases.extend(parse(f))
         except (expat.ExpatError, UnsafeXml, FileNotFoundError) as e:
