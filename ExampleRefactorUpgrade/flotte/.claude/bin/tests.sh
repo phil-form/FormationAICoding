@@ -57,6 +57,8 @@ for s in "${suites[@]}"; do
       --log-junit "/results/junit-unit$sfx.xml" "${extra[@]}" \
       | "$progress" --suite unit --index "$idx" --count "${#suites[@]}" || status=1
   else
+    dir="$ROOT/tests/src/${s^}"   # http → Http, cli → Cli…
+    if ! compgen -G "$dir/*Test.php" >/dev/null; then info "suite $s : aucun test (tests/src/${s^}/), ignorée"; continue; fi
     "${COMPOSE[@]}" run --rm -T "${envs[@]}" tests vendor/bin/phpunit --testsuite "$s" --teamcity \
       --log-junit "/results/junit-$s$sfx.xml" "${extra[@]}" \
       | "$progress" --suite "$s" --index "$idx" --count "${#suites[@]}" || status=1
