@@ -3,6 +3,7 @@
                   [--php X.Y] [--symfony X.Y] [--lock-sha <sha256>] [--dry-run]
 
 Fusionne les constats d'une étape dans le fichier de suivi versionné :
+  --lock-sha absent : empreinte SHA-256 du composer.lock de flotte calculée automatiquement.
   vulnerabilities -> docs/security/vulnerabilities.json   (clé : id + package)
   deprecations    -> docs/migration/deprecations.json      (clé : signature normalisée)
 
@@ -137,6 +138,10 @@ def main():
         it["history"] = [h for h in it.get("history", []) if h["step"] != a.step] + \
                         [{"step": a.step, "status": it["status"], "present": False}]
 
+    if not a.lock_sha and os.path.exists(os.path.join(ROOT, "composer.lock")):
+        # Empreinte du lock calculée ici : les agents en lecture seule n'ont pas de commande pour le faire.
+        import hashlib
+        a.lock_sha = hashlib.sha256(open(os.path.join(ROOT, "composer.lock"), "rb").read()).hexdigest()
     step_meta = {"step": a.step, "date": datetime.date.today().isoformat(), "php": a.php,
                  "symfony": a.symfony, "composer_lock_sha256": a.lock_sha, "counts": counts}
     doc["steps"] = [s for s in doc["steps"] if s["step"] != a.step] + [step_meta]

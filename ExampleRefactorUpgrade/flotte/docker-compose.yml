@@ -86,6 +86,10 @@ services:
       APP_URL: http://app:8080
       REF_URL: http://app-ref:8080
       TARGET: app
+      # Étape servie par app (docker/step.env) ; app-ref sert toujours step-00. Les changements acceptés
+      # (docs/migration/accepted-changes.md, ACC-xxx) s'appliquent aux attentes à partir de leur étape.
+      APP_STEP: ${STEP}
+      REF_STEP: step-00
       GOLDEN_RECORD: "0"
       APP_DB: /data/app/flotte.sqlite
       REF_DB: /data/ref/flotte.sqlite

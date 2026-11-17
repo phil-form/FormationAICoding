@@ -132,6 +132,22 @@ def main():
             if prompts:
                 sessions.append({"id": sid, "project": d, "prompts": prompts, **meta})
     sessions.sort(key=lambda s: s["prompts"][0]["at"] or "")
+    # Une session reprise (claude --resume / redémarrage) rejoue l'historique de la session d'origine : on ne garde
+    # chaque prompt qu'une fois (même horodatage + même texte), dans la première session où il apparaît.
+    seen, kept = {}, []
+    for i, s in enumerate(sessions, 1):
+        fresh = []
+        for p in s["prompts"]:
+            key = (p["at"], p["text"])
+            if key in seen:
+                s.setdefault("resumes", set()).add(seen[key])
+                continue
+            seen[key] = s["id"]
+            fresh.append(p)
+        s["prompts"] = fresh
+        if fresh:
+            kept.append(s)
+    sessions = kept
 
     total = sum(len(s["prompts"]) for s in sessions)
     out = ["# Prompts des sessions Claude Code",
@@ -149,7 +165,7 @@ def main():
     for i, s in enumerate(sessions, 1):
         rel = os.path.relpath(s.get("cwd") or s["project"], os.path.dirname(ROOT))
         out += [f'<a id="session-{i}"></a>', "", f"## Session {i} — {fmt_time(s['prompts'][0]['at'])}", "",
-                f"- Identifiant : `{s['id']}`",
+                f"- Identifiant : `{s['id']}`"] + ([f"- Reprise de la session `{', '.join(sorted(s['resumes']))}` (historique déjà exporté non répété)"] if s.get("resumes") else []) + [
                 f"- Dossier : `{rel}` · branche : `{s.get('branch') or '?'}` · Claude Code {s.get('version') or '?'}", ""]
         for p in s["prompts"]:
             n += 1

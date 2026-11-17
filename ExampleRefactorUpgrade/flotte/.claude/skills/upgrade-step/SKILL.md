@@ -50,6 +50,9 @@ Références : `.claude/reference/conventions.md`, `.claude/reference/steps.json
    `templates/`, `src/` en namespace `App\`, `bin/console`, `.env` **sans secret** (valeurs de test par variables
    d'environnement) ; recettes Flex appliquées puis relues ; routes et noms de routes **inchangés** ; chemins
    logiques des templates conservés autant que possible.
+3 bis. **Étape courante** — mettre à jour `docker/step.env` : `STEP=step-NN` et `SYMFONY_VERSION=<version>` (et
+   `APP_PUBLIC_DIR` / `APP_FRONT_CONTROLLER` si la structure change, step-02). Les tests en dépendent (`APP_STEP` :
+   les changements acceptés `ACC-xxx` s'appliquent à partir de leur étape), comme la status line et les outils.
 4. **Rector** (`rector/README.md`) —
    - Si les versions retenues au § 2 diffèrent de `rector/targets.json` pour cette marche : mettre `targets.json` à jour.
    - `.claude/bin/rector.sh <step-NN>` (simulation) ; lire `.claude/state/migration/rector/step-NN-dry-run.diff`.
