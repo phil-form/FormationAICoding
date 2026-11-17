@@ -4,3 +4,7 @@
 /app/data/*.sqlite
 /app/config/parameters.yml
 !.gitkeep
+/.ref/
+/.claude/state/
+/tests/vendor/
+/tests/fixtures/db/volume.sqlite

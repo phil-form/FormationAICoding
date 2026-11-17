@@ -1,0 +1,6 @@
+#!/bin/sh
+# Console Symfony avec la même horloge figée qu'Apache (libfaketime). bin/console (Flex) ou app/console (2.x/3.x).
+if [ -n "${FAKETIME:-}" ]; then export LD_PRELOAD="/usr/local/lib/libfaketime.so.1${LD_PRELOAD:+:$LD_PRELOAD}"; fi
+cd "${APP_ROOT:-/srv/app}"
+if [ -f bin/console ]; then exec php bin/console "$@"; fi
+exec php app/console "$@"

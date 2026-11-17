@@ -1,0 +1,4 @@
+#!/bin/sh
+# PHPUnit autonome de l'image (version adaptée au PHP de la famille), horloge figée comme l'application.
+if [ -n "${FAKETIME:-}" ]; then export LD_PRELOAD="/usr/local/lib/libfaketime.so.1${LD_PRELOAD:+:$LD_PRELOAD}"; fi
+exec php /opt/phpunit.phar "$@"

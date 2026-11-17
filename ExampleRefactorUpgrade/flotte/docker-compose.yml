@@ -1,0 +1,133 @@
+# Environnement de migration flotte — DÉVELOPPEMENT LOCAL UNIQUEMENT (jamais en production).
+# Lancer via .claude/bin/env.sh (charge docker/step.env, exporte HOST_UID / HOST_GID / DOCKER_GID).
+# Référence : .claude/reference/conventions.md § 3.
+name: flotte-mig
+
+x-php-env: &php-env
+  TZ: ${TZ}
+  LC_ALL: ${LC_ALL}
+  FAKETIME: ${FAKETIME}
+
+x-app-build: &app-build-args
+  HOST_UID: ${HOST_UID:-1000}
+  HOST_GID: ${HOST_GID:-1000}
+
+services:
+  # Étape en cours de migration (code de la branche, monté en lecture-écriture)
+  app:
+    build:
+      context: docker/app
+      dockerfile: ${PHP_FAMILY}/Dockerfile
+      args: *app-build-args
+    image: flotte-mig/app:${PHP_FAMILY}
+    container_name: flotte-mig-app
+    environment:
+      <<: *php-env
+      STEP: ${STEP}
+      APACHE_DOCUMENT_ROOT: /srv/app/${APP_PUBLIC_DIR}
+      APP_FRONT_CONTROLLER: ${APP_FRONT_CONTROLLER}
+      PCOV_ENABLED: "1"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - type: bind
+        source: .
+        target: /srv/app
+      - db-app:/var/app-data
+      - logs-app:/var/log/php
+      - ./.claude/state/migration/test-results:/results
+
+  # Référence step-00 figée (code de .ref/, généré par env.sh ref-sync, monté en lecture seule)
+  app-ref:
+    build:
+      context: docker/app
+      dockerfile: php72/Dockerfile
+      args: *app-build-args
+    image: flotte-mig/app:php72
+    container_name: flotte-mig-app-ref
+    environment:
+      <<: *php-env
+      STEP: step-00
+      APACHE_DOCUMENT_ROOT: /srv/app/web
+      APP_FRONT_CONTROLLER: app.php
+      PCOV_ENABLED: "0"
+    ports:
+      - "127.0.0.1:8072:8080"
+    volumes:
+      - type: bind
+        source: ./.ref
+        target: /srv/app
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./tests
+        target: /srv/app/tests
+        read_only: true
+      - db-ref:/var/app-data
+      - logs-ref:/var/log/php
+      - ./.claude/state/migration/test-results:/results
+    tmpfs:
+      - /srv/app/app/cache:mode=1777
+      - /srv/app/app/logs:mode=1777
+
+  # Suites boîte noire (http, cli, db, edge, diff) — lancé à la demande (.claude/bin/tests.sh)
+  tests:
+    profiles: ["tools"]
+    build:
+      context: docker/tests
+      args: *app-build-args
+    image: flotte-mig/tests
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    group_add:
+      - "${DOCKER_GID:-0}"
+    environment:
+      TZ: ${TZ}
+      APP_URL: http://app:8080
+      REF_URL: http://app-ref:8080
+      TARGET: app
+      GOLDEN_RECORD: "0"
+      APP_DB: /data/app/flotte.sqlite
+      REF_DB: /data/ref/flotte.sqlite
+      CONSOLE_APP_CMD: docker exec -i flotte-mig-app sf-console
+      CONSOLE_REF_CMD: docker exec -i flotte-mig-app-ref sf-console
+    volumes:
+      - ./tests:/srv/tests
+      - ./.claude/state/migration/test-results:/results
+      - db-app:/data/app
+      - db-ref:/data/ref
+      - /var/run/docker.sock:/var/run/docker.sock
+    # app-ref n'est pas une dépendance : il n'existe qu'après /baseline (.ref/). env.sh up le démarre s'il est présent.
+    depends_on:
+      app:
+        condition: service_healthy
+
+  # Analyse statique, Composer récent, audit — lancé à la demande (.claude/bin/tools.sh, composer.sh --tools)
+  tools:
+    profiles: ["tools"]
+    build:
+      context: docker/tools
+      args: *app-build-args
+    image: flotte-mig/tools
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      TZ: ${TZ}
+    volumes:
+      - .:/srv/app
+      - logs-app:/logs/app:ro
+      - logs-ref:/logs/ref:ro
+
+  # Scan des images (vulnérabilités OS et paquets) — lancé à la demande (.claude/bin/tools.sh trivy …)
+  trivy:
+    profiles: ["tools"]
+    image: aquasec/trivy:0.58.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - trivy-cache:/root/.cache/trivy
+
+volumes:
+  db-app:
+  db-ref:
+  logs-app:
+  logs-ref:
+  trivy-cache:

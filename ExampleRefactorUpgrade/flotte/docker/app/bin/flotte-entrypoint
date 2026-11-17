@@ -1,0 +1,11 @@
+#!/bin/sh
+# Point d'entrée des conteneurs app / app-ref.
+# Symfony 2.x/3.x : génère app/config/parameters.yml (non versionné) depuis le .dist s'il manque,
+# avec la base SQLite pointée sur le volume de données (DATABASE_PATH).
+set -e
+cd "${APP_ROOT:-/srv/app}"
+if [ -f app/config/parameters.yml.dist ] && [ ! -f app/config/parameters.yml ] && [ -w app/config ]; then
+  sed "s#^\( *database_path:\).*#\1 \"${DATABASE_PATH}\"#" app/config/parameters.yml.dist > app/config/parameters.yml
+  echo "flotte-entrypoint: app/config/parameters.yml généré (database_path=${DATABASE_PATH})" >&2
+fi
+exec "$@"
