@@ -1,0 +1,13 @@
+{
+  "_doc": "Versions visées par chaque marche, déclarées à Rector (manifeste vendor/composer/installed.json généré par .claude/bin/rector.sh) pour activer ses règles liées aux versions AVANT le composer update (fix-deprecations) comme après (upgrade-step). Ce sont des cibles par défaut : /upgrade-step peut les ajuster, et doit alors mettre ce fichier à jour.",
+  "symfony_components": ["symfony/symfony", "symfony/bridge-swift-mailer", "symfony/browser-kit", "symfony/cache", "symfony/class-loader", "symfony/config", "symfony/console", "symfony/debug", "symfony/dependency-injection", "symfony/doctrine-bridge", "symfony/dom-crawler", "symfony/error-handler", "symfony/event-dispatcher", "symfony/expression-language", "symfony/finder", "symfony/form", "symfony/framework-bundle", "symfony/http-foundation", "symfony/http-kernel", "symfony/monolog-bridge", "symfony/options-resolver", "symfony/process", "symfony/property-access", "symfony/routing", "symfony/security", "symfony/security-bundle", "symfony/security-core", "symfony/security-csrf", "symfony/security-http", "symfony/templating", "symfony/translation", "symfony/twig-bridge", "symfony/twig-bundle", "symfony/validator", "symfony/yaml"],
+  "steps": {
+    "step-01": { "php": "7.2", "symfony": "3.4.0", "twig/twig": "1.44.0", "doctrine/orm": "2.5.14", "doctrine/dbal": "2.5.13", "doctrine/common": "2.7.3", "sensio/framework-extra-bundle": "5.4.0" },
+    "step-02": { "php": "7.2", "symfony": "4.4.0", "twig/twig": "2.16.0", "doctrine/orm": "2.7.0", "doctrine/dbal": "2.13.0", "doctrine/common": "2.13.0", "sensio/framework-extra-bundle": "5.6.0" },
+    "step-03": { "php": "7.4", "symfony": "4.4.0", "twig/twig": "2.16.0", "doctrine/orm": "2.7.0", "doctrine/dbal": "2.13.0", "doctrine/common": "2.13.0", "sensio/framework-extra-bundle": "5.6.0" },
+    "step-04": { "php": "7.4", "symfony": "5.4.0", "twig/twig": "3.8.0", "doctrine/orm": "2.17.0", "doctrine/dbal": "3.9.0", "doctrine/common": "3.4.0", "sensio/framework-extra-bundle": "6.2.0" },
+    "step-05": { "php": "8.1", "symfony": "5.4.0", "twig/twig": "3.8.0", "doctrine/orm": "2.17.0", "doctrine/dbal": "3.9.0", "doctrine/common": "3.4.0", "sensio/framework-extra-bundle": "6.2.0" },
+    "step-06": { "php": "8.1", "symfony": "6.4.0", "twig/twig": "3.8.0", "doctrine/orm": "2.20.0", "doctrine/dbal": "3.9.0", "doctrine/common": "3.4.0" },
+    "step-07": { "php": "8.4", "symfony": "6.4.0", "twig/twig": "3.8.0", "doctrine/orm": "2.20.0", "doctrine/dbal": "3.9.0", "doctrine/common": "3.4.0" }
+  }
+}

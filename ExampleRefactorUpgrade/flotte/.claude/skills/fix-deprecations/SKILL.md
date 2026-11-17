@@ -26,8 +26,10 @@ Sources (lecture) : `docs/migration/deprecations.json`, `docs/migration/deprecat
   Exemple : `if ($form->isValid())` devient `if ($form->isSubmitted() && $form->isValid())` — c'est équivalent en
   2.8 (un formulaire non soumis n'est pas valide) ; à l'inverse, remplacer `!=` par `!==` changerait le résultat et
   est interdit.
-- Correction automatique (champ `autofix` = `rector:…`) via `.claude/bin/tools.sh rector process` avec la règle
-  précise ; sinon correction manuelle.
+- Correction automatique (champ `autofix` = `rector:<Règle>`) **uniquement** via `.claude/bin/rector.sh <step-NN>`
+  de la marche visée (versions de `rector/targets.json` déclarées à Rector : on corrige sur la version actuelle avec
+  les règles de la version suivante) : simulation, puis `--apply --only '<Règle>'`, **relancée jusqu'à stabilité** ;
+  sinon correction manuelle. Voir `rector/README.md`.
 - Jamais d'exécution des tests : l'orchestrateur les lance après chaque lot.
 
 ## Mode `--fix`
@@ -39,7 +41,8 @@ listés ; rapport.
 
 1. Lire le plan de lots de `deprecations/step-NN.md` ; filtrer par `--target` / `--php` / `--family`.
 2. Choisir **un** lot (ou celui demandé). S'il n'y a plus de dépréciation bloquante : rapport « rien à corriger ».
-3. Appliquer la correction (Rector ciblé ou manuelle), occurrence par occurrence, en relisant chaque endroit.
+3. Appliquer la correction : `.claude/bin/rector.sh <step-NN> --only '<Règle>'` (simulation, lecture du diff), puis
+   `--apply --only '<Règle>'` jusqu'à stabilité ; ou correction manuelle. Relire chaque endroit modifié (`git diff`).
 4. Vérifier : `.claude/bin/console.sh cache:clear`, `.claude/bin/tools.sh phpstan analyse` sur les fichiers modifiés,
    `.claude/bin/console.sh lint:twig` pour les templates (si disponible).
 5. S'arrêter après **un** lot : l'orchestrateur teste, puis relance la skill pour le lot suivant.

@@ -40,6 +40,9 @@ en passant LTS par LTS.
 - Toute faille de sécurité ou dépréciation est tracée via `track-merge.py` dans `docs/security/vulnerabilities.json`
   / `docs/migration/deprecations.json` ; jamais d'édition manuelle de ces JSON.
 - Ne pas ajouter de dépendance non exigée par une marche sans le signaler.
+- **Rector** : toujours via `.claude/bin/rector.sh <step-NN>` (configurations `rector/`, simulation par défaut,
+  `--apply` par lots, relancé jusqu'à stabilité, tests après chaque lot). Uniquement des règles de compatibilité,
+  jamais de jeux de modernisation : `rector/README.md`.
 
 ## Outillage IA (`.claude/`)
 

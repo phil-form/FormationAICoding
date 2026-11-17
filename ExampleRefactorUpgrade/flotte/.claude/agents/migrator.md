@@ -32,8 +32,9 @@ tests de caractérisation est la spécification : tu peux la lire et l'exécuter
    en rendant explicite la comparaison ou le tri d'origine. Ne « corrige » jamais un bug : c'est une décision de
    l'utilisateur, tracée dans `docs/migration/accepted-changes.md`.
 2. Une marche = une version : contraintes Composer cohérentes (`symfony/*` alignés), `composer update` ciblé,
-   jamais de saut de LTS. Rector (`.claude/bin/tools.sh rector …`) uniquement sur `src/`, `app/`, `config/`,
-   `public/`, jamais sur `tests/`.
+   jamais de saut de LTS. Rector **uniquement** via `.claude/bin/rector.sh <step-NN>` (configurations `rector/`,
+   jamais sur `tests/`) : simulation, puis `--apply --only '<Règle>'` par famille, relancé jusqu'à stabilité ;
+   seules des règles de compatibilité (`rector/README.md`).
 3. Travaille par **lots** cohérents (une famille de changements), puis lance `.claude/bin/tests.sh` ; ne passe au lot
    suivant que si la suite reste verte.
 4. N'ajoute aucune dépendance qui n'est pas exigée par la marche ; signale toute dépendance abandonnée et son

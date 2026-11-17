@@ -24,8 +24,11 @@ Version visée : `$ARGUMENTS`. Conventions : `.claude/reference/conventions.md` 
    (dossiers ajustés à la structure de l'étape : `public/`, `config/` après step-02).
 2. `.claude/bin/tools.sh phpstan analyse --error-format=json` avec `phpVersion` = `<v>` (niveau adapté, baseline
    ignorée) : fonctions supprimées, signatures, types internes devenus stricts.
-3. Si disponible, `rector process --dry-run` avec le set `LevelSetList::UP_TO_PHP_<v>` : liste des
-   transformations automatiques possibles.
+3. **Rector (simulation)** : `.claude/bin/rector.sh <step-NN>` de la marche PHP visée (step-03 → 7.4, step-05 → 8.1,
+   step-07 → 8.4 ; `rector/step-NN.php`, liste blanche de règles de compatibilité). Diff dans
+   `.claude/state/migration/rector/step-NN-dry-run.diff` : chaque règle qui s'applique = correction automatique possible
+   (`autofix: "rector:<Règle complète>"`). Jamais `--apply` (lecture seule). Les changements de **comportement** de
+   PHP 8 ne sont pas couverts par Rector : ils relèvent du § 2 ci-dessous. Voir `rector/README.md`.
 
 ## 2. Changements de sémantique (revue de code ciblée)
 

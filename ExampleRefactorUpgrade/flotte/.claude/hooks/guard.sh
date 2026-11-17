@@ -148,11 +148,14 @@ check_bash() {
       if [[ "$cmd" =~ tools\.sh[[:space:]]+(rector|phpcbf) ]] && [[ "$cmd" =~ (^|[[:space:]/])tests(/|[[:space:]]|$) ]]; then
         deny "Rector / phpcbf ne doivent jamais viser tests/."
       fi
+      [[ "$cmd" =~ tools\.sh[[:space:]]+rector ]] && deny "Rector passe par .claude/bin/rector.sh <step-NN> (configurations rector/step-NN.php, sûreté bug pour bug)."
       ;;
     carto|characterize|deprec|security|auditor)
       [[ "$cmd" =~ $SCRIPT_RE || "$cmd" =~ $GIT_RE ]] || deny "Autorisé : scripts .claude/bin/* et .claude/skills/*/scripts/*, git diff|log|show|status|ls-files|rev-parse."
       [[ "$cmd" =~ tools\.sh[[:space:]]+(rector|phpcbf) ]] && [[ "$cmd" != *--dry-run* ]] \
         && deny "Cet agent est en lecture seule : rector uniquement avec --dry-run, phpcbf interdit."
+      [[ "$cmd" =~ rector\.sh ]] && [[ "$cmd" =~ --apply ]] \
+        && deny "Cet agent est en lecture seule : .claude/bin/rector.sh sans --apply (simulation)."
       [[ "$cmd" =~ composer\.sh ]] && [[ "$cmd" =~ (^|[[:space:]])(install|update|require|remove|bump)([[:space:]]|$) ]] \
         && deny "Cet agent ne modifie pas les dépendances."
       ;;

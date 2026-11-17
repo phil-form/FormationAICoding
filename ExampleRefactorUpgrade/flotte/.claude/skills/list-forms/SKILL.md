@@ -9,7 +9,7 @@ agent: cartographer
 
 # Inventaire des formulaires
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `class`).
+Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `block_prefix` ; `class` est un simple champ, il change en step-02).
 
 ## Sources
 
@@ -41,7 +41,7 @@ Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.
 - `type` : nom court normalisé (`text`, `integer`, `datetime`, `choice`…), quel que soit le style d'origine
   (`'integer'` en 2.8, `IntegerType::class` ensuite) ; garder l'original dans `type_raw`.
 - Formats de date et de nombre recopiés tels quels : ce sont des pièges de migration (plan § 0).
-- Tri par `class`, champs dans l'ordre de déclaration (l'ordre est visible dans le HTML).
+- Tri par `block_prefix`, champs dans l'ordre de déclaration (l'ordre est visible dans le HTML).
 
 ## Étapes
 

@@ -35,7 +35,7 @@ Arguments : `$ARGUMENTS`. Conventions : `.claude/reference/conventions.md` (§ 4
 | Runtime Symfony | `E_USER_DEPRECATED` du journal `/var/log/php/deprecations.log` de `app` (alimenté pendant `/test-run`) et logs Symfony (`var/log` ou `app/logs`, canal `php`) |
 | Runtime PHP | `E_DEPRECATED` du même journal |
 | Statique PHP | `.claude/bin/tools.sh phpstan analyse --error-format=json` avec `phpstan-deprecation-rules` et `phpstan-symfony`, `phpVersion` = PHP visé |
-| Rector | `.claude/bin/tools.sh rector process --dry-run --output-format=json` avec les sets Symfony / Doctrine / Twig / PHP de la version visée ; noter la règle Rector = correction automatique possible |
+| Rector | `.claude/bin/rector.sh <step-NN>` (simulation, jamais `--apply`) avec la configuration de la marche visée (`rector/step-NN.php`, versions de `rector/targets.json` déclarées à Rector) ; diff dans `.claude/state/migration/rector/step-NN-dry-run.diff` ; chaque règle appliquée = correction automatique possible, à noter `autofix: "rector:<Règle complète>"` ; une dépréciation sans règle = correction manuelle. Voir `rector/README.md` |
 | Twig | `.claude/bin/console.sh lint:twig --show-deprecations` (Symfony ≥ 4) ; en step-00/01 : lecture des templates contre la liste des syntaxes supprimées (`{% for … if %}`, filtres et tags retirés) |
 | Doctrine | `doctrine/deprecations` en mode trace (ORM ≥ 2.10) ; avant : lecture du mapping (annotations, `AppBundle:Entity`, `getRepository('AppBundle:…')`) |
 | Configuration | `.claude/bin/console.sh cache:clear -v` et `debug:config` : clés et services dépréciés, `$this->get('…')` sur services privés |

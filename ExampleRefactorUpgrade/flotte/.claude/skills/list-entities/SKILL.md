@@ -9,7 +9,7 @@ agent: cartographer
 
 # Inventaire des entités et du schéma
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `class`).
+Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `table` ; `class` est un simple champ, il change en step-02).
 
 ## Sources
 
@@ -45,7 +45,7 @@ Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.
 - `sqlite_type` vient du DDL réel : c'est lui qui détecte une dérive DBAL 2 → 3 (ex. `DATETIME` vs
   `DATETIME(0)`, ordre des colonnes, index renommés).
 - Le nom d'entité court (`AppBundle:Vehicle`) disparaît en 6.x : ne pas l'utiliser comme clé.
-- Tri par `class`, colonnes dans l'ordre du DDL.
+- Tri par `table`, colonnes dans l'ordre du DDL.
 
 ## Étapes
 

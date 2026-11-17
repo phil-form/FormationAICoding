@@ -38,8 +38,10 @@ Lire `.claude/state/migration/feedback-code.md` ; corriger uniquement les points
 4. **Composer** — `config.platform.php` = version visée (patch le plus récent de l'image) ; contrainte `require.php`
    ajustée ; `composer.sh update --with-all-dependencies --no-scripts` si des paquets doivent suivre, sinon
    `composer.sh update --lock`.
-5. **Rector** — set `UP_TO_PHP_XY` en `--dry-run`, relu, puis appliqué **uniquement** pour les règles nécessaires
-   à la compatibilité (pas de modernisation cosmétique : propriétés promues, `match`, etc. sont exclues).
+5. **Rector** — `.claude/bin/rector.sh <step-NN>` (step-03, step-05 ou step-07 : liste blanche de règles de
+   compatibilité de `rector/step-NN.php`, jamais `UP_TO_PHP_XY` ni aucune modernisation) ; simulation relue, puis
+   `--apply --only '<Règle>'` par lot, jusqu'à stabilité. Les changements de comportement de PHP 8 (comparaisons,
+   tri, arithmétique sur chaîne) ne sont pas traités par Rector : les préserver à la main (§ 6). Voir `rector/README.md`.
 6. **Code** — traiter les points de `compat/php-X.Y.md` restés ouverts, en préservant le résultat observable.
 7. **Vérifications** — `tools.sh phpstan analyse` (phpVersion cible), `console.sh cache:clear`,
    `console.sh lint:twig` si disponible. L'orchestrateur reconstruit et redémarre l'environnement.

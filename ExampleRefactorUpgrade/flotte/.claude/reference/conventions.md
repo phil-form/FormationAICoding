@@ -33,6 +33,7 @@ flotte/
 │   ├── app/Dockerfile.tpl, app/render.sh → app/php72|php74|php81|php84/Dockerfile (générés)
 │   ├── app/php.ini               commun à toutes les étapes ; app/prepend/ (auto_prepend, /__health) ; app/bin/
 │   ├── IMAGES.md                 digests des images de base
+├── rector/                       configurations Rector par marche (common.php, step-01…07.php, targets.json, README.md)
 │   ├── tests/Dockerfile          PHP 8.4 + PHPUnit 11
 │   └── tools/Dockerfile          PHP 8.4 + Composer récent, Rector, PHPStan, PHPCompatibility, Infection, osv-scanner
 ├── .ref/                         copie du code step-00 (git archive du tag), servie par app-ref — non versionné
@@ -134,6 +135,8 @@ Seuls points d'entrée autorisés pour les agents (cf. `hooks/guard.sh`). Tous r
 | `http.sh` | `http.sh [--ref] [--session <nom>] <METHOD> <path> [-d clé=valeur]… [--csrf-from <path>]` — requête vers app/app-ref, affiche statut, en-têtes et corps |
 | `seed.sh` | `seed.sh <scenario\|all> [--target app\|ref\|both] [--verify] [--rebuild]` |
 | `tests.sh` | `tests.sh [--suite http\|cli\|db\|edge\|diff\|unit\|all] [--target app\|ref] [--filter <motif>] [--group BH-xxx] [--coverage] [--record-golden]` → JUnit `.claude/state/migration/test-results/junit-<suite>.xml` + `summary.json`. `--record-golden` refusé si gelé ; `--coverage` refusé sur `ref` |
+| `php-logs.sh` | `php-logs.sh [--ref] [error\|deprecations] [--from <octet>] [--summary]` — lecture seule des journaux PHP d'`app` / `app-ref` (`--summary` : regroupement par signature) |
+| `rector.sh` | `rector.sh <step-NN> [--apply] [--only <Règle>]… [--filter <motif>] [--list]` — Rector de la marche (`rector/step-NN.php`, versions visées `rector/targets.json`), simulation par défaut (diff dans `.claude/state/migration/rector/`) ; `--apply` réservé au migrator. Voir `rector/README.md` |
 | `test-progress.py` | appelé par `tests.sh` : sortie `--teamcity` de PHPUnit (8.5 → 11) → `.claude/state/migration/test-results/progress.json` (status line, ligne 🧪) + barre dans le terminal |
 | `test-tracking.py` | appelé en fin de `tests.sh` : met à jour le bloc « Suivi d'avancement » du document de fiches `tmp/tests-application.md` (par groupe et par route ; fiche décrite, tests `bhNNN_*`, goldens, résultat `app-ref` / `app`, variante `diff`, statut ⬜ ✍️ 🔴 🟡 ✅ ⏸). Résultats JUnit séparés par cible : `junit-<suite>.xml` (app), `junit-<suite>.ref.xml` (app-ref) |
 | `junit-summary.py` | `junit-summary.py <junit.xml…> [--json]` — totaux, échecs regroupés par `BH-xxx` |
@@ -168,9 +171,10 @@ Numérotation globale sur trois chiffres. Chaque fiche :
 ### 5.3 Inventaire (`docs/migration/inventory/step-NN/<type>.json`)
 
 Tableau d'objets triés par clé, avec une clé stable :
-`routes` → `name` ; `commands` → `name` ; `services` → `id` ; `forms` → `class` ; `entities` → `class` ;
+`routes` → `name` ; `commands` → `name` ; `services` → `id` ; `forms` → `block_prefix` (nom du formulaire : `reservation`, `vehicle`, `form`) ; `entities` → `table` ;
 `templates` → `path` (chemin logique, ex. `Vehicle/show`) ; `config` → `key` (chemin pointé).
-Le chemin physique change entre étapes (`app/Resources/views` → `templates/`) : la clé doit rester logique.
+Le chemin physique change entre étapes (`app/Resources/views` → `templates/`) et le namespace aussi (`AppBundle\…` →
+`App\…` en step-02) : la clé doit rester logique ; le nom de classe est un champ comparé, jamais la clé.
 
 ### 5.4 Suivi `vulnerabilities.json` / `deprecations.json`
 
