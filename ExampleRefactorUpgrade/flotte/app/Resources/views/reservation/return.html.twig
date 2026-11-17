@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Retour de {{ reservation.vehicle.plate|plate }}</h1>
+    <p>Kilométrage au départ : {{ reservation.startKm|km }}</p>
+    {{ form(form) }}
+{% endblock %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Flotte Delvaux & Fils{% endblock %}</title>
+    </head>
+    <body>
+        {% spaceless %}
+        <nav>
+            <a href="{{ path('vehicle_index') }}">Véhicules</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                | <a href="{{ path('admin_vehicle_new') }}">Ajouter un véhicule</a>
+            {% endif %}
+        </nav>
+        {% endspaceless %}
+
+        {% for message in app.session.flashbag.get('success') %}
+            <p class="flash-success">{{ message }}</p>
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+    </body>
+</html>

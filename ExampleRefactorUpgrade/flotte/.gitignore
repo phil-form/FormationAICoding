@@ -1,0 +1,6 @@
+/vendor/
+/app/cache/*
+/app/logs/*
+/app/data/*.sqlite
+/app/config/parameters.yml
+!.gitkeep

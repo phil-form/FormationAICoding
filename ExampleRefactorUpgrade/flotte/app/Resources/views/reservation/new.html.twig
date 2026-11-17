@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Réserver {{ vehicle.plate|plate }}</h1>
+    <p>Format des dates : JJ/MM/AAAA HH:MM</p>
+    {{ form(form) }}
+{% endblock %}

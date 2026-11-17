@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>{{ vehicle.plate|plate }} — {{ vehicle.brand }} {{ vehicle.model }}</h1>
+
+    <p>Kilométrage : {{ vehicle.mileage|km }} · Statut : {{ vehicle.statusLabel }}</p>
+
+    {% if vehicle.available %}
+        <p><a href="{{ path('reservation_new', { 'id': vehicle.id }) }}">Réserver ce véhicule</a></p>
+    {% endif %}
+
+    <h2>Réservations à venir</h2>
+    <ul>
+        {% for r in vehicle.reservations if r.status == 'confirmee' %}
+            <li>
+                {{ r.startAt|date('d/m/Y H:i') }} → {{ r.endAt|date('d/m/Y H:i') }} : {{ r.driverName }}
+                (<a href="{{ path('reservation_return', { 'id': r.id }) }}">retour</a>)
+            </li>
+        {% else %}
+            <li>Aucune réservation à venir.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Historique</h2>
+    <ul>
+        {% for r in vehicle.reservations if r.status == 'terminee' %}
+            <li>{{ r.startAt|date('d/m/Y') }} : {{ r.driverName }}, {{ (r.endKm - r.startKm)|km }}, {{ r.cost|euros }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

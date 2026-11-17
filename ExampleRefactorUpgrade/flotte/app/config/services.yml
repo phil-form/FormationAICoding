@@ -1,0 +1,26 @@
+services:
+    app.plate_formatter:
+        class: AppBundle\Service\PlateFormatter
+
+    app.reservation_manager:
+        class: AppBundle\Service\ReservationManager
+        arguments: [ "@doctrine.orm.entity_manager", "%app.cost_per_km%" ]
+
+    app.twig.fleet_extension:
+        class: AppBundle\Twig\FleetExtension
+        arguments: [ "@app.plate_formatter" ]
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    app.listener.version_header:
+        class: AppBundle\EventListener\VersionHeaderListener
+        arguments: [ "%app.version%" ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    app.validator.belgian_plate:
+        class: AppBundle\Validator\Constraints\BelgianPlateValidator
+        arguments: [ "@app.plate_formatter" ]
+        tags:
+            - { name: validator.constraint_validator, alias: belgian_plate }
