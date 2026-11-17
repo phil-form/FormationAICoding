@@ -1,8 +1,8 @@
 # Généré par docker/app/render.sh depuis docker/app/Dockerfile.tpl — ne pas modifier à la main.
-# Famille php84 : php:8.4-apache · Composer composer:2 · PHPUnit 11
+# Famille php84 : php:8.4-apache@sha256:884f64b47174de2c0e813270fe7b24a18605729fcebe201302d98c38805530d0 · Composer composer:2@sha256:0c8e663f14c94d07b3c45b175c51f5a14718508f21fe4dd7e54f09488dd0ed71 · PHPUnit 11
 # Environnement de DÉVELOPPEMENT LOCAL uniquement (migration flotte), jamais en production.
-FROM composer:2 AS composer
-FROM php:8.4-apache
+FROM composer:2@sha256:0c8e663f14c94d07b3c45b175c51f5a14718508f21fe4dd7e54f09488dd0ed71 AS composer
+FROM php:8.4-apache@sha256:884f64b47174de2c0e813270fe7b24a18605729fcebe201302d98c38805530d0
 
 ARG HOST_UID=1000
 ARG HOST_GID=1000

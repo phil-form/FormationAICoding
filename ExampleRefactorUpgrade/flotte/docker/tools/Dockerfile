@@ -1,7 +1,7 @@
 # Outils d'analyse de la migration (PHP 8.4) — dev local uniquement. Installés dans l'image (/opt/tools/<outil>),
 # jamais dans le composer.json de l'application. Code monté en /srv/app par docker-compose.yml.
-FROM composer:2 AS composer
-FROM php:8.4-cli
+FROM composer:2@sha256:0c8e663f14c94d07b3c45b175c51f5a14718508f21fe4dd7e54f09488dd0ed71 AS composer
+FROM php:8.4-cli@sha256:d63e8b80cd4c6cfd01cfa7c910522e299cdc7ca1a2b6d6563db48df3c17e6c55
 
 ARG HOST_UID=1000
 ARG HOST_GID=1000

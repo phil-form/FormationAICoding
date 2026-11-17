@@ -1,8 +1,8 @@
 # Généré par docker/app/render.sh depuis docker/app/Dockerfile.tpl — ne pas modifier à la main.
-# Famille php72 : php:7.2-apache · Composer composer:2.2 · PHPUnit 8.5
+# Famille php72 : php:7.2-apache@sha256:4dc0f0115acf8c2f0df69295ae822e49f5ad5fe849725847f15aa0e5802b55f8 · Composer composer:2.2@sha256:3b28552911103b67d3bab8dd126f3f8a3e716f788e68418763cf3259ae8d84b2 · PHPUnit 8.5
 # Environnement de DÉVELOPPEMENT LOCAL uniquement (migration flotte), jamais en production.
-FROM composer:2.2 AS composer
-FROM php:7.2-apache
+FROM composer:2.2@sha256:3b28552911103b67d3bab8dd126f3f8a3e716f788e68418763cf3259ae8d84b2 AS composer
+FROM php:7.2-apache@sha256:4dc0f0115acf8c2f0df69295ae822e49f5ad5fe849725847f15aa0e5802b55f8
 
 ARG HOST_UID=1000
 ARG HOST_GID=1000
