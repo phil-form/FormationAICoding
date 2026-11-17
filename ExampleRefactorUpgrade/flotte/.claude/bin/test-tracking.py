@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""test-tracking.py — suivi d'avancement des tests de caractérisation, écrit DANS les documents de fiches.
+"""test-tracking.py — suivi d'avancement des tests de caractérisation, écrit DANS le document de fiches.
 
-  test-tracking.py [tmp/tests-*.md …]        (défaut : tous les tmp/tests-*.md)
+  test-tracking.py [tmp/tests-application.md …]   (défaut : tous les tmp/tests-*.md, soit le document unique
+                                                   tmp/tests-application.md)
   test-tracking.py --check                   (code 1 si un document n'est pas à jour, sans écrire)
 
-Pour chaque fiche « | BH-NNN | … » des tableaux du document (route = titre « ### x.y `route` » qui précède) :
+Pour chaque fiche « | BH-NNN | … » des tableaux du document (groupe = titre « ## N. Groupe » qui précède,
+route = titre « ### x.y `route` » qui précède) :
   Fiche   : BH-NNN décrit dans docs/migration/behaviors/*.md
   Tests   : méthodes bhNNN_* trouvées sous tests/ (hors vendor) — nombre
   Golden  : goldens référencés par ces méthodes (assertMatchesGolden('nom')) présents sous tests/golden/
@@ -30,6 +32,7 @@ RESULTS = os.path.join(ROOT, ".claude", "state", "migration", "test-results")
 START, END = "<!-- tracking:start -->", "<!-- tracking:end -->"
 ROW = re.compile(r"^\|\s*(BH-(\d{3}))\s*\|(.*)\|\s*$")
 ROUTE = re.compile(r"^###\s+[\d.]+\s+`([^`]+)`")
+GROUP = re.compile(r"^##\s+\d+\.\s+(.*?)(\s+—.*)?$")
 BLOCK = re.compile(r"^-\s*(BH-\d{3})\s*:\s*⏸\s*(.*)$")
 METHOD = re.compile(r"function\s+(bh(\d{3})_\w*)\s*\(", re.I)
 GOLDEN = re.compile(r"assertMatchesGolden\(\s*['\"]([^'\"]+)['\"]")
@@ -114,7 +117,7 @@ ICON = {"passed": "✔", "failed": "✘", "skipped": "↷", None: "—"}
 
 def render(doc, tests, ref, app, fiches):
     lines = doc.splitlines()
-    rows, route, blocked = [], "?", {}
+    rows, route, group, blocked = [], "?", "", {}
     in_block = False
     for line in lines:
         if line.strip() == START:
@@ -124,6 +127,9 @@ def render(doc, tests, ref, app, fiches):
             continue
         if in_block:
             continue
+        g = GROUP.match(line)
+        if g:
+            group = g.group(1).strip()
         r = ROUTE.match(line)
         if r:
             route = r.group(1)
@@ -133,10 +139,10 @@ def render(doc, tests, ref, app, fiches):
         m = ROW.match(line)
         if m:
             sensitive = "oui" in m.group(3).split("|")[-1].lower()
-            rows.append((m.group(1), route, sensitive))
+            rows.append((m.group(1), route, sensitive, group))
 
-    table, counts, per_route = [], {}, {}
-    for bh, rte, sensitive in rows:
+    table, counts, per_route, per_group = [], {}, {}, {}
+    for bh, rte, sensitive, grp in rows:
         t = tests.get(bh, {"methods": [], "goldens": set(), "diff": False})
         n = len(t["methods"])
         missing_gold = [g for g in sorted(t["goldens"]) if not golden_exists(g)]
@@ -157,9 +163,14 @@ def render(doc, tests, ref, app, fiches):
             st = "✅ terminé"
         key = st.split()[0]
         counts[key] = counts.get(key, 0) + 1
-        pr = per_route.setdefault(rte, [0, 0])
+        pr = per_route.setdefault((grp, rte), [0, 0, 0])
         pr[1] += 1
         pr[0] += st.startswith("✅")
+        pr[2] += n > 0
+        pg = per_group.setdefault(grp, [0, 0, 0])
+        pg[1] += 1
+        pg[0] += st.startswith("✅")
+        pg[2] += n > 0
         table.append(f"| {bh} | `{rte}` | {'✔' if bh in fiches else '—'} | {n or '—'} | {gold} | {ICON[r]} | {ICON[a]} | {diff} | {st} |")
 
     total = len(rows)
@@ -180,9 +191,14 @@ def render(doc, tests, ref, app, fiches):
            "",
            " · ".join(f"{k} {counts.get(k, 0)} {labels[k]}" for k in order),
            "",
-           "| Route | Terminés |",
-           "|---|---|"]
-    out += [f"| `{k}` | {v[0]}/{v[1]} |" for k, v in per_route.items()]
+           "| Groupe | Route | Écrites | Terminées | Avancement |",
+           "|---|---|---|---|---|"]
+    def mini(d, t, w=10):
+        f = int((d * w / t) if t else 0)
+        return "`" + "█" * f + "░" * (w - f) + f"` {int(d * 100 / t) if t else 0} %"
+    for grp, v in per_group.items():
+        out.append(f"| **{grp or '—'}** | | **{v[2]}/{v[1]}** | **{v[0]}/{v[1]}** | {mini(v[0], v[1])} |")
+        out += [f"| | `{rte}` | {w}/{t} | {d}/{t} | {mini(d, t)} |" for (g2, rte), (d, t, w) in per_route.items() if g2 == grp]
     out += ["",
             "<details><summary>Détail par fiche</summary>",
             "",

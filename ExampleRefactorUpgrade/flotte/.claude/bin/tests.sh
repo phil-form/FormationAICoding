@@ -69,6 +69,6 @@ find "$results" -maxdepth 1 -name 'junit-*.xml' -empty -delete
 files=()
 for s in "${suites[@]}"; do [[ -s "$results/junit-$s$sfx.xml" ]] && files+=("$results/junit-$s$sfx.xml"); done
 ((${#files[@]})) && "$ROOT/.claude/bin/junit-summary.py" "${files[@]}" --write "$results/summary$sfx.json"
-# Suivi d'avancement dans les documents de fiches (tmp/tests-*.md) ; n'échoue jamais le run.
+# Suivi d'avancement dans le document de fiches (tmp/tests-application.md) ; n'échoue jamais le run.
 "$ROOT/.claude/bin/test-tracking.py" || true
 exit $status

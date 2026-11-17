@@ -47,18 +47,19 @@ Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 2 
 
 ## Mise à jour du document de fiches (obligatoire après chaque implémentation)
 
-Document concerné : `tmp/tests-<contrôleur>.md` (ou `tmp/tests-commands.md`). Le mettre à jour **dans toutes ses
-parties** (`.claude/reference/conventions.md` § 5.6) :
+Document concerné : **`tmp/tests-application.md`** (document unique ; section du groupe testé : § 2
+`VehicleController`, § 3 `ReservationController`, § 4 `ApiController`, § 5 `AdminController`, § 6 commandes). Le
+mettre à jour **dans toutes ses parties** (`.claude/reference/conventions.md` § 5.6) :
 
 1. **Lignes de fiches** : pour chaque fiche implémentée dont la valeur observée sur `app-ref` diffère de la fiche, ou
    était « à confirmer » / « déduite », corriger la cellule avec la **valeur observée** et ajouter
    `(observé à l'implémentation)`. Jamais de fiche supprimée ni renumérotée ; jamais de valeur ajustée sans
    observation sur la référence.
-2. **Journal d'implémentation** (section créée si absente, juste avant « Blocages ») : une ligne par fiche —
+2. **Journal d'implémentation** (section unique en fin de document, avant « Blocages ») : une ligne par fiche —
    `| date | BH-NNN | Classe::méthode | suite(s) | golden(s) | app-ref ✔/✘ | écart corrigé oui/non |`.
 3. **Blocages** : `- BH-NNN : ⏸ <raison>` pour chaque fiche non implémentée faute de décision, de reproductibilité ou
    d'environnement ; retirer la ligne d'un blocage levé.
-4. **Points à trancher** : ne rien décider ; ajouter `→ bloque BH-NNN` à la ligne concernée si nécessaire.
+4. **Points à trancher** (sous-section du groupe) : ne rien décider ; ajouter `→ bloque BH-NNN` à la ligne concernée si nécessaire.
 5. **Exemple complet** du document : aligner ses valeurs sur le test si elles ont changé.
 6. **Bloc de suivi** : lancer `.claude/bin/tests.sh --suite <suite> --target ref` (qui régénère le bloc), puis
    `.claude/bin/test-tracking.py` après les dernières modifications.
