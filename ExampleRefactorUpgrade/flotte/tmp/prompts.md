@@ -1,6 +1,6 @@
 # Prompts des sessions Claude Code
 
-> Export généré le 2026-11-17 14:32 par `/export-prompts` — 2 session(s), 34 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
+> Export généré le 2026-11-17 14:41 par `/export-prompts` — 2 session(s), 34 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
 > Texte des prompts **verbatim**. Sous chaque prompt : skills invoquées et prompts délégués aux sous-agents.
 
 ## Sommaire
