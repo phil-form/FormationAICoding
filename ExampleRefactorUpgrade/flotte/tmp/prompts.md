@@ -1,11 +1,11 @@
 # Prompts des sessions Claude Code
 
-> Export généré le 2026-11-17 10:18 par `/export-prompts` — 1 session(s), 11 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
+> Export généré le 2026-11-17 10:37 par `/export-prompts` — 1 session(s), 17 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
 > Texte des prompts **verbatim**. Sous chaque prompt : skills invoquées et prompts délégués aux sous-agents.
 
 ## Sommaire
 
-1. [Session du 2026-11-17 09:31](#session-1) — 11 prompt(s)
+1. [Session du 2026-11-17 09:31](#session-1) — 17 prompt(s)
 
 <a id="session-1"></a>
 
@@ -151,3 +151,41 @@ applique les corrections du plan puis relance /commit
 ```
 
 Skills invoquées : `/commit commit 1 : outillage IA flotte (deux commits décidés : outillage puis environnement Docker)`
+
+### Prompt 12 — 2026-11-17 10:18
+
+```text
+fais aussi le commit de l'environnement Docker et les autres nécéssaires.
+```
+
+### Prompt 13 — 2026-11-17 10:21
+
+```text
+Avant de commencer la création des tests liste dans un md dans tmp toutes les routes de l'application par controlleur ainsi que les commandes.
+```
+
+### Prompt 14 — 2026-11-17 10:24
+
+```text
+pour les tests tu peux faire une status bar similaire à ce qu'il y a dans le projet parent, importe aussi la status bar du context, tokens, ...
+```
+
+### Prompt 15 — 2026-11-17 10:26
+
+```text
+Pour le premier controlleur fait un md contenant le template de ce que chaque tests devra faire pour garantir l'intégrité de l'application lors des upgrades
+```
+
+### Prompt 16 — 2026-11-17 10:29
+
+```text
+fait en sorte de bien pouvoir tracker la progression des tests implémenter dans ce ficheirs.
+```
+
+### Prompt 17 — 2026-11-17 10:32
+
+```text
+fais pareil pour le controlleur ReservationController
+```
+
+Skills invoquées : `/commit flotte : (1) outillage suivi des tests (status line, progression, suivi des fiches, hook de commit auto) ; (2) documents de fiches de tests VehicleController + ReservationController et inventaire routes/commandes`
