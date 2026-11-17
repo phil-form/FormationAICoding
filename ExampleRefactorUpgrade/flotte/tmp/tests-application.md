@@ -12,11 +12,11 @@
 <!-- tracking:start -->
 ## Suivi d'avancement (généré)
 
-> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:13. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
+> Régénéré par `.claude/bin/test-tracking.py` (fin de chaque `.claude/bin/tests.sh`) — 2026-11-17 11:36. Ne pas éditer ce bloc : pour bloquer une fiche, ajouter « - BH-NNN : ⏸ raison » dans la section « Blocages ».
 
-**40/209 terminés (19 %)** `█████░░░░░░░░░░░░░░░░░░░░░░░░░`
+**109/209 terminés (52 %)** `███████████████░░░░░░░░░░░░░░░`
 
-✅ 40 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 169 à écrire
+✅ 109 terminés · 🟡 0 incomplets · ✍️ 0 écrits · 🔴 0 rouges réf. · ⏸ 0 bloqués · ⬜ 100 à écrire
 
 | Groupe | Route | Écrites | Terminées | Avancement |
 |---|---|---|---|---|
@@ -24,9 +24,9 @@
 | | `homepage` | 4/4 | 4/4 | `██████████` 100 % |
 | | `vehicle_index` | 19/19 | 19/19 | `██████████` 100 % |
 | | `vehicle_show` | 17/17 | 17/17 | `██████████` 100 % |
-| **`ReservationController`** | | **0/69** | **0/69** | `░░░░░░░░░░` 0 % |
-| | `reservation_new` | 0/39 | 0/39 | `░░░░░░░░░░` 0 % |
-| | `reservation_return` | 0/30 | 0/30 | `░░░░░░░░░░` 0 % |
+| **`ReservationController`** | | **69/69** | **69/69** | `██████████` 100 % |
+| | `reservation_new` | 39/39 | 39/39 | `██████████` 100 % |
+| | `reservation_return` | 30/30 | 30/30 | `██████████` 100 % |
 | **`ApiController`** | | **0/25** | **0/25** | `░░░░░░░░░░` 0 % |
 | | `api_vehicles` | 0/25 | 0/25 | `░░░░░░░░░░` 0 % |
 | **`AdminController`** | | **0/38** | **0/38** | `░░░░░░░░░░` 0 % |
@@ -79,75 +79,75 @@
 | BH-054 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-055 | `vehicle_show` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-056 | `vehicle_show` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
-| BH-100 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-101 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-102 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-103 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-104 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-105 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-106 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-107 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-108 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-109 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-110 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-111 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-112 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-113 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-114 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-115 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-116 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-117 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-118 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-119 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-120 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-121 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-122 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-123 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-124 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-125 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-126 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-127 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-128 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-129 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-130 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-131 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-132 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-133 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-134 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-135 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-136 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-137 | `reservation_new` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-138 | `reservation_new` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-150 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-151 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-152 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-153 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-154 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-155 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-156 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-157 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-158 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-159 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-160 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-161 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-162 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-163 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-164 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-165 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-166 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-167 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-168 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-169 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-170 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-171 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-172 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-173 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-174 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-175 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-176 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
-| BH-177 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-178 | `reservation_return` | — | — | — | — | — | — | ⬜ à écrire |
-| BH-179 | `reservation_return` | — | — | — | — | — | ✘ | ⬜ à écrire |
+| BH-100 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-101 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-102 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-103 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-104 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-105 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-106 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-107 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-108 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-109 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-110 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-111 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-112 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-113 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-114 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-115 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-116 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-117 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-118 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-119 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-120 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-121 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-122 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-123 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-124 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-125 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-126 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-127 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-128 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-129 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-130 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-131 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-132 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-133 | `reservation_new` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-134 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-135 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-136 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-137 | `reservation_new` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-138 | `reservation_new` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-150 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-151 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-152 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-153 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-154 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-155 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-156 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-157 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-158 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-159 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-160 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-161 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-162 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-163 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-164 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-165 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-166 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-167 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-168 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-169 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-170 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-171 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-172 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-173 | `reservation_return` | — | 3 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-174 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-175 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-176 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
+| BH-177 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-178 | `reservation_return` | — | 1 | — | ✔ | ✔ | — | ✅ terminé |
+| BH-179 | `reservation_return` | — | 2 | — | ✔ | ✔ | ✔ | ✅ terminé |
 | BH-200 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-201 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
 | BH-202 | `api_vehicles` | — | — | — | — | — | ✘ | ⬜ à écrire |
@@ -551,9 +551,9 @@ entretien ; 4 hors service ; 5 n'a sur le créneau qu'une réservation terminée
 | BH-113 | véhicule 7, `05/01/2026 12:00` → `14:00` (créneau d'une réservation **en retard**) | booking | 200 | « déjà réservé » : une réservation passée non rendue bloque toujours son créneau | non |
 | BH-114 | véhicule 1, `01/12/2025 08:00` → `10:00` (dans le **passé**) | booking | 302 | **accepté** : aucun contrôle de date passée | non |
 | BH-115 | véhicule 8 (0 km) | booking | 302 | `start_km = 0` | non |
-| BH-116 | conducteur vide `""`, puis `"   "` | booking | 200 | « Le nom du conducteur est obligatoire. » (les espaces sont supprimés avant validation) | oui : option `trim`, NotBlank |
+| BH-116 | conducteur vide `""`, puis `"   "` | booking | 200 | « Le nom du conducteur est obligatoire. » (les espaces sont supprimés avant validation) ; **erreur de champ** dans le `<div>` de `driverName` (avant l'`<input>`), aucune erreur globale (observé à l'implémentation) | oui : option `trim`, NotBlank |
 | BH-117 | conducteur `"  Paul Martin  "` | booking | 302 | enregistré **`Paul Martin`** (espaces supprimés) | oui : idem |
-| BH-118 | conducteur de **101** caractères | booking | 302 | **accepté et enregistré en entier** (colonne VARCHAR(100) non contrôlée par SQLite, aucune contrainte `Length`) | **oui** : DBAL 3 / validation |
+| BH-118 | conducteur de **101** caractères | booking | 302 | **accepté et enregistré en entier** (colonne VARCHAR(100) non contrôlée par SQLite, aucune contrainte `Length`) ; idem avec 101 caractères multi-octets (`é` ×101 → `length() = 101`) (observé à l'implémentation) | **oui** : DBAL 3 / validation |
 | BH-119 | conducteur `<script>alert(1)</script> Émile 🚐` | booking | 302 | enregistré tel quel ; affiché **échappé** sur la fiche véhicule (lien avec BH-049) | oui : échappement Twig |
 | BH-120 | dates `2026-02-20 08:00` (ISO) | booking | 200 | `This value is not valid.` sur **les deux** champs (erreur de champ, en anglais) | oui : `IntlDateFormatter`, messages |
 | BH-121 | dates `31/02/2026 08:00` ; `20/02/2026 25:00` ; `20/02/2026 8` (sans minutes) | booking | 200 | `This value is not valid.` ×2 (dates non « lenient ») | oui : ICU |
@@ -567,13 +567,13 @@ entretien ; 4 hors service ; 5 n'a sur le créneau qu'une réservation terminée
 | BH-129 | sans jeton CSRF, puis jeton faux | booking | 200 | erreur globale `The CSRF token is invalid. Please try to resubmit the form.` ; base inchangée | oui : composant CSRF (step-04/06) |
 | BH-130 | champ en trop dans le formulaire `reservation[status]=terminee` | booking | 200 | `This form should not contain extra fields.` ; **pas** d'affectation | oui : `allow_extra_fields` |
 | BH-131 | champ en trop **hors** du formulaire (`foo=bar`) | booking | 302 | ignoré, réservation créée | non |
-| BH-132 | seulement le jeton (aucun champ) | booking | 200 | 3 erreurs : « Le nom du conducteur est obligatoire. », `This value should not be blank.` ×2 (mélange FR / EN) | oui : messages de validation |
+| BH-132 | seulement le jeton (aucun champ) | booking | 200 | 3 erreurs : « Le nom du conducteur est obligatoire. », `This value should not be blank.` ×2 (mélange FR / EN) — trois **erreurs de champ**, une par champ (`driverName`, `startAt`, `endAt`), aucune erreur globale (observé à l'implémentation) | oui : messages de validation |
 | BH-133 | POST **sans corps** | booking | 200 | formulaire réaffiché **sans erreur**, rien écrit | **oui** : Symfony 4 → exception (500) attendue sans précaution |
 | BH-134 | même POST envoyé **deux fois** (même jeton) | booking | 302 puis 200 | 1re : créée ; 2e : « déjà réservé » ; **1 seule** ligne | non |
 | BH-135 | `GET /vehicules/3/reserver` (véhicule en entretien) | booking | 200 | formulaire affiché normalement (refus seulement à la soumission) | non |
 | BH-136 | `POST /vehicules/999/reserver` ; `GET /vehicules/abc/reserver` | booking | 404 | base inchangée | oui : ParamConverter → MapEntity |
 | BH-137 | `PUT /vehicules/1/reserver` | booking | 405 | `Allow: GET, POST, HEAD` | non |
-| BH-138 | réservation créée puis **fiche véhicule** | booking | 302 → 200 | la nouvelle réservation apparaît dans « Réservations à venir » avec son lien de retour (`/reservations/11/retour`) | oui : lien avec BH-040 |
+| BH-138 | réservation créée puis **fiche véhicule** | booking | 302 → 200 | la nouvelle réservation apparaît dans « Réservations à venir » avec son lien de retour (`/reservations/11/retour`) : `20/02/2026 08:00 → 20/02/2026 18:00 : Jean Test (retour)` ; historique vide (observé à l'implémentation) | oui : lien avec BH-040 |
 
 ### 3.3 `reservation_return` — `GET|POST /reservations/{id}/retour`
 
@@ -591,21 +591,21 @@ même véhicule 8 (départ 8 000).
 | BH-150 | `GET /reservations/1/retour` | returns | 200 | titre, kilométrage au départ formaté, champ `type="number"` `required`, **pas de bouton** | oui : rendu des formulaires |
 | BH-151 | réservation 1, `10100` | returns | 302 | `Location: /vehicules/1` ; flash « Retour enregistré. Coût : 35,00 € » ; A4 : r1 `status 'terminee'`, `end_km 10100`, `cost 35` (**INTEGER**) ; v1 `mileage 10100` | oui : arithmétique, types (step-05, DBAL 3) |
 | BH-152 | réservation 1, `10000` (0 km) | returns | 302 | « Coût : 0,00 € » ; `cost 0` ; kilométrage du véhicule inchangé | non |
-| BH-153 | réservation 1, `9999` (moins qu'au départ) | returns | 200 | « Kilométrage invalide. » ; base inchangée | non |
+| BH-153 | réservation 1, `9999` (moins qu'au départ) | returns | 200 | « Kilométrage invalide. » ; base inchangée ; **erreur globale** en tête du formulaire, saisie réaffichée `value="9999"` (observé à l'implémentation ; même emplacement pour BH-154, 155, 165, 168, 170) | non |
 | BH-154 | réservation 3 (**terminée**) | returns | 200 | « Cette réservation est déjà clôturée. » | non |
 | BH-155 | réservation 4 (**annulée**) | returns | 200 | **même** message « déjà clôturée » | non |
 | BH-156 | réservation 2, `1` / `3` / `7` / `13` km | returns | 302 | coûts `0,35 €` / `1,05 €` / `2,45 €` / `4,55 €` ; stockés `0.35`, `1.05`, `2.45`, `4.55` (REAL) | **oui** : flottants, `round`, `number_format` |
 | BH-157 | réservation 7 (véhicule **en entretien**), `7050` | returns | 302 | accepté, `cost 17.5` (REAL), « 17,50 € » | non |
-| BH-158 | réservation 5 (`50200` alors que le véhicule est à 50 500) | returns | 302 | accepté ; **le kilométrage du véhicule recule** à 50 200 ; « 70,00 € » | non |
+| BH-158 | réservation 5 (`50200` alors que le véhicule est à 50 500) | returns | 302 | accepté ; **le kilométrage du véhicule recule** à 50 200 ; « 70,00 € » ; `cost 70` (INTEGER) (observé à l'implémentation) | non |
 | BH-159 | réservation 8 (**pas encore commencée**), `8100` | returns | 302 | accepté (aucun contrôle de date) | non |
-| BH-160 | réservation 9 (en cours, même véhicule que 8), `8300` | returns | 302 | r9 clôturée « 105,00 € », v8 à 8 300 ; **r8 reste `confirmee` avec `start_km 8000`** | non |
-| BH-161 | réservation 6, `2147484000` | returns | 302 | « 350,00 € » ; **kilométrage du véhicule > 2^31-1** enregistré | oui : entiers 32/64 bits, DBAL |
+| BH-160 | réservation 9 (en cours, même véhicule que 8), `8300` | returns | 302 | r9 clôturée « 105,00 € » (`cost 105` INTEGER, observé à l'implémentation), v8 à 8 300 ; **r8 reste `confirmee` avec `start_km 8000`** | non |
+| BH-161 | réservation 6, `2147484000` | returns | 302 | « 350,00 € » ; **kilométrage du véhicule > 2^31-1** enregistré ; `end_km 2147484000` et `cost 350` de type INTEGER (observé à l'implémentation) | oui : entiers 32/64 bits, DBAL |
 | BH-162 | `99999999999999999999` | returns | 200 | `This value is not valid.` (champ) | oui : `IntegerType`, ICU |
 | BH-163 | `abc` ; `+10100` ; `10 100` (espace) | returns | 200 | `This value is not valid.` | oui : `IntegerType` (locale `fr`) |
 | BH-164 | `10100.6` et `10100,6` | returns | 302 | **tronqué à 10100** (arrondi vers le bas), 35,00 € | **oui** : `IntegerType` (`rounding_mode`, `scale`), step-02/04 |
 | BH-165 | `10.100` (point des milliers) | returns | 200 | interprété comme **10** → « Kilométrage invalide. » | **oui** : idem, locale |
 | BH-166 | `010100` (zéro initial) | returns | 302 | accepté = 10100 | oui : idem |
-| BH-167 | `1e4` | returns | 302 | **interprété comme 10000** → clôture à 0 km, « 0,00 € » | **oui** : idem |
+| BH-167 | `1e4` | returns | 302 | **interprété comme 10000** → clôture à 0 km, « 0,00 € » ; `end_km 10000`, `cost 0` (INTEGER), kilométrage du véhicule inchangé (observé à l'implémentation) | **oui** : idem |
 | BH-168 | réservation 1, valeur **vide** | returns | 200 | « Kilométrage invalide. » (`null < 10000`) | **oui** : comparaison `null` (PHP 8) |
 | BH-169 | réservation 2 (départ **0**), valeur **vide** | returns | **500** | page d'erreur générique ; **base inchangée** ; aucune trace dans un journal (cause déduite : kilométrage du véhicule mis à `NULL` → violation `NOT NULL`, transaction annulée) | **oui** : erreur différente attendue en PHP 8 / DBAL 3 |
 | BH-170 | réservation 2, `-5` | returns | 200 | « Kilométrage invalide. » | non |
@@ -617,14 +617,14 @@ même véhicule 8 (départ 8 000).
 | BH-176 | `POST /reservations/999/retour` ; `GET /reservations/abc/retour` | returns | 404 | base inchangée | oui : ParamConverter |
 | BH-177 | `PUT /reservations/1/retour` | returns | 405 | `Allow: GET, POST, HEAD` | non |
 | BH-178 | réservation `terminee` du scénario `anomalies` (id 3, `end_km` NULL) | anomalies | 200 | « déjà clôturée » | non |
-| BH-179 | retour réussi puis **fiche véhicule** | returns | 302 → 200 | la réservation passe de « Réservations à venir » à « Historique » (`10100 − 10000 = 100 km, 35,00 €`) ; kilométrage affiché `10.100 km` | oui : lien avec BH-040 |
+| BH-179 | retour réussi puis **fiche véhicule** | returns | 302 → 200 | la réservation passe de « Réservations à venir » à « Historique » (`10100 − 10000 = 100 km, 35,00 €`) ; kilométrage affiché `10.100 km` ; « Aucune réservation à venir. » ; historique exact : `02/01/2026 : Chloé Dubois, 100 km, 35,00 €` puis `14/01/2026 : Jean Dupont, 100 km, 35,00 €` (date de **début**) (observé à l'implémentation) | oui : lien avec BH-040 |
 
 ### 3.4 Exemple complet : BH-122
 
 ```markdown
 ### BH-122 — Une année saisie sur 2 chiffres est enregistrée en l'an 26, décalée
 - Route / interface : reservation_new · POST /vehicules/1/reserver
-- Suite : edge (+ diff, + db)            Groupe : zone-reservation-new
+- Suite : http + edge (+ diff)            Groupe : zone-reservation-new
 - Scénario de données : booking
 - Authentification : aucune
 - Sensible à la migration : oui, très → le format ICU `dd/MM/yyyy` accepte `26` comme année 26 ; la conversion en
@@ -634,13 +634,19 @@ même véhicule 8 (départ 8 000).
 - Attendu (step-00) :
   - A1 statut : 302
   - A2 en-têtes : Location /vehicules/1 · X-Fleet-Version 1.4.2
-  - A3 corps : (après GET de Location) flash « Réservation enregistrée. » ; « Réservations à venir » contient
-    `18/02/0026 07:42 → 18/02/0026 17:42 : X` (observé)
-  - A4 base : +1 ligne reservation id 11 = (1, 'X', '0026-02-18 07:42:30', '0026-02-18 17:42:30', 'confirmee',
-    10000, NULL, NULL) ; rien d'autre
-  - A5 journal PHP : aucune entrée
-- Golden : tests/golden/http/reservation-new/two-digit-year.html
+  - A3 corps : (après GET de Location) flash « Réservation enregistrée. » ; « Réservations à venir » = exactement
+    `18/02/0026 07:42 → 18/02/0026 17:42 : X (retour)` (lien `/reservations/11/retour`)
+  - A4 base : diff exact = `+ reservation: 11|1|'X'|'0026-02-18 07:42:30'|'0026-02-18 17:42:30'|'confirmee'|10000|NULL|NULL`
+    (dates de type TEXT) ; rien d'autre
+  - A5 journal PHP : aucune entrée (comparé en suite diff)
+- Golden : tests/golden/http/reservation-new/bh122-two-digit-year.html
+- Tests : ReservationNewTest::bh122_two_digit_year_is_stored_as_year_26_shifted (http),
+  ReservationInputParsingTest::bh122_two_digit_year_becomes_julian_year_26_with_brussels_solar_time (edge),
+  ReservationNewDiffTest::bh122_two_digit_year_same_as_reference (diff)
 ```
+
+Note : les secondes `:30` de A4 ne viennent pas de l'horloge mais du décalage déterministe de l'heure solaire
+(−17 min 30 s) : elles sont assertées.
 
 ### 3.5 Points à trancher avant d'écrire les tests
 
@@ -652,6 +658,9 @@ même véhicule 8 (départ 8 000).
 | Messages Symfony en anglais (`This value is not valid.`…) : contractuels ? | Oui (texte visible par l'utilisateur) — toute traduction future est un changement accepté à consigner |
 | Absence de bouton de soumission : préserver ? | Oui (le HTML est contractuel) ; à signaler comme bug d'ergonomie |
 | Exceptions non journalisées (pas de MonologBundle) | Hors contrat de test ; à signaler pour la migration (ajout de journalisation = changement accepté) |
+
+> Toutes les propositions ci-dessus sont appliquées **à titre provisoire** par les tests (2026-11-17), en attente de
+> décision de l'utilisateur ; aucune ne bloque une fiche. Voir le journal d'implémentation.
 
 ## 4. `ApiController` — API JSON du planning des dépôts
 
@@ -1060,6 +1069,76 @@ Une ligne par fiche implémentée (conventions § 5.6), ajoutée par les skills 
 | 2026-11-17 | BH-055 | `Http\VehicleShowTest::bh055_trailing_slash_is_not_found`, `Diff\VehicleShowDiffTest::bh055_trailing_slash_same_as_reference` | http, diff | — | ✔ | non |
 | 2026-11-17 | BH-056 | `Http\VehicleShowTest::bh056_post_is_method_not_allowed` | http | — (405) | ✔ | non |
 | 2026-11-17 | BH-001…056 | Propositions § 2.5 appliquées à titre provisoire, **en attente de décision** : corps 404/405 non contractuels, A5 comparé en diff uniquement, seuil BH-028 ≤ 2 × référence, BH-015 à BH-018 / BH-024 / BH-052 figés | — | — | — | — |
+| 2026-11-17 | BH-100 | `Http\ReservationNewTest::bh100_booking_form_has_three_required_fields_and_no_button`, `Diff\ReservationNewDiffTest::bh100_booking_form_same_as_reference` | http, diff | `http/reservation-new/bh100.html` | ✔ | non |
+| 2026-11-17 | BH-101 | `Http\ReservationNewTest::bh101_valid_booking_is_created_and_redirects_with_flash`, `Diff\ReservationNewDiffTest::bh101_valid_booking_same_as_reference` | http, diff | `http/reservation-new/bh101-after-redirect.html` | ✔ | non |
+| 2026-11-17 | BH-102 | `Http\ReservationNewTest::bh102_unavailable_vehicle_is_refused` | http | `http/reservation-new/bh102-{maintenance,out-of-service}.html` | ✔ | non |
+| 2026-11-17 | BH-103 | `Http\ReservationNewTest::bh103_end_equal_to_start_is_refused` | http | `http/reservation-new/bh103.html` | ✔ | non |
+| 2026-11-17 | BH-104 | `Http\ReservationNewTest::bh104_end_before_start_is_refused` | http | — | ✔ | non |
+| 2026-11-17 | BH-105 | `Http\ReservationNewTest::bh105_slot_inside_existing_booking_is_refused` | http | `http/reservation-new/bh105.html` | ✔ | non |
+| 2026-11-17 | BH-106 | `Http\ReservationNewTest::bh106_slot_ending_exactly_at_existing_start_is_refused`, `Diff\ReservationNewDiffTest::bh106_slot_touching_start_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-107 | `Http\ReservationNewTest::bh107_slot_starting_exactly_at_existing_end_is_refused`, `Diff\ReservationNewDiffTest::bh107_slot_touching_end_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-108 | `Http\ReservationNewTest::bh108_slot_enclosing_existing_booking_is_refused` | http | — | ✔ | non |
+| 2026-11-17 | BH-109 | `Http\ReservationNewTest::bh109_one_minute_gap_is_enough` | http | — | ✔ | non |
+| 2026-11-17 | BH-110 | `Http\ReservationNewTest::bh110_finished_and_cancelled_bookings_do_not_block` | http | — | ✔ | non (deux créneaux testés : annulée 10/02 09:00–13:00, terminée 12/01 09:00–13:00) |
+| 2026-11-17 | BH-111 | `Http\ReservationNewTest::bh111_slot_over_cancelled_booking_is_accepted` | http | — | ✔ | non |
+| 2026-11-17 | BH-112 | `Http\ReservationNewTest::bh112_slot_during_ongoing_booking_is_refused` | http | — | ✔ | non |
+| 2026-11-17 | BH-113 | `Http\ReservationNewTest::bh113_overdue_booking_still_blocks_its_past_slot` | http | — | ✔ | non |
+| 2026-11-17 | BH-114 | `Http\ReservationNewTest::bh114_booking_in_the_past_is_accepted` | http | — | ✔ | non |
+| 2026-11-17 | BH-115 | `Http\ReservationNewTest::bh115_zero_mileage_vehicle_gives_zero_start_km` | http | — | ✔ | non |
+| 2026-11-17 | BH-116 | `Http\ReservationNewTest::bh116_blank_driver_name_is_refused_after_trim`, `Diff\ReservationNewDiffTest::bh116_blank_driver_same_as_reference` | http, diff | `http/reservation-new/bh116-{empty,spaces}.html` | ✔ | oui (erreur de champ, pas globale) |
+| 2026-11-17 | BH-117 | `Http\ReservationNewTest::bh117_driver_name_is_trimmed`, `Diff\ReservationNewDiffTest::bh117_trimmed_driver_same_as_reference` | http, diff | — | ✔ | non |
+| 2026-11-17 | BH-118 | `Http\ReservationNewTest::bh118_driver_name_of_101_characters_is_stored_in_full`, `Edge\ReservationInputParsingTest::bh118_driver_name_longer_than_column_is_not_truncated`, `Diff\ReservationNewDiffTest::bh118_long_driver_same_as_reference` | http, edge, diff | — | ✔ | oui (variante multi-octets `é` ×101) |
+| 2026-11-17 | BH-119 | `Http\ReservationNewTest::bh119_html_and_unicode_driver_name_stored_raw_and_displayed_escaped`, `Diff\ReservationNewDiffTest::bh119_html_driver_same_as_reference` | http, diff | `http/reservation-new/bh119-after-redirect.html` | ✔ | non |
+| 2026-11-17 | BH-120 | `Http\ReservationNewTest::bh120_iso_dates_are_invalid_on_both_fields`, `Edge\ReservationInputParsingTest::bh120_iso_format_is_rejected_by_icu_pattern`, `Diff\ReservationNewDiffTest::bh120_iso_dates_same_as_reference` | http, edge, diff | `http/reservation-new/bh120.html` | ✔ | non |
+| 2026-11-17 | BH-121 | `Http\ReservationNewTest::bh121_impossible_or_incomplete_dates_are_invalid`, `Edge\ReservationInputParsingTest::bh121_non_lenient_parsing_rejects_impossible_dates`, `Diff\ReservationNewDiffTest::bh121_impossible_dates_same_as_reference` | http, edge, diff | `http/reservation-new/bh121-{feb-31,hour-25,no-minutes}.html` | ✔ | non |
+| 2026-11-17 | BH-122 | `Http\ReservationNewTest::bh122_two_digit_year_is_stored_as_year_26_shifted`, `Edge\ReservationInputParsingTest::bh122_two_digit_year_becomes_julian_year_26_with_brussels_solar_time`, `Diff\ReservationNewDiffTest::bh122_two_digit_year_same_as_reference` | http, edge, diff | `http/reservation-new/bh122-two-digit-year.html` | ✔ | non (exemple § 3.4 aligné : suites, nom du golden, libellé « (retour) ») |
+| 2026-11-17 | BH-123 | `Http\ReservationNewTest::bh123_single_digit_date_parts_are_accepted`, `Edge\ReservationInputParsingTest::bh123_single_digit_day_month_hour_are_accepted`, `Diff\ReservationNewDiffTest::bh123_single_digits_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-124 | `Http\ReservationNewTest::bh124_seconds_are_accepted_and_dropped`, `Edge\ReservationInputParsingTest::bh124_trailing_seconds_are_accepted_and_dropped`, `Diff\ReservationNewDiffTest::bh124_seconds_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-125 | `Http\ReservationNewTest::bh125_nonexistent_dst_hour_is_invalid_on_start_only`, `Edge\ReservationInputParsingTest::bh125_nonexistent_spring_forward_hour_is_rejected`, `Diff\ReservationNewDiffTest::bh125_nonexistent_hour_same_as_reference` | http, edge, diff | `http/reservation-new/bh125.html` | ✔ | non |
+| 2026-11-17 | BH-126 | `Http\ReservationNewTest::bh126_ambiguous_dst_hour_is_stored_as_is`, `Edge\ReservationInputParsingTest::bh126_ambiguous_fall_back_hour_is_stored_naively`, `Diff\ReservationNewDiffTest::bh126_ambiguous_hour_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-127 | `Http\ReservationNewTest::bh127_year_9999_is_invalid_on_both_fields`, `Edge\ReservationInputParsingTest::bh127_year_9999_is_rejected`, `Diff\ReservationNewDiffTest::bh127_year_9999_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-128 | `Http\ReservationNewTest::bh128_any_minute_and_one_minute_duration_accepted` | http | — | ✔ | non |
+| 2026-11-17 | BH-129 | `Http\ReservationNewTest::bh129_missing_or_wrong_csrf_token_is_refused`, `Diff\ReservationNewDiffTest::bh129_csrf_same_as_reference` | http, diff | `http/reservation-new/bh129-missing.html` | ✔ | non |
+| 2026-11-17 | BH-130 | `Http\ReservationNewTest::bh130_extra_field_inside_form_is_refused_without_assignment`, `Diff\ReservationNewDiffTest::bh130_extra_field_same_as_reference` | http, diff | `http/reservation-new/bh130.html` | ✔ | non |
+| 2026-11-17 | BH-131 | `Http\ReservationNewTest::bh131_extra_field_outside_form_is_ignored` | http | — | ✔ | non |
+| 2026-11-17 | BH-132 | `Http\ReservationNewTest::bh132_token_only_gives_three_mixed_language_errors`, `Diff\ReservationNewDiffTest::bh132_token_only_same_as_reference` | http, diff | `http/reservation-new/bh132.html` | ✔ | oui (trois erreurs de champ) |
+| 2026-11-17 | BH-133 | `Http\ReservationNewTest::bh133_post_without_body_redisplays_form_without_error`, `Edge\ReservationInputParsingTest::bh133_post_without_body_never_fails`, `Diff\ReservationNewDiffTest::bh133_post_without_body_same_as_reference` | http, edge, diff | `http/reservation-new/bh133.html` | ✔ | non |
+| 2026-11-17 | BH-134 | `Http\ReservationNewTest::bh134_same_post_twice_creates_a_single_booking` | http | — | ✔ | non |
+| 2026-11-17 | BH-135 | `Http\ReservationNewTest::bh135_form_of_unavailable_vehicle_is_displayed` | http | `http/reservation-new/bh135.html` | ✔ | non |
+| 2026-11-17 | BH-136 | `Http\ReservationNewTest::bh136_unknown_or_invalid_vehicle_is_not_found`, `Diff\ReservationNewDiffTest::bh136_unknown_vehicle_same_as_reference` | http, diff | — (404, proposition § 2.5) | ✔ | non |
+| 2026-11-17 | BH-137 | `Http\ReservationNewTest::bh137_put_is_method_not_allowed` | http | — (405) | ✔ | non |
+| 2026-11-17 | BH-138 | `Http\ReservationNewTest::bh138_created_booking_appears_in_upcoming_list_with_return_link`, `Diff\ReservationNewDiffTest::bh138_vehicle_page_after_booking_same_as_reference` | http, diff | `http/reservation-new/bh138-vehicle-page.html` | ✔ | oui (texte exact de la ligne, historique vide) |
+| 2026-11-17 | BH-150 | `Http\ReservationReturnTest::bh150_return_form_has_number_field_and_no_button`, `Diff\ReservationReturnDiffTest::bh150_return_form_same_as_reference` | http, diff | `http/reservation-return/bh150.html` | ✔ | non |
+| 2026-11-17 | BH-151 | `Http\ReservationReturnTest::bh151_nominal_return_closes_booking_and_updates_vehicle_mileage`, `Diff\ReservationReturnDiffTest::bh151_nominal_return_same_as_reference` | http, diff | `http/reservation-return/bh151-after-redirect.html` | ✔ | non |
+| 2026-11-17 | BH-152 | `Http\ReservationReturnTest::bh152_zero_km_return_costs_nothing` | http | — | ✔ | non |
+| 2026-11-17 | BH-153 | `Http\ReservationReturnTest::bh153_mileage_below_departure_is_refused` | http | `http/reservation-return/bh153.html` | ✔ | oui (erreur globale, saisie réaffichée) |
+| 2026-11-17 | BH-154 | `Http\ReservationReturnTest::bh154_finished_booking_cannot_be_closed_again` | http | `http/reservation-return/bh154.html` | ✔ | non |
+| 2026-11-17 | BH-155 | `Http\ReservationReturnTest::bh155_cancelled_booking_gets_the_same_already_closed_message` | http | — | ✔ | non |
+| 2026-11-17 | BH-156 | `Http\ReservationReturnTest::bh156_cost_rounding_for_small_distances`, `Edge\ReturnMileageParsingTest::bh156_cost_is_rounded_float_stored_as_real`, `Diff\ReservationReturnDiffTest::bh156_cost_rounding_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-157 | `Http\ReservationReturnTest::bh157_vehicle_in_maintenance_can_be_returned` | http | — | ✔ | non |
+| 2026-11-17 | BH-158 | `Http\ReservationReturnTest::bh158_vehicle_mileage_goes_backwards` | http | — | ✔ | oui (`cost 70` INTEGER) |
+| 2026-11-17 | BH-159 | `Http\ReservationReturnTest::bh159_booking_not_yet_started_can_be_closed` | http | — | ✔ | non |
+| 2026-11-17 | BH-160 | `Http\ReservationReturnTest::bh160_closing_one_booking_leaves_the_other_untouched` | http | — | ✔ | oui (`cost 105` INTEGER) |
+| 2026-11-17 | BH-161 | `Http\ReservationReturnTest::bh161_mileage_beyond_int32_is_stored`, `Edge\ReturnMileageParsingTest::bh161_mileage_beyond_int32_is_stored_as_64_bit_integer`, `Diff\ReservationReturnDiffTest::bh161_beyond_int32_same_as_reference` | http, edge, diff | — | ✔ | oui (types INTEGER) |
+| 2026-11-17 | BH-162 | `Http\ReservationReturnTest::bh162_huge_number_is_not_valid`, `Edge\ReturnMileageParsingTest::bh162_twenty_digit_number_is_not_valid`, `Diff\ReservationReturnDiffTest::bh162_huge_number_same_as_reference` | http, edge, diff | `http/reservation-return/bh162.html` | ✔ | non |
+| 2026-11-17 | BH-163 | `Http\ReservationReturnTest::bh163_non_integer_text_is_not_valid`, `Edge\ReturnMileageParsingTest::bh163_text_sign_and_space_are_not_valid`, `Diff\ReservationReturnDiffTest::bh163_invalid_text_same_as_reference` | http, edge, diff | `http/reservation-return/bh163-{abc,plus,space}.html` | ✔ | non |
+| 2026-11-17 | BH-164 | `Http\ReservationReturnTest::bh164_decimal_mileage_is_truncated`, `Edge\ReturnMileageParsingTest::bh164_decimals_are_truncated_down`, `Diff\ReservationReturnDiffTest::bh164_decimal_truncation_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-165 | `Http\ReservationReturnTest::bh165_thousands_dot_is_read_as_ten`, `Edge\ReturnMileageParsingTest::bh165_thousands_dot_reads_as_ten`, `Diff\ReservationReturnDiffTest::bh165_thousands_dot_same_as_reference` | http, edge, diff | `http/reservation-return/bh165.html` | ✔ | non |
+| 2026-11-17 | BH-166 | `Http\ReservationReturnTest::bh166_leading_zero_is_accepted`, `Edge\ReturnMileageParsingTest::bh166_leading_zero_reads_as_decimal`, `Diff\ReservationReturnDiffTest::bh166_leading_zero_same_as_reference` | http, edge, diff | — | ✔ | non |
+| 2026-11-17 | BH-167 | `Http\ReservationReturnTest::bh167_exponent_notation_is_read_as_ten_thousand`, `Edge\ReturnMileageParsingTest::bh167_exponent_reads_as_ten_thousand`, `Diff\ReservationReturnDiffTest::bh167_exponent_same_as_reference` | http, edge, diff | — | ✔ | oui (types, kilométrage du véhicule inchangé) |
+| 2026-11-17 | BH-168 | `Http\ReservationReturnTest::bh168_empty_mileage_is_refused_as_invalid`, `Edge\ReturnMileageParsingTest::bh168_empty_value_compares_null_below_departure`, `Diff\ReservationReturnDiffTest::bh168_empty_value_same_as_reference` | http, edge, diff | `http/reservation-return/bh168.html` | ✔ | non |
+| 2026-11-17 | BH-169 | `Http\ReservationReturnTest::bh169_empty_mileage_with_zero_departure_is_a_server_error`, `Edge\ReturnMileageParsingTest::bh169_empty_value_with_zero_departure_fails_without_writing`, `Diff\ReservationReturnDiffTest::bh169_server_error_same_as_reference` | http, edge, diff | — (500, corps non contractuel : proposition § 3.5) | ✔ | non |
+| 2026-11-17 | BH-170 | `Http\ReservationReturnTest::bh170_negative_mileage_is_refused` | http | — | ✔ | non |
+| 2026-11-17 | BH-171 | `Http\ReservationReturnTest::bh171_missing_or_wrong_csrf_token_is_refused`, `Diff\ReservationReturnDiffTest::bh171_csrf_same_as_reference` | http, diff | `http/reservation-return/bh171-missing.html` | ✔ | non |
+| 2026-11-17 | BH-172 | `Http\ReservationReturnTest::bh172_extra_field_is_refused_without_assignment`, `Diff\ReservationReturnDiffTest::bh172_extra_field_same_as_reference` | http, diff | `http/reservation-return/bh172.html` | ✔ | non |
+| 2026-11-17 | BH-173 | `Http\ReservationReturnTest::bh173_post_without_body_redisplays_form_without_error`, `Edge\ReturnMileageParsingTest::bh173_post_without_body_never_fails`, `Diff\ReservationReturnDiffTest::bh173_post_without_body_same_as_reference` | http, edge, diff | `http/reservation-return/bh173.html` | ✔ | non |
+| 2026-11-17 | BH-174 | `Http\ReservationReturnTest::bh174_same_post_twice_closes_once` | http | — | ✔ | non |
+| 2026-11-17 | BH-175 | `Http\ReservationReturnTest::bh175_form_of_finished_booking_is_displayed` | http | `http/reservation-return/bh175.html` | ✔ | non |
+| 2026-11-17 | BH-176 | `Http\ReservationReturnTest::bh176_unknown_or_invalid_booking_is_not_found`, `Diff\ReservationReturnDiffTest::bh176_unknown_booking_same_as_reference` | http, diff | — (404, proposition § 2.5) | ✔ | non |
+| 2026-11-17 | BH-177 | `Http\ReservationReturnTest::bh177_put_is_method_not_allowed` | http | — (405) | ✔ | non |
+| 2026-11-17 | BH-178 | `Http\ReservationReturnTest::bh178_finished_booking_without_end_km_is_already_closed` | http | `http/reservation-return/bh178-anomalies.html` | ✔ | non |
+| 2026-11-17 | BH-179 | `Http\ReservationReturnTest::bh179_returned_booking_moves_to_history_on_vehicle_page`, `Diff\ReservationReturnDiffTest::bh179_vehicle_page_after_return_same_as_reference` | http, diff | `http/reservation-return/bh179-vehicle-page.html` | ✔ | oui (historique exact, date de début) |
+| 2026-11-17 | BH-100…179 | Propositions § 3.5 appliquées à titre provisoire, **en attente de décision** : BH-122 / BH-164 / BH-165 / BH-167 figés ; BH-169 figé en « 500 + base inchangée », corps non contractuel ; BH-133 / BH-173 figés (200 sans erreur) ; messages anglais et absence de bouton contractuels (goldens) ; exceptions non journalisées hors contrat. Corps 404/405 non contractuels et A5 comparé en diff uniquement (§ 2.5). Nouvelles classes support : `Support\DbDiff` (diff exact typé), `Support\FormJourney`, `Support\FormTestCase`, `Support\FormDiffTestCase` (aucune classe existante modifiée) | — | — | — | — |
 
 ## Blocages
 
