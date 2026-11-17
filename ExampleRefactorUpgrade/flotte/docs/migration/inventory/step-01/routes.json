@@ -1,0 +1,183 @@
+[
+  {
+    "auth": "http_basic",
+    "body": ["vehicle[plate]", "vehicle[brand]", "vehicle[model]", "vehicle[mileage]", "vehicle[status]", "vehicle[_token]"],
+    "controller": "AppBundle\\Controller\\AdminController::newVehicleAction",
+    "controller_reference": "AppBundle:Admin:newVehicle",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/AdminController.php:16",
+    "form": { "block_prefix": "vehicle", "class": "AppBundle\\Form\\VehicleType" },
+    "host": "",
+    "methods": ["GET", "POST"],
+    "name": "admin_vehicle_new",
+    "param_conversion": [],
+    "path": "/admin/vehicules/nouveau",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": [],
+    "redirects_to": ["vehicle_show"],
+    "requirements": {},
+    "response_type": ["html", "redirect"],
+    "roles": ["ROLE_ADMIN"],
+    "schemes": [],
+    "source": "annotation"
+  },
+  {
+    "auth": "anonymous",
+    "body": [],
+    "controller": "AppBundle\\Controller\\ApiController::vehiclesAction",
+    "controller_reference": "AppBundle:Api:vehicles",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/ApiController.php:16",
+    "form": null,
+    "host": "",
+    "methods": ["GET"],
+    "name": "api_vehicles",
+    "param_conversion": [],
+    "path": "/api/vehicules",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": [],
+    "redirects_to": [],
+    "requirements": {},
+    "response_type": ["json"],
+    "roles": [],
+    "schemes": [],
+    "source": "annotation"
+  },
+  {
+    "auth": "anonymous",
+    "body": [],
+    "controller": "AppBundle\\Controller\\VehicleController::homeAction",
+    "controller_reference": "AppBundle:Vehicle:home",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/VehicleController.php:15",
+    "form": null,
+    "host": "",
+    "methods": ["ANY"],
+    "name": "homepage",
+    "param_conversion": [],
+    "path": "/",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": [],
+    "redirects_to": ["vehicle_index"],
+    "requirements": {},
+    "response_type": ["redirect"],
+    "roles": [],
+    "schemes": [],
+    "source": "annotation"
+  },
+  {
+    "auth": "anonymous",
+    "body": ["reservation[driverName]", "reservation[startAt]", "reservation[endAt]", "reservation[_token]"],
+    "controller": "AppBundle\\Controller\\ReservationController::newAction",
+    "controller_reference": "AppBundle:Reservation:new",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/ReservationController.php:19",
+    "form": { "block_prefix": "reservation", "class": "AppBundle\\Form\\ReservationType" },
+    "host": "",
+    "methods": ["GET", "POST"],
+    "name": "reservation_new",
+    "param_conversion": [
+      { "argument": "vehicle", "class": "AppBundle\\Entity\\Vehicle", "converter": "doctrine.orm", "from": "id", "on_not_found": 404 }
+    ],
+    "path": "/vehicules/{id}/reserver",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": [],
+    "redirects_to": ["vehicle_show"],
+    "requirements": { "id": "\\d+" },
+    "response_type": ["html", "redirect"],
+    "roles": [],
+    "schemes": [],
+    "source": "annotation"
+  },
+  {
+    "auth": "anonymous",
+    "body": ["form[endKm]", "form[_token]"],
+    "controller": "AppBundle\\Controller\\ReservationController::returnAction",
+    "controller_reference": "AppBundle:Reservation:return",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/ReservationController.php:48",
+    "form": { "block_prefix": "form", "class": "inline:ReservationController::returnAction" },
+    "host": "",
+    "methods": ["GET", "POST"],
+    "name": "reservation_return",
+    "param_conversion": [
+      { "argument": "reservation", "class": "AppBundle\\Entity\\Reservation", "converter": "doctrine.orm", "from": "id", "on_not_found": 404 }
+    ],
+    "path": "/reservations/{id}/retour",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": [],
+    "redirects_to": ["vehicle_show"],
+    "requirements": { "id": "\\d+" },
+    "response_type": ["html", "redirect"],
+    "roles": [],
+    "schemes": [],
+    "source": "annotation"
+  },
+  {
+    "auth": "anonymous",
+    "body": [],
+    "controller": "AppBundle\\Controller\\VehicleController::indexAction",
+    "controller_reference": "AppBundle:Vehicle:index",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/VehicleController.php:23",
+    "form": null,
+    "host": "",
+    "methods": ["GET"],
+    "name": "vehicle_index",
+    "param_conversion": [],
+    "path": "/vehicules",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": ["status"],
+    "redirects_to": [],
+    "requirements": {},
+    "response_type": ["html"],
+    "roles": [],
+    "schemes": [],
+    "source": "annotation"
+  },
+  {
+    "auth": "anonymous",
+    "body": [],
+    "controller": "AppBundle\\Controller\\VehicleController::showAction",
+    "controller_reference": "AppBundle:Vehicle:show",
+    "defaults": {},
+    "file": "src/AppBundle/Controller/VehicleController.php:51",
+    "form": null,
+    "host": "",
+    "methods": ["GET"],
+    "name": "vehicle_show",
+    "param_conversion": [
+      { "argument": "vehicle", "class": "AppBundle\\Entity\\Vehicle", "converter": "doctrine.orm", "from": "id", "on_not_found": 404 }
+    ],
+    "path": "/vehicules/{id}",
+    "provenance": {
+      "deduced": ["auth", "body", "controller", "file", "form", "param_conversion", "query_params", "redirects_to", "response_type", "roles", "source"],
+      "observed": ["controller_reference", "defaults", "host", "methods", "name", "path", "requirements", "schemes"]
+    },
+    "query_params": [],
+    "redirects_to": [],
+    "requirements": { "id": "\\d+" },
+    "response_type": ["html"],
+    "roles": [],
+    "schemes": [],
+    "source": "annotation"
+  }
+]

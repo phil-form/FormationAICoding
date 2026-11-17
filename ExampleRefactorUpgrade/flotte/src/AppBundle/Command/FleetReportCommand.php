@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Exception\RuntimeException as ConsoleRuntimeException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,6 +22,11 @@ class FleetReportCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $month = $input->getOption('month');
+        // Symfony 2.8 behaviour preserved: an empty value ("--month=", "-m ''") was a console syntax
+        // error; the 3.x console passes it to the command instead.
+        if ('' === $month) {
+            throw new ConsoleRuntimeException('The "--month" option requires a value.');
+        }
         if (!preg_match('/^\d{4}-\d{2}$/', $month)) {
             $output->writeln('<error>Format de mois invalide (attendu : AAAA-MM).</error>');
 

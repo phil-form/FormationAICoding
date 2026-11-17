@@ -37,6 +37,12 @@ en passant LTS par LTS.
   (`app/cache/*`, `app/config/parameters.yml`) ; CVE de `symfony/symfony` 2.8.52 et `twig/twig` 1.42.5 du
   `composer.lock` step-00. **Tout autre** résultat bloquant (nouveau secret, SAST, autre paquet ou version, image,
   configuration) reste soumis à la décision de l'utilisateur. Fin de la dérogation : quand la migration retire ces versions.
+  **Extension (décision de l'utilisateur, 2026-11-17, commit de step-01)** : la dérogation couvre aussi les **versions
+  intermédiaires** de `symfony/symfony` et `twig/twig` installées par une marche de la migration (ex. Symfony 3.4.49),
+  **à condition** que chacun de leurs avis bloquants soit déjà suivi dans `docs/security/vulnerabilities.json` sans
+  statut `introduced` (gate `G-VULN` non levée par `/vuln-audit --diff` de la marche). Même trailer
+  `Security-Exception`, complété par la version concernée. Un avis `introduced`, un autre paquet, un secret, un constat
+  SAST ou de configuration restent soumis à la décision de l'utilisateur.
 - Toute faille de sécurité ou dépréciation est tracée via `track-merge.py` dans `docs/security/vulnerabilities.json`
   / `docs/migration/deprecations.json` ; jamais d'édition manuelle de ces JSON.
 - Ne pas ajouter de dépendance non exigée par une marche sans le signaler.

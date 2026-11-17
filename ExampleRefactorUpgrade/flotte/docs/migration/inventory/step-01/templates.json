@@ -1,0 +1,124 @@
+[
+  {
+    "blocks": ["body"],
+    "deprecated_constructs": [
+      { "construct": "extends '::base.html.twig' (notation de bundle vide)", "deprecated_in": "symfony 4.x (notation bundle:dossier:fichier)", "line": 1, "removed_in": "symfony 5.0 (composant templating)" }
+    ],
+    "extended_by": [],
+    "extends": "base",
+    "file": "src/AppBundle/Resources/views/Vehicle/index.html.twig",
+    "filters": ["km", "plate"],
+    "functions": ["path"],
+    "includes": [],
+    "path": "Vehicle/index",
+    "provenance": {
+      "deduced": ["blocks", "deprecated_constructs", "extended_by", "extends", "filters", "functions", "includes", "reference", "rendered_by", "tests", "variables"],
+      "observed": ["file", "path"]
+    },
+    "reference": "AppBundle:Vehicle:index.html.twig (implicite via @Template)",
+    "rendered_by": ["vehicle_index"],
+    "tests": ["null"],
+    "variables": ["status", "statusLabels", "vehicles"]
+  },
+  {
+    "blocks": ["body"],
+    "deprecated_constructs": [
+      { "construct": "extends '::base.html.twig' (notation de bundle vide)", "deprecated_in": "symfony 4.x (notation bundle:dossier:fichier)", "line": 1, "removed_in": "symfony 5.0 (composant templating)" },
+      { "construct": "{% for … if … %}", "deprecated_in": "twig 2.10", "line": 14, "removed_in": "twig 3.0" },
+      { "construct": "{% for … if … %}", "deprecated_in": "twig 2.10", "line": 26, "removed_in": "twig 3.0" }
+    ],
+    "extended_by": [],
+    "extends": "base",
+    "file": "src/AppBundle/Resources/views/Vehicle/show.html.twig",
+    "filters": ["date", "euros", "km", "plate"],
+    "functions": ["path"],
+    "includes": [],
+    "path": "Vehicle/show",
+    "provenance": {
+      "deduced": ["blocks", "deprecated_constructs", "extended_by", "extends", "filters", "functions", "includes", "reference", "rendered_by", "tests", "variables"],
+      "observed": ["file", "path"]
+    },
+    "reference": "AppBundle:Vehicle:show.html.twig (implicite via @Template)",
+    "rendered_by": ["vehicle_show"],
+    "tests": [],
+    "variables": ["vehicle"]
+  },
+  {
+    "blocks": ["body"],
+    "deprecated_constructs": [],
+    "extended_by": [],
+    "extends": "base",
+    "file": "app/Resources/views/admin/vehicle_new.html.twig",
+    "filters": [],
+    "functions": ["form"],
+    "includes": [],
+    "path": "admin/vehicle_new",
+    "provenance": {
+      "deduced": ["blocks", "deprecated_constructs", "extended_by", "extends", "filters", "functions", "includes", "reference", "rendered_by", "tests", "variables"],
+      "observed": ["file", "path"]
+    },
+    "reference": "admin/vehicle_new.html.twig (render explicite)",
+    "rendered_by": ["admin_vehicle_new"],
+    "tests": [],
+    "variables": ["form"]
+  },
+  {
+    "blocks": ["title", "body"],
+    "deprecated_constructs": [
+      { "construct": "{% spaceless %}", "deprecated_in": "twig 1.38 / 2.7", "line": 8, "removed_in": "twig 3.0" }
+    ],
+    "extended_by": ["Vehicle/index", "Vehicle/show", "admin/vehicle_new", "reservation/new", "reservation/return"],
+    "extends": null,
+    "file": "app/Resources/views/base.html.twig",
+    "filters": [],
+    "functions": ["is_granted", "path"],
+    "includes": [],
+    "path": "base",
+    "provenance": {
+      "deduced": ["blocks", "deprecated_constructs", "extended_by", "extends", "filters", "functions", "includes", "reference", "rendered_by", "tests", "variables"],
+      "observed": ["file", "path"]
+    },
+    "reference": "base.html.twig et ::base.html.twig (deux notations pour le même fichier)",
+    "rendered_by": [],
+    "tests": [],
+    "variables": ["app"]
+  },
+  {
+    "blocks": ["body"],
+    "deprecated_constructs": [],
+    "extended_by": [],
+    "extends": "base",
+    "file": "app/Resources/views/reservation/new.html.twig",
+    "filters": ["plate"],
+    "functions": ["form"],
+    "includes": [],
+    "path": "reservation/new",
+    "provenance": {
+      "deduced": ["blocks", "deprecated_constructs", "extended_by", "extends", "filters", "functions", "includes", "reference", "rendered_by", "tests", "variables"],
+      "observed": ["file", "path"]
+    },
+    "reference": "reservation/new.html.twig (render explicite)",
+    "rendered_by": ["reservation_new"],
+    "tests": [],
+    "variables": ["form", "vehicle"]
+  },
+  {
+    "blocks": ["body"],
+    "deprecated_constructs": [],
+    "extended_by": [],
+    "extends": "base",
+    "file": "app/Resources/views/reservation/return.html.twig",
+    "filters": ["km", "plate"],
+    "functions": ["form"],
+    "includes": [],
+    "path": "reservation/return",
+    "provenance": {
+      "deduced": ["blocks", "deprecated_constructs", "extended_by", "extends", "filters", "functions", "includes", "reference", "rendered_by", "tests", "variables"],
+      "observed": ["file", "path"]
+    },
+    "reference": "reservation/return.html.twig (render explicite)",
+    "rendered_by": ["reservation_return"],
+    "tests": [],
+    "variables": ["form", "reservation"]
+  }
+]

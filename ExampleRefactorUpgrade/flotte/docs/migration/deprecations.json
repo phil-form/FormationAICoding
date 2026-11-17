@@ -14,6 +14,20 @@
         "accepted": 0,
         "reappeared": 0
       }
+    },
+    {
+      "step": "step-01",
+      "date": "2026-11-17",
+      "php": "7.2",
+      "symfony": "3.4",
+      "composer_lock_sha256": "fc3e1a047d4f2be2559e9d2e25d9a40604e3619955c496ed38790e91c6ff7029",
+      "counts": {
+        "new": 3,
+        "fixed": 9,
+        "open": 41,
+        "accepted": 0,
+        "reappeared": 0
+      }
     }
   ],
   "items": [
@@ -37,6 +51,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -63,6 +82,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -87,6 +111,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -109,6 +138,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -136,6 +170,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -160,6 +199,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -182,6 +226,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -209,6 +258,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -217,7 +271,7 @@
       "source": "config",
       "family": "doctrine",
       "location": [
-        "app/config/config.yml:37"
+        "app/config/config.yml:39"
       ],
       "deprecated_since": "doctrine/orm 2.7",
       "removed_in": "doctrine/orm 3.0",
@@ -231,6 +285,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -250,7 +309,7 @@
       "deprecated_since": "doctrine/orm 2.10",
       "removed_in": "doctrine/orm 3.0 ; l'alias AppBundle disparaît avec AppBundle -> App (step-02)",
       "blocking_for": "step-02",
-      "autofix": "rector:EntityAliasToClassConstantReferenceRector (rector-doctrine, configurable, non exécutée)",
+      "autofix": "none (Rector EntityAliasToClassConstantReferenceRector non chargée par rector/step-02.php) : Vehicle::class / Reservation::class, FQCN en DQL",
       "behavior_risk": "faible",
       "id": "DEP-0029",
       "status": "open",
@@ -259,6 +318,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -291,6 +355,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -315,6 +384,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -347,6 +421,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -376,6 +455,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -401,6 +485,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -418,7 +507,7 @@
       "deprecated_since": "sensio/framework-extra-bundle 5.2",
       "removed_in": "sensio/framework-extra-bundle 6.0 (paquet abandonné)",
       "blocking_for": "step-04",
-      "autofix": "rector:Rector\\Symfony\\Symfony34\\Rector\\ClassMethod\\ReplaceSensioRouteAnnotationWithSymfonyRector + MergeMethodAnnotationToRouteAnnotationRector (déclenchées, applicables dès Symfony 3.4)",
+      "autofix": "rector:Rector\\Symfony\\Symfony34\\Rector\\ClassMethod\\ReplaceSensioRouteAnnotationWithSymfonyRector + Rector\\Symfony\\Symfony34\\Rector\\ClassMethod\\MergeMethodAnnotationToRouteAnnotationRector + Rector\\Symfony\\Symfony34\\Rector\\ClassMethod\\RemoveServiceFromSensioRouteRector (déclenchées en simulation step-02 sur les 4 contrôleurs, 6 routes)",
       "behavior_risk": "moyen : 405 et ordre des routes à préserver (requirements id \\d+)",
       "id": "DEP-0011",
       "status": "open",
@@ -427,6 +516,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -442,9 +536,9 @@
       ],
       "deprecated_since": "sensio/framework-extra-bundle (paquet abandonné)",
       "removed_in": "sensio/framework-extra-bundle (retrait du bundle)",
-      "blocking_for": "step-04",
+      "blocking_for": "step-02",
       "autofix": "none (render() explicite)",
-      "behavior_risk": "moyen : le nom deviné (AppBundle:Vehicle:index.html.twig) change avec la structure Flex de step-02",
+      "behavior_risk": "moyen : le nom deviné dérive du bundle (AppBundle:Vehicle:index.html.twig) ; avec App\\ (Flex, step-02) FrameworkExtraBundle 5 devine vehicle/index.html.twig sous templates/ : à corriger avant ou pendant la restructuration (render() explicite ou déplacement exact). Reclassée step-04 → step-02 à step-01",
       "id": "DEP-0012",
       "status": "open",
       "first_seen_step": "step-00",
@@ -452,6 +546,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -463,8 +562,8 @@
       "family": "routing",
       "location": [
         "src/AppBundle/Controller/VehicleController.php:55",
-        "src/AppBundle/Controller/ReservationController.php:20",
-        "src/AppBundle/Controller/ReservationController.php:49"
+        "src/AppBundle/Controller/ReservationController.php:22",
+        "src/AppBundle/Controller/ReservationController.php:51"
       ],
       "deprecated_since": "sensio/framework-extra-bundle (paquet abandonné)",
       "removed_in": "sensio/framework-extra-bundle (retrait du bundle ; EntityValueResolver depuis symfony 6.2)",
@@ -480,23 +579,28 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
     {
       "signature": "symfony/console: command auto-registered from the bundle Command/ directory",
-      "source": "static-review",
+      "source": "runtime-symfony",
       "family": "console",
       "location": [
         "src/AppBundle/Command/FleetReportCommand.php",
         "src/AppBundle/Command/LoadDemoDataCommand.php",
-        "app/config/services.yml"
+        "app/config/services.yml (aucune déclaration console.command)"
       ],
       "deprecated_since": "symfony 3.4",
       "removed_in": "symfony 4.0",
       "blocking_for": "step-02",
-      "autofix": "none (déclarer les commandes en services, tag console.command)",
-      "behavior_risk": "faible ; non exercé au runtime (aucune occurrence CLI journalisée)",
+      "autofix": "none (déclarer les commandes en services, tag console.command ; à step-02 : découverte PSR-4 + autoconfigure de la structure Flex)",
+      "behavior_risk": "élevé si oublié : en 4.0 fleet:report et fleet:demo:load disparaissent de la console (suite cli rouge) ; faible une fois déclarées. Confirmé au runtime (51 occurrences par commande)",
       "id": "DEP-0009",
       "status": "open",
       "first_seen_step": "step-00",
@@ -506,7 +610,19 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
+      ],
+      "occurrences": {
+        "app": 102,
+        "ref": 0
+      },
+      "routes": [
+        "cli (tout lancement de la console)"
       ]
     },
     {
@@ -529,6 +645,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -555,14 +676,19 @@
       ],
       "behavior_risk": "élevé : inverser les choix (libellé => valeur) ; valeurs d'option HTML, option sélectionnée, valeur hors liste (goldens admin-vehicle-new bh323-*) à préserver. En 2.8 : choices_as_values=true + choix inversés ; dès 3.1, l'option elle-même est dépréciée (la retirer à step-01)",
       "id": "DEP-0004",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -571,8 +697,8 @@
       "source": "static-review",
       "family": "forms",
       "location": [
-        "src/AppBundle/Form/ReservationType.php:15-19",
-        "src/AppBundle/Form/ReservationType.php:20-24"
+        "src/AppBundle/Form/ReservationType.php:17-21",
+        "src/AppBundle/Form/ReservationType.php:22-26"
       ],
       "deprecated_since": "symfony 4.3",
       "removed_in": "symfony 5.0",
@@ -586,6 +712,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -613,14 +744,19 @@
       ],
       "behavior_risk": "moyen : le préfixe de bloc donne le nom des champs HTML (reservation[…], vehicle[…]) ; renommer en getBlockPrefix() en gardant la même valeur",
       "id": "DEP-0002",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -646,14 +782,19 @@
       ],
       "behavior_risk": "faible",
       "id": "DEP-0001",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -685,14 +826,19 @@
       ],
       "behavior_risk": "faible",
       "id": "DEP-0003",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -711,14 +857,19 @@
       "autofix": "rector:Rector\\Symfony\\Symfony40\\Rector\\MethodCall\\FormIsValidRector (non déclenchée : createForm() typé FormInterface)",
       "behavior_risk": "faible : isSubmitted() && isValid() rend le même résultat sur GET ; apparaîtra au runtime dès step-01 (pré-enregistrée pour ne pas lever d'introduced)",
       "id": "DEP-0008",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -742,14 +893,19 @@
       ],
       "behavior_risk": "disparaît avec la correction de choices_as_values",
       "id": "DEP-0005",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -774,6 +930,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -801,6 +962,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -817,8 +983,8 @@
       "deprecated_since": "symfony 4.2",
       "removed_in": "symfony 5.0",
       "blocking_for": "step-04",
-      "autofix": "none (injection des services app.* au lieu de $this->get())",
-      "behavior_risk": "faible",
+      "autofix": "rector:Rector\\Renaming\\Rector\\Name\\RenameClassRector (Controller -> AbstractController, déclenchée en simulation step-02 sur les 4 contrôleurs ; NE PAS appliquer seule : AbstractController::get() ne fournit que ses services abonnés, $this->get('app.*') échouerait → injecter d'abord)",
+      "behavior_risk": "moyen : dépend de la suppression préalable des $this->get('app.*') (voir services privés)",
       "id": "DEP-0014",
       "status": "open",
       "first_seen_step": "step-00",
@@ -826,6 +992,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -836,8 +1007,8 @@
       "source": "static-review",
       "family": "controllers",
       "location": [
-        "src/AppBundle/Controller/ReservationController.php:31",
-        "src/AppBundle/Controller/ReservationController.php:60",
+        "src/AppBundle/Controller/ReservationController.php:33",
+        "src/AppBundle/Controller/ReservationController.php:66",
         "src/AppBundle/Controller/AdminController.php:36"
       ],
       "deprecated_since": "symfony 5.3",
@@ -852,6 +1023,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -878,6 +1054,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -892,7 +1073,7 @@
       "deprecated_since": "symfony 4.3",
       "removed_in": "symfony 5.0",
       "blocking_for": "step-04",
-      "autofix": "rector:RenameClassRector (set symfony43)",
+      "autofix": "rector:Rector\\Renaming\\Rector\\Name\\RenameClassRector (déclenchée en simulation step-02 ; ResponseEvent n'existe qu'à partir de Symfony 4.3 : après le composer update)",
       "behavior_risk": "faible : en-tête X-Fleet-Version",
       "id": "DEP-0019",
       "status": "open",
@@ -901,6 +1082,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -929,6 +1115,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -951,6 +1142,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -977,6 +1173,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -999,6 +1200,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -1025,6 +1231,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -1047,6 +1258,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -1072,14 +1288,19 @@
       ],
       "behavior_risk": "disparaît avec la correction de security.context",
       "id": "DEP-0007",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -1103,14 +1324,19 @@
       ],
       "behavior_risk": "faible : même décision d'accès ; le refus reste AccessDeniedException (access_control ^/admin intervient avant)",
       "id": "DEP-0006",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -1124,9 +1350,9 @@
       ],
       "deprecated_since": "symfony 4.3",
       "removed_in": "symfony 5.0",
-      "blocking_for": "step-04",
+      "blocking_for": "step-02",
       "autofix": "none (chemins templates/ de step-02)",
-      "behavior_risk": "faible ; à traiter avec le déplacement des templates (step-02)",
+      "behavior_risk": "moyen : '::base.html.twig' est résolu dans %kernel.root_dir%/Resources/views (app/) ; la structure Flex de step-02 déplace les templates sous templates/ → template introuvable. Correction possible dès step-01 ('base.html.twig', déjà utilisé par les autres vues). Reclassée step-04 → step-02 à step-01",
       "id": "DEP-0018",
       "status": "open",
       "first_seen_step": "step-00",
@@ -1134,6 +1360,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -1152,14 +1383,19 @@
       "autofix": "rector:Rector\\Symfony\\Symfony25\\Rector\\MethodCall\\AddViolationToBuildViolationRector (optionnelle)",
       "behavior_risk": "faible ; constat de typage (phpdoc de ConstraintValidator::$context) : addViolation($message, $params) existe sur la nouvelle interface et aucun avis runtime n'est émis. À revérifier au runtime de step-01",
       "id": "DEP-0010",
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -1174,7 +1410,7 @@
       "deprecated_since": "twig/twig 1.38 (classes namespacées par défaut)",
       "removed_in": "twig/twig 3.0",
       "blocking_for": "step-04",
-      "autofix": "rector:RenameClassRector (TwigSetList composer-based, underscore -> namespace)",
+      "autofix": "rector:Rector\\Renaming\\Rector\\Name\\RenameClassRector (déclenchée en simulation step-02 : Twig\\Extension\\AbstractExtension, Twig\\TwigFilter ; classes namespacées disponibles dès Twig 1.42)",
       "behavior_risk": "faible",
       "id": "DEP-0033",
       "status": "open",
@@ -1183,6 +1419,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -1207,6 +1448,11 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true
         }
@@ -1234,6 +1480,11 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
     },
@@ -1258,9 +1509,128 @@
           "step": "step-00",
           "status": "open",
           "present": true
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true
         }
       ]
+    },
+    {
+      "signature": "symfony/dependency-injection: private service fetched from the container with get()",
+      "source": "runtime-symfony",
+      "family": "services",
+      "location": [
+        "src/AppBundle/Controller/ReservationController.php:32 (app.reservation_manager, newAction)",
+        "src/AppBundle/Controller/ReservationController.php:65 (app.reservation_manager, returnAction)",
+        "src/AppBundle/Command/FleetReportCommand.php:36 (app.reservation_manager, getContainer()->get)",
+        "src/AppBundle/Controller/AdminController.php:30 (app.plate_formatter)",
+        "app/config/services.yml:21-26 (définitions sans public explicite : privées par défaut en 4.0)"
+      ],
+      "deprecated_since": "symfony 3.2 (services non explicitement publics : 3.4)",
+      "removed_in": "symfony 4.0 (ServiceNotFoundException)",
+      "blocking_for": "step-02",
+      "autofix": "none (Rector\\Symfony\\Symfony28\\Rector\\MethodCall\\GetToConstructorInjectionRector chargée mais non déclenchée : conteneur non typé)",
+      "occurrences": {
+        "app": 839,
+        "ref": 0
+      },
+      "routes": [
+        "reservation_new",
+        "reservation_return",
+        "admin_vehicle_new",
+        "cli:fleet:report"
+      ],
+      "behavior_risk": "faible si `public: true` sur app.reservation_manager et app.plate_formatter (correction minimale, aucun changement d'instance) ; moyen si injection : controllers en services (fait par la structure Flex de step-02)",
+      "id": "DEP-0048",
+      "status": "accepted",
+      "first_seen_step": "step-01",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-01",
+          "status": "introduced",
+          "present": true
+        }
+      ],
+      "accepted": {
+        "reason": "Introduite par Symfony 3.4 pour la 4.0, sans effet en 3.4 ; corrigée par /fix-deprecations au début de step-02",
+        "by": "utilisateur (formateur)",
+        "date": "2026-11-17",
+        "until_step": "step-02"
+      }
+    },
+    {
+      "signature": "symfony/http-kernel: GetResponseForExceptionEvent and getException()/setException() (use ExceptionEvent and getThrowable()/setThrowable())",
+      "source": "rector",
+      "family": "events",
+      "location": [
+        "src/AppBundle/EventListener/LegacyAllowHeaderListener.php:5",
+        "src/AppBundle/EventListener/LegacyAllowHeaderListener.php:18 (type-hint)",
+        "src/AppBundle/EventListener/LegacyAllowHeaderListener.php:20 (getException)",
+        "src/AppBundle/EventListener/LegacyAllowHeaderListener.php:44 (setException)"
+      ],
+      "deprecated_since": "symfony 4.3 (classe) / 4.4 (getException, setException)",
+      "removed_in": "symfony 5.0",
+      "blocking_for": "step-04",
+      "autofix": "rector:Rector\\Renaming\\Rector\\Name\\RenameClassRector + Rector\\Renaming\\Rector\\MethodCall\\RenameMethodRector (déclenchées en simulation step-02 ; ExceptionEvent et getThrowable() n'existent qu'à partir de Symfony 4.3/4.4 : appliquer après le composer update de step-02, jamais en 3.4)",
+      "behavior_risk": "moyen : en-tête Allow et message des 405 (préservation 2.8 introduite à step-01) ; code ajouté à step-01, émettra au runtime dès step-02",
+      "id": "DEP-0050",
+      "status": "accepted",
+      "first_seen_step": "step-01",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-01",
+          "status": "introduced",
+          "present": true
+        }
+      ],
+      "accepted": {
+        "reason": "Listener Allow ajouté à step-01 (préservation BH-026…) ; GetResponseForExceptionEvent remplacé par Rector après le composer update de step-02, au plus tard step-04",
+        "by": "utilisateur (formateur)",
+        "date": "2026-11-17",
+        "until_step": "step-04"
+      }
+    },
+    {
+      "signature": "symfony/security-bundle: firewall logout_on_user_change not enabled (always true since 4.0)",
+      "source": "runtime-symfony",
+      "family": "security",
+      "location": [
+        "app/config/security.yml:15-17 (firewall main)"
+      ],
+      "deprecated_since": "symfony 3.4",
+      "removed_in": "symfony 4.0 (comportement forcé à true ; l'option elle-même est dépréciée en 4.1, supprimée en 5.0)",
+      "blocking_for": "step-02",
+      "autofix": "none (`logout_on_user_change: true` à step-01, puis retirer la clé à step-02)",
+      "occurrences": {
+        "app": 6,
+        "ref": 0
+      },
+      "routes": [
+        "(compilation du conteneur)"
+      ],
+      "behavior_risk": "faible : déconnexion si l'utilisateur rafraîchi diffère du jeton en session (mot de passe, rôles, nom) ; utilisateur in-memory immuable et http_basic ré-authentifie chaque requête. À vérifier : 401/défi Basic et lien d'administration de base.html.twig",
+      "id": "DEP-0049",
+      "status": "accepted",
+      "first_seen_step": "step-01",
+      "fixed_in_step": null,
+      "history": [
+        {
+          "step": "step-01",
+          "status": "introduced",
+          "present": true
+        }
+      ],
+      "accepted": {
+        "reason": "Introduite par Symfony 3.4 (logout_on_user_change forcé à true en 4.0) ; arbitrage et correction au début de step-02",
+        "by": "utilisateur (formateur)",
+        "date": "2026-11-17",
+        "until_step": "step-02"
+      }
     }
   ],
-  "id_seq": 47
+  "id_seq": 50
 }

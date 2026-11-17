@@ -20,7 +20,9 @@ framework:
         engines: ['twig']
     default_locale:  "%locale%"
     session:
-        handler_id:  ~
+        # Symfony 2.8 behaviour preserved: plain PHP \SessionHandler (3.4 wraps a null handler in
+        # StrictSessionHandler, which drops the PHPSESSID cookie of empty sessions).
+        handler_id:  app.session.handler.native
     http_method_override: true
 
 twig:

@@ -14,6 +14,20 @@
         "accepted": 0,
         "reappeared": 0
       }
+    },
+    {
+      "step": "step-01",
+      "date": "2026-11-17",
+      "php": "7.2",
+      "symfony": "3.4",
+      "composer_lock_sha256": "fc3e1a047d4f2be2559e9d2e25d9a40604e3619955c496ed38790e91c6ff7029",
+      "counts": {
+        "new": 0,
+        "fixed": 1,
+        "open": 110,
+        "accepted": 0,
+        "reappeared": 0
+      }
     }
   ],
   "vulnerabilities": [
@@ -21,7 +35,7 @@
       "id": "CFG-001",
       "aliases": [],
       "package": "app/config/parameters.yml.dist",
-      "installed_version": "step-00",
+      "installed_version": "step-01",
       "kind": "config",
       "summary": "Secret Symfony par défaut (de démonstration (valeur publique, non recopiée)) versionné et recopié dans parameters.yml",
       "severity": "high",
@@ -34,7 +48,7 @@
       "url": "https://symfony.com/doc/current/reference/configuration/framework.html#secret",
       "exposure": {
         "level": "used-not-reachable",
-        "justification": "kernel.secret est chargé (config.yml framework.secret) mais ses usages sensibles en 2.8 ne sont pas actifs : pas de remember_me, framework.fragments désactivé (pas de route _fragment signée), jetons CSRF aléatoires en session. Couvert par la dérogation durable des commits (CLAUDE.md, 2026-11-17)."
+        "justification": "Inchangé en step-01 : kernel.secret chargé (config.yml framework.secret) ; pas de remember_me, framework.fragments non activé (pas de route _fragment signée), jetons CSRF aléatoires en session. Couvert par la dérogation durable des commits (CLAUDE.md, 2026-11-17)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -45,6 +59,12 @@
           "status": "open",
           "present": true,
           "installed_version": "step-00"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-01"
         }
       ]
     },
@@ -52,7 +72,7 @@
       "id": "CFG-002",
       "aliases": [],
       "package": "app/config/security.yml",
-      "installed_version": "step-00",
+      "installed_version": "step-01",
       "kind": "config",
       "summary": "Encodeur de mot de passe plaintext pour Symfony\\Component\\Security\\Core\\User\\User",
       "severity": "medium",
@@ -65,7 +85,7 @@
       "url": "https://symfony.com/doc/current/security/passwords.html",
       "exposure": {
         "level": "reachable",
-        "justification": "Utilisé par http_basic à chaque accès à /admin/vehicules/nouveau : le mot de passe est comparé et stocké en clair."
+        "justification": "Inchangé en step-01 (security.yml non modifié) : encodeur plaintext utilisé par http_basic à chaque accès à /admin/vehicules/nouveau."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -76,6 +96,12 @@
           "status": "open",
           "present": true,
           "installed_version": "step-00"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-01"
         }
       ]
     },
@@ -83,7 +109,7 @@
       "id": "CFG-003",
       "aliases": [],
       "package": "app/config/security.yml",
-      "installed_version": "step-00",
+      "installed_version": "step-01",
       "kind": "config",
       "summary": "Compte administrateur gestionnaire / flotte2016 (ROLE_ADMIN) en clair dans un fichier versionné, transmis en HTTP Basic sans TLS",
       "severity": "high",
@@ -96,7 +122,7 @@
       "url": "https://cwe.mitre.org/data/definitions/798.html",
       "exposure": {
         "level": "reachable",
-        "justification": "Le compte donne ROLE_ADMIN (création de véhicules via AdminController) ; identifiants lisibles par quiconque lit le dépôt, envoyés en Basic sur HTTP (Apache :8080 sans TLS, publié sur 127.0.0.1)."
+        "justification": "Inchangé en step-01 : compte in_memory gestionnaire (ROLE_ADMIN) en clair dans security.yml, transmis en Basic sur HTTP (Apache :8080, publié sur 127.0.0.1)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -107,6 +133,12 @@
           "status": "open",
           "present": true,
           "installed_version": "step-00"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-01"
         }
       ]
     },
@@ -114,7 +146,7 @@
       "id": "CFG-004",
       "aliases": [],
       "package": "docker/app/php.ini",
-      "installed_version": "step-00",
+      "installed_version": "step-01",
       "kind": "config",
       "summary": "Divulgation de version : X-Powered-By: PHP/7.2.34 (expose_php non désactivé), signature Apache par défaut, en-tête applicatif X-Fleet-Version",
       "severity": "low",
@@ -138,6 +170,12 @@
           "status": "open",
           "present": true,
           "installed_version": "step-00"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-01"
         }
       ]
     },
@@ -145,7 +183,7 @@
       "id": "CFG-005",
       "aliases": [],
       "package": "web/app_dev.php",
-      "installed_version": "step-00",
+      "installed_version": "step-01",
       "kind": "config",
       "summary": "Front controller de debug présent dans le docroot, liste blanche incluant la passerelle Docker 172.17.0.1, Debug::enable()",
       "severity": "medium",
@@ -169,6 +207,12 @@
           "status": "open",
           "present": true,
           "installed_version": "step-00"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "step-01"
         }
       ]
     },
@@ -200,6 +244,12 @@
           "status": "open",
           "present": true,
           "installed_version": "0.9.1-2"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "0.9.1-2"
         }
       ]
     },
@@ -226,6 +276,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "5.3.28+dfsg1-0.5"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "5.3.28+dfsg1-0.5"
@@ -260,6 +316,12 @@
           "status": "open",
           "present": true,
           "installed_version": "3.27.2-3+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.27.2-3+deb10u1"
         }
       ]
     },
@@ -291,6 +353,12 @@
           "status": "open",
           "present": true,
           "installed_version": "3.6.7-4+deb10u5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.6.7-4+deb10u5"
         }
       ]
     },
@@ -319,6 +387,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.6.7-4+deb10u5"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "3.6.7-4+deb10u5"
@@ -357,6 +431,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -389,6 +469,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
@@ -427,6 +513,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -455,6 +547,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -489,6 +587,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.28-10"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
         }
       ]
     },
@@ -517,6 +621,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.8.3-1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1.8.3-1"
@@ -551,6 +661,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.28-10"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
         }
       ]
     },
@@ -579,6 +695,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.1.1d-0+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1.1.1d-0+deb10u4"
@@ -613,6 +735,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
         }
       ]
     },
@@ -641,6 +769,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -675,6 +809,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
         }
       ]
     },
@@ -703,6 +843,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "4.13"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "4.13"
@@ -737,6 +883,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.19.7"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.19.7"
         }
       ]
     },
@@ -765,6 +917,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -799,6 +957,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
         }
       ]
     },
@@ -827,6 +991,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
@@ -861,6 +1031,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
         }
       ]
     },
@@ -889,6 +1065,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
@@ -923,6 +1105,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.28-10"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
         }
       ]
     },
@@ -951,6 +1139,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.28-10"
@@ -985,6 +1179,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
         }
       ]
     },
@@ -1013,6 +1213,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -1047,6 +1253,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
         }
       ]
     },
@@ -1075,6 +1287,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
@@ -1109,6 +1327,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
         }
       ]
     },
@@ -1140,6 +1364,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
         }
       ]
     },
@@ -1168,6 +1398,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.47+dfsg-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.47+dfsg-3+deb10u4"
@@ -1206,6 +1442,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -1241,6 +1483,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -1269,6 +1517,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -1303,6 +1557,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
         }
       ]
     },
@@ -1331,6 +1591,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1:1.2.11.dfsg-1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1:1.2.11.dfsg-1"
@@ -1369,6 +1635,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -1397,6 +1669,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -1431,6 +1709,12 @@
           "status": "open",
           "present": true,
           "installed_version": "4.19.160-2"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "4.19.160-2"
         }
       ]
     },
@@ -1457,6 +1741,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1:1.2.11.dfsg-1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1:1.2.11.dfsg-1"
@@ -1495,6 +1785,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -1530,6 +1826,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -1539,7 +1841,7 @@
         "CVE-2024-50345"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "HttpFoundation Request : redirection ouverte via des URL assainies par le navigateur",
       "severity": "low",
@@ -1554,7 +1856,7 @@
       "url": "https://symfony.com/cve-2024-50345",
       "exposure": {
         "level": "used-not-reachable",
-        "justification": "Toutes les redirections (homeAction, AdminController, ReservationController) visent generateUrl() d'une route interne ; aucune URL fournie par l'utilisateur ni target_path (pas de form_login)."
+        "justification": "Inchangé en 3.4 : toutes les redirections (homeAction, AdminController, ReservationController) visent generateUrl() d'une route interne ; aucune URL fournie par l'utilisateur ni target_path (pas de form_login)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1565,6 +1867,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1600,6 +1908,12 @@
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
         }
       ]
     },
@@ -1609,7 +1923,7 @@
         "CVE-2026-109449"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "ExpressionLanguage : imbrication non bornée du parser (crash)",
       "severity": "unknown",
@@ -1625,7 +1939,7 @@
       "url": "https://symfony.com/cve-2026-109449",
       "exposure": {
         "level": "not-used",
-        "justification": "Aucune expression (allow_if, @Security, expression de service) dans la configuration ni le code ; aucune expression ne vient d'un utilisateur."
+        "justification": "Aucune expression (allow_if dans security.yml, @Security de SensioFrameworkExtraBundle, expression de service) ; aucune expression issue d'un utilisateur."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1636,6 +1950,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1645,7 +1965,7 @@
         "CVE-2026-118513"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "X509Authenticator / X509AuthenticationListener : découpage RDN erroné du DN (correctif incomplet de CVE-2026-45063)",
       "severity": "unknown",
@@ -1661,7 +1981,7 @@
       "url": "https://symfony.com/cve-2026-118513",
       "exposure": {
         "level": "not-used",
-        "justification": "security.yml : pare-feu main en anonymous + http_basic uniquement, aucune authentification x509."
+        "justification": "security.yml (inchangé) : pare-feu main en anonymous + http_basic uniquement, aucune authentification x509."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1672,6 +1992,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1681,7 +2007,7 @@
         "CVE-2026-118514"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Requêtes HEAD contournant l'option methods des règles access_control et des pare-feu (correctif incomplet de CVE-2026-45075)",
       "severity": "unknown",
@@ -1697,7 +2023,7 @@
       "url": "https://symfony.com/cve-2026-118514",
       "exposure": {
         "level": "not-used",
-        "justification": "La seule règle access_control (^/admin, ROLE_ADMIN) et les pare-feu de security.yml n'utilisent pas l'option methods : la règle s'applique à toutes les méthodes."
+        "justification": "La seule règle access_control (^/admin, ROLE_ADMIN) et les pare-feu dev/main n'utilisent pas l'option methods : la règle s'applique à toutes les méthodes, HEAD compris."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1708,6 +2034,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1717,7 +2049,7 @@
         "CVE-2026-118515"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Serializer : construction d'UploadedFile depuis les données de requête (fichier serveur arbitraire)",
       "severity": "unknown",
@@ -1733,7 +2065,7 @@
       "url": "https://symfony.com/cve-2026-118515",
       "exposure": {
         "level": "not-used",
-        "justification": "Serializer non activé (pas de framework.serializer), aucun téléversement de fichier dans les formulaires (VehicleType, ReservationType, formulaire endKm)."
+        "justification": "Le composant Serializer est présent dans symfony/symfony 3.4 mais non activé (aucune clé framework.serializer dans app/config/config.yml, aucun service serializer) ; aucun FileType dans VehicleType, ReservationType ni le formulaire endKm."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1744,6 +2076,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1774,6 +2112,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
@@ -1810,6 +2154,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -1819,7 +2169,7 @@
         "CVE-2026-109413"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Yaml : récursion non bornée du lexer inline (crash du processus)",
       "severity": "high",
@@ -1835,7 +2185,7 @@
       "url": "https://symfony.com/cve-2026-109413",
       "exposure": {
         "level": "used-not-reachable",
-        "justification": "Composant Yaml utilisé uniquement pour charger app/config/*.yml (fichiers de confiance, au build du cache). Aucun contrôleur ni commande (inventaire : VehicleController, ReservationController, ApiController, AdminController, fleet:report, fleet:demo:load) ne parse de YAML venant d'une requête."
+        "justification": "Yaml ne charge que app/config/*.yml (fichiers versionnés, au build du cache) ; aucun contrôleur ni commande (VehicleController, ReservationController, ApiController, AdminController, fleet:report, fleet:demo:load) ne parse de YAML issu d'une requête."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1846,6 +2196,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1855,7 +2211,7 @@
         "CVE-2022-24895"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Fixation de jeton CSRF (jetons non régénérés à l'authentification)",
       "severity": "medium",
@@ -1870,7 +2226,7 @@
       "url": "https://symfony.com/cve-2022-24895",
       "exposure": {
         "level": "reachable",
-        "justification": "csrf_protection activé (config.yml) et jetons CSRF stockés en session pour les formulaires de ReservationController et AdminController ; l'authentification http_basic de gestionnaire ne régénère pas ces jetons. Impact limité (une seule identité privilégiée)."
+        "justification": "csrf_protection activé (config.yml) ; jetons CSRF en session pour les formulaires de ReservationController et AdminController, non régénérés à l'authentification http_basic de gestionnaire. Le handler natif app.session.handler.native (step-01) ne change rien à ce point. Impact limité (une seule identité privilégiée)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1881,6 +2237,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1890,7 +2252,7 @@
         "CVE-2025-64500"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "HttpFoundation : PATH_INFO mal interprété (chemin sans / initial) permettant un contournement limité d'autorisation",
       "severity": "high",
@@ -1905,7 +2267,7 @@
       "url": "https://symfony.com/blog/cve-2025-64500-incorrect-parsing-of-path-info-can-lead-to-limited-authorization-bypass",
       "exposure": {
         "level": "reachable",
-        "justification": "Request::getPathInfo() est évalué à chaque requête (web/app.php, FallbackResource Apache) et la protection de /admin repose sur access_control path ^/admin (security.yml). Impact atténué : AdminController::newVehicleAction revérifie isGranted('ROLE_ADMIN') et lève AccessDeniedException."
+        "justification": "Request::getPathInfo() évalué à chaque requête (web/app.php, FallbackResource Apache), protection de /admin par access_control ^/admin. Atténué : AdminController::newVehicleAction revérifie $this->isGranted('ROLE_ADMIN') (step-01, ex security.context) et lève AccessDeniedException."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -1916,6 +2278,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1949,6 +2317,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -1958,7 +2332,7 @@
         "CVE-2026-45304"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Yaml : expansion exponentielle d'alias de collection (Billion Laughs)",
       "severity": "low",
@@ -1985,6 +2359,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -1994,7 +2374,7 @@
         "CVE-2026-123125"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Contrainte Ip (modes public/private) : adresses IPv6 mappées IPv4 acceptées (contournement de filtre SSRF)",
       "severity": "unknown",
@@ -2010,7 +2390,7 @@
       "url": "https://github.com/symfony/symfony/security/advisories/GHSA-4qpf-57w4-m3wc",
       "exposure": {
         "level": "not-used",
-        "justification": "Contraintes utilisées : NotBlank, GreaterThanOrEqual, BelgianPlate (personnalisée) ; aucune contrainte Ip."
+        "justification": "Contraintes utilisées : NotBlank, GreaterThanOrEqual, BelgianPlate (personnalisée) ; aucune contrainte Ip (formulaires migrés en step-01 sans ajout de contrainte)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2021,6 +2401,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2043,7 +2429,7 @@
       "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-529h-vh3j-85hq",
       "exposure": {
         "level": "not-used",
-        "justification": "Aucune SandboxExtension enregistrée (TwigBundle 2.8 ne l'active pas, services.yml n'ajoute que FleetExtension) ; templates écrits par les développeurs, pas par les utilisateurs."
+        "justification": "Aucune SandboxExtension enregistrée (TwigBundle 3.4 ne l'active pas, services.yml n'ajoute que FleetExtension et les services de step-01) ; templates écrits par les développeurs."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2051,6 +2437,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
@@ -2089,6 +2481,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2098,7 +2496,7 @@
         "CVE-2026-123824"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Config XmlUtils::parse() : XXE (lecture de fichier local) via validateOnParse",
       "severity": "unknown",
@@ -2114,7 +2512,7 @@
       "url": "https://github.com/symfony/symfony/security/advisories/GHSA-5jff-8h8q-r5qx",
       "exposure": {
         "level": "used-not-reachable",
-        "justification": "XmlUtils ne charge que des fichiers XML internes du framework (mapping de validation du composant Form) au build du cache ; configuration applicative en YAML, traducteur non activé, aucun XML utilisateur parsé."
+        "justification": "XmlUtils ne charge que des XML internes du framework (définitions de services, mapping de validation Form) au build du cache ; configuration applicative en YAML, traducteur non activé, aucun XML utilisateur parsé."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2125,6 +2523,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2132,7 +2536,7 @@
       "id": "GHSA-5mx8-mwrp-5693",
       "aliases": [],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "URL générées pouvant pointer vers un hôte choisi par le client (sans CVE)",
       "severity": "unknown",
@@ -2148,7 +2552,7 @@
       "url": "https://github.com/symfony/symfony/security/advisories/GHSA-5mx8-mwrp-5693",
       "exposure": {
         "level": "used-not-reachable",
-        "justification": "UrlGenerator utilisé (path() dans les templates, generateUrl() dans les contrôleurs) mais toujours en chemin relatif (ABSOLUTE_PATH) ; aucun url() absolu ni e-mail ; trusted_hosts non configuré."
+        "justification": "UrlGenerator utilisé (path() dans les templates, generateUrl() dans les contrôleurs) toujours en chemin relatif (ABSOLUTE_PATH) ; aucun url() absolu ni e-mail ; trusted_hosts non configuré."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2159,6 +2563,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2184,15 +2594,20 @@
         "level": "used-not-reachable",
         "justification": "Authentification http_basic active, mais le point d'entrée Basic renvoie le même 401 que l'utilisateur existe ou non ; un seul compte in_memory (gestionnaire), dont le nom est de toute façon publié dans security.yml (voir CFG-003)."
       },
-      "status": "open",
+      "status": "fixed",
       "first_seen_step": "step-00",
-      "fixed_in_step": null,
+      "fixed_in_step": "step-01",
       "history": [
         {
           "step": "step-00",
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "fixed",
+          "present": false
         }
       ]
     },
@@ -2223,6 +2638,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
@@ -2260,6 +2681,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2269,7 +2696,7 @@
         "CVE-2026-48489"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Contournement du pare-feu via la sous-requête failure_forward (accès non authentifié à des GET protégés)",
       "severity": "high",
@@ -2285,7 +2712,7 @@
       "url": "https://symfony.com/cve-2026-48489",
       "exposure": {
         "level": "not-used",
-        "justification": "failure_forward est une option de form_login ; security.yml n'utilise que http_basic. De plus AdminController revérifie ROLE_ADMIN dans l'action."
+        "justification": "failure_forward est une option de form_login ; security.yml n'utilise que http_basic. AdminController revérifie ROLE_ADMIN dans l'action."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2296,6 +2723,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2332,6 +2765,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2341,7 +2780,7 @@
         "CVE-2026-45073"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Cache PdoAdapter::doClear() : injection SQL",
       "severity": "medium",
@@ -2357,7 +2796,7 @@
       "url": "https://symfony.com/cve-2026-45073",
       "exposure": {
         "level": "not-used",
-        "justification": "Aucun pool de cache configuré (pas de framework.cache), aucun PdoAdapter ; la base SQLite n'est accédée que par Doctrine."
+        "justification": "En 3.4 le composant Cache est chargé (pool par défaut cache.app = FilesystemAdapter, framework.cache non configuré) mais aucun PdoAdapter n'est déclaré ; la base SQLite n'est accédée que par Doctrine."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2368,6 +2807,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2377,7 +2822,7 @@
         "CVE-2026-45065"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "UrlGenerator : requirements en alternance non ancrés (URL protocol-relative hors site)",
       "severity": "medium",
@@ -2404,6 +2849,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2437,6 +2888,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2459,7 +2916,7 @@
       "url": "https://symfony.com/cve-2026-46633",
       "exposure": {
         "level": "used-not-reachable",
-        "justification": "{% use %} n'apparaît dans aucun template applicatif ; seuls les thèmes de formulaire du framework l'emploient, avec des noms littéraux. Aucun nom de template n'est dérivé d'une entrée utilisateur (render() et @Template avec noms fixes)."
+        "justification": "{% use %} n'apparaît dans aucun template applicatif ; seuls les thèmes de formulaire de TwigBridge 3.4 l'emploient avec des noms littéraux. Aucun nom de template dérivé d'une entrée utilisateur (render() et @Template avec noms fixes)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2467,6 +2924,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
@@ -2503,6 +2966,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2512,7 +2981,7 @@
         "CVE-2026-45305"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Yaml : ReDoS dans Parser::cleanup()",
       "severity": "low",
@@ -2539,6 +3008,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2548,7 +3023,7 @@
         "CVE-2026-45133"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Yaml : épuisement de pile par récursion non bornée (blocs, séquences, mappings imbriqués)",
       "severity": "low",
@@ -2575,6 +3050,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2584,7 +3065,7 @@
         "CVE-2024-50343"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Validator : réponse incorrecte quand l'entrée se termine par un saut de ligne",
       "severity": "low",
@@ -2610,6 +3091,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2619,7 +3106,7 @@
         "CVE-2026-48784"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "UrlGenerator : encodage des segments ../ incomplet (URL générée hors route après normalisation)",
       "severity": "medium",
@@ -2646,6 +3133,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2655,7 +3148,7 @@
         "CVE-2022-24894"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "HttpCache : stockage des en-têtes Set-Cookie",
       "severity": "medium",
@@ -2670,7 +3163,7 @@
       "url": "https://symfony.com/cve-2022-24894",
       "exposure": {
         "level": "not-used",
-        "justification": "Aucun reverse proxy HttpCache : web/app.php instancie AppKernel directement, sans AppCache."
+        "justification": "Aucun reverse proxy HttpCache : web/app.php (inchangé) instancie AppKernel directement, sans AppCache."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2681,6 +3174,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2714,6 +3213,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2723,7 +3228,7 @@
         "CVE-2026-123792"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Yaml : temps de parsing exponentiel/quadratique (DoS)",
       "severity": "unknown",
@@ -2750,6 +3255,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2784,6 +3295,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2793,7 +3310,7 @@
         "CVE-2026-45077"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "MonologBridge : désérialisation d'objets non authentifiée",
       "severity": "high",
@@ -2809,7 +3326,7 @@
       "url": "https://symfony.com/cve-2026-45077",
       "exposure": {
         "level": "not-used",
-        "justification": "MonologBundle non enregistré dans AppKernel (Framework, Security, Twig, Doctrine, SensioFrameworkExtra, App) ; aucun serveur de logs."
+        "justification": "MonologBundle non enregistré dans AppKernel ; step-01 définit explicitement le service logger = Psr\\Log\\NullLogger (services.yml) : aucune classe MonologBridge chargée, aucun serveur de logs."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2820,6 +3337,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2853,6 +3376,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2862,7 +3391,7 @@
         "CVE-2026-45063"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "X509Authenticator : regex de DN non ancrée",
       "severity": "high",
@@ -2889,6 +3418,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2922,6 +3457,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -2931,7 +3472,7 @@
         "CVE-2026-121623"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Serializer DataUriNormalizer : schéma data: non minuscule ouvert comme fichier local (lecture de fichier)",
       "severity": "unknown",
@@ -2947,7 +3488,7 @@
       "url": "https://github.com/symfony/symfony/security/advisories/GHSA-pxj9-jh84-vhm5",
       "exposure": {
         "level": "not-used",
-        "justification": "DataUriNormalizer n'existe pas en 2.8 (ajouté en 3.1) et le serializer n'est pas activé (aucune clé framework.serializer dans app/config/config.yml) ; ApiController construit son JSON à la main (JsonResponse)."
+        "justification": "DataUriNormalizer existe désormais (Serializer 3.4, ajouté en 3.1) mais le serializer n'est pas activé (aucune clé framework.serializer dans app/config/config.yml) ; ApiController construit son JSON à la main (JsonResponse)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -2958,6 +3499,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -2967,7 +3514,7 @@
         "CVE-2023-46734"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "TwigBridge CodeExtension : XSS dans les filtres file_excerpt/format_file/abbr_*",
       "severity": "medium",
@@ -2993,6 +3540,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3002,7 +3555,7 @@
         "CVE-2026-45067"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Mime Address : injection d'en-tête e-mail / commande SMTP via CRLF",
       "severity": "high",
@@ -3018,7 +3571,7 @@
       "url": "https://symfony.com/cve-2026-45067",
       "exposure": {
         "level": "not-used",
-        "justification": "Composant Mime absent en 2.8 ; aucun envoi d'e-mail."
+        "justification": "Composant Mime absent de symfony/symfony 3.4.49 (introduit en 4.3, aucun src/Symfony/Component/Mime dans vendor) ; aucun envoi d'e-mail."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -3029,6 +3582,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3038,7 +3597,7 @@
         "CVE-2024-51736"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Process : détournement d'exécution de commande sous Windows",
       "severity": "high",
@@ -3064,6 +3623,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3073,7 +3638,7 @@
         "CVE-2026-24739"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Process : échappement d'arguments incorrect sous MSYS2/Git Bash (Windows)",
       "severity": "medium",
@@ -3100,6 +3665,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3133,6 +3704,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.42.5"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.42.5"
         }
       ]
     },
@@ -3142,7 +3719,7 @@
         "CVE-2026-45070"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Mime : injection d'en-tête e-mail via des noms de paramètres non-token",
       "severity": "medium",
@@ -3158,7 +3735,7 @@
       "url": "https://symfony.com/cve-2026-45070",
       "exposure": {
         "level": "not-used",
-        "justification": "Composant Mime absent en 2.8 (introduit en 4.3) ; l'application n'envoie aucun e-mail (pas de swiftmailer ni mailer)."
+        "justification": "Composant Mime absent de symfony/symfony 3.4.49 (introduit en 4.3) ; l'application n'envoie aucun e-mail (ni swiftmailer ni mailer)."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -3169,6 +3746,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3178,7 +3761,7 @@
         "CVE-2026-123339"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Fragments inline : en-têtes forwarded non fiables fixant hôte/schéma/port des URL générées pour la requête principale",
       "severity": "unknown",
@@ -3194,7 +3777,7 @@
       "url": "https://github.com/symfony/symfony/security/advisories/GHSA-wg5q-m2ww-f3c9",
       "exposure": {
         "level": "not-used",
-        "justification": "Aucun render()/render_esi() dans les 6 templates, framework.fragments non activé, aucun trusted_proxies configuré."
+        "justification": "3.4.49 est dans la plage (>=3.4.14,<4.0.0) ; aucun render()/render_esi() dans les templates, framework.fragments non activé, aucun trusted_proxies configuré."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -3205,6 +3788,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3214,7 +3803,7 @@
         "CVE-2026-45071"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "DomCrawler::addXmlContent() : XXE (divulgation de fichier local)",
       "severity": "low",
@@ -3241,6 +3830,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3250,7 +3845,7 @@
         "CVE-2026-45068"
       ],
       "package": "symfony/symfony",
-      "installed_version": "2.8.52",
+      "installed_version": "3.4.49",
       "kind": "composer",
       "summary": "Mailer SendmailTransport : injection d'argument via destinataire commençant par un tiret",
       "severity": "medium",
@@ -3266,7 +3861,7 @@
       "url": "https://symfony.com/cve-2026-45068",
       "exposure": {
         "level": "not-used",
-        "justification": "Composant Mailer absent en 2.8 ; aucun envoi d'e-mail dans l'application."
+        "justification": "Composant Mailer absent de symfony/symfony 3.4.49 (introduit en 4.3) ; aucun envoi d'e-mail dans l'application."
       },
       "status": "open",
       "first_seen_step": "step-00",
@@ -3277,6 +3872,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.8.52"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.4.49"
         }
       ]
     },
@@ -3305,6 +3906,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "10.7"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "10.7"
@@ -3338,6 +3945,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "7.2.34"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "7.2.34"
@@ -3387,6 +4000,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.4.38-3+deb10u4"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.4.38-3+deb10u4"
@@ -3443,6 +4062,12 @@
           "status": "open",
           "present": true,
           "installed_version": "debian 10.7"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "debian 10.7"
         }
       ]
     },
@@ -3485,6 +4110,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.2.6-2+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.2.6-2+deb10u1"
         }
       ]
     },
@@ -3521,6 +4152,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.28-10"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "2.28-10"
@@ -3565,6 +4202,12 @@
           "status": "open",
           "present": true,
           "installed_version": "2.9.4+dfsg1-7+deb10u1"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "2.9.4+dfsg1-7+deb10u1"
         }
       ]
     },
@@ -3593,6 +4236,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "4.19.160-2"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "4.19.160-2"
@@ -3637,6 +4286,12 @@
           "status": "open",
           "present": true,
           "installed_version": "1.1.1d-0+deb10u4"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "1.1.1d-0+deb10u4"
         }
       ]
     },
@@ -3669,6 +4324,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "3.27.2-3+deb10u1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "3.27.2-3+deb10u1"
@@ -3725,6 +4386,12 @@
           "status": "open",
           "present": true,
           "installed_version": "debian 10.7"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "debian 10.7"
         }
       ]
     },
@@ -3774,6 +4441,12 @@
           "status": "open",
           "present": true,
           "installed_version": "debian 10.7"
+        },
+        {
+          "step": "step-01",
+          "status": "open",
+          "present": true,
+          "installed_version": "debian 10.7"
         }
       ]
     },
@@ -3804,6 +4477,12 @@
       "history": [
         {
           "step": "step-00",
+          "status": "open",
+          "present": true,
+          "installed_version": "1:1.2.11.dfsg-1"
+        },
+        {
+          "step": "step-01",
           "status": "open",
           "present": true,
           "installed_version": "1:1.2.11.dfsg-1"

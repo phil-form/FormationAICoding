@@ -4,10 +4,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Reservation;
 use AppBundle\Entity\Vehicle;
+use AppBundle\Form\DataTransformer\LegacyIntegerToLocalizedStringTransformer;
 use AppBundle\Form\ReservationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,10 +24,10 @@ class ReservationController extends Controller
         $reservation = new Reservation();
         $reservation->setVehicle($vehicle);
 
-        $form = $this->createForm(new ReservationType(), $reservation);
+        $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->get('app.reservation_manager')->create($reservation);
                 $this->get('session')->getFlashBag()->add('success', 'Réservation enregistrée.');
@@ -48,13 +50,17 @@ class ReservationController extends Controller
      */
     public function returnAction(Request $request, Reservation $reservation)
     {
-        $form = $this->createFormBuilder()
-            ->add('endKm', 'integer', array('label' => 'Kilométrage au retour'))
-            ->getForm();
+        $builder = $this->createFormBuilder()
+            ->add('endKm', IntegerType::class, array('label' => 'Kilométrage au retour'));
+        // Symfony 2.8 parsing kept: a decimal mileage ("10100,6") is rounded down, not rejected.
+        $builder->get('endKm')
+            ->resetViewTransformers()
+            ->addViewTransformer(new LegacyIntegerToLocalizedStringTransformer());
+        $form = $builder->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $cost = $this->get('app.reservation_manager')->close($reservation, $form->get('endKm')->getData());
                 $this->get('session')->getFlashBag()->add(

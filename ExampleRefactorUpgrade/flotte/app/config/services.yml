@@ -1,4 +1,23 @@
 services:
+    # Same session save handler as Symfony 2.8 with "handler_id: ~" (see config.yml, framework.session).
+    app.session.handler.native:
+        class: SessionHandler
+        public: false
+
+    # Symfony 2.8 behaviour preserved: no logger (no MonologBundle), so uncaught HTTP exceptions and
+    # console errors were never written to the PHP error log. Symfony 3.4 registers a default
+    # logger writing to stderr when none is defined; this explicit null logger replaces it.
+    # Native PHP notices/warnings still go to the PHP error log (no ErrorHandler in the web front controller).
+    logger:
+        class: Psr\Log\NullLogger
+        public: false
+
+    # Symfony 2.8 behaviour preserved: "Allow" header of 405 responses lists HEAD after GET.
+    app.listener.legacy_allow_header:
+        class: AppBundle\EventListener\LegacyAllowHeaderListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 64 }
+
     app.plate_formatter:
         class: AppBundle\Service\PlateFormatter
 

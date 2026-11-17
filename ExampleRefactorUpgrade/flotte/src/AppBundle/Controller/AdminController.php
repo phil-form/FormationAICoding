@@ -18,15 +18,15 @@ class AdminController extends Controller
      */
     public function newVehicleAction(Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
 
         $vehicle = new Vehicle();
-        $form = $this->createForm(new VehicleType(), $vehicle);
+        $form = $this->createForm(VehicleType::class, $vehicle);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $vehicle->setPlate($this->get('app.plate_formatter')->normalize($vehicle->getPlate()));
 
             $em = $this->getDoctrine()->getManager();

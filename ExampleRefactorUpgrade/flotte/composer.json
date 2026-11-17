@@ -26,7 +26,7 @@
         "doctrine/orm": "2.5.14",
         "sensio/framework-extra-bundle": "3.0.29",
         "symfony/security-acl": "3.0.4",
-        "symfony/symfony": "2.8.52",
+        "symfony/symfony": "3.4.*",
         "twig/twig": "1.42.5"
     },
     "config": {
