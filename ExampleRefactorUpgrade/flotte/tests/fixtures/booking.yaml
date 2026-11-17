@@ -1,0 +1,30 @@
+# Scénario « booking » — généré une fois puis maintenu à la main : ce fichier est la source de vérité.
+# Chargé par tests/bin/seed.php (PDO direct) ; base figée : fixtures/db/booking.sqlite (+ .sha256).
+# Dates naïves 'Y-m-d H:i:s' (heure de Bruxelles, comme l'application) ; coût = km × 0,35 au centime.
+scenario: booking
+description: |
+  Création de réservations (/vehicules/{id}/reserver) : véhicules dans chaque statut et créneaux existants pour
+  couvrir toutes les positions relatives d'un nouveau créneau (avant, après, bord à bord, inclus, englobant), les statuts
+  qui bloquent (confirmée) ou non (terminée, annulée), une réservation en cours et une en retard.
+reference_time: "2026-01-15 10:00:00"
+used_for: ["reservation-new", "vehicle-show", "api-vehicles"]
+vehicles:
+  - {"id": 1, "plate": "1-BOK-001", "brand": "Renault", "model": "Kangoo", "mileage": 10000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "disponible, aucune réservation : création nominale"}
+  - {"id": 2, "plate": "1-BOK-002", "brand": "Peugeot", "model": "Partner", "mileage": 20000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "disponible, créneaux confirmés : tests de chevauchement (bornes incluses : se toucher = chevaucher)"}
+  - {"id": 3, "plate": "1-BOK-003", "brand": "Volkswagen", "model": "Caddy", "mileage": 30000, "status": 1, "created_at": "2020-03-02 08:00:00", "note": "en entretien : réservation refusée (« n'est pas disponible »)"}
+  - {"id": 4, "plate": "1-BOK-004", "brand": "Iveco", "model": "Daily", "mileage": 40000, "status": 2, "created_at": "2020-03-02 08:00:00", "note": "hors service : réservation refusée"}
+  - {"id": 5, "plate": "1-BOK-005", "brand": "Ford", "model": "Transit", "mileage": 50000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "seulement terminée/annulée sur le créneau cible : ne bloquent pas"}
+  - {"id": 6, "plate": "1-BOK-006", "brand": "Citroën", "model": "Berlingo", "mileage": 60000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "réservation en cours (14/01 → 16/01) : chevauchement avec « maintenant »"}
+  - {"id": 7, "plate": "1-BOK-007", "brand": "Toyota", "model": "Proace", "mileage": 70000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "réservation confirmée passée jamais rendue (retard) : bloque encore son créneau passé"}
+  - {"id": 8, "plate": "1-BOK-008", "brand": "Opel", "model": "Vivaro", "mileage": 0, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "kilométrage 0 : start_km = 0 à la création"}
+reservations:
+  - {"id": 1, "vehicle_id": 2, "driver_name": "Luc Peeters", "start_at": "2026-02-10 10:00:00", "end_at": "2026-02-10 12:00:00", "status": "confirmee", "start_km": 20000, "end_km": null, "cost": null, "note": "créneau court : tester avant (08-10 touche), après (12-14 touche), dedans, englobant"}
+  - {"id": 2, "vehicle_id": 2, "driver_name": "Marie Lambert", "start_at": "2026-02-12 08:00:00", "end_at": "2026-02-12 18:00:00", "status": "confirmee", "start_km": 20000, "end_km": null, "cost": null, "note": "journée"}
+  - {"id": 3, "vehicle_id": 2, "driver_name": "Ahmed Benali", "start_at": "2026-03-01 08:00:00", "end_at": "2026-03-05 18:00:00", "status": "confirmee", "start_km": 20000, "end_km": null, "cost": null, "note": "multi-jours"}
+  - {"id": 4, "vehicle_id": 2, "driver_name": "Jean Dupont", "start_at": "2026-01-10 08:00:00", "end_at": "2026-01-10 17:00:00", "status": "terminee", "start_km": 19800, "end_km": 20000, "cost": "70.00", "note": "historique"}
+  - {"id": 5, "vehicle_id": 2, "driver_name": "Chloé Dubois", "start_at": "2026-02-20 08:00:00", "end_at": "2026-02-20 18:00:00", "status": "annulee", "start_km": 20000, "end_km": null, "cost": null, "note": "annulée : ne bloque pas le 20/02"}
+  - {"id": 6, "vehicle_id": 5, "driver_name": "Thomas Maes", "start_at": "2026-02-10 09:00:00", "end_at": "2026-02-10 13:00:00", "status": "annulee", "start_km": 50000, "end_km": null, "cost": null, "note": "annulée sur le créneau cible"}
+  - {"id": 7, "vehicle_id": 5, "driver_name": "Anne-Sophie De Smet", "start_at": "2026-01-12 09:00:00", "end_at": "2026-01-12 13:00:00", "status": "terminee", "start_km": 49900, "end_km": 50000, "cost": "35.00", "note": "terminée"}
+  - {"id": 8, "vehicle_id": 6, "driver_name": "Karim El Amrani", "start_at": "2026-01-14 08:00:00", "end_at": "2026-01-16 18:00:00", "status": "confirmee", "start_km": 60000, "end_km": null, "cost": null, "note": "en cours au 15/01 10:00"}
+  - {"id": 9, "vehicle_id": 7, "driver_name": "Élodie Lefèvre", "start_at": "2026-01-05 08:00:00", "end_at": "2026-01-06 18:00:00", "status": "confirmee", "start_km": 70000, "end_km": null, "cost": null, "note": "retard : confirmée dans le passé"}
+  - {"id": 10, "vehicle_id": 3, "driver_name": "Jan Vermeulen", "start_at": "2026-02-02 08:00:00", "end_at": "2026-02-02 18:00:00", "status": "confirmee", "start_km": 30000, "end_km": null, "cost": null, "note": "réservée avant la mise en entretien"}

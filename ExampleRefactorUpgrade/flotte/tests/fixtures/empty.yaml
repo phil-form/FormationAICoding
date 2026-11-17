@@ -1,0 +1,10 @@
+# Scénario « empty » — généré une fois puis maintenu à la main : ce fichier est la source de vérité.
+# Chargé par tests/bin/seed.php (PDO direct) ; base figée : fixtures/db/empty.sqlite (+ .sha256).
+# Dates naïves 'Y-m-d H:i:s' (heure de Bruxelles, comme l'application) ; coût = km × 0,35 au centime.
+scenario: empty
+description: |
+  Schéma seul, aucune donnée : listes vides, API vide ([]), rapport vide, première création.
+reference_time: "2026-01-15 10:00:00"
+used_for: ["vehicles-list", "api-vehicles", "cli-report", "admin-vehicle-new"]
+vehicles: []
+reservations: []

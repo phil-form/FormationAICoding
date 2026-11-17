@@ -1,0 +1,31 @@
+# Scénario « anomalies » — généré une fois puis maintenu à la main : ce fichier est la source de vérité.
+# Chargé par tests/bin/seed.php (PDO direct) ; base figée : fixtures/db/anomalies.sqlite (+ .sha256).
+# Dates naïves 'Y-m-d H:i:s' (heure de Bruxelles, comme l'application) ; coût = km × 0,35 au centime.
+scenario: anomalies
+description: |
+  Données INCOHÉRENTES qu'une base legacy peut contenir (saisies directes, imports, bugs passés) : statuts inconnus,
+  valeurs négatives ou vides, coût NULL ou non numérique, fin avant début, statut mal orthographié. Isolées ici pour ne
+  pas casser les autres scénarios : ce sont les cas où PHP 7 et PHP 8 divergent le plus (notices devenues warnings ou
+  TypeError, null vers fonctions internes). Le comportement step-00 (y compris une erreur 500) est le comportement attendu.
+reference_time: "2026-01-15 10:00:00"
+used_for: ["vehicles-list", "vehicle-show", "api-vehicles", "cli-report", "reservation-return"]
+vehicles:
+  - {"id": 1, "plate": "1-ANO-001", "brand": "Renault", "model": "Kangoo", "mileage": 1000, "status": 3, "created_at": "2020-03-02 08:00:00", "note": "statut 3 inconnu : getStatusLabel() → index absent (notice PHP 7 / warning PHP 8), libellé vide"}
+  - {"id": 2, "plate": "1-ANO-002", "brand": "Peugeot", "model": "Partner", "mileage": 2000, "status": -1, "created_at": "2020-03-02 08:00:00", "note": "statut négatif"}
+  - {"id": 3, "plate": "1-ANO-003", "brand": "Citroën", "model": "Jumpy", "mileage": -500, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "kilométrage négatif (format km)"}
+  - {"id": 4, "plate": "", "brand": "Ford", "model": "Ka", "mileage": 4000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "plaque vide"}
+  - {"id": 5, "plate": "1-ANO-005", "brand": "", "model": "", "mileage": 5000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "marque et modèle vides"}
+  - {"id": 6, "plate": "1-ANO-006", "brand": "Iveco", "model": "Daily", "mileage": 6000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+  - {"id": 7, "plate": "1-ANO-007", "brand": "Toyota", "model": "Hiace", "mileage": 7000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+  - {"id": 8, "plate": "1-ANO-008", "brand": "Opel", "model": "Movano", "mileage": 8000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+reservations:
+  - {"id": 1, "vehicle_id": 6, "driver_name": "Jean Dupont", "start_at": "2026-01-05 08:00:00", "end_at": "2026-01-05 18:00:00", "status": "terminee", "start_km": 6100, "end_km": 6000, "cost": "-35.00", "note": "end_km < start_km : km négatifs, coût négatif (-35,00 €)"}
+  - {"id": 2, "vehicle_id": 6, "driver_name": "Marie Lambert", "start_at": "2026-01-06 08:00:00", "end_at": "2026-01-06 18:00:00", "status": "terminee", "start_km": 6000, "end_km": 6050, "cost": null, "note": "terminée sans coût (NULL) : filtre euros sur null (déprécié en PHP 8.1)"}
+  - {"id": 3, "vehicle_id": 7, "driver_name": "Ahmed Benali", "start_at": "2026-01-07 08:00:00", "end_at": "2026-01-07 18:00:00", "status": "terminee", "start_km": 7000, "end_km": null, "cost": null, "note": "terminée sans end_km : km = -start_km"}
+  - {"id": 4, "vehicle_id": 7, "driver_name": "Sophie Martin", "start_at": "2026-01-08 18:00:00", "end_at": "2026-01-08 08:00:00", "status": "confirmee", "start_km": 7000, "end_km": null, "cost": null, "note": "fin avant le début"}
+  - {"id": 5, "vehicle_id": 8, "driver_name": "Luc Peeters", "start_at": "2026-01-09 08:00:00", "end_at": "2026-01-09 18:00:00", "status": "terminee", "start_km": 8000, "end_km": 8010, "cost": "N/A", "note": "coût non numérique (texte) : number_format('N/A') → warning PHP 7 / TypeError PHP 8"}
+  - {"id": 6, "vehicle_id": 8, "driver_name": "Nathalie Janssens", "start_at": "2026-01-10 08:00:00", "end_at": "2026-01-10 18:00:00", "status": "terminee", "start_km": 8010, "end_km": 8020, "cost": "12.345", "note": "coût à 3 décimales stocké tel quel"}
+  - {"id": 7, "vehicle_id": 8, "driver_name": "Thomas Maes", "start_at": "2026-02-01 08:00:00", "end_at": "2026-02-01 18:00:00", "status": "CONFIRMEE", "start_km": 8020, "end_km": null, "cost": null, "note": "statut en majuscules : ni « à venir » ni « historique »"}
+  - {"id": 8, "vehicle_id": 8, "driver_name": "Chloé Dubois", "start_at": "2026-02-02 08:00:00", "end_at": "2026-02-02 18:00:00", "status": "", "start_km": 8020, "end_km": null, "cost": null, "note": "statut vide"}
+  - {"id": 9, "vehicle_id": 1, "driver_name": "Karim El Amrani", "start_at": "2026-01-11 08:00:00", "end_at": "2026-01-11 18:00:00", "status": "terminee", "start_km": 900, "end_km": 1000, "cost": "35.00", "note": "sur un véhicule au statut inconnu (rapport, fiche)"}
+  - {"id": 10, "vehicle_id": 3, "driver_name": "Élodie Lefèvre", "start_at": "2026-02-03 08:00:00", "end_at": "2026-02-03 18:00:00", "status": "confirmee", "start_km": -500, "end_km": null, "cost": null, "note": "start_km négatif"}

@@ -1,0 +1,29 @@
+# Scénario « returns » — généré une fois puis maintenu à la main : ce fichier est la source de vérité.
+# Chargé par tests/bin/seed.php (PDO direct) ; base figée : fixtures/db/returns.sqlite (+ .sha256).
+# Dates naïves 'Y-m-d H:i:s' (heure de Bruxelles, comme l'application) ; coût = km × 0,35 au centime.
+scenario: returns
+description: |
+  Retour de véhicule (/reservations/{id}/retour) : clôture nominale, kilométrage inférieur au départ, départ à 0,
+  double clôture, réservation annulée, réservation future, grands nombres, cas d'arrondi du coût (0,35 € / km).
+reference_time: "2026-01-15 10:00:00"
+used_for: ["reservation-return", "vehicle-show"]
+vehicles:
+  - {"id": 1, "plate": "1-RET-001", "brand": "Renault", "model": "Kangoo", "mileage": 10000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+  - {"id": 2, "plate": "1-RET-002", "brand": "Opel", "model": "Vivaro", "mileage": 0, "status": 0, "created_at": "2020-03-02 08:00:00"}
+  - {"id": 3, "plate": "1-RET-003", "brand": "Peugeot", "model": "Expert", "mileage": 33000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+  - {"id": 4, "plate": "1-RET-004", "brand": "Ford", "model": "Transit", "mileage": 44000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+  - {"id": 5, "plate": "1-RET-005", "brand": "Iveco", "model": "Daily", "mileage": 50500, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "kilométrage déjà avancé par un autre retour"}
+  - {"id": 6, "plate": "1-RET-006", "brand": "Tesla", "model": "Model 3", "mileage": 2147483000, "status": 0, "created_at": "2020-03-02 08:00:00", "note": "proche de 2^31-1 : dépassement 32 bits au retour"}
+  - {"id": 7, "plate": "1-RET-007", "brand": "Dacia", "model": "Duster", "mileage": 7000, "status": 1, "created_at": "2020-03-02 08:00:00", "note": "en entretien, mais avec une réservation confirmée à clôturer"}
+  - {"id": 8, "plate": "1-RET-008", "brand": "Nissan", "model": "Leaf", "mileage": 8000, "status": 0, "created_at": "2020-03-02 08:00:00"}
+reservations:
+  - {"id": 1, "vehicle_id": 1, "driver_name": "Jean Dupont", "start_at": "2026-01-14 08:00:00", "end_at": "2026-01-15 09:00:00", "status": "confirmee", "start_km": 10000, "end_km": null, "cost": null, "note": "retour nominal (tester 10000→10100 = 35,00 €, +1 km = 0,35 €, +3 = 1,05 €, +7 = 2,45 €)"}
+  - {"id": 2, "vehicle_id": 2, "driver_name": "Marie Lambert", "start_at": "2026-01-15 07:00:00", "end_at": "2026-01-15 09:30:00", "status": "confirmee", "start_km": 0, "end_km": null, "cost": null, "note": "départ à 0 km ; retour 0 km = coût 0,00 €"}
+  - {"id": 3, "vehicle_id": 3, "driver_name": "Ahmed Benali", "start_at": "2026-01-10 08:00:00", "end_at": "2026-01-10 18:00:00", "status": "terminee", "start_km": 32800, "end_km": 33000, "cost": "70.00", "note": "déjà terminée : double clôture refusée"}
+  - {"id": 4, "vehicle_id": 4, "driver_name": "Sophie Martin", "start_at": "2026-01-13 08:00:00", "end_at": "2026-01-13 18:00:00", "status": "annulee", "start_km": 44000, "end_km": null, "cost": null, "note": "annulée : clôture refusée (même message que « déjà clôturée »)"}
+  - {"id": 5, "vehicle_id": 5, "driver_name": "Luc Peeters", "start_at": "2026-01-12 08:00:00", "end_at": "2026-01-16 18:00:00", "status": "confirmee", "start_km": 50000, "end_km": null, "cost": null, "note": "start_km 50000 < kilométrage véhicule 50500 : seul start_km est contrôlé"}
+  - {"id": 6, "vehicle_id": 6, "driver_name": "Nathalie Janssens", "start_at": "2026-01-15 08:00:00", "end_at": "2026-01-15 18:00:00", "status": "confirmee", "start_km": 2147483000, "end_km": null, "cost": null, "note": "retour à 2147484000 : au-delà de 2^31-1"}
+  - {"id": 7, "vehicle_id": 7, "driver_name": "Karim El Amrani", "start_at": "2026-01-14 08:00:00", "end_at": "2026-01-14 18:00:00", "status": "confirmee", "start_km": 7000, "end_km": null, "cost": null, "note": "véhicule en entretien"}
+  - {"id": 8, "vehicle_id": 8, "driver_name": "Élodie Lefèvre", "start_at": "2026-02-01 08:00:00", "end_at": "2026-02-01 18:00:00", "status": "confirmee", "start_km": 8000, "end_km": null, "cost": null, "note": "pas encore commencée : la clôture est quand même acceptée"}
+  - {"id": 9, "vehicle_id": 8, "driver_name": "Thomas Maes", "start_at": "2026-01-14 08:00:00", "end_at": "2026-01-14 18:00:00", "status": "confirmee", "start_km": 8000, "end_km": null, "cost": null, "note": "deux confirmées sur le même véhicule : clôturer l'une met à jour le km du véhicule pour l'autre"}
+  - {"id": 10, "vehicle_id": 1, "driver_name": "Chloé Dubois", "start_at": "2026-01-02 08:00:00", "end_at": "2026-01-02 18:00:00", "status": "terminee", "start_km": 9900, "end_km": 10000, "cost": "35.00", "note": "historique"}

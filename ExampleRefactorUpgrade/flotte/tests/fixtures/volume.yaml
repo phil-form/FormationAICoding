@@ -1,0 +1,13 @@
+# Scénario « volume » — généré une fois puis maintenu à la main : ce fichier est la source de vérité.
+# Chargé par tests/bin/seed.php (PDO direct) ; base figée : fixtures/db/volume.sqlite (+ .sha256).
+# Dates naïves 'Y-m-d H:i:s' (heure de Bruxelles, comme l'application) ; coût = km × 0,35 au centime.
+scenario: volume
+description: |
+  Volume : 500 véhicules et ~10 000 réservations générés de façon déterministe (graine fixe) par tests/bin/seed.php.
+  Temps de réponse comparés app / app-ref, liste complète sans pagination, rapport sur un mois chargé. Base figée non
+  versionnée (construite à la demande) ; l'empreinte .sha256 l'est.
+reference_time: "2026-01-15 10:00:00"
+used_for: ["performance", "vehicles-list", "api-vehicles", "cli-report"]
+generate: {"seed": 20260115, "vehicles": 500, "reservations_per_vehicle": [0, 40], "from": "2023-01-01 08:00:00", "now": "2026-01-15 10:00:00", "first_vehicle_id": 1, "first_reservation_id": 1, "brands": [["Renault", "Kangoo"], ["Renault", "Trafic"], ["Peugeot", "Partner"], ["Peugeot", "Expert"], ["Peugeot", "208"], ["Citroën", "Berlingo"], ["Citroën", "Jumpy"], ["Volkswagen", "Caddy"], ["Volkswagen", "Transporter"], ["Volkswagen", "Crafter"], ["Ford", "Transit Custom"], ["Ford", "Focus"], ["Iveco", "Daily"], ["Toyota", "Proace City"], ["Toyota", "Corolla Touring Sports"], ["Škoda", "Octavia Combi"], ["Mercedes-Benz", "Sprinter"], ["Mercedes-Benz", "Vito"], ["Opel", "Vivaro-e"], ["Dacia", "Duster"], ["Fiat", "Ducato"], ["Nissan", "Leaf"], ["Tesla", "Model 3"], ["BMW", "i3"]], "drivers": ["Jean Dupont", "Marie Lambert", "Ahmed Benali", "Sophie Martin", "Luc Peeters", "Nathalie Janssens", "Karim El Amrani", "Élodie Lefèvre", "Jan Vermeulen", "Fatima Zahra Idrissi", "Pierre-Yves Goffin", "Anne-Sophie De Smet", "Thomas Maes", "Chloé Dubois", "Mehmet Yılmaz"]}
+vehicles: []
+reservations: []
