@@ -17,8 +17,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Profil seed sur PostgreSQL réel : exécution au démarrage, idempotence, une transaction par seeder. */
-@SpringBootTest
+/**
+ * Profil seed sur PostgreSQL réel : exécution au démarrage, idempotence, une transaction par seeder.
+ * Le mot de passe de démonstration est fourni : sans lui, {@code UserSeeder} (feature 001, RG-18) fait échouer le
+ * démarrage en profil seed.
+ */
+@SpringBootTest(properties = "app.seed.demo-password=Seed-Profile-Demo-2026")
 @ActiveProfiles({"test", SeedRunner.PROFILE})
 @Import({TestcontainersConfig.class, SeedTestSeeders.Table.class, SeedTestSeeders.Rows.class})
 class SeedProfileIT {

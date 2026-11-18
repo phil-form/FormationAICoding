@@ -11,7 +11,7 @@ Statuts : `à faire` → `analysée` (brouillon) → `validée` (`/review-analys
 
 | N° | Slug | Feature | Partie | Règles | Réponses client | Dépend de | Données sensibles | Statut |
 |---|---|---|---|---|---|---|---|---|
-| 001 | `authentification` | Authentification (login, refresh, logout) | 2.1 | RM9 | C4 | socle 1 | mots de passe (hachage) | à faire |
+| 001 | `authentification` | Authentification (login, refresh, logout) | 2.1 | RM9 | C4 | socle 1 | aucune S2 ; SECRET : mot de passe (Argon2id + poivre), refresh token (SHA-256), JWT | validée |
 | 002 | `comptes-utilisateurs` | Comptes utilisateurs (admin) | 2.2 | RM9, RM10 | C4, C11 | 001 | **NISS** (chiffré) | à faire |
 | 003 | `depots` | Dépôts | 3.1 | RM10 | — | 001 | — | à faire |
 | 004 | `types-vehicule` | Types de véhicule | 3.2 | RM10 | C3 | 001 | — | à faire |

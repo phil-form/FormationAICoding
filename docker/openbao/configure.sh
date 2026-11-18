@@ -72,6 +72,8 @@ key niss aes256-gcm96 derived=true
 [ "$(bao read -field=derived transit/keys/niss)" = true ] || {
   echo "ERREUR : la clé transit/keys/niss existe mais n'est pas dérivée (derived=true requis, ADR 0001 D6)." >&2; exit 1; }
 key niss-index hmac key_size=32
+# Poivre des mots de passe (ADR 0002, D5) : HMAC non exportable appliqué avant Argon2id.
+key password-pepper hmac key_size=32
 # Fichiers téléversés : chiffre les CLÉS DE DONNÉES (enveloppe), clé dérivée liée à l'id du fichier.
 key file aes256-gcm96 derived=true
 [ "$(bao read -field=derived transit/keys/file)" = true ] || {

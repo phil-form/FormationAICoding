@@ -79,4 +79,24 @@ class StrictSecurityIT {
         assertThat(allowed).doesNotContainHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS);
         assertThat(plainOrigin).hasStatus(403);
     }
+
+    @Test
+    void corsAllowsCredentialsOnlyOnAuthenticationRoutes() {
+        MvcTestResult auth = mvc.options().uri("/api/v1/auth/refresh").secure(true)
+                .header(HttpHeaders.ORIGIN, "https://app.example.be")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.POST.name())
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "X-Requested-With")
+                .exchange();
+        MvcTestResult authFromPlainOrigin = mvc.options().uri("/api/v1/auth/refresh").secure(true)
+                .header(HttpHeaders.ORIGIN, "http://app.example.be")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.POST.name())
+                .exchange();
+
+        assertThat(auth).hasStatusOk()
+                .hasHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "https://app.example.be")
+                .hasHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+        assertThat(auth.getResponse().getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS))
+                .containsIgnoringCase("X-Requested-With");
+        assertThat(authFromPlainOrigin).hasStatus(403);
+    }
 }

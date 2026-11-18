@@ -139,6 +139,9 @@ fi
 label="$mode"
 if ((seed)); then
   export SPRING_PROFILES_ACTIVE=dev,seed
+  # Mot de passe des comptes de démonstration (RG-18) : seule variable de .env.dev transmise à api-dev.
+  SEED_DEMO_PASSWORD="$(sed -n 's/^SEED_DEMO_PASSWORD=//p' .env.dev | tail -1)"
+  export SEED_DEMO_PASSWORD
   label+=", seed"
 else
   export SPRING_PROFILES_ACTIVE=dev

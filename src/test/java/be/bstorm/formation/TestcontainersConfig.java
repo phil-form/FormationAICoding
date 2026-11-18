@@ -2,6 +2,10 @@ package be.bstorm.formation;
 
 import be.bstorm.formation.framework.crypto.CryptoService;
 import be.bstorm.formation.framework.crypto.InMemoryCryptoService;
+import be.bstorm.formation.framework.crypto.InMemoryPasswordPepper;
+import be.bstorm.formation.framework.crypto.PasswordPepper;
+import be.bstorm.formation.framework.security.jwt.InMemoryJwtKeyProvider;
+import be.bstorm.formation.framework.security.jwt.JwtKeyProvider;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +14,9 @@ import org.testcontainers.utility.DockerImageName;
 
 /**
  * PostgreSQL 18 jetable pour les tests d'intégration : {@code @Import(TestcontainersConfig.class)}.
- * Fournit aussi un {@link CryptoService} en mémoire (même contrat que Transit) : les tests sans OpenBao n'ont pas de
- * coffre — seul {@code OpenBaoIntegrationIT} utilise la vraie implémentation.
+ * Fournit aussi un {@link CryptoService}, un {@link PasswordPepper} et un {@link JwtKeyProvider} en mémoire (même
+ * contrat que Transit) : les tests sans OpenBao n'ont pas de coffre — seul {@code OpenBaoIntegrationIT} utilise les
+ * vraies implémentations.
  */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfig {
@@ -27,5 +32,16 @@ public class TestcontainersConfig {
     @Bean
     CryptoService inMemoryCryptoService() {
         return new InMemoryCryptoService();
+    }
+
+    @Bean
+    PasswordPepper inMemoryPasswordPepper() {
+        return new InMemoryPasswordPepper();
+    }
+
+    /** Feature 001 : aucune implémentation de {@link JwtKeyProvider} n'est active dans src/main sans OpenBao. */
+    @Bean
+    JwtKeyProvider inMemoryJwtKeyProvider() {
+        return new InMemoryJwtKeyProvider();
     }
 }

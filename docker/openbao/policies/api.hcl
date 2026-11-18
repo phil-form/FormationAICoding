@@ -27,6 +27,11 @@ path "transit/hmac/niss-index" {
   capabilities = ["update"]
 }
 
+# Mots de passe : poivre HMAC avant Argon2id (ADR 0002, D5) — calcul uniquement, aucune lecture de la clé.
+path "transit/hmac/password-pepper" {
+  capabilities = ["update"]
+}
+
 # Fichiers téléversés : chiffrement / déchiffrement des clés de données, rewrap, métadonnées de la clé file.
 path "transit/keys/file" {
   capabilities = ["read"]

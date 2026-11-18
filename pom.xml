@@ -25,6 +25,7 @@
         <pitest-junit5.version>1.2.3</pitest-junit5.version>
         <datafaker.version>2.7.0</datafaker.version>
         <spring-vault.version>4.1.1</spring-vault.version>
+        <bouncycastle.version>1.87</bouncycastle.version>
         <!-- Options des JVM de test (Surefire, Failsafe, PIT) — plan de dépréciations 2026-11-16 :
              agent Mockito déclaré (plus de chargement dynamique d'agent, JEP 451) et accès natif de JNA
              (Testcontainers, JEP 472). argLine vide : point d'accroche pour un futur agent (JaCoCo). -->
@@ -45,6 +46,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- Vérification des JWT (Nimbus JOSE) — feature 001, Q1 acceptée -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <!-- Argon2id (Argon2PasswordEncoder) — ADR 0002, D4 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bouncycastle.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

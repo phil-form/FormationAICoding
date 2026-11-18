@@ -1,5 +1,6 @@
 package be.bstorm.formation.framework.exception;
 
+import be.bstorm.formation.framework.security.AuthCookies;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,6 +41,34 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(ex.getStatus(), ex.getMessage());
         problem.setTitle(ex.getTitle());
         return problem;
+    }
+
+    /** Refresh refusé (RG-11) : 401 et effacement du cookie de rafraîchissement. */
+    @ExceptionHandler(InvalidSessionException.class)
+    ResponseEntity<ProblemDetail> handleInvalidSession(InvalidSessionException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(ex.getStatus(), ex.getMessage());
+        problem.setTitle(ex.getTitle());
+        return ResponseEntity.status(ex.getStatus())
+                .header(HttpHeaders.SET_COOKIE, AuthCookies.cleared().toString())
+                .body(problem);
+    }
+
+    /** 429 (RG-05) / 503 (RG-21) avec {@code Retry-After} en secondes, arrondi au supérieur, minimum 1. */
+    @ExceptionHandler(RetryLaterException.class)
+    ResponseEntity<ProblemDetail> handleRetryLater(RetryLaterException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(ex.getStatus(), ex.getMessage());
+        problem.setTitle(ex.getTitle());
+        return ResponseEntity.status(ex.getStatus())
+                .header(HttpHeaders.RETRY_AFTER, Long.toString(retryAfterSeconds(ex.getRetryAfter())))
+                .body(problem);
+    }
+
+    static long retryAfterSeconds(Duration retryAfter) {
+        if (retryAfter == null || retryAfter.isNegative() || retryAfter.isZero()) {
+            return 1;
+        }
+        long seconds = retryAfter.getSeconds() + (retryAfter.getNano() > 0 ? 1 : 0);
+        return Math.max(1, seconds);
     }
 
     @ExceptionHandler(AuthenticationException.class)

@@ -34,7 +34,8 @@ app:
         - http://localhost:*
         - http://127.0.0.1:*
       allowed-headers: "*"
-      allow-credentials: true
+      # Credentials uniquement sur /api/v1/auth/** (CorsConfig, ADR 0002 D3), pas sur le reste de l'API.
+      allow-credentials: false
     # Swagger UI a besoin de scripts / styles inline.
     content-security-policy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'"
 

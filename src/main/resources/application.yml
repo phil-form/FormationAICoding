@@ -112,6 +112,36 @@ app:
       allowed-origin-patterns: []
       allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
       allowed-headers: Authorization,Content-Type,Accept
-      exposed-headers: Location
+      # Retry-After lisible par le front sur 429 / 503 (feature 001).
+      exposed-headers: Location,Retry-After
       allow-credentials: false
       max-age: 1h
+  # Authentification (feature 001, ADR 0002).
+  auth:
+    jwt:
+      issuer: ${JWT_ISSUER:formation-api}
+      audience: ${JWT_AUDIENCE:formation-front}
+      access-token-ttl: 5m
+      key-cache-refresh-interval: 60s
+    refresh:
+      idle-ttl: 8h
+      absolute-ttl: 24h
+      purge-retention: 7d
+      purge-cron: "0 15 3 * * *"
+    login:
+      max-failed-attempts: 5
+      lock-duration: 15m
+      ip-max-failures: 20
+      ip-window: 5m
+      ip-max-tracked: 10000
+    password:
+      salt-length: 16
+      hash-length: 32
+      parallelism: 1
+      memory-kib: 65536
+      iterations: 3
+      max-concurrent-hashes: 4
+      hash-acquire-timeout: 2s
+  # Comptes de démonstration (profil seed, dev uniquement — RG-18, exception documentée à ADR 0001 D9).
+  seed:
+    demo-password: ${SEED_DEMO_PASSWORD:}

@@ -41,6 +41,32 @@ grep -qi '^strict-transport-security: .*preload' <<<"$headers" && ok "HSTS prelo
 grep -qi "^content-security-policy: default-src 'none'" <<<"$headers" && ok "CSP stricte" || ko "CSP absente"
 grep -qi '^server:' <<<"$headers" && ko "en-tête Server présent" || ok "aucun en-tête Server"
 
+echo "== IP cliente (limitation des logins) =="
+# PRE-01 (feature 001, RG-05) : l'IP vue par l'API doit être celle du client, jamais celle d'un relais.
+login_probe() { # login_probe [args curl…] → code HTTP d'un login échoué
+  code -X POST -H 'Content-Type: application/json' \
+    --data-binary '{"username":"chk-ip-probe","password":"Chk-Wrong-Passw0rd"}' "$@" "$U/api/v1/auth/login"
+}
+last_failure_ip() { # valeur ip= de la dernière ligne event=LOGIN_FAILURE de l'API
+  dc logs --no-log-prefix api-prod 2>/dev/null | grep 'event=LOGIN_FAILURE' | tail -1 \
+    | sed -n 's/.*[[:space:]]ip=\([^[:space:]"]*\).*/\1/p'
+}
+got="$(login_probe)"
+[[ "$got" == 401 ]] && ok "CHK-01 login sonde → 401" || ko "CHK-01 login sonde → $got (attendu 401)"
+sleep 1
+ip="$(last_failure_ip)"
+if [[ -n "$ip" && "$ip" != "-" && "$ip" != 172.31.0.10 && "$ip" != 172.31.0.11 ]]; then
+  ok "CHK-01 IP cliente journalisée ($ip) ≠ IP d'un relais"
+else
+  ko "IP cliente = IP d'un relais : RG-05 deviendrait global (ip='${ip}')"
+fi
+got="$(login_probe -H 'X-Forwarded-For: 198.51.100.66')"
+[[ "$got" == 401 ]] && ok "CHK-02 login sonde avec X-Forwarded-For client → 401" || ko "CHK-02 login sonde → $got (attendu 401)"
+sleep 1
+ip="$(last_failure_ip)"
+[[ "$ip" != 198.51.100.66 ]] && ok "CHK-02 X-Forwarded-For du client ignoré (ip=$ip)" \
+  || ko "CHK-02 X-Forwarded-For du client pris en compte : IP usurpable"
+
 echo "== Attaques → bloquées par le WAF (403) =="
 expect 403 "SQLi en paramètre"            "$U/api/v1/courses?id=1%27%20OR%20%271%27%3D%271"
 expect 403 "XSS en paramètre"             "$U/api/v1/courses?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E"

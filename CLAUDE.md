@@ -33,7 +33,8 @@ Les specs initiales de `tmp/` sont implémentées ; elles restent comme référe
 | Mapping | **MapStruct 1.6.3** (+ `lombok-mapstruct-binding`) | Mappers générés à la compilation |
 | Migrations | **Flyway** | Seul responsable du schéma |
 | Doc API | springdoc-openapi 3.2 (Swagger UI) | Activé en dev uniquement |
-| Sécurité | Spring Security 7 | Voir section « Sécurité » |
+| Sécurité | Spring Security 7 + **resource server OAuth2** (Nimbus JOSE, BOM) | Voir section « Sécurité » ; JWT ES256 signé par Transit (feature 001) |
+| Mots de passe | **Bouncy Castle 1.87** (`bcprov-jdk18on`) | Argon2id + poivre Transit `password-pepper` (ADR 0002) |
 | Mutation testing | PIT 1.30 | `/mutation-test` |
 | Tests | JUnit 5, `MockMvcTester` (AssertJ), **Testcontainers 2** (postgres:18-alpine) | Pas de H2 ; `*Test` = Surefire, `*IT` = Failsafe |
 | Conteneurs | Docker + Docker Compose | Dev et prod conteneurisés |

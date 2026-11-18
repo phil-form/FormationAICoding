@@ -37,6 +37,10 @@ Secrets dev : `.env.dev` (créé automatiquement depuis `.env.dev.example` avec 
 OpenBao par le service `openbao-init`, avec **le même script de configuration que la prod**. Recette :
 `docker/openbao/check-phase1.sh`.
 
+Comptes de démonstration (`./start.sh --seed`, dev uniquement) : `admin` (ADMIN), `gestionnaire` (FLEET_MANAGER +
+DRIVER), `conducteur` (DRIVER), sans dépôt. Mot de passe commun : `SEED_DEMO_PASSWORD` de `.env.dev` (au moins
+12 caractères ; à ajouter à un `.env.dev` créé avant la feature 001). Connexion : `POST /api/v1/auth/login`.
+
 Hot reload : devtools redémarre l'application quand `target/classes` change → configurer l'IDE pour déléguer
 le build à Maven, ou lancer `./mvnw compile`.
 
