@@ -7,6 +7,15 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "Read|Edit|Write|NotebookEdit|Grep|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/secrets-guard.sh"
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write|Bash",
         "hooks": [
           {
@@ -15,6 +24,41 @@
           }
         ]
       }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Edit(./.env)",
+      "Read(./.env.dev)",
+      "Edit(./.env.dev)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(./.worktree-backup/**)",
+      "Read(**/app/config/parameters.yml)",
+      "Read(**/secrets/**)",
+      "Edit(**/secrets/**)",
+      "Read(./certs/*.key)",
+      "Read(**/init_db/**)",
+      "Read(**/*.key)",
+      "Read(**/*.token)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/*.jks)",
+      "Read(**/id_rsa*)",
+      "Read(**/id_ed25519*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.kube/**)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.netrc)",
+      "Read(~/.pgpass)",
+      "Read(~/.git-credentials)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Bash(printenv:*)",
+      "Bash(docker compose config:*)"
     ]
   }
 }

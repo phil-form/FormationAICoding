@@ -260,6 +260,13 @@ Dossiers : `docs/analyse/client/` (entrées client), `docs/analyse/features/` (a
 - Décisions d'architecture : `docs/adr/` (0001 secrets/OpenBao, 0002 authentification) — les respecter ; toute remise
   en cause passe par un nouvel ADR.
 - **Secrets** : jamais dans git, l'image, les logs ni les variables d'environnement de prod ; ils viennent d'OpenBao.
+- **Accès aux secrets bloqué** : le hook `secrets-guard` (`.claude/hooks/secrets-guard.sh`, toute la session, agents
+  compris) et `permissions.deny` (`.claude/settings.json`) refusent lecture, écriture, recherche et affichage de `.env`,
+  `.env.dev` (modèles `*.example` permis), `secrets/`, `certs/*.key`, clés/certificats/jetons, `init_db/`,
+  `.worktree-backup/`, identifiants de l'utilisateur, variables d'environnement (`env`, `docker inspect` sans
+  `--format` ciblé, `docker compose config`) et lectures OpenBao (`bao read`, `kv get`, `token`…). Ne jamais le
+  contourner : demander à l'utilisateur d'exécuter lui-même (`! commande`) sans recopier le contenu. Copie du hook de
+  `ExampleRefactorUpgrade/flotte/` ; tests : `.claude/hooks/secrets-guard.test.sh`.
 
 - Répondre et documenter **en français** ; code, identifiants et commits en anglais.
 - **Commits : toujours via `/commit`** (tests complets puis contrôles de sécurité) — jamais de `git commit` direct ni de push.
