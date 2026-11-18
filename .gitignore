@@ -23,3 +23,7 @@ secrets/
 .idea/shelf/
 
 *.log
+
+# Claude Code worktrees (local, never versioned)
+/.claude/worktrees/
+/.worktree-backup/
