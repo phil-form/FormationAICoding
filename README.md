@@ -3,6 +3,81 @@
 API REST monolithique : Java 25 · Spring Boot 4.1 · Spring Security 7 · PostgreSQL 18 · Hibernate/JPA · Flyway ·
 Lombok · MapStruct. Conteneurisée en dev comme en prod. Le front (Angular) vit dans un dépôt séparé.
 
+## Les exemples de la formation
+
+Ce dépôt sert de support à la formation « développer avec l'IA » (Claude Code). Il contient **trois exemples
+indépendants**. Chacun illustre une façon de travailler différente, choisie selon la situation de départ :
+
+| Exemple | Situation de départ | Méthodologie illustrée | README |
+|---|---|---|---|
+| **API Java** (racine) | Projet neuf, rien n'existe | **Développement piloté par l'analyse** : la spécification d'abord, puis des agents isolés écrivent tests et code sans se voir | ce fichier, § suivant |
+| **flotte** (`ExampleRefactorUpgrade/flotte/`) | Application legacy de 2016, **sans aucun test** | **Migration « bug pour bug »** : figer le comportement par des tests de caractérisation, puis monter les versions une marche à la fois | [`ExampleRefactorUpgrade/flotte/README.md`](ExampleRefactorUpgrade/flotte/README.md) |
+| **DemoMCP** (`DemoMCP/`) | Besoin de brancher l'IA sur un outil métier | **Apprentissage progressif du protocole MCP** : serveur, client, tests, agent, puis sécurité et authentification | [`DemoMCP/README.md`](DemoMCP/README.md) |
+
+Points communs aux trois exemples, à retenir :
+
+1. **Préparer avant de coder.** On écrit d'abord un document (spécification, plan de migration, plan de démo) et un
+   `CLAUDE.md` qui fixe le contexte. L'IA travaille mieux avec un cadre explicite qu'avec une demande vague.
+2. **Le test est le juge, pas l'IA.** Une réponse de l'IA n'est validée que par un test qui passe, écrit
+   indépendamment du code qu'il vérifie.
+3. **Des garde-fous automatiques plutôt que des consignes.** Les règles importantes (pas d'accès aux secrets, tests
+   gelés, agents isolés) sont imposées par des *hooks* qui refusent l'action, pas seulement écrites dans un prompt.
+4. **L'humain décide.** L'IA s'arrête et demande dès qu'un choix engage le projet : changement de comportement,
+   faille de sécurité, dérogation, commit.
+5. **Tout est tracé.** Décisions (ADR, changements acceptés), rapports d'audit et prompts exportés (`tmp/prompt.md`,
+   `ExampleRefactorUpgrade/flotte/tmp/prompts.md`, `DemoMCP/prompt.md`) permettent de rejouer et d'expliquer la
+   démarche.
+
+## Méthodologie de l'API Java : le développement piloté par l'analyse
+
+### Le problème
+
+Quand une même IA écrit le code **et** ses tests, les tests ont tendance à confirmer le code tel qu'il est écrit,
+erreurs comprises : ils ne prouvent rien. Et sans spécification écrite, personne ne peut dire si le résultat est
+juste.
+
+### Le principe
+
+Une **analyse préparatoire** de la feature (règles métier `RG-xx`, critères d'acceptation `AC-xx`, contrat technique,
+modèle de données) devient **le seul contrat commun** entre deux agents qui ne se voient pas :
+
+- l'agent **`test-writer`** écrit les tests à partir de l'analyse, sans aucun accès au code de production ;
+- l'agent **`code-writer`** écrit le code à partir de l'analyse, sans aucun accès aux tests.
+
+Si les tests passent, c'est que deux lectures indépendantes de la même analyse concordent. Si un test échoue, un
+troisième agent, l'**`auditor`** (le seul à voir les deux côtés), décide qui est en cause : le code, le test,
+l'analyse ou l'infrastructure. Il renvoie un retour formulé **uniquement en termes d'analyse** (« AC-04 n'est pas
+respecté »), jamais en recopiant du code, pour ne pas briser l'isolement.
+
+### Le déroulé, étape par étape
+
+```
+1. Analyse client (docs/analyse/client/)             ← ce que veut le client, en langage métier
+2. /analyse-feature → docs/analyse/features/NNN.md   ← règles, critères testables, contrat technique
+      ├─ /sensitive-data (toujours)                  ← classe chaque donnée ; les données sensibles sont chiffrées
+      └─ /owasp-check (si la feature touche la sécurité) ← exigences SEC-xx, critères AC-SEC-xx
+3. /review-analyse → verdict OK / À corriger         ← relecture critique AVANT d'écrire une ligne de code
+4. /write-tests  ║  /implement-feature               ← chacun de son côté, sans se voir
+5. /run-tests                                        ← progression en direct dans la status line
+6. /triage-failures (si rouge)                       ← verdict CODE / TEST / ANALYSE / INFRA → bon destinataire
+7. /trace-check                                      ← chaque critère a-t-il un test ET du code ?
+8. /mutation-test                                    ← les tests détectent-ils vraiment les défauts ? (PIT)
+9. /commit                                           ← suite complète + secrets, SAST, dépendances, images
+```
+
+### Pourquoi ça marche
+
+- **Les erreurs coûtent moins cher en amont** : une ambiguïté corrigée à l'étape 3 évite des allers-retours entre
+  tests et code.
+- **L'isolement est imposé, pas espéré** : un hook (`.claude/hooks/guard.sh`) refuse à `test-writer` la lecture de
+  `src/main/` et à `code-writer` celle de `src/test/`.
+- **Deux mesures de qualité objectives** : la traçabilité (tous les critères couverts) et le score de mutation
+  (les tests échouent vraiment quand le code est faux).
+- **La sécurité fait partie du processus** : données sensibles et exigences OWASP sont ajoutées à l'analyse, donc
+  testées comme le reste ; le socle (OpenBao, TLS 1.3, refus par défaut) est décidé dans des ADR (`docs/adr/`).
+
+Détail des skills, agents et règles d'isolement : section « Workflow IA » de [`CLAUDE.md`](CLAUDE.md).
+
 ## Prérequis
 
 - Docker + Docker Compose v2 (aucun JDK nécessaire : build et tests tournent en conteneur)
@@ -92,4 +167,6 @@ désactivé, CSP avec `unsafe-*`…) : le message d'erreur liste les points à c
 - [`Next.md`](Next.md) — feuille de route (phases 1 à 6)
 - [`docs/adr/`](docs/adr/) — décisions d'architecture (0001 : secrets / OpenBao)
 - [`docs/ops/`](docs/ops/) — exploitation : déploiement prod (HAProxy, certbot), OpenBao
-- [`tmp/`](tmp/) — specs de conception initiales (implémentées ; le code fait foi)
+- [`tmp/`](tmp/) — specs de conception initiales (implémentées ; le code fait foi), kit de démarrage et prompts de la formation
+- [`ExampleRefactorUpgrade/flotte/`](ExampleRefactorUpgrade/flotte/README.md) — exemple de migration legacy « bug pour bug »
+- [`DemoMCP/`](DemoMCP/README.md) — exemple de serveur MCP, du premier outil à l'authentification

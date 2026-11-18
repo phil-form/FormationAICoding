@@ -19,6 +19,57 @@ Ce guide explique comment le lancer dans Docker et comment y connecter Claude.
 
 ---
 
+## 0. Méthodologie : comprendre MCP par étapes
+
+### De quoi parle-t-on ?
+
+**MCP** (*Model Context Protocol*) est un protocole standard qui permet à une IA (Claude Code, Claude Desktop, un
+agent maison) d'utiliser les outils d'une application : ici, un helpdesk de tickets. Le serveur MCP déclare ce qu'il
+sait faire ; l'IA choisit quand l'utiliser. Sous le capot, ce sont des messages **JSON-RPC** (voir
+`exampleJsonRPC.json`).
+
+Un serveur MCP expose trois types de briques :
+
+| Brique | Qui la déclenche | Exemple dans `helpdesk/server.py` |
+|---|---|---|
+| **Outil** (*tool*) | Le modèle, quand il juge utile de l'appeler | `rechercher_tickets`, `creer_ticket`, `fermer_ticket` |
+| **Ressource** | L'utilisateur, qui la joint au contexte (`@helpdesk:`) | `tickets://{id}`, `helpdesk://procedure-escalade` |
+| **Prompt** | L'utilisateur, comme une commande (`/mcp__helpdesk__…`) | `trier_tickets` |
+
+S'y ajoute l'**élicitation** : en cours d'exécution, un outil peut demander une confirmation à l'humain (fermer un
+ticket demande « êtes-vous sûr ? »).
+
+### Le principe : une difficulté à la fois
+
+La démo suit un fil rouge unique (le helpdesk) et n'ajoute qu'une notion à chaque étape. Chaque fichier correspond à
+une étape et peut être lu seul :
+
+| Étape | Fichier | Ce qu'on apprend |
+|---|---|---|
+| Échauffement | `taches.py` | Écrire un serveur MCP minimal (2 outils, stockage JSON) **en le demandant à Claude** (voir `prompt.md`), puis l'utiliser depuis Claude Code |
+| Démo 1 | `helpdesk/server.py` (stdio) | Outils typés (Pydantic), ressources, prompts, élicitation ; transport **stdio** (le client lance le serveur) |
+| Démo 2 | `helpdesk/server.py http` + Docker | Transport **Streamable HTTP** : un serveur partagé, joignable à distance (§ 1 à 5 ci-dessous) |
+| Démo 3a | `client_demo.py` | Le point de vue du **client** : négociation du protocole, liste et appel des outils, réponse à une élicitation |
+| Démo 3b | `test_helpdesk.py` | **Tester** un serveur MCP sans réseau ni sous-processus (client en mémoire, base temporaire) |
+| Démo 3c | `agent.py` | Une **boucle agentique** minimale : Claude reçoit les outils MCP, les appelle, lit les résultats, recommence (garde-fou : 10 tours max) |
+| Sécurité | `securite/serveur_piege.py`, `securite/audit_outils.py` | Les risques propres à MCP : **injection** dans une description d'outil, **rug pull** (description modifiée après approbation) et leur détection par empreinte |
+| Authentification | `authentification/` | Restreindre l'accès : jeton **JWT Bearer**, puis OAuth 2.1 (§ 6) |
+
+### Ce qu'il faut retenir
+
+- **La description d'un outil est un prompt** : le modèle la lit et lui obéit. C'est la meilleure façon de guider
+  l'IA… et la porte d'entrée des attaques. Il faut relire les serveurs tiers avant de les approuver et surveiller
+  leurs changements (`audit_outils.py`).
+- **Commencer en local, ouvrir ensuite** : stdio puis HTTP lié à `127.0.0.1`, tunnel SSH, et seulement ensuite un
+  accès réseau, toujours avec authentification.
+- **Un serveur MCP se teste comme une API** : `test_helpdesk.py` vérifie les outils et l'élicitation sans lancer
+  Claude.
+- **Les actions destructrices passent par l'humain** : la fermeture d'un ticket exige une confirmation explicite.
+- **Tracer la session** : un hook (`.claude/hooks/export-prompt.sh`) recopie chaque prompt dans `prompt.md`, ce qui
+  permet de rejouer la démo.
+
+---
+
 ## 1. Démarrer le serveur
 
 ```bash

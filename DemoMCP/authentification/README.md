@@ -15,6 +15,21 @@ Sans jeton valide, le serveur répond **401**.
 
 URL : `http://127.0.0.1:8081/mcp`
 
+## Ce que montre cette démo
+
+Étape « authentification » du parcours décrit au § 0 du [README principal](../README.md). Sans elle, toute personne
+qui atteint l'URL du serveur peut lire, créer et fermer des tickets. La démarche :
+
+1. **Ne rien réécrire** : `server.py` reprend tels quels les outils de `helpdesk/server.py` et ajoute seulement un
+   contrôle à l'entrée. La sécurité est une couche autour du métier, pas mélangée à lui.
+2. **Vérifier tout le jeton, pas seulement sa présence** : la signature (le jeton n'a pas été fabriqué ou modifié),
+   l'audience `aud` (il a été émis pour **ce** serveur), l'expiration `exp` (il est encore valide) et le scope
+   `helpdesk` (il donne bien ce droit-là).
+3. **Ne jamais écrire le secret dans un fichier versionné** : le jeton passe par une variable d'environnement,
+   `.mcp.json` ne contient que son nom (§ 4).
+4. **Connaître les limites** de la solution choisie (section finale) et savoir vers quoi évoluer : un fournisseur
+   d'identité et OAuth 2.1.
+
 ## 1. Démarrer
 
 ```bash

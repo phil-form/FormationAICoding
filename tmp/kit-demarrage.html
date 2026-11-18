@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>Kit de démarrage projet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout : colonne de lecture unique, panneau de paramètres en tête, étapes en séquence numérotée (l'ordre compte). */
+:root {
+  --bg: #f5f7f8; --surface: #ffffff; --fg: #1b2328; --muted: #5b6870; --line: #dbe2e6;
+  --accent: #1f6f78; --accent-soft: #e2f0f1; --code-bg: #eef2f4; --var: #8a4b0f; --var-bg: #fbeedd;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12171a; --surface: #192125; --fg: #e3e9ec; --muted: #94a2aa; --line: #2b363c;
+  --accent: #5fc0c9; --accent-soft: #1d3337; --code-bg: #0f1416; --var: #f2b56b; --var-bg: #3a2a17; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12171a; --surface: #192125; --fg: #e3e9ec; --muted: #94a2aa; --line: #2b363c;
+  --accent: #5fc0c9; --accent-soft: #1d3337; --code-bg: #0f1416; --var: #f2b56b; --var-bg: #3a2a17; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.6; }
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 32px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: 2rem; letter-spacing: -0.01em; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+header { display: flex; flex-direction: column; gap: 10px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button { font: 500 0.85rem var(--body); border-radius: 6px; padding: 7px 14px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+button:hover { border-color: var(--accent); color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+button.primary:hover { filter: brightness(1.08); color: var(--bg); }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status { font-size: 0.85rem; color: var(--accent); min-height: 1.3em; }
+
+.params { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px;
+  display: flex; flex-direction: column; gap: 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; color: var(--muted); min-width: 0; }
+label code { color: var(--var); background: var(--var-bg); border-radius: 3px; padding: 0 4px; font-family: var(--mono); font-size: 0.75rem; align-self: flex-start; }
+input, textarea { font: 0.9rem var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+  border-radius: 6px; padding: 7px 10px; width: 100%; box-sizing: border-box; }
+textarea { resize: vertical; min-height: 4.5em; font-family: var(--body); }
+
+.phase { display: flex; flex-direction: column; gap: 14px; }
+.phase-head { display: flex; gap: 14px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.phase-num { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); font-variant-numeric: tabular-nums; flex: none; }
+.phase-head p { color: var(--muted); font-size: 0.9rem; }
+.phase-head div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.step-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; padding: 10px 14px;
+  border-bottom: 1px solid var(--line); }
+.step-bar h3 { font-family: var(--body); font-weight: 600; font-size: 0.95rem; }
+.tag { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+.tag.opt { color: var(--var); }
+pre { margin: 0; padding: 14px; background: var(--code-bg); font: 0.85rem/1.55 var(--mono); white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
+.note { padding: 10px 14px; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); }
+.note code, p code, li code { font-family: var(--mono); font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
+mark { background: var(--var-bg); color: var(--var); border-radius: 3px; padding: 0 2px; }
+.tips { background: var(--accent-soft); border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+.tips ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+@media (prefers-reduced-motion: no-preference) { button { transition: border-color .15s, color .15s; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Modèle · tiré de la session du 16 novembre 2026</span>
+    <h1>Kit de démarrage projet</h1>
+    <p class="lede">Les prompts qui ont servi à mettre en place le projet Java de la formation, rendus génériques et remis dans l'ordre. Renseigne les paramètres, puis copie chaque prompt dans Claude Code, une étape après l'autre, ou exporte tout le modèle en Markdown pour le placer dans le <code>tmp/</code> du nouveau projet.</p>
+    <div class="toolbar">
+      <button class="primary" id="copy-all" type="button">Copier le modèle complet (Markdown)</button>
+      <button id="reset" type="button">Rétablir les valeurs par défaut</button>
+      <span class="status" id="status" role="status"></span>
+    </div>
+  </header>
+
+  <section class="params" aria-labelledby="params-title">
+    <h2 id="params-title">Paramètres du projet</h2>
+    <div class="grid" id="params"></div>
+  </section>
+
+  <div id="phases" style="display:flex;flex-direction:column;gap:36px"></div>
+
+  <section class="tips">
+    <h2>Conseils tirés de la session</h2>
+    <ul>
+      <li>Fais préparer le contexte (CLAUDE.md, specs dans <code>tmp/</code>) <strong>avant</strong> d'écrire du code : c'est ce qui rend les prompts suivants courts.</li>
+      <li>Pour un sujet structurant (secrets, authentification), demande d'abord une planification, fais écrire les phases dans <code>Next.md</code>, puis lance-les une par une.</li>
+      <li>Après chaque étape, fais un commit avec <code>/commit</code> : la suite de tests et les contrôles de sécurité tournent avant le commit.</li>
+      <li>Les points à trancher (Q1, Q2…) se règlent en dialogue (« réglons Q1 et Q2 ensemble ») et finissent dans un ADR.</li>
+      <li>En fin de journée, « exporte le context » pour reprendre la session suivante sans perte.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const PARAMS = [
+  { key: "PROJET", label: "Nom du projet", def: "formation" },
+  { key: "LANGAGE", label: "Langage", def: "Java dernier LTS" },
+  { key: "FRAMEWORK", label: "Framework", def: "Spring Boot dernière version stable" },
+  { key: "FRONT", label: "Front (dépôt séparé)", def: "Angular" },
+  { key: "DB", label: "Base de données", def: "PostgreSQL 18" },
+  { key: "ORM", label: "ORM", def: "Hibernate" },
+  { key: "PACKAGE", label: "Package racine", def: "be.bstorm.formation" },
+  { key: "ANALYSE", label: "Analyse client", def: "tmp/analyse-client.md" },
+  { key: "PLAN", label: "Plan de travail", def: "tmp/plan/plan.md" },
+  { key: "AIDES", label: "Aides au code", def: "Lombok, MapStruct" },
+];
+
+const PHASES = [
+  { title: "Contexte et specs", desc: "Aucun code : Claude prépare son contexte et les fichiers de mise en place.", steps: [
+    { title: "Cadrage du projet", text:
+`Commence la mise en place du projet :
+- {{LANGAGE}}
+- {{FRAMEWORK}}
+- API uniquement, pas de front ici ({{FRONT}}, dans un dépôt séparé)
+- Base de données {{DB}}
+- ORM {{ORM}}
+
+Projet monolithe, pas de microservices.
+
+Prépare un fichier CLAUDE.md avec ces informations, et dans un dossier ./tmp un fichier de mise en place de la structure du projet (controllers, services, ...).
+
+En dev comme en prod, le projet sera conteneurisé (Docker) : prépare un docker-compose.yml et les Dockerfile pour le dev et la prod.
+
+Il faudra aussi quelques scripts :
+- start.sh (démarre le projet, avec la possibilité de seeder la base au démarrage)
+- restore.sh (restaure un backup depuis ./init_db, avec un picker fzf)
+
+Aucun code pour le moment : prépare seulement ton contexte et un ou des README pour préparer la structure et les bases du projet.`,
+      note: "Produit CLAUDE.md et tmp/01-STRUCTURE.md, 02-DOCKER.md, 03-SCRIPTS.md." },
+    { title: "Ajustements d'architecture", text:
+`Pour l'architecture :
+- common -> framework
+- pas de dossier par feature : directement controller/, service/, ...
+- utilise bien {{AIDES}} et les autres aides pour générer mappers, getters/setters, ...
+- pour Docker : docker/dev/, docker/prod/, docker/test/, chacun avec ses Dockerfile et ses fichiers propres.` },
+  ]},
+  { title: "Outillage IA : skills et agents", desc: "Le workflow piloté par l'analyse : un agent écrit les tests, un autre le code, sans se voir.", steps: [
+    { title: "Skills de base", text:
+`Skills à mettre en place :
+- création de tests unitaires (agent seul, avec son propre contexte, uniquement depuis l'analyse, pas depuis le code)
+- création du code (agent qui ignore les tests et n'y a pas accès)
+- audit de sécurité des failles présentes dans les paquets
+- agent de génération d'analyse préparatoire depuis l'analyse client
+    - si la feature est liée à la sécurité, un skill spécifique pour vérifier les recommandations OWASP et les ajouter à l'analyse
+- skill de mise en place d'un pipeline Jenkins (CI/CD, SAST, DAST, déploiement scp puis exécution ssh)
+- skill de lancement des tests avec une status bar pour suivre clairement l'avancement (% fait/restant, total réussi/raté, ...)`,
+      note: "Résultat : /analyse-feature, /owasp-check, /write-tests, /implement-feature, /audit-deps, /jenkins-pipeline, /run-tests, avec un hook guard.sh qui isole chaque agent." },
+    { title: "Demander des propositions", text: `Vois-tu d'autres skills ou agents intéressants à mettre en place ?` },
+    { title: "Valider les propositions", text: `Oui, mets en place 1, 2, 3, 4 et 5. Fais aussi un agent de lecture et d'analyse des logs.`,
+      note: "Ici : /review-analyse, /triage-failures, /trace-check, /mutation-test, /sensitive-data et /analyse-logs. Adapte les numéros à la réponse de Claude." },
+    { title: "Status line", optional: true, text:
+`Peux-tu faire une status line qui affiche, en plus du contexte, le nombre de tokens de la session et de la semaine, avec une barre de progression, l'heure du reset de session et la date/heure du reset de la semaine ? Fais aussi une barre similaire pour l'avancement des tests.
+Pour la date/heure de reset, reste court : jour abrégé hh:mm (jours restants).` },
+  ]},
+  { title: "Socle applicatif et sécurité", desc: "Première écriture de code : structure, sécurité HTTP, Docker.", steps: [
+    { title: "Structure et sécurité de base", text:
+`Commence la mise en place de la structure du projet.
+
+Commence aussi la mise en place des sécurités de base (CORS, en-têtes, ...) : quelque chose de bien strict pour la prod, plus permissif en dev.` },
+    { title: "Certificats en prod", text: `Pour Docker en prod, les certificats seront fournis par le serveur en lecture seule depuis le disque et renouvelés par certbot.` },
+    { title: "Séparer les environnements Docker", text:
+`Sépare les docker compose : un docker-compose.yml (dev), un docker-compose.prod.yml (prod) et un docker-compose.test-prod.yml (test local de la prod, avec le WAF ModSecurity derrière un reverse proxy HAProxy et un certificat autosigné pour localhost).` },
+  ]},
+  { title: "Secrets et données sensibles", desc: "Planifier d'abord, puis exécuter phase par phase.", steps: [
+    { title: "Planification", text:
+`Que proposes-tu pour le stockage sécurisé des secrets (clé de signature des tokens, mot de passe de la base, ...) ?
+Faisons une planification ensemble.` },
+    { title: "Écrire les phases et lancer la phase 1", text: `Oui, lance la phase 1, et édite d'abord Next.md pour y ajouter ces phases et les garder en mémoire. Sois le plus complet possible dans ce fichier.`,
+      note: "Ici : 6 phases (OpenBao, intégration Spring, CryptoService, authentification…), décisions dans docs/adr/0001." },
+    { title: "Seed en code", text: `Pour le seeding, ce serait bien de le faire en {{LANGAGE}}, en utilisant directement les entités, les repositories et les services.` },
+    { title: "Phase 2", text: `Oui, ajoute Datafaker puis lance la phase 2.` },
+    { title: "Phase 3", text: `Oui, lance la phase 3.` },
+    { title: "Trancher les questions ouvertes", text: `Oui, réglons Q1 et Q2 ensemble.`, note: "Les réponses finissent dans un ADR (ici docs/adr/0002 pour l'authentification)." },
+  ]},
+  { title: "Commits contrôlés", desc: "Un skill de commit qui refuse de commiter à l'aveugle.", steps: [
+    { title: "Skill /commit", text:
+`Ajoute un skill de création de commit qui fait un SAST avant de commiter pour vérifier que tout est OK, ainsi qu'un scan Trivy des images Docker utilisées. En cas de détection (CVE, failles, ...) : un rapport, aucune modification de code, prévenir l'utilisateur et lui demander ce qu'il faut faire (planification ou questions).` },
+    { title: "Plan de correction", text: `Prépare le plan de correction.` },
+    { title: "Exécution du plan", text: `Oui, exécute le plan.` },
+    { title: "Skill /deprecations", text: `Ce serait bien d'ajouter un skill qui, après les tests unitaires, analyse les logs pour chercher les dépréciations et fait ensuite un plan pour les corriger.` },
+    { title: "Garde-fou des secrets", optional: true, text:
+`Ajoute un hook secrets-guard pour toute la session (agents compris) qui refuse la lecture, l'écriture, la recherche et l'affichage de .env, secrets/, clés, certificats, jetons, dumps de base et identifiants de l'utilisateur. En cas de blocage, Claude demande à l'utilisateur d'exécuter la commande lui-même. Ajoute des tests pour ce hook.`,
+      note: "Reconstitué à partir de l'historique git (commit b1df71b), pas d'un prompt de cette session." },
+  ]},
+  { title: "Du besoin client au plan de travail", desc: "Le projet est prêt : on passe au métier.", steps: [
+    { title: "Plan de développement", text:
+`{{ANALYSE}}
+À partir de cette analyse, prépare un plan de travail de développement en plusieurs parties et sous-parties dans {{PLAN}}.` },
+    { title: "Partie 0", text: `Commence la partie 0 du plan.`, note: "Puis /commit." },
+    { title: "Partie 1", text: `Commence la partie 1 du plan.`, note: "Puis /commit, et ainsi de suite pour chaque partie." },
+    { title: "Sauvegarder le contexte", text: `Exporte le contexte.`, note: "Crée tmp/context/AAAA-MM-JJ-contexte-session.md, à donner en début de session suivante." },
+  ]},
+];
+
+const STORE = "kit-demarrage-params";
+let values = {};
+try { values = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { values = {}; }
+const val = k => (values[k] && values[k].trim()) || PARAMS.find(p => p.key === k).def;
+const fill = t => t.replace(/\{\{(\w+)\}\}/g, (_, k) => val(k));
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fillHtml = t => esc(t).replace(/\{\{(\w+)\}\}/g, (_, k) => `<mark>${esc(val(k))}</mark>`);
+
+function renderParams() {
+  document.getElementById("params").innerHTML = PARAMS.map(p =>
+    `<label for="p-${p.key}">${p.label} <code>{{${p.key}}}</code>
+       <input id="p-${p.key}" data-key="${p.key}" value="${esc(values[p.key] || p.def)}"></label>`).join("");
+  document.querySelectorAll("#params input").forEach(i => i.addEventListener("input", () => {
+    values[i.dataset.key] = i.value;
+    try { localStorage.setItem(STORE, JSON.stringify(values)); } catch (e) {}
+    renderSteps();
+  }));
+}
+
+function renderSteps() {
+  let n = 0;
+  document.getElementById("phases").innerHTML = PHASES.map((ph, pi) => `
+    <section class="phase">
+      <div class="phase-head"><span class="phase-num">${String(pi).padStart(2, "0")}</span>
+        <div><h2>${ph.title}</h2><p>${ph.desc}</p></div></div>
+      ${ph.steps.map(s => { n++; return `
+        <article class="step">
+          <div class="step-bar"><h3>${n}. ${s.title}</h3>
+            <span style="display:flex;gap:10px;align-items:center">${s.optional ? '<span class="tag opt">optionnel</span>' : ""}
+            <button type="button" data-copy="${pi}:${ph.steps.indexOf(s)}">Copier</button></span></div>
+          <pre>${fillHtml(s.text)}</pre>
+          ${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}
+        </article>`; }).join("")}
+    </section>`).join("");
+}
+
+function toMarkdown() {
+  let n = 0, md = `# Kit de démarrage — ${val("PROJET")}\n\n`;
+  md += "> Prompts de mise en place à donner à Claude Code dans l'ordre (tirés de la session du 16/11/2026).\n\n## Paramètres\n\n";
+  PARAMS.forEach(p => md += `- ${p.label} : ${val(p.key)}\n`);
+  PHASES.forEach((ph, pi) => {
+    md += `\n## ${pi}. ${ph.title}\n\n${ph.desc}\n`;
+    ph.steps.forEach(s => {
+      n++;
+      md += `\n### ${n}. ${s.title}${s.optional ? " (optionnel)" : ""}\n\n\`\`\`text\n${fill(s.text)}\n\`\`\`\n`;
+      if (s.note) md += `\n${s.note}\n`;
+    });
+  });
+  return md;
+}
+
+const status = document.getElementById("status");
+function flash(msg) { status.textContent = msg; clearTimeout(flash.t); flash.t = setTimeout(() => status.textContent = "", 2500); }
+function copy(text, btn, done) {
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove(); flash(ok ? done : "Copie refusée par le navigateur : sélectionne le texte à la main.");
+  };
+  try { navigator.clipboard.writeText(text).then(() => flash(done), fallback); } catch (e) { fallback(); }
+  if (btn) { const old = btn.textContent; btn.textContent = "Copié"; setTimeout(() => btn.textContent = old, 1500); }
+}
+
+document.getElementById("phases").addEventListener("click", e => {
+  const b = e.target.closest("button[data-copy]"); if (!b) return;
+  const [pi, si] = b.dataset.copy.split(":").map(Number);
+  copy(fill(PHASES[pi].steps[si].text), b, "Prompt copié.");
+});
+document.getElementById("copy-all").addEventListener("click", e => copy(toMarkdown(), null, "Modèle copié en Markdown : colle-le dans tmp/kit-demarrage.md."));
+document.getElementById("reset").addEventListener("click", () => {
+  values = {}; try { localStorage.removeItem(STORE); } catch (e) {}
+  renderParams(); renderSteps(); flash("Valeurs par défaut rétablies.");
+});
+
+renderParams(); renderSteps();
+</script>
+</body>
+</html>

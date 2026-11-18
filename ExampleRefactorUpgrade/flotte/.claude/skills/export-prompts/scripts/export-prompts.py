@@ -12,7 +12,8 @@ Contenu exporté, par session (ordre chronologique) :
   - chaque prompt de l'utilisateur, texte intégral (commandes /skill restituées telles que tapées) ;
   - sous chaque prompt : les skills invoquées par Claude et les prompts délégués aux sous-agents (Agent).
 Exclus : résultats d'outils, rappels système, notifications de tâches, messages générés (isMeta),
-résumés de compaction (isCompactSummary).
+résumés de compaction (isCompactSummary), sessions listées dans .claude/state/export-prompts.exclude (une par
+ligne, '#' = commentaire ; fichier local non versionné) ou passées par --exclude-session.
 Le fichier est régénéré entièrement à chaque exécution (idempotent).
 """
 import argparse
@@ -120,10 +121,17 @@ def main():
     ap.add_argument("--out", default=os.path.join(ROOT, "tmp", "prompts.md"))
     ap.add_argument("--project", action="append", help="dossier de projet (défaut : racine flotte)")
     ap.add_argument("--session", action="append")
+    ap.add_argument("--exclude-session", action="append", default=[])
     ap.add_argument("--since")
     ap.add_argument("--no-delegated", action="store_true")
     ap.add_argument("--no-skills", action="store_true")
     a = ap.parse_args()
+
+    excluded = set(a.exclude_session)
+    exclude_file = os.path.join(ROOT, ".claude", "state", "export-prompts.exclude")
+    if os.path.isfile(exclude_file):
+        with open(exclude_file, encoding="utf-8") as fh:
+            excluded |= {line.split("#", 1)[0].strip() for line in fh} - {""}
 
     dirs = a.project or [ROOT]
     sessions = []
@@ -134,7 +142,7 @@ def main():
             continue
         for f in glob.glob(os.path.join(pdir, "*.jsonl")):
             sid = os.path.splitext(os.path.basename(f))[0]
-            if a.session and sid not in a.session:
+            if (a.session and sid not in a.session) or sid in excluded:
                 continue
             prompts, meta = parse_session(f, not a.no_delegated, not a.no_skills)
             if a.since:
