@@ -1,6 +1,6 @@
 # Prompts des sessions Claude Code
 
-> Export généré le 2026-11-18 14:35 par `/export-prompts` — 4 session(s), 49 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
+> Export généré le 2026-11-18 14:54 par `/export-prompts` — 4 session(s), 51 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
 > Texte des prompts **verbatim**. Sous chaque prompt : skills invoquées et prompts délégués aux sous-agents.
 
 ## Sommaire
@@ -8,7 +8,7 @@
 1. [Session du 2026-11-17 09:31](#session-1) — 22 prompt(s)
 2. [Session du 2026-11-17 11:09](#session-2) — 14 prompt(s)
 3. [Session du 2026-11-18 13:46](#session-3) — 7 prompt(s)
-4. [Session du 2026-11-18 13:57](#session-4) — 6 prompt(s)
+4. [Session du 2026-11-18 13:57](#session-4) — 8 prompt(s)
 
 <a id="session-1"></a>
 
@@ -436,3 +436,19 @@ oui, commite et ajoute-le aussi au parent
 ```
 
 Skills invoquées : `/step-commit hors marche : feat(flotte-tooling): add secrets-guard hook blocking access to secrets and sensitive data`
+
+### Prompt 50 — 2026-11-18 14:46
+
+```text
+fait les commits pour tout ce qui est en editatm
+```
+
+Skills invoquées : `/step-commit hors marche : docs(flotte): refresh exported session prompts (tmp/prompts.md)`, `/commit feat(tooling): add secrets-guard hook — fichiers : .claude/hooks/secrets-guard.sh, .claude/hooks/secrets-guard.test.sh, .claude/settings.json, CLAUDE.md uniquement (pas DemoMCP/helpdesk/server.py, commit séparé ensuite)`
+
+### Prompt 51 — 2026-11-18 14:49
+
+```text
+je vois que tu as fais un merge avec commit, çá serait bien de fixer ça et de faire un rebase + ff.
+```
+
+Skills invoquées : `/commit style(demomcp): DemoMCP/helpdesk/server.py uniquement (suppression d'une ligne vide)`
