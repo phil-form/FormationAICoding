@@ -1,12 +1,14 @@
 # Prompts des sessions Claude Code
 
-> Export généré le 2026-11-17 16:57 par `/export-prompts` — 2 session(s), 36 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
+> Export généré le 2026-11-18 14:35 par `/export-prompts` — 4 session(s), 49 prompt(s). Fichier régénéré à chaque export : ne pas l'éditer à la main.
 > Texte des prompts **verbatim**. Sous chaque prompt : skills invoquées et prompts délégués aux sous-agents.
 
 ## Sommaire
 
 1. [Session du 2026-11-17 09:31](#session-1) — 22 prompt(s)
 2. [Session du 2026-11-17 11:09](#session-2) — 14 prompt(s)
+3. [Session du 2026-11-18 13:46](#session-3) — 7 prompt(s)
+4. [Session du 2026-11-18 13:57](#session-4) — 6 prompt(s)
 
 <a id="session-1"></a>
 
@@ -338,3 +340,99 @@ Skills invoquées : `` /write-http-tests --fix step-01 — lire .claude/state/mi
 --target ref, enregistrer les goldens avec.claude/bin/tests.sh --suite --target ref --record-golden, puis rejouer sans --record-golden pour vérifier. Conventions : .claude/reference/conventions.md § 5.2 (méthodes bhNNN_…, #[Group('BH-NNN')], #[Group('zone-vehicles-list')] etc.) et § 5.6 (mise à jour du document de fiches). Points du § 4 du document non tranchés par l'utilisateur : appliquer la « Proposition » à titre provisoire (ex. corps des pages d'erreur 404/405 non contractuel) et le noter dans le journal d'implémentation (« proposition § 4 appliquée, en attente de décision ») plutôt que bloquer. Valeurs sensibles à l'horloge (secondes) : ne jamais les asserter. Terminer par la mise à jour complète de tmp/tests-vehicle-controller.md (§ 5.6) et un rapport : fichiers créés, matrice BH → Classe::méthode, résultats sur app-ref par suite, fiches corrigées (avant → après), blocages.
 </pasted_content id="2881">
 ```
+
+<a id="session-3"></a>
+
+## Session 3 — 2026-11-18 13:46
+
+- Identifiant : `4d49a4c8-4c37-4f52-85ad-040a41899e70`
+- Dossier : `../.claude/worktrees/feature2` · branche : `worktree-feature2` · Claude Code 2.1.327
+
+### Prompt 37 — 2026-11-18 13:46
+
+```text
+comment merger les worktree
+```
+
+### Prompt 38 — 2026-11-18 13:47
+
+```text
+merge tous les worktree ensemble et supprime les une fois que c'est fait, mais crée quand meme une branche par worktree contenant leurs modifications ainsi que leur point de départ.
+```
+
+### Prompt 39 — 2026-11-18 13:49
+
+```text
+ok continue
+```
+
+### Prompt 40 — 2026-11-18 13:49
+
+```text
+où en sont les tests ?
+```
+
+### Prompt 41 — 2026-11-18 13:49
+
+```text
+ou est l'affichage de l'avancée des tests ?
+```
+
+### Prompt 42 — 2026-11-18 13:50
+
+```text
+il y avait pas une status bar ?
+```
+
+### Prompt 43 — 2026-11-18 13:54
+
+```text
+ok continue
+```
+
+<a id="session-4"></a>
+
+## Session 4 — 2026-11-18 13:57
+
+- Identifiant : `b81d3a87-87a7-4441-91ed-8a8ea0a76704`
+- Dossier : `flotte` · branche : `master` · Claude Code 2.1.327
+
+### Prompt 44 — 2026-11-18 13:57
+
+```text
+regarde si tu ne sais pas refactor les skills et en regrouper certains ensemble.
+```
+
+### Prompt 45 — 2026-11-18 13:58
+
+```text
+applique les trois regroupements
+```
+
+### Prompt 46 — 2026-11-18 14:11
+
+```text
+oui, lance /step-commit
+```
+
+Skills invoquées : `/step-commit hors marche : refactor(flotte-tooling): merge list-* into /inventory, write-*-tests into /write-bh-tests, php-step into /upgrade-step`
+
+### Prompt 47 — 2026-11-18 14:18
+
+```text
+/export-prompts
+```
+
+### Prompt 48 — 2026-11-18 14:24
+
+```text
+fait en sorte de bien avoir un hook ou autre choses qui t'empêche d'accder aux données sensbibles/secrets/...
+```
+
+### Prompt 49 — 2026-11-18 14:29
+
+```text
+oui, commite et ajoute-le aussi au parent
+```
+
+Skills invoquées : `/step-commit hors marche : feat(flotte-tooling): add secrets-guard hook blocking access to secrets and sensitive data`
