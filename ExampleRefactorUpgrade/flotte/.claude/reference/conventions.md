@@ -65,7 +65,7 @@ flotte/
 └── .claude/
     ├── reference/                conventions.md (ce fichier), steps.json, schémas
     ├── bin/                      scripts partagés (§ 4)
-    ├── hooks/                    guard.sh (par agent), freeze-guard.sh (session)
+    ├── hooks/                    guard.sh (par agent), freeze-guard.sh et secrets-guard.sh (session)
     ├── agents/  skills/
     └── state/migration/          état local, non versionné (§ 6) :
                                   state.json, feedback-code.md, feedback-tests.md, triage/step-NN.md,

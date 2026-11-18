@@ -20,6 +20,13 @@ en passant LTS par LTS.
   `docs/migration/accepted-changes.md`. Un bug historique se préserve ; sa correction est une étape à part.
 - **Tests gelés pendant une marche** (`state.py freeze on`) : `tests/`, scénarios et golden masters ne se modifient
   pas pour « faire passer » une migration. Le hook `freeze-guard` l'impose à toute la session.
+- **Secrets et données sensibles inaccessibles** : le hook `secrets-guard` (`.claude/hooks/secrets-guard.sh`, toute la
+  session, sous-agents compris) et les règles `permissions.deny` de `.claude/settings.json` refusent lecture, écriture,
+  recherche et affichage des `.env` (hors modèles et `.env`/`.env.test` Flex de flotte), `parameters.yml`, caches
+  compilés, clés/certificats/jetons, `secrets/`, `init_db/`, identifiants de l'utilisateur, variables
+  d'environnement (`env`, `docker inspect`, `docker compose config`) et lectures OpenBao. Ne jamais le contourner :
+  demander à l'utilisateur de consulter lui-même (`! commande`) sans recopier le contenu. Tests :
+  `.claude/hooks/secrets-guard.test.sh`.
 - Une marche = une version (Symfony ou PHP), jamais de saut de LTS ; zéro dépréciation bloquante avant de monter.
 - Commits : **toujours `/step-commit`** (mode marche pour une étape de migration, mode hors marche pour l'outillage,
   les tests et les documents). **Ne pas utiliser le `/commit` du dépôt parent** ni sa suite Java : le projet Java du

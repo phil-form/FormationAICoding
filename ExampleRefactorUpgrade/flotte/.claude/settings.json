@@ -7,6 +7,15 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "Read|Edit|Write|NotebookEdit|Grep|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/secrets-guard.sh --allow-env .env --allow-env .env.test"
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write|NotebookEdit|Bash",
         "hooks": [
           {
@@ -57,7 +66,35 @@
       "Bash(.claude/bin/env.sh php-version:*)"
     ],
     "deny": [
-      "Read(./.env.local)"
+      "Read(./.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(**/app/config/parameters.yml)",
+      "Edit(**/app/config/parameters.yml)",
+      "Read(**/app/cache/**)",
+      "Read(**/var/cache/**)",
+      "Read(**/config/secrets/**)",
+      "Read(**/secrets/**)",
+      "Edit(**/secrets/**)",
+      "Read(**/init_db/**)",
+      "Read(**/*.key)",
+      "Read(**/*.token)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/*.jks)",
+      "Read(**/id_rsa*)",
+      "Read(**/id_ed25519*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.kube/**)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.netrc)",
+      "Read(~/.pgpass)",
+      "Read(~/.git-credentials)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Bash(printenv:*)",
+      "Bash(docker compose config:*)"
     ]
   }
 }
