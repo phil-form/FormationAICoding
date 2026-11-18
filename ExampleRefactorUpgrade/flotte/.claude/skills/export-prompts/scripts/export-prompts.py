@@ -23,6 +23,16 @@ import os
 import re
 import sys
 
+
+def inline_code(text):
+    """Code span Markdown sûr : délimiteur plus long que toute suite d'accents graves du texte (sinon le span se
+    ferme trop tôt et un `~` ou `*` resté hors code peut barrer ou mettre en italique tout le reste du fichier)."""
+    text = " ".join(text.split("\n"))
+    longest = max((len(m) for m in re.findall(r"`+", text)), default=0)
+    fence = "`" * (longest + 1)
+    pad = " " if text.startswith("`") or text.endswith("`") or longest else ""
+    return f"{fence}{pad}{text}{pad}{fence}"
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 PROJECTS = os.path.expanduser("~/.claude/projects")
 CMD_NAME = re.compile(r"<command-name>\s*(/?[^<\s]+)\s*</command-name>")
@@ -171,7 +181,7 @@ def main():
             n += 1
             out += [f"### Prompt {n} — {fmt_time(p['at'])}", "", fence(p["text"]), ""]
             if p["skills"]:
-                out += ["Skills invoquées : " + ", ".join(f"`{x}`" for x in p["skills"]), ""]
+                out += ["Skills invoquées : " + ", ".join(inline_code(x) for x in p["skills"]), ""]
             for j, ag in enumerate(p["agents"], 1):
                 out += [f"<details><summary>Prompt délégué {n}.{j} — agent <code>{ag['type']}</code> : "
                         f"{ag['description']}</summary>", "", fence(ag["prompt"]), "", "</details>", ""]

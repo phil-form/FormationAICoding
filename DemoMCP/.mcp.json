@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "helpdesk": {
+      "type": "stdio",
+      "command": "/home/rmdir/Documents/BStorm/Formations/AICoding/Formation/DemoMCP/.venv/bin/python",
+      "args": [
+        "/home/rmdir/Documents/BStorm/Formations/AICoding/Formation/DemoMCP/helpdesk/server.py"
+      ],
+      "env": {}
+    }
+  }
+}

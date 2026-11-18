@@ -1,0 +1,36 @@
+services:
+  helpdesk-mcp:
+    build: .
+    image: helpdesk-mcp:latest
+    container_name: helpdesk-mcp
+    restart: unless-stopped
+    environment:
+      # En-têtes Host/Origin acceptés (protection DNS rebinding, cf. helpdesk/server.py)
+      MCP_ALLOWED_HOSTS: "localhost:*,127.0.0.1:*"
+    ports:
+      # Lié à 127.0.0.1 uniquement : le serveur n'est PAS joignable depuis le réseau.
+      # hôte 127.0.0.1:8080  ->  conteneur 8000 (port du serveur MCP)
+      - "127.0.0.1:8080:8000"
+    # Durcissement : le serveur n'a besoin d'aucun privilège particulier
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+
+  # Même serveur MCP, mais protégé par un jeton JWT Bearer (voir authentification/)
+  auth:
+    image: helpdesk-mcp:latest # même image que ci-dessus
+    container_name: helpdesk-mcp-auth
+    restart: unless-stopped
+    command: ["python", "authentification/server.py"]
+    volumes:
+      - ./authentification:/app/authentification:ro
+    environment:
+      MCP_ALLOWED_HOSTS: "localhost:*,127.0.0.1:*"
+      MCP_RESOURCE_URL: "http://127.0.0.1:8081/mcp"
+      # Secret de signature des jetons : export MCP_JWT_SECRET=$(openssl rand -hex 32)
+      MCP_JWT_SECRET: ${MCP_JWT_SECRET:-CHANGE_ME_1234_change_me_1234_Qwerty}
+    ports:
+      - "127.0.0.1:8081:8000"
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
