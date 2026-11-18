@@ -46,7 +46,6 @@ def rechercher_tickets(
     with connect() as conn:
         return [Ticket(**dict(row)) for row in conn.execute(sql, params)]
 
-
 @mcp.tool()
 def creer_ticket(titre: str, description: str, priorite: Priorite = "moyenne") -> Ticket:
     """Crée un nouveau ticket et renvoie le ticket créé."""
