@@ -73,7 +73,7 @@ avec les conventions. Sinon, créer :
 ## 2. `build`
 
 1. Lire `docker/step.env` ; vérifier que le Dockerfile de la famille PHP de l'étape existe (sinon **G-ENV** et
-   proposer `/php-step`).
+   proposer `/upgrade-step php <version>`).
 2. `.claude/bin/env.sh build` ; vérifier que chaque image référencée par digest est bien celle construite
    (`docker image inspect`).
 

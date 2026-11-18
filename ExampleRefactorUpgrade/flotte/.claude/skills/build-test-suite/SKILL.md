@@ -32,14 +32,14 @@ Références : `conventions.md` (§ 2 arborescence, § 5.1 fiches BH, § 5.2 tes
 4. **Caractérisation** — pour chaque zone sans fiche (ou `--zone`) : skill `characterize <zone>`. Les zones sont
    indépendantes : les invoquer successivement, en relisant chaque rapport.
 5. **Écriture des tests** — selon la couche indiquée dans les fiches :
-   `write-http-tests`, `write-cli-tests`, `write-db-tests`, `write-edge-tests`, `write-unit-tests`,
-   puis `write-diff-tests` (rejoue les parcours HTTP/CLI sur `app` et `app-ref`).
-   **Après chaque skill `write-*-tests`** : skill `step-commit` (mode hors marche, commit dédié `test(flotte): …` des fichiers de `tests/`
+   skill `write-bh-tests` avec la couche `http`, `cli`, `db`, `edge`, `unit`,
+   puis `diff` (rejoue les parcours HTTP/CLI sur `app` et `app-ref`).
+   **Après chaque appel de `write-bh-tests`** : skill `step-commit` (mode hors marche, commit dédié `test(flotte): …` des fichiers de `tests/`
    produits, règle « Commit automatique des tests » de `CLAUDE.md`).
 6. **Golden masters** — skill `golden-master --record`, puis skill `step-commit` (goldens enregistrés).
 7. **Exécution** — skill `test-run` (`--suite all`). Tout échec contre la référence → feedback
    `.claude/state/migration/feedback-tests.md` (en termes de `BH-xxx`, via `failure-triage`) puis la skill
-   `write-*-tests` concernée en `--fix`.
+   `write-bh-tests <couche> … --fix` de la couche concernée.
 8. **Mesure** — skills `coverage` puis `mutation-check`.
 9. **Boucle** — si `--until-thresholds` (ou par défaut) et seuils non atteints, et tours < `--max-rounds` :
    skill `test-plan --gaps` (lacunes : lignes non couvertes, mutants survivants, éléments d'inventaire sans BH),

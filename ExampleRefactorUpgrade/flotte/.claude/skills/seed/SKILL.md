@@ -1,7 +1,7 @@
 ---
 name: seed
 description: Charge un jeu de données déterministe (scénario de tests/fixtures) dans la base de app et/ou app-ref, vérifie son empreinte, et reconstruit au besoin les bases SQLite de référence - sans jamais passer par le code de l'application.
-when_to_use: Avant une session de caractérisation ou de tests ; pour vérifier que les bases de référence n'ont pas dérivé ; après l'écriture ou la correction d'un scénario par /write-db-tests.
+when_to_use: Avant une session de caractérisation ou de tests ; pour vérifier que les bases de référence n'ont pas dérivé ; après l'écriture ou la correction d'un scénario par /write-bh-tests db.
 argument-hint: "<scenario|all> [--target app|ref|both] [--verify] [--rebuild]"
 allowed-tools: Bash(.claude/bin/seed.sh:*), Bash(.claude/bin/state.py:*), Bash(.claude/bin/env.sh:*)
 ---
@@ -15,13 +15,13 @@ Arguments : `$ARGUMENTS`. Conventions : `.claude/reference/conventions.md` (§ 2
 | Élément | Auteur | Skill |
 |---|---|---|
 | Liste des scénarios et leur rôle (`empty`, `demo`, `nominal`, `edge`, `report-months`, `volume`) | `characterizer` | `/test-plan` |
-| `tests/fixtures/<scenario>.yaml`, `tests/fixtures/README.md` (scénario ↔ `BH-xxx`) | `test-writer` | `/write-db-tests` |
-| `tests/bin/seed.php` (chargeur PDO direct, neutre vis-à-vis de la version) | `test-writer` | `/write-db-tests` |
+| `tests/fixtures/<scenario>.yaml`, `tests/fixtures/README.md` (scénario ↔ `BH-xxx`) | `test-writer` | `/write-bh-tests db` |
+| `tests/bin/seed.php` (chargeur PDO direct, neutre vis-à-vis de la version) | `test-writer` | `/write-bh-tests db` |
 | `tests/fixtures/db/<scenario>.sqlite` + `.sha256` (bases figées) | **cette skill** (`--rebuild`) | `/seed` |
 | Chargement dans les volumes `db-app` / `db-ref` | **cette skill** | `/seed`, `/env reset` |
 
 Si `tests/fixtures/` ou `tests/bin/seed.php` n'existe pas : **ne rien inventer**. Indiquer que les scénarios sont à
-écrire par `/write-db-tests` (après `/test-plan`) et s'arrêter.
+écrire par `/write-bh-tests db` (après `/test-plan`) et s'arrêter.
 
 ## Règles
 
@@ -32,7 +32,7 @@ Si `tests/fixtures/` ou `tests/bin/seed.php` n'existe pas : **ne rien inventer**
 - **Gel** : si `state.py get frozen` vaut `true`, `--rebuild` est **refusé** (gate `G-FROZEN`) : les bases de
   référence font partie des zones gelées. Seul le chargement (`seed.sh <s>`) et la vérification (`--verify`) restent
   possibles. Le dégel relève de l'utilisateur (`accepted-changes.md` puis `state.py freeze off`).
-- Ne jamais modifier un `.yaml` de scénario : signaler l'anomalie et proposer `/write-db-tests --fix`.
+- Ne jamais modifier un `.yaml` de scénario : signaler l'anomalie et proposer `/write-bh-tests db --fix`.
 
 ## 1. Préparer
 
@@ -65,4 +65,4 @@ vide le cache applicatif, puis enregistre le scénario chargé (`state.py set sc
 ## Rapport final
 
 Tableau : scénario, cible, nombre de lignes par table, empreinte attendue / obtenue, statut. Puis anomalies et
-action proposée (`/write-db-tests --fix`, `/failure-triage`, `/env reset`).
+action proposée (`/write-bh-tests db --fix`, `/failure-triage`, `/env reset`).

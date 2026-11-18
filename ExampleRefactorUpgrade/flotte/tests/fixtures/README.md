@@ -64,6 +64,6 @@ Relevés lors du chargement de chaque scénario dans l'application de référenc
 
 ## Qui modifie quoi
 
-Les YAML et `seed.php` relèvent de `test-writer` (`/write-db-tests`) ; les bases figées de `/seed --rebuild`.
+Les YAML et `seed.php` relèvent de `test-writer` (`/write-bh-tests db`) ; les bases figées de `/seed --rebuild`.
 Pendant une marche de migration, tout `tests/` est **gelé** (hook `freeze-guard`) : un scénario ne se modifie pas
 pour faire passer une migration.

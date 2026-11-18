@@ -1,15 +1,8 @@
----
-name: list-templates
-description: Inventorie les templates Twig (nom logique, héritage, blocs, inclusions, variables attendues, filtres/fonctions/tests utilisés, constructions dépréciées) dans docs/migration/inventory/step-NN/templates.json.
-when_to_use: Appelée par /inventory ; seule, avant une marche qui touche à Twig (1 → 2 → 3) ou au déplacement des templates (step-02).
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire des templates
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `path` **logique**).
+> Inventorie les templates Twig (nom logique, héritage, blocs, inclusions, variables attendues, filtres/fonctions/tests utilisés, constructions dépréciées) dans docs/migration/inventory/step-NN/templates.json.
+
+Référence : `.claude/reference/conventions.md` § 5.3 (clé `path` **logique**).
 
 ## Clé logique
 

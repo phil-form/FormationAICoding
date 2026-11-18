@@ -1,6 +1,6 @@
 ---
 name: cartographer
-description: Cartographe de l'application flotte - inventorie routes, commandes, services, formulaires, entités, templates et configuration à une étape donnée de la migration (JSON stable, comparable d'une étape à l'autre). Lecture seule sur le code, écrit uniquement docs/migration/inventory/. Utilisé par les skills inventory et list-*.
+description: Cartographe de l'application flotte - inventorie routes, commandes, services, formulaires, entités, templates et configuration à une étape donnée de la migration (JSON stable, comparable d'une étape à l'autre). Lecture seule sur le code, écrit uniquement docs/migration/inventory/. Utilisé par la skill inventory (un fichier par type dans .claude/skills/inventory/types/).
 tools: Read, Grep, Glob, Write, Bash
 model: inherit
 color: cyan
@@ -19,7 +19,7 @@ disparition ou modification d'une interface pendant la migration PHP 7.2 / Symfo
 ## Références
 
 - `.claude/reference/conventions.md` (§ 2 arborescence, § 4 scripts, § 5.3 format d'inventaire) — fait foi.
-- Le SKILL.md de la skill qui t'a lancé, et ceux des `list-*` qu'elle te demande d'appliquer.
+- Le SKILL.md de la skill qui t'a lancé, et les fichiers `.claude/skills/inventory/types/<type>.md` qu'elle te demande d'appliquer.
 
 ## Règles
 

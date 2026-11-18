@@ -1,31 +1,14 @@
----
-name: php-step
-description: Réalise UNE seule montée de version de PHP (ex. 7.4 → 8.1) via l'agent migrator - image Docker de l'étape, config.platform.php, extensions, php.ini, docker/step.env, sets Rector PHP - sans jamais toucher aux tests.
-when_to_use: Appelée par /upgrade-php à la phase « upgrade », après /compat-scan et /fix-deprecations ; ou en --fix après un tri d'échecs.
-argument-hint: "<version php, ex. 8.1> [--fix]"
-context: fork
-agent: migrator
----
+# Marche `php` — montée d'une version de PHP (ex. 7.4 → 8.1)
 
-# Montée d'une version de PHP
+Image Docker de l'étape, `config.platform.php`, extensions, `php.ini`, `docker/step.env`, sets Rector PHP.
+Références propres : `docs/migration/compat/php-X.Y.md` (rapport de `/compat-scan`, à lire en premier).
 
-Arguments : `$ARGUMENTS` (version PHP visée ; `--fix` = mode correction).
+## Règles propres
 
-Références : `conventions.md` (§ 2, § 3), `steps.json`, `docs/migration/compat/php-X.Y.md`,
-`docs/migration/deprecations/step-NN.md`, plan § 0.
-
-## Règles
-
-- **Zones interdites** : `tests/`, `docs/`, `.claude/`, `.ref/`.
-- Une seule marche : la version visée est l'étape `kind: php` suivante de `steps.json`.
-- Comportement à préserver à l'identique : les changements de sémantique PHP (comparaisons chaîne/nombre, tri
-  stable, `serialize_precision`, `null` vers fonctions internes) doivent être **neutralisés** dans le code pour
-  reproduire l'ancien résultat, ou signalés comme risque — jamais « corrigés ».
-- Outils via `.claude/bin/composer.sh`, `.claude/bin/tools.sh`, `.claude/bin/console.sh` uniquement ; pas de tests.
-
-## Mode `--fix`
-
-Lire `.claude/state/migration/feedback-code.md` ; corriger uniquement les points listés ; rapport.
+- La version visée est celle de l'étape `kind: php` suivante de `steps.json`.
+- Les changements de sémantique PHP (comparaisons chaîne/nombre, tri stable, `serialize_precision`, `null` vers
+  fonctions internes) doivent être **neutralisés** dans le code pour reproduire l'ancien résultat, ou signalés
+  comme risque — jamais « corrigés ».
 
 ## Étapes
 

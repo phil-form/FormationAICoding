@@ -1,15 +1,8 @@
----
-name: list-entities
-description: Inventorie les entités Doctrine et le schéma SQLite réel (tables, colonnes, types, nullabilité, index, relations, callbacks de cycle de vie, repositories) dans docs/migration/inventory/step-NN/entities.json.
-when_to_use: Appelée par /inventory ; seule, avant une marche qui touche à Doctrine (ORM, DBAL, annotations → attributs) ou pour vérifier la non-dérive du schéma.
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire des entités et du schéma
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `table` ; `class` est un simple champ, il change en step-02).
+> Inventorie les entités Doctrine et le schéma SQLite réel (tables, colonnes, types, nullabilité, index, relations, callbacks de cycle de vie, repositories) dans docs/migration/inventory/step-NN/entities.json.
+
+Référence : `.claude/reference/conventions.md` § 5.3 (clé `table` ; `class` est un simple champ, il change en step-02).
 
 ## Sources
 

@@ -1,7 +1,7 @@
 ---
 name: failure-triage
 description: Arbitre les tests en échec après une marche de migration (ou contre la référence) - pour chaque échec, verdict REGRESSION, BEHAVIOR-CHANGE, TEST ou ENV, puis retour anonymisé au bon destinataire (migrator, test-writer, utilisateur) sans jamais faire fuiter le code d'un côté vers l'autre.
-when_to_use: Après un /test-run rouge, avant toute correction (upgrade-step --fix, php-step --fix, fix-deprecations --fix, write-*-tests --fix).
+when_to_use: Après un /test-run rouge, avant toute correction (upgrade-step --fix, fix-deprecations --fix, write-bh-tests --fix).
 argument-hint: "[step-NN] [--suite <suite>]"
 context: fork
 agent: auditor

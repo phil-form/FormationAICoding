@@ -1,15 +1,8 @@
----
-name: list-services
-description: Inventorie les services applicatifs du conteneur Symfony (id, classe, arguments, tags, visibilité, alias) et repère les accès par $this->get()/getContainer() à migrer, dans docs/migration/inventory/step-NN/services.json.
-when_to_use: Appelée par /inventory ; seule, avant une marche qui touche à l'injection de dépendances (3.4 → 4.4 notamment).
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire des services
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 4 et § 5.3 (clé `id`).
+> Inventorie les services applicatifs du conteneur Symfony (id, classe, arguments, tags, visibilité, alias) et repère les accès par $this->get()/getContainer() à migrer, dans docs/migration/inventory/step-NN/services.json.
+
+Référence : `.claude/reference/conventions.md` § 4 et § 5.3 (clé `id`).
 
 ## Sources
 

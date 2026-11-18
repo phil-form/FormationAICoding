@@ -62,10 +62,10 @@ Après chaque phase : `state.py set phase <phase>` et `state.py push-event "<ré
 4. **Compatibilité PHP** (`phase: php`)
    - Si `php_min_for_symfony[<version>]` > PHP courant : skill `upgrade-php` avec la version PHP requise
      (`--until` sur l'étape php correspondante, même mode). Reprendre ensuite ici.
-5. **Montée** (`phase: upgrade`) — skill `upgrade-step` avec `<version>`.
+5. **Montée** (`phase: upgrade`) — skill `upgrade-step` (`symfony <version>`).
 6. **Vérification** (`phase: verify`)
    - Skill `test-run` (`--suite all`, différentiel compris contre `app-ref`).
-   - Rouge → `failure-triage` puis `upgrade-step --fix` (REGRESSION), boucle bornée par `max_fix_iterations`
+   - Rouge → `failure-triage` puis `upgrade-step symfony <version> --fix` (REGRESSION), boucle bornée par `max_fix_iterations`
      → sinon `G-TESTS`.
 7. **Contrôles** (`phase: controls`)
    - Skills `inventory` (`all --diff`), `deprecation-check` (`--diff`), `vuln-audit` (`--diff`).

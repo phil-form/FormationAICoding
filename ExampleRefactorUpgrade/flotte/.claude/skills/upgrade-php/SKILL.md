@@ -41,10 +41,10 @@ Références : `.claude/reference/conventions.md` (§ 6 état, § 7 gates), `ste
 3. **Nettoyage** (`fix-deprecations`) — tant que des incompatibilités ou dépréciations bloquantes pour `X.Y`
    subsistent : skill `fix-deprecations` (`--php X.Y`), puis `test-run`. Rouge → `failure-triage` → `--fix`,
    `G-BEHAVIOR`, `G-ENV` ; borne `max_fix_iterations` → `G-TESTS`. Incorrigible → `G-DEPREC`.
-4. **Montée** (`upgrade`) — skill `php-step` (`X.Y`) : image, `config.platform.php`, `docker/step.env`.
+4. **Montée** (`upgrade`) — skill `upgrade-step` (`php X.Y`) : image, `config.platform.php`, `docker/step.env`.
    Puis skill `env` (`build`, `up`, `status`).
 5. **Vérification** (`verify`) — skill `test-run` (`--suite all`, différentiel compris). Rouge → `failure-triage`
-   puis `php-step --fix` / `fix-deprecations --fix`, borne `max_fix_iterations`.
+   puis `upgrade-step php X.Y --fix` / `fix-deprecations --fix`, borne `max_fix_iterations`.
    Points d'attention : comparaisons chaîne/nombre, tri stable, `serialize_precision`, `null` vers fonctions
    internes (cf. plan § 0) — un écart observé sur ces points est presque toujours un `BEHAVIOR-CHANGE` à arbitrer.
 6. **Contrôles** (`controls`) — `deprecation-check --diff`, `vuln-audit --diff` (runtime PHP et image compris),

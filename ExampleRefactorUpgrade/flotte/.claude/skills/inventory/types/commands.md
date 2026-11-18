@@ -1,15 +1,8 @@
----
-name: list-commands
-description: Inventorie les commandes console applicatives (nom, description, arguments, options, valeurs par défaut, codes de retour, effets) dans docs/migration/inventory/step-NN/commands.json.
-when_to_use: Appelée par /inventory ; seule, avant d'écrire les tests CLI.
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire des commandes console
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 4 et § 5.3 (clé `name`).
+> Inventorie les commandes console applicatives (nom, description, arguments, options, valeurs par défaut, codes de retour, effets) dans docs/migration/inventory/step-NN/commands.json.
+
+Référence : `.claude/reference/conventions.md` § 4 et § 5.3 (clé `name`).
 
 ## Sources
 

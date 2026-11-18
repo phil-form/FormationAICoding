@@ -204,7 +204,7 @@ Un **document unique** pour toute l'application : `tmp/tests-application.md` —
 section par groupe (`VehicleController`, `ReservationController`, `ApiController`, `AdminController`, commandes
 console : sous-sections « ### N.m `route` » de fiches, « Ce qui change », exemple complet, points à trancher), puis les
 sections uniques « Journal d'implémentation » et « Blocages ». Après **chaque** implémentation de tests (skills
-`write-*-tests`, `golden-master`), il est mis à jour **dans toutes ses parties**, dans cet ordre :
+`write-bh-tests`, `golden-master`), il est mis à jour **dans toutes ses parties**, dans cet ordre :
 
 | Partie | Mise à jour | Par qui |
 |---|---|---|
@@ -262,10 +262,10 @@ Une gate levée : l'orchestrateur écrit l'alerte dans `state.json`, produit un 
 
 | Agent | Mode guard | Skills |
 |---|---|---|
-| `cartographer` | `carto` | `/inventory`, `/list-*` |
+| `cartographer` | `carto` | `/inventory` (types : `.claude/skills/inventory/types/`) |
 | `characterizer` | `characterize` | `/characterize`, `/test-plan` |
-| `test-writer` | `tests` | `/write-*-tests`, `/golden-master` |
-| `migrator` | `migrate` | `/upgrade-step`, `/php-step`, `/fix-deprecations` |
+| `test-writer` | `tests` | `/write-bh-tests` (couches : `.claude/skills/write-bh-tests/layers/`), `/golden-master` |
+| `migrator` | `migrate` | `/upgrade-step` (marches : `.claude/skills/upgrade-step/kinds/`), `/fix-deprecations` |
 | `deprecation-analyst` | `deprec` | `/deprecation-check`, `/compat-scan` |
 | `security-auditor` | `security` | `/vuln-audit` |
 | `auditor` | `auditor` | `/failure-triage`, `/coverage`, `/mutation-check`, `/step-report` |

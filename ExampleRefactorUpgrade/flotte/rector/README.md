@@ -51,7 +51,7 @@ de versions ultérieures) ; seules celles dont la contrainte est satisfaite par 
 .claude/bin/rector.sh step-01 --list             # règles enregistrées
 ```
 
-Déroulé d'un lot (`/fix-deprecations`, `/upgrade-step`, `/php-step`) :
+Déroulé d'un lot (`/fix-deprecations`, `/upgrade-step`) :
 1. simulation, lecture du diff, choix d'**une famille** de règles (`--only`) ;
 2. `--apply` sur ce lot ;
 3. **relancer jusqu'à stabilité** : certaines règles ne traitent qu'une occurrence par passage (observé à step-01 :

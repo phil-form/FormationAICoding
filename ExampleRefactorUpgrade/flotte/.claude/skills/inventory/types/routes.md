@@ -1,15 +1,7 @@
----
-name: list-routes
-description: Inventorie les routes HTTP de l'application (nom, chemin, méthodes, prérequis, contrôleur, rôle exigé, paramètres de requête lus, type de réponse) dans docs/migration/inventory/step-NN/routes.json.
-when_to_use: Appelée par /inventory ; seule, pour lister les routes d'une étape ou avant d'écrire les tests HTTP.
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire des routes
 
-Arguments : `$ARGUMENTS` (étape ; par défaut `STEP` de `docker/step.env`).
+> Inventorie les routes HTTP de l'application (nom, chemin, méthodes, prérequis, contrôleur, rôle exigé, paramètres de requête lus, type de réponse) dans docs/migration/inventory/step-NN/routes.json.
+
 Référence : `.claude/reference/conventions.md` § 4 et § 5.3 (clé `name`).
 
 ## Sources (par ordre de fiabilité)

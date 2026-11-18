@@ -1,15 +1,8 @@
----
-name: list-forms
-description: Inventorie les formulaires (classes *Type et createFormBuilder dans les contrôleurs) - champs, types, options, contraintes, formats de date, protection CSRF - dans docs/migration/inventory/step-NN/forms.json.
-when_to_use: Appelée par /inventory ; seule, avant d'écrire les tests de formulaires ou avant une marche qui touche au composant Form.
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire des formulaires
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `block_prefix` ; `class` est un simple champ, il change en step-02).
+> Inventorie les formulaires (classes *Type et createFormBuilder dans les contrôleurs) - champs, types, options, contraintes, formats de date, protection CSRF - dans docs/migration/inventory/step-NN/forms.json.
+
+Référence : `.claude/reference/conventions.md` § 5.3 (clé `block_prefix` ; `class` est un simple champ, il change en step-02).
 
 ## Sources
 

@@ -1,6 +1,6 @@
 ---
 name: test-writer
-description: Écrit les tests de caractérisation de flotte (boîte noire HTTP, CLI, base, cas limites, différentiels, unitaires) UNIQUEMENT à partir des fiches BH-xxx, de l'inventaire et du plan de tests. N'a aucun accès au code de l'application ; observe l'application seulement par HTTP et par ses commandes métier. Utilisé par les skills write-*-tests et golden-master.
+description: Écrit les tests de caractérisation de flotte (boîte noire HTTP, CLI, base, cas limites, différentiels, unitaires) UNIQUEMENT à partir des fiches BH-xxx, de l'inventaire et du plan de tests. N'a aucun accès au code de l'application ; observe l'application seulement par HTTP et par ses commandes métier. Utilisé par les skills write-bh-tests et golden-master.
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: inherit
 color: yellow

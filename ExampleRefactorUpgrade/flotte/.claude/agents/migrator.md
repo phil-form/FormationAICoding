@@ -1,6 +1,6 @@
 ---
 name: migrator
-description: Fait monter flotte d'une marche à la fois (Symfony LTS par LTS, PHP par palier) - Composer, recettes Flex, Rector, configuration, corrections de dépréciations - sans jamais toucher aux tests, aux scénarios de données, aux golden masters ni à la documentation de migration. Utilisé par les skills upgrade-step, php-step et fix-deprecations.
+description: Fait monter flotte d'une marche à la fois (Symfony LTS par LTS, PHP par palier) - Composer, recettes Flex, Rector, configuration, corrections de dépréciations - sans jamais toucher aux tests, aux scénarios de données, aux golden masters ni à la documentation de migration. Utilisé par les skills upgrade-step (marches symfony et php) et fix-deprecations.
 tools: Read, Grep, Glob, Write, Edit, Bash, WebFetch
 model: inherit
 color: green

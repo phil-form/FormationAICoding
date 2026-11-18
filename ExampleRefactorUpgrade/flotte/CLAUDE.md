@@ -24,7 +24,7 @@ en passant LTS par LTS.
 - Commits : **toujours `/step-commit`** (mode marche pour une étape de migration, mode hors marche pour l'outillage,
   les tests et les documents). **Ne pas utiliser le `/commit` du dépôt parent** ni sa suite Java : le projet Java du
   dossier parent est un autre exemple de la formation. Jamais de `git commit` direct, jamais de push.
-- **Commit automatique des tests** : à la fin de **chaque génération de tests** (skills `write-*-tests`,
+- **Commit automatique des tests** : à la fin de **chaque génération de tests** (skill `write-bh-tests`,
   `golden-master --record`, `seed --rebuild`, ou mise à jour du document de fiches `tmp/tests-application.md`),
   lancer `/step-commit` **sans attendre de demande**, dans un commit dédié (type `test(flotte): …`), sans y mêler d'autres
   changements. Le hook `Stop` `.claude/hooks/commit-after-tests.sh` le rappelle si c'est oublié (une fois par lot de
@@ -55,8 +55,8 @@ en passant LTS par LTS.
 | Niveau | Skills |
 |---|---|
 | Orchestrateurs | `/migrate` (manuel), `/build-test-suite`, `/upgrade-symfony <cible>`, `/upgrade-php <cible>` |
-| Étapes | `/baseline`, `/upgrade-step`, `/php-step`, `/fix-deprecations`, `/test-plan`, `/characterize`, `/failure-triage`, `/step-report`, `/step-commit` |
-| Outils | `/env`, `/seed`, `/inventory` + `/list-routes`, `/list-commands`, `/list-services`, `/list-forms`, `/list-entities`, `/list-templates`, `/list-config`, `/write-http-tests`, `/write-cli-tests`, `/write-db-tests`, `/write-unit-tests`, `/write-edge-tests`, `/write-diff-tests`, `/golden-master`, `/test-run`, `/coverage`, `/mutation-check`, `/deprecation-check`, `/compat-scan`, `/vuln-audit` |
+| Étapes | `/baseline`, `/upgrade-step <symfony\|php> <version>`, `/fix-deprecations`, `/test-plan`, `/characterize`, `/failure-triage`, `/step-report`, `/step-commit` |
+| Outils | `/env`, `/seed`, `/inventory [all\|routes\|commands\|services\|forms\|entities\|templates\|config]`, `/write-bh-tests <http\|cli\|db\|edge\|diff\|unit> <cible>`, `/golden-master`, `/test-run`, `/coverage`, `/mutation-check`, `/deprecation-check`, `/compat-scan`, `/vuln-audit` |
 | Formation | `/export-prompts` : exporte les prompts des sessions dans `tmp/prompts.md` (verbatim, avec skills et prompts délégués) |
 
 Agents (isolés par `.claude/hooks/guard.sh <mode>`) : `cartographer`, `characterizer`, `test-writer` (aucun accès au
@@ -73,7 +73,7 @@ Toute la mise en place des tests est suivie dans **un document unique : `tmp/tes
 commun § 1, puis une section par contrôleur et une pour les commandes : 209 fiches `BH-NNN`, exemples, points à
 trancher, journal d'implémentation, blocages). **Après chaque implémentation de tests, il est mis à jour dans toutes ses parties** (lignes de
 fiches corrigées avec la valeur observée, journal d'implémentation, blocages, points à trancher, exemple, bloc de
-suivi) : `.claude/reference/conventions.md` § 5.6, étape obligatoire des skills `write-*-tests` et `golden-master`.
+suivi) : `.claude/reference/conventions.md` § 5.6, étape obligatoire des skills `write-bh-tests` et `golden-master`.
 Son bloc « Suivi d'avancement » (global, par groupe, par route, détail par fiche) est régénéré à chaque `.claude/bin/tests.sh` par `.claude/bin/test-tracking.py`
 (à lancer aussi à la main après l'écriture d'un test). Bloquer une fiche : `- BH-NNN : ⏸ raison` dans la section
 « Blocages » du document.

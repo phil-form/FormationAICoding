@@ -1,15 +1,8 @@
----
-name: list-config
-description: Inventorie la configuration effective (paramètres, framework, sécurité, Doctrine, Twig, valeurs métier) sous forme de clés pointées, valeurs sensibles masquées, dans docs/migration/inventory/step-NN/config.json.
-when_to_use: Appelée par /inventory (en premier) ; seule, avant une marche qui réorganise la configuration (step-02 Flex, step-06 sécurité).
-argument-hint: "[--step step-NN]"
-context: fork
-agent: cartographer
----
-
 # Inventaire de la configuration
 
-Arguments : `$ARGUMENTS`. Référence : `.claude/reference/conventions.md` § 5.3 (clé `key` pointée).
+> Inventorie la configuration effective (paramètres, framework, sécurité, Doctrine, Twig, valeurs métier) sous forme de clés pointées, valeurs sensibles masquées, dans docs/migration/inventory/step-NN/config.json.
+
+Référence : `.claude/reference/conventions.md` § 5.3 (clé `key` pointée).
 
 ## Sources
 

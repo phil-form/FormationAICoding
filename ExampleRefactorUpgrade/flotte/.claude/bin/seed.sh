@@ -6,7 +6,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/_common.sh"
 require_compose
-[[ -f "$ROOT/tests/bin/seed.php" ]] || die "tests/bin/seed.php absent : le chargeur est créé par /write-db-tests." 3
+[[ -f "$ROOT/tests/bin/seed.php" ]] || die "tests/bin/seed.php absent : le chargeur est créé par /write-bh-tests db." 3
 for a in "$@"; do
   [[ "$a" == "--rebuild" ]] && is_frozen && die "État gelé (state.json frozen=true) : régénération des scénarios interdite (G-FROZEN)." 4
 done
